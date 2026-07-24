@@ -1,0 +1,391 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==============================
+   DESIGN SYSTEM — ANTIGRAVITY STYLE
+   ============================== */
+
+:root {
+  --primary: #E63329;
+  --navy: #2B2D42;
+  --navy-dark: #1A1B2E;
+  --navy-deeper: #12131F;
+  --cream: #F5F3EF;
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.45, 0, 0.15, 1);
+}
+
+html {
+  overflow-x: hidden;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  color: var(--navy);
+  background: #ffffff;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--primary);
+  color: white;
+}
+
+/* ==============================
+   SCROLLBAR
+   ============================== */
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--navy);
+  border-radius: 0;
+}
+
+/* ==============================
+   SECTION SYSTEM
+   ============================== */
+
+@layer utilities {
+  .pad-x {
+    @apply px-6 md:px-10 lg:px-16 xl:px-24;
+  }
+
+  .pad-y {
+    @apply py-16 md:py-20 lg:py-24;
+  }
+
+  .pad-y-lg {
+    @apply py-20 md:py-28 lg:py-32;
+  }
+
+  .container-wide {
+    @apply max-w-[1340px] mx-auto;
+  }
+
+  .container-narrow {
+    @apply max-w-[900px] mx-auto;
+  }
+
+  .container-text {
+    @apply max-w-[640px] mx-auto;
+  }
+
+  /* Glassmorphism cards */
+  .glass-card {
+    @apply rounded-[20px] bg-white/80 backdrop-blur-xl border border-white/60 shadow-glass;
+  }
+
+  .glass-card-dark {
+    @apply rounded-[20px] bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] shadow-glass-dark;
+  }
+
+  .card-rounded {
+    @apply rounded-[20px] bg-white shadow-card;
+  }
+
+  .img-rounded {
+    @apply rounded-[20px] overflow-hidden;
+  }
+
+  /* Hover lift effect */
+  .hover-lift {
+    @apply transition-all duration-500 ease-expo-out;
+  }
+
+  .hover-lift:hover {
+    @apply -translate-y-2 shadow-card-hover;
+  }
+}
+
+/* ==============================
+   TYPOGRAPHY
+   ============================== */
+
+@layer base {
+  body {
+    font-family: var(--font-arabic), sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-arabic font-bold;
+    text-wrap: balance;
+    letter-spacing: 0;
+    line-height: 1.35;
+  }
+
+  p {
+    @apply font-arabic;
+    text-wrap: pretty;
+    letter-spacing: 0;
+    line-height: 1.9;
+  }
+
+  :lang(ar) {
+    word-spacing: 0.02em;
+  }
+}
+
+/* ==============================
+   REVEAL ANIMATIONS
+   ============================== */
+
+.clip-reveal {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 1.2s var(--ease-expo);
+}
+.clip-reveal.is-visible {
+  clip-path: inset(0 0 0% 0);
+}
+
+.fade-rise {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s var(--ease-expo), transform 1s var(--ease-expo);
+}
+.fade-rise.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in {
+  opacity: 0;
+  transition: opacity 1s var(--ease-smooth);
+}
+.fade-in.is-visible {
+  opacity: 1;
+}
+
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s var(--ease-expo), transform 0.9s var(--ease-expo);
+}
+.stagger-children.is-visible > *:nth-child(1) { transition-delay: 0ms; opacity: 1; transform: translateY(0); }
+.stagger-children.is-visible > *:nth-child(2) { transition-delay: 70ms; opacity: 1; transform: translateY(0); }
+.stagger-children.is-visible > *:nth-child(3) { transition-delay: 140ms; opacity: 1; transform: translateY(0); }
+.stagger-children.is-visible > *:nth-child(4) { transition-delay: 210ms; opacity: 1; transform: translateY(0); }
+.stagger-children.is-visible > *:nth-child(5) { transition-delay: 280ms; opacity: 1; transform: translateY(0); }
+.stagger-children.is-visible > *:nth-child(6) { transition-delay: 350ms; opacity: 1; transform: translateY(0); }
+
+.img-reveal {
+  overflow: hidden;
+}
+.img-reveal > * {
+  transform: scale(1.2);
+  transition: transform 1.4s var(--ease-expo);
+}
+.img-reveal.is-visible > * {
+  transform: scale(1);
+}
+
+/* ==============================
+   BUTTONS
+   ============================== */
+
+.btn-primary {
+  @apply relative inline-flex items-center gap-3 text-sm font-medium overflow-hidden font-arabic;
+  padding: 14px 32px;
+  background: var(--primary);
+  color: white;
+  letter-spacing: 0;
+  border-radius: 50px;
+  transition: all 0.5s var(--ease-expo);
+}
+
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--navy-dark);
+  border-radius: 50px;
+  transform: translateX(-101%);
+  transition: transform 0.5s var(--ease-expo);
+}
+
+.btn-primary:hover::after {
+  transform: translateX(0);
+}
+
+.btn-primary > * {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-ghost {
+  @apply relative inline-flex items-center gap-3 text-sm font-medium font-arabic;
+  padding: 14px 32px;
+  color: white;
+  letter-spacing: 0;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 50px;
+  backdrop-filter: blur(12px);
+  background: rgba(255,255,255,0.05);
+  transition: all 0.5s var(--ease-expo);
+}
+
+.btn-ghost:hover {
+  border-color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-2px);
+}
+
+.btn-text {
+  @apply inline-flex items-center gap-2 text-sm font-medium;
+  color: var(--primary);
+  transition: gap 0.4s var(--ease-expo);
+}
+
+.btn-text:hover {
+  gap: 12px;
+}
+
+/* ==============================
+   IMAGE EFFECTS
+   ============================== */
+
+.image-parallax {
+  overflow: hidden;
+}
+
+.image-parallax img,
+.image-parallax > div {
+  transition: transform 0.1s linear;
+  will-change: transform;
+}
+
+.image-hover {
+  overflow: hidden;
+}
+
+.image-hover img,
+.image-hover > div {
+  transition: transform 1s var(--ease-expo);
+}
+
+.image-hover:hover img,
+.image-hover:hover > div {
+  transform: scale(1.04);
+}
+
+/* ==============================
+   DIVIDERS & ACCENTS
+   ============================== */
+
+.divider {
+  @apply w-full h-px;
+  background: linear-gradient(90deg, transparent, rgba(43,45,66,0.08), transparent);
+}
+
+.accent-line {
+  @apply h-px bg-primary origin-right;
+  width: 48px;
+}
+
+.accent-line-white {
+  @apply h-px bg-white/30 origin-right;
+  width: 48px;
+}
+
+/* ==============================
+   GLASSMORPHISM UTILITIES
+   ============================== */
+
+.glass-subtle {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.4);
+}
+
+.glass-dark {
+  background: rgba(18,19,31,0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ==============================
+   MOBILE PERFORMANCE
+   ============================== */
+
+@media (max-width: 768px) {
+  /* Disable heavy blur on mobile */
+  .glass-card {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255,255,255,0.95) !important;
+  }
+
+  .glass-card-dark {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255,255,255,0.06) !important;
+  }
+
+  .glass-subtle,
+  .glass-dark {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .btn-ghost {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Reduce blur on gradient orbs */
+  [class*="blur-[1"] {
+    display: none !important;
+  }
+
+  /* Disable hover transforms on mobile */
+  .hover-lift:hover,
+  .group:hover .group-hover\:-translate-y-2,
+  .group:hover .group-hover\:-translate-y-1 {
+    transform: none !important;
+  }
+
+  /* Reduce animation complexity */
+  .image-hover:hover img,
+  .image-hover:hover > div {
+    transform: none !important;
+  }
+}
+
+/* Prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==============================
+   MISC
+   ============================== */
+
+a, button {
+  cursor: pointer;
+}
