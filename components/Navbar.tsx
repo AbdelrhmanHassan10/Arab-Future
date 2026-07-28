@@ -49,7 +49,7 @@ export default function Navbar() {
         }`}>
           <div className={`transition-all duration-700 ease-expo-out ${
             scrolled
-              ? "max-w-[1340px] mx-auto bg-white/90 backdrop-blur-2xl rounded-full shadow-card px-6 md:px-8 py-3 border border-white/60"
+              ? "max-w-[1340px] mx-auto bg-navy-dark/90 backdrop-blur-2xl rounded-full shadow-card px-6 md:px-8 py-3 border border-white/[0.08]"
               : ""
           }`}>
             <div className={`flex items-center justify-between ${!scrolled ? "max-w-[1340px] mx-auto" : ""}`}>
@@ -57,10 +57,10 @@ export default function Navbar() {
               <a href="/" className="group flex items-center gap-3">
                 <img src="/images/logo.png" alt="عرب فيوتشر" className="w-14 h-14 object-contain" />
                 <div className="hidden sm:block">
-                  <span className={`font-bold text-[16px] block leading-none transition-colors duration-500 ${scrolled ? "text-navy" : "text-white"}`}>
+                  <span className="font-bold text-[16px] block leading-none transition-colors duration-500 text-white">
                     عرب فيوتشر المحدودة
                   </span>
-                  <span className={`text-[9px] tracking-[0.2em] uppercase mt-1 block transition-colors duration-500 font-body ${scrolled ? "text-navy/35" : "text-white"}`}>
+                  <span className="text-[9px] tracking-[0.2em] uppercase mt-1 block transition-colors duration-500 font-body text-primary/80">
                     Arab Future Ltd
                   </span>
                 </div>
@@ -79,8 +79,8 @@ export default function Navbar() {
                         href={link.href}
                         className={`relative px-4 py-2 text-[13px] rounded-full transition-all duration-400 flex items-center gap-1 ${
                           scrolled
-                            ? "text-navy/55 hover:text-navy hover:bg-navy/[0.04]"
-                            : "text-white/60 hover:text-white hover:bg-white/[0.08]"
+                            ? "text-white/70 hover:text-primary hover:bg-white/[0.06]"
+                            : "text-white/60 hover:text-primary hover:bg-white/[0.08]"
                         }`}
                       >
                         {link.label}
@@ -90,12 +90,12 @@ export default function Navbar() {
                       </a>
                       {/* Dropdown */}
                       <div className="absolute top-full right-0 pt-2 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all duration-300">
-                        <div className="bg-white rounded-2xl shadow-card-hover border border-navy/[0.06] py-3 min-w-[220px]">
+                        <div className="bg-navy-dark rounded-2xl shadow-card-hover border border-white/[0.08] py-3 min-w-[220px]">
                           {serviceSubLinks.map((sub) => (
                             <a
                               key={sub.href}
                               href={sub.href}
-                              className="block px-5 py-2.5 text-[13px] text-navy/60 hover:text-primary hover:bg-section-gray transition-all duration-300"
+                              className="block px-5 py-2.5 text-[13px] text-white/70 hover:text-primary hover:bg-white/[0.05] transition-all duration-300"
                             >
                               {sub.label}
                             </a>
@@ -109,8 +109,8 @@ export default function Navbar() {
                       href={link.href}
                       className={`relative px-4 py-2 text-[13px] rounded-full transition-all duration-400 ${
                         scrolled
-                          ? "text-navy/55 hover:text-navy hover:bg-navy/[0.04]"
-                          : "text-white/60 hover:text-white hover:bg-white/[0.08]"
+                          ? "text-white/70 hover:text-primary hover:bg-white/[0.06]"
+                          : "text-white/60 hover:text-primary hover:bg-white/[0.08]"
                       }`}
                     >
                       {link.label}
@@ -125,7 +125,7 @@ export default function Navbar() {
                   href="/contact"
                   className={`hidden lg:flex items-center gap-2 text-[13px] font-medium px-5 py-2.5 rounded-full transition-all duration-500 ${
                     scrolled
-                      ? "bg-primary text-white hover:bg-primary-dark hover:shadow-glow"
+                      ? "bg-primary text-navy-deeper hover:bg-primary-dark hover:shadow-glow"
                       : "bg-white/10 backdrop-blur-md text-white border border-white/15 hover:bg-white/20"
                   }`}
                 >
@@ -139,9 +139,9 @@ export default function Navbar() {
                   aria-label="Toggle menu"
                 >
                   <div className="flex flex-col items-end gap-1.5 w-6">
-                    <span className={`h-[1.5px] transition-all duration-500 ease-expo-out ${scrolled ? "bg-navy" : "bg-white"} ${mobileOpen ? "w-6 rotate-45 translate-y-[5px]" : "w-6"}`} />
-                    <span className={`h-[1.5px] transition-all duration-500 ease-expo-out ${scrolled ? "bg-navy" : "bg-white"} ${mobileOpen ? "w-0 opacity-0" : "w-4"}`} />
-                    <span className={`h-[1.5px] transition-all duration-500 ease-expo-out ${scrolled ? "bg-navy" : "bg-white"} ${mobileOpen ? "w-6 -rotate-45 -translate-y-[5px]" : "w-5"}`} />
+                    <span className={`h-[1.5px] transition-all duration-500 ease-expo-out ${scrolled ? "bg-primary" : "bg-white"} ${mobileOpen ? "w-6 rotate-45 translate-y-[5px]" : "w-6"}`} />
+                    <span className={`h-[1.5px] transition-all duration-500 ease-expo-out ${scrolled ? "bg-primary" : "bg-white"} ${mobileOpen ? "w-0 opacity-0" : "w-4"}`} />
+                    <span className={`h-[1.5px] transition-all duration-500 ease-expo-out ${scrolled ? "bg-primary" : "bg-white"} ${mobileOpen ? "w-6 -rotate-45 -translate-y-[5px]" : "w-5"}`} />
                   </div>
                 </button>
               </div>

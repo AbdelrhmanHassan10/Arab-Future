@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 
 export default function Contact() {
   return (
-    <section id="contact" className="relative bg-white overflow-hidden">
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/[0.03] rounded-full blur-[100px] pointer-events-none" />
+    <section id="contact" className="relative bg-navy-dark overflow-hidden">
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/[0.05] rounded-full blur-[100px] pointer-events-none" />
 
       <div className="pad-y relative">
         <div className="pad-x container-wide">
@@ -21,7 +21,7 @@ export default function Contact() {
                 <span className="text-2xl uppercase text-primary font-semibold tracking-widest">
                   تواصل معنا
                 </span>
-                <h2 className="text-display font-bold text-navy mt-4">
+                <h2 className="text-display font-bold text-white mt-4">
                   ابدأ مشروعك
                 </h2>
               </motion.div>
@@ -33,7 +33,7 @@ export default function Contact() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: 0.15 }}
-                className="text-subhead text-warm-gray leading-[1.9]"
+                className="text-subhead text-white/80 leading-[1.9]"
               >
                 نسعد بالتواصل معكم ومناقشة أفكاركم ومشاريعكم المعمارية
               </motion.p>
@@ -50,7 +50,7 @@ export default function Contact() {
               transition={{ duration: 0.7 }}
               className="lg:col-span-4"
             >
-              <div className="bg-navy-deeper rounded-[24px] p-8 lg:p-10 h-full flex flex-col justify-between relative overflow-hidden">
+              <div className="bg-navy-deeper rounded-[24px] p-8 lg:p-10 h-full flex flex-col justify-between relative overflow-hidden border border-white/[0.08]">
                 {/* Glow */}
                 <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-primary/10 rounded-full blur-[80px] pointer-events-none" />
 
@@ -66,10 +66,10 @@ export default function Contact() {
                       { label: "الموقع", value: "حفصة بنت عمر 3362، حي الروضة 7708، الرياض 13211", labelEn: "Location" },
                     ].map((info, i) => (
                       <div key={i} className="group">
-                        <span className="text-[10px] text-white uppercase tracking-widest block mb-1.5 font-body">
+                        <span className="text-[10px] text-primary/70 uppercase tracking-widest block mb-1.5 font-body">
                           {info.labelEn}
                         </span>
-                        <span dir="auto" className="text-white/70 text-sm group-hover:text-primary transition-colors duration-400">
+                        <span dir="auto" className="text-white/80 text-sm group-hover:text-primary transition-colors duration-400">
                           {info.value}
                         </span>
                       </div>
@@ -78,10 +78,10 @@ export default function Contact() {
                 </div>
 
                 <div className="relative mt-12 pt-6 border-t border-white/[0.06]">
-                  <span className="text-[10px] text-white uppercase tracking-widest block mb-1.5 font-body">
+                  <span className="text-[10px] text-primary/70 uppercase tracking-widest block mb-1.5 font-body">
                     Working Hours
                   </span>
-                  <span className="text-white/50 text-sm">
+                  <span className="text-white/60 text-sm">
                     السبت — الخميس: 9:00 ص - 5:00 م
                   </span>
                 </div>
@@ -104,21 +104,21 @@ export default function Contact() {
                     { label: "رقم الهاتف", type: "tel", placeholder: "أدخل رقم هاتفك" },
                   ].map((field, i) => (
                     <div key={i}>
-                      <label className="block text-xs text-navy/45 mb-2">
+                      <label className="block text-xs text-white/70 mb-2">
                         {field.label}
                       </label>
                       <input
                         type={field.type}
                         placeholder={field.placeholder}
-                        className="w-full px-4 py-3.5 bg-white/60 backdrop-blur-sm border border-navy/[0.08] rounded-xl text-navy text-sm placeholder:text-navy/25 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all duration-400"
+                        className="w-full px-4 py-3.5 bg-white/[0.05] backdrop-blur-sm border border-white/[0.1] rounded-xl text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-400"
                       />
                     </div>
                   ))}
                   <div>
-                    <label className="block text-xs text-navy/45 mb-2">
+                    <label className="block text-xs text-white/70 mb-2">
                       نوع المشروع
                     </label>
-                    <select className="w-full px-4 py-3.5 bg-white/60 backdrop-blur-sm border border-navy/[0.08] rounded-xl text-navy text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all duration-400 appearance-none cursor-pointer">
+                    <select className="w-full px-4 py-3.5 bg-white/[0.05] backdrop-blur-sm border border-white/[0.1] rounded-xl text-white text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-400 appearance-none cursor-pointer [&>option]:bg-navy-dark [&>option]:text-white">
                       <option value="">اختر نوع المشروع</option>
                       <option value="residential">سكني</option>
                       <option value="commercial">تجاري</option>
@@ -132,13 +132,13 @@ export default function Contact() {
                 </div>
 
                 <div className="mb-6 flex-1">
-                  <label className="block text-xs text-navy/45 mb-2">
+                  <label className="block text-xs text-white/70 mb-2">
                     رسالتك
                   </label>
                   <textarea
                     rows={4}
                     placeholder="أخبرنا عن مشروعك..."
-                    className="w-full px-4 py-3.5 bg-white/60 backdrop-blur-sm border border-navy/[0.08] rounded-xl text-navy text-sm placeholder:text-navy/25 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all duration-400 resize-none"
+                    className="w-full px-4 py-3.5 bg-white/[0.05] backdrop-blur-sm border border-white/[0.1] rounded-xl text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-400 resize-none"
                   />
                 </div>
 

@@ -26,26 +26,38 @@ export default function Hero() {
       id="hero"
       className="relative h-[100dvh] min-h-[600px] overflow-hidden bg-navy-deeper"
     >
-      {/* Background Image */}
+      {/* Background Video */}
       <div className="absolute inset-0">
         <div ref={imageRef} className="absolute inset-0 will-change-transform">
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{
-              backgroundImage: `url('/images/hero.jpeg')`,
-            }}
-          />
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+          >
+            <source src="/videos/202607280250.mp4" type="video/mp4" />
+            <source src="/api/hero-video" type="video/mp4" />
+          </video>
         </div>
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(160deg, rgba(18,19,31,0.92) 0%, rgba(43,45,66,0.78) 50%, rgba(18,19,31,0.95) 100%)",
+              "linear-gradient(160deg, rgba(18,19,31,0.78) 0%, rgba(43,45,66,0.58) 50%, rgba(18,19,31,0.85) 100%)",
           }}
         />
         {/* Gradient orbs */}
         <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[150px] pointer-events-none" />
         <div className="absolute bottom-1/4 left-1/3 w-[300px] h-[300px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+
+        {/* Floating geometric gold particles */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-[20%] left-[15%] w-12 h-12 border border-primary/20 rotate-45 animate-float-slow hidden md:block" />
+          <div className="absolute top-[60%] right-[10%] w-16 h-16 border border-white/10 rounded-full animate-float hidden md:block" />
+          <div className="absolute bottom-[30%] left-[25%] w-8 h-8 bg-primary/10 rotate-12 animate-float-fast rounded-lg hidden md:block" />
+          <div className="absolute top-[35%] right-[28%] w-4 h-4 bg-primary/30 rounded-full animate-glow-pulse hidden md:block" />
+        </div>
       </div>
 
       {/* Content */}
@@ -76,7 +88,7 @@ export default function Hero() {
                     initial={{ y: "100%" }}
                     animate={{ y: "0%" }}
                     transition={{ duration: 1, ease, delay: 0.5 }}
-                    className="text-[clamp(2.2rem,5.5vw,4.5rem)] font-bold text-white leading-[1.15] will-change-transform"
+                    className="text-[clamp(2.2rem,5.5vw,4.5rem)] font-bold text-shimmer-white leading-[1.15] will-change-transform"
                   >
                     رؤية تُرى…
                   </motion.h1>
@@ -87,7 +99,7 @@ export default function Hero() {
                     initial={{ y: "100%" }}
                     animate={{ y: "0%" }}
                     transition={{ duration: 1, ease, delay: 0.65 }}
-                    className="text-[clamp(2.2rem,5.5vw,4.5rem)] font-bold text-primary leading-[1.15] will-change-transform"
+                    className="text-[clamp(2.2rem,5.5vw,4.5rem)] font-bold text-shimmer leading-[1.15] will-change-transform"
                   >
                     وأثر يدوم
                   </motion.h1>
@@ -135,6 +147,19 @@ export default function Hero() {
             </div>
           </div>
         </div>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 1 }}
+          className="absolute bottom-28 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 pointer-events-none z-10"
+        >
+          <span className="text-[11px] text-white/40 uppercase tracking-widest font-body">مرر للاستكشاف</span>
+          <div className="w-5 h-8 rounded-full border border-white/20 flex items-start justify-center p-1">
+            <div className="w-1.5 h-2.5 bg-primary rounded-full animate-bounce-slow" />
+          </div>
+        </motion.div>
 
         {/* Stats bar at bottom - glassmorphism */}
         <motion.div

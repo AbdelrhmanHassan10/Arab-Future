@@ -228,7 +228,7 @@ export default function Projects() {
                   onClick={() => setActiveCategory(cat)}
                   className={`px-5 py-2.5 text-[13px] rounded-full transition-all duration-500 font-arabic ${
                     activeCategory === cat
-                      ? "bg-primary text-white shadow-glow"
+                      ? "bg-primary text-navy-deeper font-bold shadow-glow"
                       : "bg-white/[0.06] text-white/50 border border-white/[0.08] hover:bg-white/[0.1] hover:text-white/80"
                   }`}
                 >
@@ -280,7 +280,7 @@ export default function Projects() {
                         {/* Hover overlay */}
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                           <div className="w-12 h-12 rounded-full bg-primary/80 flex items-center justify-center shadow-glow">
-                            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <svg className="w-5 h-5 text-navy-deeper" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
                             </svg>
                           </div>

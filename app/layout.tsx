@@ -5,6 +5,29 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import BackToTop from "@/components/BackToTop";
 import PageTransition from "@/components/PageTransition";
 import Preloader from "@/components/Preloader";
+import fs from "fs";
+import path from "path";
+
+try {
+  const rootVideoPath = path.join(process.cwd(), "./202607280250.mp4");
+  const publicVideosDir = path.join(process.cwd(), "public", "videos");
+  const publicVideoPath = path.join(publicVideosDir, "202607280250.mp4");
+  if (fs.existsSync(rootVideoPath)) {
+    if (!fs.existsSync(publicVideosDir)) {
+      fs.mkdirSync(publicVideosDir, { recursive: true });
+    }
+    const rootStat = fs.statSync(rootVideoPath);
+    const shouldCopy =
+      !fs.existsSync(publicVideoPath) ||
+      fs.statSync(publicVideoPath).size !== rootStat.size ||
+      fs.statSync(publicVideoPath).mtimeMs < rootStat.mtimeMs;
+    if (shouldCopy) {
+      fs.copyFileSync(rootVideoPath, publicVideoPath);
+    }
+  }
+} catch (e) {
+  console.error("Error setting up hero video:", e);
+}
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],

@@ -9,17 +9,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "#E63329",
-        "primary-dark": "#C42A22",
+        primary: "#C5A059",
+        "primary-dark": "#A8853D",
         navy: "#2B2D42",
         "navy-light": "#3D4060",
         "navy-dark": "#1A1B2E",
         "navy-deeper": "#12131F",
         cream: "#F5F3EF",
         "cream-dark": "#EDE9E3",
-        "warm-gray": "#6B6B70",
+        "warm-gray": "#9CA3AF",
         "off-white": "#FAFAF8",
-        "section-gray": "#F7F8FA",
+        "section-gray": "#161828",
       },
       fontFamily: {
         arabic: ["var(--font-arabic)", "sans-serif"],
@@ -49,12 +49,12 @@ const config: Config = {
         "img": "20px",
       },
       boxShadow: {
-        "card": "0 4px 24px rgba(0,0,0,0.05)",
-        "card-hover": "0 20px 60px rgba(0,0,0,0.12)",
-        "soft": "0 2px 12px rgba(0,0,0,0.04)",
-        "glass": "0 8px 32px rgba(0,0,0,0.06)",
-        "glass-dark": "0 8px 32px rgba(0,0,0,0.3)",
-        "glow": "0 0 40px rgba(230,51,41,0.15)",
+        "card": "0 4px 24px rgba(0,0,0,0.2)",
+        "card-hover": "0 20px 60px rgba(0,0,0,0.4)",
+        "soft": "0 2px 12px rgba(0,0,0,0.1)",
+        "glass": "0 8px 32px rgba(0,0,0,0.2)",
+        "glass-dark": "0 8px 32px rgba(0,0,0,0.4)",
+        "glow": "0 0 40px rgba(197,160,89,0.25)",
       },
       transitionTimingFunction: {
         "expo-out": "cubic-bezier(0.16, 1, 0.3, 1)",
@@ -64,7 +64,12 @@ const config: Config = {
         "reveal": "reveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         "line-grow": "lineGrow 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         "float": "float 6s ease-in-out infinite",
+        "float-slow": "floatSlow 10s ease-in-out infinite",
+        "float-fast": "floatFast 4s ease-in-out infinite",
         "glow-pulse": "glowPulse 3s ease-in-out infinite",
+        "shimmer": "shimmer 3s linear infinite",
+        "marquee": "marquee 25s linear infinite",
+        "bounce-slow": "bounceSlow 2.5s infinite",
       },
       keyframes: {
         reveal: {
@@ -79,9 +84,29 @@ const config: Config = {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-10px)" },
         },
+        floatSlow: {
+          "0%, 100%": { transform: "translateY(0) rotate(0deg)" },
+          "50%": { transform: "translateY(-20px) rotate(5deg)" },
+        },
+        floatFast: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-8px)" },
+        },
         glowPulse: {
-          "0%, 100%": { opacity: "0.4" },
-          "50%": { opacity: "1" },
+          "0%, 100%": { opacity: "0.4", transform: "scale(1)" },
+          "50%": { opacity: "0.8", transform: "scale(1.05)" },
+        },
+        shimmer: {
+          "0%": { backgroundPosition: "200% 0" },
+          "100%": { backgroundPosition: "-200% 0" },
+        },
+        marquee: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+        bounceSlow: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(10px)" },
         },
       },
     },

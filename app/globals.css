@@ -7,7 +7,7 @@
    ============================== */
 
 :root {
-  --primary: #E63329;
+  --primary: #C5A059;
   --navy: #2B2D42;
   --navy-dark: #1A1B2E;
   --navy-deeper: #12131F;
@@ -18,6 +18,7 @@
 
 html {
   overflow-x: hidden;
+  background: #12131F;
 }
 
 html.lenis, html.lenis body {
@@ -37,8 +38,8 @@ html.lenis, html.lenis body {
 }
 
 body {
-  color: var(--navy);
-  background: #ffffff;
+  color: #ffffff;
+  background: #12131F;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -46,7 +47,7 @@ body {
 
 ::selection {
   background: var(--primary);
-  color: white;
+  color: #12131F;
 }
 
 /* ==============================
@@ -91,7 +92,7 @@ body {
 
   /* Glassmorphism cards */
   .glass-card {
-    @apply rounded-[20px] bg-white/80 backdrop-blur-xl border border-white/60 shadow-glass;
+    @apply rounded-[20px] bg-white/[0.05] backdrop-blur-xl border border-white/[0.08] shadow-glass-dark;
   }
 
   .glass-card-dark {
@@ -99,7 +100,7 @@ body {
   }
 
   .card-rounded {
-    @apply rounded-[20px] bg-white shadow-card;
+    @apply rounded-[20px] bg-navy-dark border border-white/[0.06] shadow-card;
   }
 
   .img-rounded {
@@ -207,7 +208,8 @@ body {
   @apply relative inline-flex items-center gap-3 text-sm font-medium overflow-hidden font-arabic;
   padding: 14px 32px;
   background: var(--primary);
-  color: white;
+  color: var(--navy-deeper);
+  font-weight: 700;
   letter-spacing: 0;
   border-radius: 50px;
   transition: all 0.5s var(--ease-expo);
@@ -225,6 +227,10 @@ body {
 
 .btn-primary:hover::after {
   transform: translateX(0);
+}
+
+.btn-primary:hover {
+  color: white;
 }
 
 .btn-primary > * {
@@ -294,7 +300,7 @@ body {
 
 .divider {
   @apply w-full h-px;
-  background: linear-gradient(90deg, transparent, rgba(43,45,66,0.08), transparent);
+  background: linear-gradient(90deg, transparent, rgba(197,160,89,0.15), transparent);
 }
 
 .accent-line {
@@ -334,13 +340,13 @@ body {
   .glass-card {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: rgba(255,255,255,0.95) !important;
+    background: rgba(26,27,46,0.95) !important;
   }
 
   .glass-card-dark {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: rgba(255,255,255,0.06) !important;
+    background: rgba(18,19,31,0.95) !important;
   }
 
   .glass-subtle,
@@ -383,9 +389,64 @@ body {
 }
 
 /* ==============================
-   MISC
+   MISC & NEW ANIMATION UTILITIES
    ============================== */
 
 a, button {
   cursor: pointer;
 }
+
+/* Gold Text Shimmer */
+.text-shimmer {
+  background: linear-gradient(
+    135deg,
+    #C5A059 0%,
+    #FFF 25%,
+    #C5A059 50%,
+    #A8853D 75%,
+    #C5A059 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+/* White Text Shimmer */
+.text-shimmer-white {
+  background: linear-gradient(
+    135deg,
+    #FFFFFF 0%,
+    #C5A059 25%,
+    #FFFFFF 50%,
+    #F5F3EF 75%,
+    #FFFFFF 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shimmer 5s linear infinite;
+}
+
+/* Interactive Gold Border Glow */
+.gold-border-glow {
+  position: relative;
+}
+
+.gold-border-glow::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(90deg, rgba(197,160,89,0.1), rgba(197,160,89,0.5), rgba(197,160,89,0.1));
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-expo);
+}
+
+.gold-border-glow:hover::before {
+  opacity: 1;
+}
+

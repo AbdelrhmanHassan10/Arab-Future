@@ -48,35 +48,35 @@ export default function CeoMessage() {
                 </span>
               </div>
 
-              <h2 className="text-display-sm font-bold text-navy mb-8">
+              <h2 className="text-display-sm font-bold text-white mb-8">
                 نؤمن أن النجاح يقوم على المعرفة والعطاء قبل المنافسة
               </h2>
 
               <div className="space-y-5">
-                <p className="text-warm-gray font-light leading-[1.9]">
+                <p className="text-white/70 font-light leading-[1.9]">
                   على مدار سنوات من العمل الهندسي والميداني، وبفضل الله، راكمنا خبرة
                   متكاملة في مجال الديكورات مسبقة الصنع. تمتد خبراتنا عبر طيف واسع
                   من الطرز المعمارية، من فخامة الكلاسيكو الروماني، ورقيّ النيوكلاسيك،
                   وصولًا إلى جماليات الطراز الإسلامي بمراحله المتنوعة.
                 </p>
-                <p className="text-warm-gray font-light leading-[1.9]">
+                <p className="text-white/70 font-light leading-[1.9]">
                   نحرص على تقديم الدعم الاستشاري لكافة العملاء — حتى غير المتعاقدين
                   معنا — لمساعدتهم في اختيار أفضل الخامات وتحديد الأنسب لمشروعاتهم
                   وفق ميزانياتهم ومتطلباتهم الفنية.
                 </p>
-                <p className="text-warm-gray font-light leading-[1.9]">
+                <p className="text-white/70 font-light leading-[1.9]">
                   هدفنا أن نكون اسمًا يُعرف بالمشورة الصادقة والإرشاد المهني، وتمكين
                   كل صاحب مشروع من اتخاذ القرار الصحيح.
                 </p>
               </div>
 
               {/* Signature line */}
-              <div className="mt-8 pt-6 border-t border-navy/8">
+              <div className="mt-8 pt-6 border-t border-white/[0.08]">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-px bg-primary" />
                   <div>
-                    <p className="text-navy font-semibold text-sm">المدير التنفيذي</p>
-                    <p className="text-navy/40 text-xs">شركة عرب فيوتشر المحدودة</p>
+                    <p className="text-white font-semibold text-sm">المدير التنفيذي</p>
+                    <p className="text-primary/70 text-xs">شركة عرب فيوتشر المحدودة</p>
                   </div>
                 </div>
               </div>

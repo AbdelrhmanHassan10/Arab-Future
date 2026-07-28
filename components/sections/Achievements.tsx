@@ -45,8 +45,11 @@ function CircleProgress({ value, max, label, suffix, color, delay }: {
       transition={{ delay, duration: 0.7, ease }}
       className="flex flex-col items-center"
     >
-      <div className="relative w-32 h-32 md:w-36 md:h-36 mb-5">
-        <svg className="w-full h-full -rotate-90" viewBox="0 0 120 120">
+      <div className="relative w-32 h-32 md:w-36 md:h-36 mb-5 group">
+        {/* Pulsing glow halo */}
+        <div className="absolute inset-0 bg-primary/20 rounded-full blur-[25px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-glow-pulse pointer-events-none" />
+        
+        <svg className="w-full h-full -rotate-90 relative z-10" viewBox="0 0 120 120">
           {/* Background circle */}
           <circle
             cx="60" cy="60" r="54"
@@ -167,10 +170,10 @@ export default function Achievements() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
             {/* Left: Circle stats */}
             <div className="grid grid-cols-2 gap-8 md:gap-10">
-              <CircleProgress value={12} max={20} label="سنة خبرة" suffix="+" color="#E63329" delay={0} />
-              <CircleProgress value={350} max={400} label="مشروع منجز" suffix="+" color="#E63329" delay={0.15} />
-              <CircleProgress value={50} max={100} label="عميل راضي" suffix="+" color="#E63329" delay={0.3} />
-              <CircleProgress value={100} max={100} label="التزام بالجودة" suffix="%" color="#E63329" delay={0.45} />
+              <CircleProgress value={12} max={20} label="سنة خبرة" suffix="+" color="#C5A059" delay={0} />
+              <CircleProgress value={350} max={400} label="مشروع منجز" suffix="+" color="#C5A059" delay={0.15} />
+              <CircleProgress value={50} max={100} label="عميل راضي" suffix="+" color="#C5A059" delay={0.3} />
+              <CircleProgress value={100} max={100} label="التزام بالجودة" suffix="%" color="#C5A059" delay={0.45} />
             </div>
 
             {/* Right: Bar stats + text */}
@@ -206,10 +209,10 @@ export default function Achievements() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.6, duration: 0.7 }}
-                className="mt-10 glass-card-dark p-6 flex items-center gap-5"
+                className="mt-10 glass-card-dark p-6 flex items-center gap-5 hover:-translate-y-1 hover:shadow-card-hover hover:border-primary/40 transition-all duration-500 group/highlight"
               >
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center flex-shrink-0 group-hover/highlight:from-primary group-hover/highlight:to-primary-dark transition-all duration-500 group-hover/highlight:shadow-glow">
+                  <svg className="w-6 h-6 text-primary group-hover/highlight:text-navy-deeper transition-colors duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
                   </svg>
                 </div>

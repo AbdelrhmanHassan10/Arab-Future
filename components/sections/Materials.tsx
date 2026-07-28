@@ -47,8 +47,8 @@ const materials = [
 
 export default function Materials() {
   return (
-    <section id="materials" className="relative bg-white overflow-hidden">
-      <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-primary/[0.02] rounded-full blur-[120px] pointer-events-none" />
+    <section id="materials" className="relative bg-navy-dark overflow-hidden">
+      <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-primary/[0.05] rounded-full blur-[120px] pointer-events-none" />
 
       <div className="pad-y relative">
         <div className="pad-x container-wide">
@@ -62,10 +62,10 @@ export default function Materials() {
             <span className="text-2xl uppercase text-primary font-semibold tracking-widest">
               المواد والتقنيات
             </span>
-            <h2 className="text-display font-bold text-navy mt-4">
+            <h2 className="text-display font-bold text-white mt-4">
               مواد بناء متقدمة
             </h2>
-            <p className="text-navy/60 text-subhead mt-4 max-w-xl mx-auto">
+            <p className="text-white/80 text-subhead mt-4 max-w-xl mx-auto">
               نستخدم أحدث المواد والتقنيات في صناعة الواجهات المعمارية لضمان الجودة والاستدامة
             </p>
           </motion.div>
@@ -85,32 +85,32 @@ export default function Materials() {
                 }}
                 className="group"
               >
-                <div className="glass-card h-full hover:-translate-y-2 hover:shadow-card-hover hover:border-primary/20 transition-all duration-500">
+                <div className="glass-card h-full hover:-translate-y-2 hover:shadow-card-hover hover:border-primary/40 transition-all duration-500">
                   <div className="p-8 lg:p-10 h-full flex flex-col">
                     {/* Title block */}
                     <div className="mb-6">
-                      <h3 className="text-3xl lg:text-4xl font-bold text-navy mb-1 group-hover:text-primary transition-colors duration-500">
+                      <h3 className="text-3xl lg:text-4xl font-bold text-white mb-1 group-hover:text-primary transition-colors duration-500">
                         {material.title}
                       </h3>
-                      <p className="text-[11px] text-navy tracking-[0.15em] uppercase mb-2 font-body">
+                      <p className="text-[11px] text-primary/70 tracking-[0.15em] uppercase mb-2 font-body">
                         {material.subtitle}
                       </p>
-                      <p className="text-sm text-primary/60">
+                      <p className="text-sm text-white/70">
                         {material.titleAr}
                       </p>
                     </div>
 
                     {/* Description */}
-                    <p className="text-warm-gray text-[15px] leading-[1.85] mb-8 flex-1">
+                    <p className="text-white/80 text-[15px] leading-[1.85] mb-8 flex-1">
                       {material.description}
                     </p>
 
                     {/* Features */}
-                    <div className="space-y-3 border-t border-navy/[0.05] pt-6">
+                    <div className="space-y-3 border-t border-white/[0.08] pt-6">
                       {material.features.map((feature, j) => (
                         <div key={j} className="flex items-center gap-3">
-                          <div className="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover:bg-primary transition-colors duration-400" />
-                          <span className="text-navy/55 text-[13px]">
+                          <div className="w-1.5 h-1.5 rounded-full bg-primary/60 group-hover:bg-primary transition-colors duration-400" />
+                          <span className="text-white/70 text-[13px]">
                             {feature}
                           </span>
                         </div>
@@ -130,10 +130,10 @@ export default function Materials() {
             transition={{ duration: 0.8 }}
             className="mt-16 md:mt-20"
           >
-            <h3 className="text-navy font-bold text-headline mb-3 text-center">
+            <h3 className="text-white font-bold text-headline mb-3 text-center">
               منتجاتنا — حلول معمارية وهيكلية راقية
             </h3>
-            <p className="text-navy/60 text-sm text-center mb-10 max-w-2xl mx-auto leading-[1.85]">
+            <p className="text-white/70 text-sm text-center mb-10 max-w-2xl mx-auto leading-[1.85]">
               نقدم مجموعة متكاملة من الحلول المعمارية والإنشائية التي تجمع بين الجمال والمتانة، لتلبية احتياجات المشاريع السكنية والتجارية بأعلى معايير الجودة
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -151,15 +151,15 @@ export default function Materials() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.08, duration: 0.5 }}
-                  className="glass-card p-6 text-center hover:-translate-y-1 hover:shadow-card-hover hover:border-primary/15 transition-all duration-500 group"
+                  className="glass-card p-6 text-center hover:-translate-y-1 hover:shadow-card-hover hover:border-primary/40 transition-all duration-500 group"
                 >
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center mx-auto mb-4 group-hover:from-primary group-hover:to-primary-dark group-hover:text-white transition-all duration-500">
-                    <svg className="w-6 h-6 text-primary group-hover:text-white transition-colors duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center mx-auto mb-4 group-hover:from-primary group-hover:to-primary-dark group-hover:text-navy-deeper transition-all duration-500">
+                    <svg className="w-6 h-6 text-primary group-hover:text-navy-deeper transition-colors duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d={product.iconPath} />
                     </svg>
                   </div>
-                  <h4 className="font-semibold text-navy text-sm mb-2">{product.name}</h4>
-                  <p className="text-warm-gray text-xs leading-relaxed">{product.desc}</p>
+                  <h4 className="font-semibold text-white text-sm mb-2 group-hover:text-primary transition-colors duration-300">{product.name}</h4>
+                  <p className="text-white/60 text-xs leading-relaxed">{product.desc}</p>
                 </motion.div>
               ))}
             </div>

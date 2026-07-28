@@ -46,7 +46,7 @@ export default function SectionHeading({
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.8, ease, delay: 0.08 }}
           className={`text-display-sm md:text-display font-bold ${
-            light ? "text-white" : "text-navy"
+            light ? "text-white" : "text-white"
           }`}
         >
           {title}
@@ -62,7 +62,7 @@ export default function SectionHeading({
           transition={{ duration: 0.7, delay: 0.2 }}
           className={`mt-4 text-subhead max-w-2xl font-light leading-[1.9] ${
             isCenter ? "mx-auto" : ""
-          } ${light ? "text-white/45" : "text-warm-gray"}`}
+          } ${light ? "text-white/60" : "text-white/70"}`}
         >
           {description}
         </motion.p>

@@ -14,12 +14,9 @@ const architecturalStyles = [
 
 export default function About() {
   return (
-    <section
-      id="about"
-      className="relative bg-white overflow-hidden"
-    >
+    <section id="about" className="relative bg-navy-dark overflow-hidden">
       {/* Background gradient */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/[0.02] rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/[0.05] rounded-full blur-[120px] pointer-events-none" />
 
       <div className="pad-y relative">
         <div className="pad-x container-wide">
@@ -32,32 +29,53 @@ export default function About() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.7 }}
               >
-                <span className="text-2xl uppercase text-primary font-semibold tracking-widest">
-                  من نحن
-                </span>
-                <h2 className="text-display font-bold text-navy mt-4">
+                <div className="flex items-center gap-3 mb-4">
+                  <motion.div
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    viewport={{ once: true }}
+                    transition={{
+                      duration: 1,
+                      ease: [0.16, 1, 0.3, 1],
+                      delay: 0.2,
+                    }}
+                    className="w-12 h-[2px] bg-primary origin-right"
+                  />
+                  <span className="text-xl uppercase text-primary font-semibold tracking-widest">
+                    من نحن
+                  </span>
+                </div>
+
+                <h2 className="text-display font-bold text-white">
                   نبني المستقبل
                 </h2>
               </motion.div>
             </div>
+
             <div className="lg:col-span-7 lg:col-start-6 flex items-end">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                transition={{
+                  duration: 0.8,
+                  ease: [0.16, 1, 0.3, 1],
+                  delay: 0.2,
+                }}
               >
-                <p className="text-subhead text-navy/70 leading-[1.95] mb-5">
+                <p className="text-subhead text-white/80 leading-[1.95] mb-5">
                   على مدار سنوات من العمل الهندسي والميداني، راكمنا خبرة متكاملة
-                  في مجال الديكورات مسبقة الصنع، بدءًا من الفكرة وحتى التنفيذ الكامل
-                  لمشروعات الواجهات والديكورات، وترميم المباني ذات القيمة التاريخية
-                  والمعمارية، مستخدمين خامات متعددة تتناسب مع بيئة العمل وتلبي مختلف المتطلبات.
+                  في مجال الديكورات مسبقة الصنع، بدءًا من الفكرة وحتى التنفيذ
+                  الكامل لمشروعات الواجهات والديكورات، وترميم المباني ذات القيمة
+                  التاريخية والمعمارية، مستخدمين خامات متعددة تتناسب مع بيئة
+                  العمل وتلبي مختلف المتطلبات.
                 </p>
-                <p className="text-subhead text-navy/70 leading-[1.95]">
-                  نؤمن أن النجاح يقوم على المعرفة والعطاء قبل المنافسة؛ لذلك نحرص على
-                  تقديم الدعم الاستشاري لكافة العملاء — حتى غير المتعاقدين معنا —
-                  لمساعدتهم في اختيار أفضل الخامات وتحديد الأنسب لمشروعاتهم وفق
-                  ميزانياتهم ومتطلباتهم الفنية.
+
+                <p className="text-subhead text-white/80 leading-[1.95]">
+                  نؤمن أن النجاح يقوم على المعرفة والعطاء قبل المنافسة؛ لذلك
+                  نحرص على تقديم الدعم الاستشاري لكافة العملاء — حتى غير
+                  المتعاقدين معنا — لمساعدتهم في اختيار أفضل الخامات وتحديد
+                  الأنسب لمشروعاتهم وفق ميزانياتهم ومتطلباتهم الفنية.
                 </p>
               </motion.div>
             </div>
@@ -73,17 +91,17 @@ export default function About() {
               transition={{ duration: 0.8 }}
               className="lg:col-span-7 relative"
             >
-              <div className="relative aspect-[4/3] lg:aspect-[16/11] rounded-[24px] overflow-hidden image-hover">
+              <div className="relative aspect-[4/3] lg:aspect-[16/11] rounded-[24px] overflow-hidden image-hover border border-white/[0.08]">
                 <div
                   className="absolute inset-0 bg-cover bg-center"
                   style={{
-                    backgroundImage: `url('/images/about us.jpeg')`,
+                    backgroundImage: "url('/images/about us.jpeg')",
                   }}
                 />
               </div>
             </motion.div>
 
-            {/* Specializations - glassmorphism */}
+            {/* Specializations */}
             <div className="lg:col-span-5 lg:pt-8 space-y-4">
               {[
                 {
@@ -112,17 +130,22 @@ export default function About() {
                     duration: 0.7,
                     ease: [0.16, 1, 0.3, 1],
                   }}
-                  className="group glass-card p-6 hover:-translate-y-1 hover:shadow-card-hover hover:border-primary/20 transition-all duration-500"
+                  className="group glass-card p-6 hover:-translate-y-2 hover:shadow-card-hover hover:border-primary/50 gold-border-glow transition-all duration-500 overflow-hidden relative"
                 >
-                  <div className="flex items-baseline gap-3 mb-2">
-                    <h4 className="font-semibold text-navy text-[15px] group-hover:text-primary transition-colors duration-400">
+                  {/* Hover background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                  <div className="relative z-10 flex items-baseline gap-3 mb-2">
+                    <h4 className="font-semibold text-white text-[15px] group-hover:text-primary transition-colors duration-400">
                       {item.title}
                     </h4>
-                    <span className="text-[10px] text-navy tracking-wider uppercase hidden sm:inline font-body">
+
+                    <span className="hidden sm:inline text-[10px] text-primary/70 tracking-wider uppercase font-body">
                       {item.titleEn}
                     </span>
                   </div>
-                  <p className="text-warm-gray text-sm font-light leading-[1.85]">
+
+                  <p className="text-white/60 text-sm font-light leading-[1.85] relative z-10">
                     {item.desc}
                   </p>
                 </motion.div>
@@ -138,12 +161,15 @@ export default function About() {
             transition={{ duration: 0.8 }}
             className="mt-16 md:mt-20"
           >
-            <h3 className="text-navy font-bold text-headline mb-3 text-center">
+            <h3 className="text-white font-bold text-headline mb-3 text-center">
               طرز معمارية متنوعة
             </h3>
-            <p className="text-warm-gray text-sm font-light text-center mb-8 max-w-2xl mx-auto leading-[1.85]">
-              تمتد خبراتنا عبر طيف واسع من الطرز المعمارية، مما يمنحنا القدرة على تقديم حلول دقيقة تتوافق مع ذوق العميل وطبيعة المشروع
+
+            <p className="text-white/60 text-sm font-light text-center mb-8 max-w-2xl mx-auto leading-[1.85]">
+              تمتد خبراتنا عبر طيف واسع من الطرز المعمارية، مما يمنحنا القدرة
+              على تقديم حلول دقيقة تتوافق مع ذوق العميل وطبيعة المشروع.
             </p>
+
             <div className="flex flex-wrap justify-center gap-3">
               {architecturalStyles.map((style, i) => (
                 <motion.span
@@ -151,8 +177,11 @@ export default function About() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.04, duration: 0.4 }}
-                  className="px-5 py-2.5 bg-section-gray/80 backdrop-blur-sm border border-navy/[0.04] rounded-full text-navy/60 text-sm hover:bg-primary hover:text-white hover:border-primary transition-all duration-400 cursor-default"
+                  transition={{
+                    delay: i * 0.04,
+                    duration: 0.4,
+                  }}
+                  className="px-5 py-2.5 bg-white/[0.05] backdrop-blur-sm border border-white/[0.08] rounded-full text-white/80 text-sm hover:bg-primary hover:text-navy-deeper hover:border-primary hover:shadow-glow hover:scale-105 transition-all duration-400 cursor-default"
                 >
                   {style}
                 </motion.span>

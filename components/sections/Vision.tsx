@@ -15,7 +15,7 @@ export default function Vision() {
   return (
     <section id="vision" ref={sectionRef} className="relative overflow-hidden">
       {/* Vision Block */}
-      <div className="relative bg-white">
+      <div className="relative bg-navy-dark">
         <div className="pad-y">
           <div className="pad-x container-narrow text-center">
             <motion.div
@@ -35,7 +35,7 @@ export default function Vision() {
 
               {/* Quote */}
               <motion.div style={{ y: textY }}>
-                <h2 className="text-display font-bold text-navy mb-2">
+                <h2 className="text-display font-bold text-white mb-2">
                   نرسم ملامح الغد
                 </h2>
                 <h2 className="text-display font-bold text-primary mb-10">
@@ -43,7 +43,7 @@ export default function Vision() {
                 </h2>
               </motion.div>
 
-              <p className="text-navy/60 text-subhead max-w-xl mx-auto leading-[1.85] mb-10">
+              <p className="text-white/80 text-subhead max-w-xl mx-auto leading-[1.85] mb-10">
                 أن نكون الشريك الأول والوجهة الدائمة والمفضلة للعملاء
                 في عالم الواجهات والديكورات مسبقة التصنيع، وترميم المباني ذات القيمة،
                 من خلال تقديم حلول معمارية عالية الجودة تمزج بين الابتكار والإتقان
@@ -64,8 +64,8 @@ export default function Vision() {
                     transition={{ delay: 0.2 + i * 0.08, duration: 0.5 }}
                     className="card-rounded p-8 text-center"
                   >
-                    <h4 className="text-navy font-bold text-lg mb-2">{item.title}</h4>
-                    <p className="text-warm-gray text-base leading-relaxed">{item.desc}</p>
+                    <h4 className="text-white font-bold text-lg mb-2">{item.title}</h4>
+                    <p className="text-white/70 text-base leading-relaxed">{item.desc}</p>
                   </motion.div>
                 ))}
               </div>

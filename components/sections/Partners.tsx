@@ -26,7 +26,7 @@ export default function Partners() {
             <span className="text-2xl uppercase text-primary font-semibold tracking-widest">
               شركاء النجاح
             </span>
-            <h2 className="text-display font-bold text-navy mt-4">
+            <h2 className="text-display font-bold text-white mt-4">
               نفخر بثقة عملائنا
             </h2>
           </motion.div>
@@ -40,7 +40,7 @@ export default function Partners() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.04, duration: 0.5 }}
-                className="group glass-card p-5 flex items-center justify-center aspect-[3/2] hover:-translate-y-1 hover:shadow-card-hover hover:border-primary/15 transition-all duration-500"
+                className="group glass-card p-5 flex items-center justify-center aspect-[3/2] hover:-translate-y-1 hover:shadow-card-hover hover:border-primary/40 transition-all duration-500"
               >
                 <Image
                   src={partner.src}

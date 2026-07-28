@@ -90,7 +90,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.name}
-                  className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-white/35 hover:text-white hover:bg-primary hover:border-primary/50 hover:shadow-glow transition-all duration-400"
+                  className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-white/35 hover:text-navy-deeper hover:bg-primary hover:border-primary/50 hover:shadow-glow transition-all duration-400"
                 >
                   {social.icon}
                 </a>

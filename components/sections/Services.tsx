@@ -82,7 +82,7 @@ export default function Services() {
   return (
     <section id="services" className="relative bg-section-gray overflow-hidden">
       {/* Background gradient */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/[0.02] rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/[0.05] rounded-full blur-[100px] pointer-events-none" />
 
       <div className="pad-y relative">
         <div className="pad-x container-wide">
@@ -97,10 +97,10 @@ export default function Services() {
             <span className="text-2xl uppercase text-primary font-semibold tracking-widest">
               خدماتنا
             </span>
-            <h2 className="text-display font-bold text-navy mt-4">
+            <h2 className="text-display font-bold text-white mt-4">
               خدمات متكاملة
             </h2>
-            <p className="text-navy text-subhead mt-4 max-w-xl mx-auto">
+            <p className="text-white/80 text-subhead mt-4 max-w-xl mx-auto">
               خبرة احترافية لدعم مشاريعك من الفكرة إلى التنفيذ
             </p>
           </motion.div>
@@ -116,35 +116,43 @@ export default function Services() {
                 transition={{ delay: i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="group"
               >
-                <div className="glass-card p-8 lg:p-10 h-full hover:-translate-y-2 hover:shadow-card-hover hover:border-primary/20 transition-all duration-500">
+                <div className="glass-card p-8 lg:p-10 h-full hover:-translate-y-2 hover:shadow-card-hover hover:border-primary/50 transition-all duration-500 relative overflow-hidden group/card">
+                  {/* Large Card Number background indicator */}
+                  <div className="absolute top-4 left-6 text-6xl font-bold text-white/[0.03] group-hover/card:text-primary/[0.08] transition-colors duration-500 font-body pointer-events-none select-none">
+                    {(i + 1).toString().padStart(2, '0')}
+                  </div>
+
                   {/* Icon */}
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center text-primary mb-6 group-hover:from-primary group-hover:to-primary-dark group-hover:text-white transition-all duration-500 group-hover:shadow-glow">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center text-primary mb-6 group-hover:from-primary group-hover:to-primary-dark group-hover:text-navy-deeper transition-all duration-700 group-hover:shadow-glow group-hover:rotate-[360deg] relative z-10">
                     {service.icon}
                   </div>
 
                   {/* Title */}
-                  <h3 className="font-semibold text-navy text-[17px] mb-1.5 group-hover:text-primary transition-colors duration-400">
+                  <h3 className="font-semibold text-white text-[17px] mb-1.5 group-hover:text-primary transition-colors duration-400 relative z-10">
                     {service.title}
                   </h3>
-                  <span className="text-xs text-navy tracking-widest uppercase block mb-4 font-body">
+                  <span className="text-xs text-primary/70 tracking-widest uppercase block mb-4 font-body relative z-10">
                     {service.titleEn}
                   </span>
 
                   {/* Description */}
-                  <p className="text-warm-gray text-sm font-normal leading-[1.85] mb-5">
+                  <p className="text-white/60 text-sm font-normal leading-[1.85] mb-5 relative z-10">
                     {service.description}
                   </p>
 
                   {/* Link */}
                   <a
                     href={`/services/${service.slug}`}
-                    className="inline-flex items-center gap-2 text-primary text-sm font-medium hover:gap-3 transition-all duration-300"
+                    className="inline-flex items-center gap-2 text-primary text-sm font-medium hover:gap-3 transition-all duration-300 relative z-10"
                   >
                     <span>اعرف أكتر</span>
                     <svg className="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
                     </svg>
                   </a>
+
+                  {/* Bottom animated accent line */}
+                  <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
               </motion.div>
             ))}
