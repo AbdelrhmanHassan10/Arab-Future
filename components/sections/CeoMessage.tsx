@@ -3,89 +3,102 @@
 import { motion } from "framer-motion";
 
 export default function CeoMessage() {
+  const ease = [0.16, 1, 0.3, 1] as const;
+
   return (
-    <section className="relative bg-section-gray overflow-hidden">
-      <div className="pad-y">
-        <div className="pad-x container-wide">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-            {/* Image */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="lg:col-span-4"
-            >
-              <div className="relative aspect-[3/4] img-rounded overflow-hidden">
-                <div
-                  className="absolute inset-0 bg-cover bg-center bg-top"
-                  style={{
-                    backgroundImage: `url('/images/avatar.jpeg')`,
-                  }}
-                />
-                {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-navy-deeper/90 via-transparent to-transparent" />
-                {/* Info at bottom */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-center">
-                  <h4 className="text-white font-bold text-lg">المدير التنفيذي</h4>
-                  <p className="text-white/60 text-sm mt-1">شركة عرب فيوتشر المحدودة</p>
-                  <div className="w-8 h-px bg-primary mx-auto mt-4" />
+    <section className="relative bg-navy-deeper overflow-hidden py-24 md:py-32">
+      {/* Abstract Background */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/20 via-navy-deeper to-navy-deeper" />
+
+      <div className="container-wide px-6 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-0 items-center">
+
+          {/* Image Column */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease }}
+            className="lg:col-span-5 relative z-20"
+          >
+            <div className="relative aspect-[3/4] md:aspect-[4/5] rounded-[2rem] overflow-hidden group shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+              {/* Image */}
+              <div
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
+                style={{ backgroundImage: `url('/images/avatar.jpeg')` }}
+              />
+
+              {/* Overlays */}
+              <div className="absolute inset-0 bg-navy-deeper/20 group-hover:bg-transparent transition-colors duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy-deeper via-navy-deeper/40 to-transparent opacity-90" />
+
+              {/* Border glow */}
+              <div className="absolute inset-0 rounded-[2rem] border border-white/10 group-hover:border-primary/50 transition-colors duration-700 pointer-events-none" />
+
+              {/* Title Card Overlay */}
+              <div className="absolute bottom-8 left-8 right-8">
+                <div className="glass-card-dark p-6 rounded-2xl border border-white/10 backdrop-blur-xl">
+                  <h4 className="text-white font-bold text-xl mb-1">عبد الرحمن حسن</h4>
+                  <p className="text-primary text-sm font-medium tracking-wide">المدير التنفيذي للشركة</p>
+                  <div className="w-12 h-px bg-white/20 mt-4" />
                 </div>
               </div>
-            </motion.div>
+            </div>
+          </motion.div>
 
-            {/* Message */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
-              className="lg:col-span-7 lg:col-start-6"
-            >
-              <div className="mb-4">
-                <span className="text-2xl uppercase text-primary font-semibold tracking-widest">
-                  كلمة المدير
-                </span>
+          {/* Content Column (Overlaps the image slightly on desktop) */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease, delay: 0.2 }}
+            className="lg:col-span-8 lg:-ml-16 xl:-ml-32 z-30"
+          >
+            <div className="glass-card-dark rounded-[2.5rem] p-8 md:p-14 lg:p-16 border border-white/5 shadow-2xl relative overflow-hidden">
+
+              {/* Giant Background Quote Mark */}
+              <div className="absolute -top-10 left-10 text-[200px] text-white/5 font-serif leading-none select-none pointer-events-none rotate-180">
+                &quot;
               </div>
 
-              <h2 className="text-display-sm font-bold text-white mb-8">
-                نؤمن أن النجاح يقوم على المعرفة والعطاء قبل المنافسة
-              </h2>
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-8">
+                  <span className="w-8 h-[2px] bg-primary" />
+                  <span className="text-sm uppercase text-primary font-medium tracking-widest font-body">كلمة الإدارة</span>
+                </div>
 
-              <div className="space-y-5">
-                <p className="text-white/70 font-light leading-[1.9]">
-                  على مدار سنوات من العمل الهندسي والميداني، وبفضل الله، راكمنا خبرة
-                  متكاملة في مجال الديكورات مسبقة الصنع. تمتد خبراتنا عبر طيف واسع
-                  من الطرز المعمارية، من فخامة الكلاسيكو الروماني، ورقيّ النيوكلاسيك،
-                  وصولًا إلى جماليات الطراز الإسلامي بمراحله المتنوعة.
-                </p>
-                <p className="text-white/70 font-light leading-[1.9]">
-                  نحرص على تقديم الدعم الاستشاري لكافة العملاء — حتى غير المتعاقدين
-                  معنا — لمساعدتهم في اختيار أفضل الخامات وتحديد الأنسب لمشروعاتهم
-                  وفق ميزانياتهم ومتطلباتهم الفنية.
-                </p>
-                <p className="text-white/70 font-light leading-[1.9]">
-                  هدفنا أن نكون اسمًا يُعرف بالمشورة الصادقة والإرشاد المهني، وتمكين
-                  كل صاحب مشروع من اتخاذ القرار الصحيح.
-                </p>
-              </div>
+                <h2 className="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-white mb-8 leading-[1.4]">
+                  نؤمن أن النجاح يقوم على <span className="text-primary italic">المعرفة والعطاء</span> قبل المنافسة
+                </h2>
 
-              {/* Signature line */}
-              <div className="mt-8 pt-6 border-t border-white/[0.08]">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-px bg-primary" />
+                <div className="space-y-6 text-white/70 font-light leading-[1.9] text-base md:text-lg">
+                  <p>
+                    على مدار سنوات من العمل في السوق العقاري المصري، وبفضل الله، راكمنا خبرة متكاملة في تقديم الاستشارات العقارية. تمتد خبراتنا عبر طيف واسع من المشاريع السكنية والتجارية، من الشقق الفاخرة والفيلات المستقلة، وصولاً إلى المقرات الإدارية بأفضل المواقع.
+                  </p>
+                  <p>
+                    نحرص على تقديم الدعم الاستشاري لكافة العملاء لمساعدتهم في اختيار أفضل العقارات وتحديد الأنسب لاستثماراتهم ومستقبل عائلاتهم وفق ميزانياتهم ومتطلباتهم.
+                  </p>
+                  <p>
+                    هدفنا أن نكون الوجهة الأولى والموثوقة للمشورة الصادقة والإرشاد المهني في السوق العقاري، وتمكين كل عميل من اتخاذ القرار الاستثماري الصحيح.
+                  </p>
+                </div>
+
+                {/* Signature Signature (Fictional cursive text) */}
+                <div className="mt-12 pt-8 border-t border-white/10 flex items-center justify-between">
                   <div>
-                    <p className="text-white font-semibold text-sm">المدير التنفيذي</p>
-                    <p className="text-primary/70 text-xs">شركة عرب فيوتشر المحدودة</p>
+                    <h5 className="text-white font-bold text-lg">سمسار مصر</h5>
+                    <p className="text-white/40 text-sm mt-1">مستشارك العقاري الموثوق</p>
+                  </div>
+                  {/* Cursive style signature */}
+                  <div className="text-primary/60 font-serif text-3xl italic opacity-50 select-none">
+                    Semsar Masr
                   </div>
                 </div>
               </div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
         </div>
       </div>
-
-      <div className="divider" />
     </section>
   );
 }

@@ -62,17 +62,17 @@ function FAQItem({ q, a, isOpen, onToggle }: {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, ease }}
-      className="border-b border-navy/[0.06] last:border-0"
+      className="border-b border-white/[0.06] last:border-0"
     >
       <button
         onClick={onToggle}
         className="w-full flex items-center justify-between py-5 md:py-6 text-right group"
       >
-        <span className={`text-base md:text-lg font-medium transition-colors duration-300 ${isOpen ? "text-primary" : "text-navy"}`}>
+        <span className={`text-base md:text-lg font-medium transition-colors duration-300 ${isOpen ? "text-primary" : "text-white"}`}>
           {q}
         </span>
         <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-500 mr-4 ${
-          isOpen ? "bg-primary text-white rotate-180" : "bg-section-gray text-navy/40 group-hover:bg-primary/10 group-hover:text-primary"
+          isOpen ? "bg-primary text-white rotate-180" : "bg-white/[0.04] text-white/40 group-hover:bg-primary/20 group-hover:text-primary"
         }`}>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M3.5 5.25L7 8.75L10.5 5.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -88,7 +88,7 @@ function FAQItem({ q, a, isOpen, onToggle }: {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.4, ease }}
           >
-            <div className="text-warm-gray text-[15px] leading-relaxed pb-5 md:pb-6 pl-12 space-y-2">
+            <div className="text-white/70 text-[15px] leading-relaxed pb-5 md:pb-6 pl-12 space-y-2">
               {a.split("\n").map((line, i) => (
                 <p key={i}>{line}</p>
               ))}
@@ -147,7 +147,7 @@ export default function FAQPage() {
       </section>
 
       {/* FAQ Content */}
-      <section className="bg-white">
+      <section className="bg-navy-dark">
         <div className="pad-y pad-x">
           <div className="max-w-[800px] mx-auto space-y-14">
             {faqCategories.map((category, catIdx) => (
@@ -159,13 +159,13 @@ export default function FAQPage() {
                 transition={{ delay: catIdx * 0.1, duration: 0.6, ease }}
               >
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
                     <span className="text-primary text-sm font-bold font-body">{catIdx + 1}</span>
                   </div>
-                  <h2 className="text-xl font-bold text-navy">{category.title}</h2>
+                  <h2 className="text-xl font-bold text-white">{category.title}</h2>
                 </div>
 
-                <div className="bg-section-gray rounded-[20px] px-6 md:px-8">
+                <div className="bg-section-gray border border-white/[0.04] rounded-[20px] px-6 md:px-8">
                   {category.questions.map((item, qIdx) => {
                     const key = `${catIdx}-${qIdx}`;
                     return (
@@ -191,9 +191,9 @@ export default function FAQPage() {
             transition={{ duration: 0.6, ease }}
             className="max-w-[800px] mx-auto mt-16 text-center"
           >
-            <div className="glass-card p-8 md:p-12">
-              <h3 className="text-xl font-bold text-navy mb-3">لم تجد إجابة سؤالك؟</h3>
-              <p className="text-warm-gray mb-6">
+            <div className="glass-card-dark p-8 md:p-12">
+              <h3 className="text-xl font-bold text-white mb-3">لم تجد إجابة سؤالك؟</h3>
+              <p className="text-white/70 mb-6">
                 تواصل معنا مباشرة وسنكون سعداء بالإجابة على جميع استفساراتك
               </p>
               <a href="/contact" className="btn-primary">

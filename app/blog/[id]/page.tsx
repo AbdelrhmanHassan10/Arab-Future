@@ -20,7 +20,7 @@ function RenderSection({ section, index }: { section: ArticleSection; index: num
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease }}
-          className="text-xl md:text-2xl font-bold text-navy mt-10 mb-4 flex items-center gap-3"
+          className="text-xl md:text-2xl font-bold text-white mt-10 mb-4 flex items-center gap-3"
         >
           <div className="w-1 h-7 bg-primary rounded-full flex-shrink-0" />
           {section.text}
@@ -34,7 +34,7 @@ function RenderSection({ section, index }: { section: ArticleSection; index: num
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: index * 0.05, ease }}
-          className={`text-navy/80 text-[16px] md:text-[17px] leading-[2.1] mb-5 ${index === 0 ? "text-[18px] md:text-[19px] text-navy font-medium leading-[2]" : ""}`}
+          className={`text-white/70 text-[16px] md:text-[17px] leading-[2.1] mb-5 ${index === 0 ? "text-[18px] md:text-[19px] text-white font-medium leading-[2]" : ""}`}
         >
           {section.text}
         </motion.p>
@@ -47,17 +47,17 @@ function RenderSection({ section, index }: { section: ArticleSection; index: num
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease }}
-          className="bg-section-gray rounded-[16px] p-6 md:p-8 mb-6"
+          className="bg-section-gray border border-white/[0.04] rounded-[16px] p-6 md:p-8 mb-6"
         >
           <ul className="space-y-4">
             {section.items?.map((item, i) => (
               <li key={i} className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <div className="w-8 h-8 rounded-xl bg-primary/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                   </svg>
                 </div>
-                <span className="text-navy text-[15px] md:text-[16px] leading-[1.8] pt-1">{item}</span>
+                <span className="text-white/80 text-[15px] md:text-[16px] leading-[1.8] pt-1">{item}</span>
               </li>
             ))}
           </ul>
@@ -71,7 +71,7 @@ function RenderSection({ section, index }: { section: ArticleSection; index: num
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease }}
-          className="bg-navy-deeper rounded-[16px] p-6 md:p-8 mb-6 relative overflow-hidden"
+          className="bg-navy-deeper border border-primary/20 rounded-[16px] p-6 md:p-8 mb-6 relative overflow-hidden"
         >
           <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-primary/[0.06] rounded-full blur-[60px]" />
           <div className="relative flex gap-4">
@@ -97,10 +97,10 @@ export default function ArticlePage() {
     return (
       <>
         <Navbar />
-        <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="min-h-screen flex items-center justify-center bg-navy-dark">
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-navy mb-4">404</h1>
-            <p className="text-warm-gray mb-6">المقال غير موجود</p>
+            <h1 className="text-4xl font-bold text-white mb-4">404</h1>
+            <p className="text-white/70 mb-6">المقال غير موجود</p>
             <Link href="/blog" className="btn-primary">
               <span>العودة للمقالات</span>
             </Link>
@@ -179,7 +179,7 @@ export default function ArticlePage() {
       </section>
 
       {/* Content */}
-      <section className="bg-white">
+      <section className="bg-navy-dark">
         <div className="pad-y pad-x">
           <div className="max-w-[750px] mx-auto">
             {article.sections.map((section, i) => (
@@ -187,16 +187,16 @@ export default function ArticlePage() {
             ))}
 
             {/* Share + Tags */}
-            <div className="mt-12 pt-8 border-t border-navy/[0.06]">
+            <div className="mt-12 pt-8 border-t border-white/[0.06]">
               <div className="flex items-center justify-between flex-wrap gap-4">
                 <div className="flex items-center gap-2">
-                  <span className="text-navy/40 text-sm">التصنيف:</span>
+                  <span className="text-white/40 text-sm">التصنيف:</span>
                   <span className={`px-4 py-1.5 rounded-full text-xs font-medium ${colorClass}`}>
                     {article.category}
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-navy/40 text-sm">شارك المقال:</span>
+                  <span className="text-white/40 text-sm">شارك المقال:</span>
                   <a
                     href={`https://wa.me/?text=${encodeURIComponent(article.title + " - " + "https://arab.masaratedu.com/blog/" + article.id)}`}
                     target="_blank"
@@ -211,7 +211,7 @@ export default function ArticlePage() {
                     href={`https://x.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent("https://arab.masaratedu.com/blog/" + article.id)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-full bg-navy/5 flex items-center justify-center text-navy/40 hover:bg-navy hover:text-white transition-all duration-300"
+                    className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:bg-white/10 hover:text-white transition-all duration-300"
                   >
                     <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -227,20 +227,20 @@ export default function ArticlePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease }}
-              className="mt-10 glass-card p-8 md:p-10 text-center"
+              className="mt-10 glass-card-dark p-8 md:p-10 text-center"
             >
-              <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-5">
+              <div className="w-14 h-14 rounded-2xl bg-primary/20 flex items-center justify-center mx-auto mb-5">
                 <svg className="w-7 h-7 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-navy mb-3">محتاج استشارة فنية؟</h3>
-              <p className="text-warm-gray mb-6">فريقنا جاهز يساعدك تختار المادة الأنسب لمشروعك</p>
+              <h3 className="text-xl font-bold text-white mb-3">محتاج استشارة فنية؟</h3>
+              <p className="text-white/70 mb-6">فريقنا جاهز يساعدك تختار المادة الأنسب لمشروعك</p>
               <div className="flex justify-center gap-3">
                 <Link href="/contact" className="btn-primary">
                   <span>تواصل معنا</span>
                 </Link>
-                <a href="https://wa.me/966538086128" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-medium px-5 py-3.5 rounded-full border border-navy/15 text-navy/60 hover:text-[#25D366] hover:border-[#25D366]/30 transition-all duration-500">
+                <a href="https://wa.me/966538086128" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-medium px-5 py-3.5 rounded-full border border-white/15 text-white/60 hover:text-[#25D366] hover:border-[#25D366]/30 transition-all duration-500">
                   <span>واتساب</span>
                 </a>
               </div>
@@ -251,10 +251,10 @@ export default function ArticlePage() {
 
       {/* Related Articles */}
       {otherArticles.length > 0 && (
-        <section className="bg-section-gray">
+        <section className="bg-section-gray border-t border-white/[0.04]">
           <div className="pad-y pad-x">
             <div className="container-wide">
-              <h3 className="text-xl font-bold text-navy mb-8 text-center">مقالات أخرى تهمك</h3>
+              <h3 className="text-xl font-bold text-white mb-8 text-center">مقالات أخرى تهمك</h3>
               <div className="grid md:grid-cols-3 gap-6">
                 {otherArticles.map((a, i) => (
                   <motion.a
@@ -264,7 +264,7 @@ export default function ArticlePage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.08, duration: 0.5, ease }}
-                    className="group glass-card overflow-hidden cursor-pointer hover:-translate-y-1 hover:shadow-card-hover transition-all duration-500"
+                    className="group glass-card-dark overflow-hidden cursor-pointer hover:-translate-y-1 hover:shadow-card-hover transition-all duration-500"
                   >
                     <div className="relative aspect-[16/10] overflow-hidden">
                       <Image
@@ -280,12 +280,12 @@ export default function ArticlePage() {
                       </div>
                     </div>
                     <div className="p-5">
-                      <div className="flex items-center gap-3 text-xs text-warm-gray mb-3">
+                      <div className="flex items-center gap-3 text-xs text-white/50 mb-3">
                         <span>{a.date}</span>
-                        <span className="w-1 h-1 rounded-full bg-warm-gray/30" />
+                        <span className="w-1 h-1 rounded-full bg-white/10" />
                         <span>{a.readTime} قراءة</span>
                       </div>
-                      <h3 className="text-base font-bold text-navy group-hover:text-primary transition-colors duration-300 line-clamp-2">
+                      <h3 className="text-base font-bold text-white group-hover:text-primary transition-colors duration-300 line-clamp-2">
                         {a.title}
                       </h3>
                     </div>

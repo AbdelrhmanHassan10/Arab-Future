@@ -91,7 +91,7 @@ const processSteps = [
 
 export default function ServicesPage() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-navy-dark">
       <Navbar />
 
       {/* Hero */}
@@ -124,7 +124,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Services Grid */}
-      <section className="relative bg-section-gray overflow-hidden">
+      <section className="relative bg-navy-dark overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/[0.02] rounded-full blur-[100px] pointer-events-none" />
 
         <div className="pad-y-lg relative">
@@ -140,31 +140,31 @@ export default function ServicesPage() {
                   transition={{ delay: i * 0.08, duration: 0.6, ease }}
                   className="group"
                 >
-                  <div className="glass-card p-8 lg:p-9 h-full flex flex-col hover:-translate-y-2 hover:shadow-card-hover hover:border-primary/20 transition-all duration-500">
+                  <div className="glass-card-dark p-8 lg:p-9 h-full flex flex-col hover:-translate-y-2 hover:shadow-card-hover hover:border-primary/30 transition-all duration-500">
                     {/* Icon */}
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center text-primary mb-6 group-hover:from-primary group-hover:to-primary-dark group-hover:text-white transition-all duration-500 group-hover:shadow-glow">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary mb-6 group-hover:from-primary group-hover:to-primary-dark group-hover:text-white transition-all duration-500 group-hover:shadow-glow">
                       {service.icon}
                     </div>
 
                     {/* Title */}
-                    <h3 className="font-bold text-navy text-lg mb-1 group-hover:text-primary transition-colors duration-400">
+                    <h3 className="font-bold text-white text-lg mb-1 group-hover:text-primary transition-colors duration-400">
                       {service.title}
                     </h3>
-                    <span className="text-[10px] text-navy tracking-widest uppercase block mb-4 font-body">
+                    <span className="text-[10px] text-white/50 tracking-widest uppercase block mb-4 font-body">
                       {service.titleEn}
                     </span>
 
                     {/* Description */}
-                    <p className="text-warm-gray text-sm font-normal leading-[1.9] mb-6 flex-1">
+                    <p className="text-white/70 text-sm font-normal leading-[1.9] mb-6 flex-1">
                       {service.description}
                     </p>
 
                     {/* Features */}
-                    <div className="space-y-2.5 border-t border-navy/[0.05] pt-5">
+                    <div className="space-y-2.5 border-t border-white/[0.05] pt-5">
                       {service.features.map((feature, j) => (
                         <div key={j} className="flex items-center gap-3">
                           <div className="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover:bg-primary transition-colors duration-400 flex-shrink-0" />
-                          <span className="text-navy text-[13px] font-normal">{feature}</span>
+                          <span className="text-white/70 text-[13px] font-normal">{feature}</span>
                         </div>
                       ))}
                     </div>
@@ -188,7 +188,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Process */}
-      <section className="relative bg-white overflow-hidden">
+      <section className="relative bg-navy-dark overflow-hidden">
         <div className="pad-y-lg relative">
           <div className="pad-x container-wide">
             <motion.div
@@ -201,10 +201,10 @@ export default function ServicesPage() {
               <span className="text-2xl uppercase text-primary font-semibold tracking-widest">
                 منهجية العمل
               </span>
-              <h2 className="text-display font-bold text-navy mt-4">
+              <h2 className="text-display font-bold text-white mt-4">
                 كيف نعمل
               </h2>
-              <p className="text-warm-gray text-subhead font-light mt-4 max-w-xl mx-auto">
+              <p className="text-white/70 text-subhead font-light mt-4 max-w-xl mx-auto">
                 نتبع منهجية واضحة ومنظمة في تنفيذ مشاريعنا لضمان أعلى جودة
               </p>
             </motion.div>
@@ -221,18 +221,18 @@ export default function ServicesPage() {
                 >
                   {/* Connector line */}
                   {i < processSteps.length - 1 && (
-                    <div className="hidden md:block absolute top-8 -left-3 w-6 h-px bg-navy/10" />
+                    <div className="hidden md:block absolute top-8 -left-3 w-6 h-px bg-white/10" />
                   )}
 
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center mx-auto mb-5 group-hover:from-primary group-hover:to-primary-dark transition-all duration-500 group-hover:shadow-glow">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mx-auto mb-5 group-hover:from-primary group-hover:to-primary-dark transition-all duration-500 group-hover:shadow-glow">
                     <svg className="w-7 h-7 text-primary group-hover:text-white transition-colors duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d={step.icon} />
                     </svg>
                   </div>
-                  <h4 className="text-navy font-semibold text-[15px] mb-2 group-hover:text-primary transition-colors duration-400">
+                  <h4 className="text-white font-semibold text-[15px] mb-2 group-hover:text-primary transition-colors duration-400">
                     {step.title}
                   </h4>
-                  <p className="text-warm-gray text-sm font-light leading-[1.8]">
+                  <p className="text-white/60 text-sm font-light leading-[1.8]">
                     {step.desc}
                   </p>
                 </motion.div>
@@ -332,7 +332,7 @@ export default function ServicesPage() {
       </section>
 
       {/* CTA */}
-      <section className="relative bg-white overflow-hidden">
+      <section className="relative bg-navy-dark overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/[0.02] rounded-full blur-[100px] pointer-events-none" />
 
         <div className="pad-y-lg relative">
@@ -343,10 +343,10 @@ export default function ServicesPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease }}
             >
-              <h2 className="text-display font-bold text-navy mb-4">
+              <h2 className="text-display font-bold text-white mb-4">
                 محتاج خدمة معينة؟
               </h2>
-              <p className="text-warm-gray text-subhead font-light mb-8 max-w-lg mx-auto">
+              <p className="text-white/60 text-subhead font-light mb-8 max-w-lg mx-auto">
                 تواصل معنا وسنوفر لك الحل الأمثل لمشروعك
               </p>
               <div className="flex flex-wrap justify-center gap-4">
@@ -356,7 +356,7 @@ export default function ServicesPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
                   </svg>
                 </a>
-                <a href="/gallery" className="inline-flex items-center gap-2 text-[13px] font-medium px-5 py-3.5 rounded-full border border-navy/15 text-navy/60 hover:text-primary hover:border-primary/30 transition-all duration-500">
+                <a href="/gallery" className="inline-flex items-center gap-2 text-[13px] font-medium px-5 py-3.5 rounded-full border border-white/15 text-white/60 hover:text-primary hover:border-primary/30 transition-all duration-500">
                   <span>معرض الأعمال</span>
                 </a>
               </div>

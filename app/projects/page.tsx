@@ -203,7 +203,7 @@ export default function ProjectsPage() {
 
   return (
     <>
-      <main className="min-h-screen bg-white">
+      <main className="min-h-screen bg-navy-dark">
         <Navbar />
 
         {/* Hero */}
@@ -251,7 +251,7 @@ export default function ProjectsPage() {
                     className={`px-5 py-2.5 text-[13px] rounded-full transition-all duration-500 ${
                       activeCategory === cat
                         ? "bg-primary text-white shadow-glow"
-                        : "glass-card text-navy/50 hover:text-navy/80"
+                        : "glass-card-dark text-white/60 hover:text-white"
                     }`}
                   >
                     {cat}
@@ -278,7 +278,7 @@ export default function ProjectsPage() {
                       className="group cursor-pointer"
                       onClick={() => setSelectedProject(project)}
                     >
-                      <div className="glass-card overflow-hidden hover:shadow-card-hover hover:border-primary/15 transition-all duration-500">
+                      <div className="glass-card-dark overflow-hidden hover:shadow-card-hover hover:border-primary/30 transition-all duration-500">
                         <div className={`grid grid-cols-1 lg:grid-cols-2 gap-0`}>
                           {/* Image */}
                           <div className={`relative aspect-[16/10] lg:aspect-auto lg:min-h-[350px] overflow-hidden ${
@@ -322,19 +322,19 @@ export default function ProjectsPage() {
                             i % 2 !== 0 ? "lg:order-1" : ""
                           }`}>
                             <div className="flex items-center gap-3 mb-4">
-                              <span className="px-3 py-1 bg-primary/8 rounded-full text-[11px] text-primary font-medium">
+                              <span className="px-3 py-1 bg-primary/20 rounded-full text-[11px] text-primary font-medium">
                                 {project.material}
                               </span>
-                              <span className="px-3 py-1 bg-navy/[0.04] rounded-full text-[11px] text-navy/50 font-medium">
+                              <span className="px-3 py-1 bg-white/[0.06] rounded-full text-[11px] text-white/60 font-medium">
                                 {project.style}
                               </span>
                             </div>
 
-                            <h3 className="text-navy font-bold text-xl lg:text-2xl mb-4 group-hover:text-primary transition-colors duration-400 leading-snug">
+                            <h3 className="text-white font-bold text-xl lg:text-2xl mb-4 group-hover:text-primary transition-colors duration-400 leading-snug">
                               {project.title}
                             </h3>
 
-                            <p className="text-warm-gray leading-[1.9] mb-6">
+                            <p className="text-white/70 leading-[1.9] mb-6">
                               {project.description}
                             </p>
 

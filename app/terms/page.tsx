@@ -259,7 +259,7 @@ export default function TermsPage() {
       </section>
 
       {/* Intro */}
-      <section className="bg-white">
+      <section className="bg-navy-dark">
         <div className="pad-y pad-x">
           <div className="max-w-[850px] mx-auto">
             <motion.div
@@ -267,12 +267,12 @@ export default function TermsPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease }}
-              className="bg-section-gray rounded-[20px] p-8 md:p-10 mb-12"
+              className="glass-card-dark p-8 md:p-10 mb-12"
             >
-              <p className="text-navy leading-[1.9] mb-4">
+              <p className="text-white leading-[1.9] mb-4">
                 باستخدامك لموقع شركة عرب فيوتشر المحدودة، فإنك توافق على الالتزام بالشروط والأحكام التالية:
               </p>
-              <p className="text-warm-gray text-sm leading-[1.9]" dir="ltr">
+              <p className="text-white/70 text-sm leading-[1.9]" dir="ltr">
                 By using the website of Arab Future Limited Company, you agree to be bound by the following Terms and Conditions.
               </p>
             </motion.div>
@@ -293,18 +293,18 @@ export default function TermsPage() {
                       <span className="text-primary text-sm font-bold font-body">{idx}</span>
                     </div>
                     <div>
-                      <h2 className="text-lg font-bold text-navy">{section.titleAr}</h2>
-                      <span className="text-xs text-navy/50 font-body">{section.titleEn}</span>
+                      <h2 className="text-lg font-bold text-white">{section.titleAr}</h2>
+                      <span className="text-xs text-white/50 font-body">{section.titleEn}</span>
                     </div>
                   </div>
 
                   {/* Arabic content */}
-                  <div className="bg-section-gray rounded-[16px] p-6 md:p-8 mb-3">
+                  <div className="glass-card-dark p-6 md:p-8 mb-3">
                     <ul className="space-y-3">
                       {section.contentAr.map((item, i) => (
                         <li key={i} className="flex items-start gap-3">
                           <div className="w-1.5 h-1.5 rounded-full bg-primary/50 mt-2.5 flex-shrink-0" />
-                          <span dir="auto" className="text-navy text-[15px] leading-[1.85]">{item}</span>
+                          <span dir="auto" className="text-white text-[15px] leading-[1.85]">{item}</span>
                         </li>
                       ))}
                     </ul>
@@ -314,7 +314,7 @@ export default function TermsPage() {
                   <div className="px-6 md:px-8">
                     <ul className="space-y-2" dir="ltr">
                       {section.contentEn.map((item, i) => (
-                        <li key={i} className="text-warm-gray text-sm leading-[1.85]">
+                        <li key={i} className="text-white/70 text-sm leading-[1.85]">
                           {item}
                         </li>
                       ))}

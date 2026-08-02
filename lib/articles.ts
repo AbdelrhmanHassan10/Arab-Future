@@ -37,7 +37,7 @@ export const articles: Article[] = [
     category: "GRC",
     date: "25 مارس 2026",
     readTime: "4 دقائق",
-    image: "/gallery/project-1.jpeg",
+    image: "/gallery/gallery-1.png",
   },
   {
     id: 2,
@@ -65,7 +65,7 @@ export const articles: Article[] = [
     category: "GRG",
     date: "20 مارس 2026",
     readTime: "3 دقائق",
-    image: "/gallery/project-3.jpeg",
+    image: "/gallery/gallery-3.png",
   },
   {
     id: 3,
@@ -87,7 +87,7 @@ export const articles: Article[] = [
     category: "GRP",
     date: "15 مارس 2026",
     readTime: "3 دقائق",
-    image: "/gallery/project-5.jpeg",
+    image: "/gallery/gallery-5.png",
   },
   {
     id: 4,
@@ -109,7 +109,7 @@ export const articles: Article[] = [
     category: "فوم",
     date: "10 مارس 2026",
     readTime: "3 دقائق",
-    image: "/gallery/project-7.jpeg",
+    image: "/gallery/gallery-7.png",
   },
   {
     id: 5,
@@ -136,14 +136,14 @@ export const articles: Article[] = [
     category: "نصائح",
     date: "5 مارس 2026",
     readTime: "4 دقائق",
-    image: "/gallery/project-9.jpeg",
+    image: "/gallery/gallery-9.png",
   },
 ];
 
 export const categoryColors: Record<string, string> = {
-  "GRC": "bg-blue-50 text-blue-600",
-  "GRG": "bg-emerald-50 text-emerald-600",
-  "GRP": "bg-purple-50 text-purple-600",
-  "فوم": "bg-amber-50 text-amber-600",
-  "نصائح": "bg-rose-50 text-rose-600",
+  "GRC": "bg-primary/20 text-primary",
+  "GRG": "bg-white/10 text-white",
+  "GRP": "bg-primary/20 text-primary",
+  "فوم": "bg-white/10 text-white",
+  "نصائح": "bg-primary/20 text-primary",
 };

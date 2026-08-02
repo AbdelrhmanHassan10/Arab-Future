@@ -18,10 +18,10 @@ export default function ServicePage() {
     return (
       <>
         <Navbar />
-        <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="min-h-screen flex items-center justify-center bg-navy-dark">
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-navy mb-4">404</h1>
-            <p className="text-warm-gray mb-6">الخدمة غير موجودة</p>
+            <h1 className="text-4xl font-bold text-white mb-4">404</h1>
+            <p className="text-white/60 mb-6">الخدمة غير موجودة</p>
             <Link href="/services" className="btn-primary"><span>جميع الخدمات</span></Link>
           </div>
         </div>
@@ -114,7 +114,7 @@ export default function ServicePage() {
       </section>
 
       {/* Stats bar */}
-      <section className="bg-white border-b border-navy/[0.06]">
+      <section className="bg-navy-dark border-b border-white/[0.06]">
         <div className="pad-x container-wide">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-10">
             {[
@@ -132,7 +132,7 @@ export default function ServicePage() {
                 className="text-center"
               >
                 <div className="text-2xl md:text-3xl font-bold text-primary font-body">{stat.number}</div>
-                <div className="text-navy/50 text-sm mt-1">{stat.label}</div>
+                <div className="text-white/60 text-sm mt-1">{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -140,7 +140,7 @@ export default function ServicePage() {
       </section>
 
       {/* Main Content */}
-      <section className="bg-white">
+      <section className="bg-navy-dark">
         <div className="pad-y-lg pad-x">
           <div className="container-wide">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -156,7 +156,7 @@ export default function ServicePage() {
                           whileInView={{ opacity: 1, y: 0 }}
                           viewport={{ once: true }}
                           transition={{ duration: 0.5, ease }}
-                          className="text-xl md:text-2xl font-bold text-navy mt-12 mb-5 flex items-center gap-3"
+                          className="text-xl md:text-2xl font-bold text-white mt-12 mb-5 flex items-center gap-3"
                         >
                           <div className="w-1.5 h-8 bg-primary rounded-full flex-shrink-0" />
                           {section.text}
@@ -171,7 +171,7 @@ export default function ServicePage() {
                           whileInView={{ opacity: 1, y: 0 }}
                           viewport={{ once: true }}
                           transition={{ duration: 0.5, ease }}
-                          className={`text-navy/75 text-[16px] md:text-[17px] leading-[2.1] mb-6 ${i === 0 ? "text-[18px] md:text-[19px] text-navy font-medium leading-[2] border-r-4 border-primary pr-6 py-2" : ""}`}
+                          className={`text-white/70 text-[16px] md:text-[17px] leading-[2.1] mb-6 ${i === 0 ? "text-[18px] md:text-[19px] text-white font-medium leading-[2] border-r-4 border-primary pr-6 py-2" : ""}`}
                         >
                           {section.text}
                         </motion.p>
@@ -185,17 +185,17 @@ export default function ServicePage() {
                           whileInView={{ opacity: 1, y: 0 }}
                           viewport={{ once: true }}
                           transition={{ duration: 0.5, ease }}
-                          className="bg-section-gray rounded-[20px] p-6 md:p-8 mb-6"
+                          className="glass-card-dark rounded-[20px] p-6 md:p-8 mb-6 border border-white/[0.04]"
                         >
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {section.items?.map((item, j) => (
-                              <div key={j} className="flex items-start gap-3 bg-white rounded-xl p-4 hover:shadow-card transition-shadow duration-300">
-                                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                              <div key={j} className="flex items-start gap-3 bg-white/[0.04] border border-white/[0.04] rounded-xl p-4 hover:bg-white/[0.08] hover:border-primary/30 transition-all duration-300">
+                                <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0">
                                   <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                   </svg>
                                 </div>
-                                <span className="text-navy text-[15px] leading-[1.7] pt-1">{item}</span>
+                                <span className="text-white/80 text-[15px] leading-[1.7] pt-1">{item}</span>
                               </div>
                             ))}
                           </div>
@@ -210,7 +210,7 @@ export default function ServicePage() {
                           whileInView={{ opacity: 1, y: 0 }}
                           viewport={{ once: true }}
                           transition={{ duration: 0.5, ease }}
-                          className="bg-navy-deeper rounded-[20px] p-8 md:p-10 mb-8 relative overflow-hidden"
+                          className="bg-navy-deeper rounded-[20px] p-8 md:p-10 mb-8 relative overflow-hidden border border-primary/20"
                         >
                           <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-primary/[0.06] rounded-full blur-[80px]" />
                           <div className="relative flex gap-5">
@@ -239,20 +239,20 @@ export default function ServicePage() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, ease }}
-                    className="glass-card p-7"
+                    className="glass-card-dark p-7"
                   >
-                    <h4 className="font-bold text-navy text-base mb-4">تواصل معنا</h4>
+                    <h4 className="font-bold text-white text-base mb-4">تواصل معنا</h4>
                     <div className="space-y-4 mb-6">
-                      <a href="tel:+966538086128" dir="ltr" className="flex items-center gap-3 text-navy/60 hover:text-primary transition-colors duration-300">
-                        <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <a href="tel:+966538086128" dir="ltr" className="flex items-center gap-3 text-white/60 hover:text-primary transition-colors duration-300">
+                        <div className="w-9 h-9 rounded-xl bg-primary/20 flex items-center justify-center flex-shrink-0">
                           <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
                           </svg>
                         </div>
                         <span className="text-sm">+966 53 808 6128</span>
                       </a>
-                      <a href="mailto:info@arabfuture.com" className="flex items-center gap-3 text-navy/60 hover:text-primary transition-colors duration-300">
-                        <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <a href="mailto:info@arabfuture.com" className="flex items-center gap-3 text-white/60 hover:text-primary transition-colors duration-300">
+                        <div className="w-9 h-9 rounded-xl bg-primary/20 flex items-center justify-center flex-shrink-0">
                           <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                           </svg>
@@ -274,24 +274,24 @@ export default function ServicePage() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.1, ease }}
-                    className="glass-card p-7"
+                    className="glass-card-dark p-7"
                   >
-                    <h4 className="font-bold text-navy text-base mb-5">خدمات أخرى</h4>
+                    <h4 className="font-bold text-white text-base mb-5">خدمات أخرى</h4>
                     <div className="space-y-2">
                       {otherServices.map((s) => (
                         <a
                           key={s.slug}
                           href={`/services/${s.slug}`}
-                          className="flex items-center gap-3 p-3 rounded-xl hover:bg-section-gray transition-all duration-300 group"
+                          className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/[0.04] transition-all duration-300 group"
                         >
-                          <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:shadow-glow transition-all duration-300">
+                          <div className="w-9 h-9 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:shadow-glow transition-all duration-300">
                             <svg className="w-4 h-4 text-primary group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                               <path strokeLinecap="round" strokeLinejoin="round" d={s.iconPath} />
                             </svg>
                           </div>
                           <div>
-                            <span className="text-navy text-sm font-medium group-hover:text-primary transition-colors duration-300 block">{s.title}</span>
-                            <span className="text-navy/30 text-[10px] font-body tracking-wider uppercase">{s.titleEn}</span>
+                            <span className="text-white/80 text-sm font-medium group-hover:text-primary transition-colors duration-300 block">{s.title}</span>
+                            <span className="text-white/40 text-[10px] font-body tracking-wider uppercase">{s.titleEn}</span>
                           </div>
                         </a>
                       ))}
@@ -305,7 +305,7 @@ export default function ServicePage() {
       </section>
 
       {/* Process Steps */}
-      <section className="bg-section-gray">
+      <section className="bg-navy-dark">
         <div className="pad-y pad-x">
           <div className="container-wide text-center">
             <motion.div
@@ -315,7 +315,7 @@ export default function ServicePage() {
               transition={{ duration: 0.7 }}
             >
               <span className="text-2xl uppercase text-primary font-semibold tracking-widest">منهجية العمل</span>
-              <h2 className="text-display-sm font-bold text-navy mt-4 mb-12">كيف ننفذ {service.title}؟</h2>
+              <h2 className="text-display-sm font-bold text-white mt-4 mb-12">كيف ننفذ {service.title}؟</h2>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -333,13 +333,13 @@ export default function ServicePage() {
                   transition={{ delay: i * 0.1, duration: 0.5, ease }}
                   className="relative"
                 >
-                  {i < 3 && <div className="hidden md:block absolute top-10 -left-3 w-6 h-px bg-navy/10" />}
-                  <div className="glass-card p-6 hover:-translate-y-1 hover:shadow-card-hover transition-all duration-500 group">
+                  {i < 3 && <div className="hidden md:block absolute top-10 -left-3 w-6 h-px bg-white/10" />}
+                  <div className="glass-card-dark p-6 hover:-translate-y-1 hover:shadow-card-hover hover:border-primary/30 transition-all duration-500 group">
                     <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:shadow-glow transition-all duration-500">
                       <span className="text-primary font-bold text-lg font-body group-hover:text-white transition-colors duration-500">{item.step}</span>
                     </div>
-                    <h4 className="text-navy font-semibold mb-2 group-hover:text-primary transition-colors duration-400">{item.title}</h4>
-                    <p className="text-warm-gray text-sm">{item.desc}</p>
+                    <h4 className="text-white font-semibold mb-2 group-hover:text-primary transition-colors duration-400">{item.title}</h4>
+                    <p className="text-white/60 text-sm">{item.desc}</p>
                   </div>
                 </motion.div>
               ))}

@@ -48,7 +48,7 @@ const stats = [
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-navy-dark">
       <Navbar />
 
       {/* Hero */}
@@ -120,23 +120,23 @@ export default function AboutPage() {
                 <span className="text-2xl uppercase text-primary font-semibold tracking-widest">
                   مقدمة
                 </span>
-                <h2 className="text-display-sm font-bold text-navy mt-4 mb-6">
+                <h2 className="text-display-sm font-bold text-white mt-4 mb-6">
                   خبرة متكاملة في عالم العمارة
                 </h2>
 
                 <div className="space-y-5">
-                  <p className="text-navy/70 leading-[1.95]">
+                  <p className="text-white/70 leading-[1.95]">
                     على مدار سنوات من العمل الهندسي والميداني، وبفضل الله، راكمنا خبرة
                     متكاملة في مجال الديكورات مسبقة الصنع، بدءًا من الفكرة وحتى التنفيذ
                     الكامل لمشروعات الواجهات والديكورات، وترميم المباني ذات القيمة التاريخية
                     والمعمارية، مستخدمين خامات متعددة تتناسب مع بيئة العمل وتلبي مختلف المتطلبات.
                   </p>
-                  <p className="text-navy/70 leading-[1.95]">
+                  <p className="text-white/70 leading-[1.95]">
                     تمتد خبراتنا عبر طيف واسع من الطرز المعمارية، من فخامة الكلاسيكو الروماني،
                     ورقيّ النيوكلاسيك، وبساطة الطراز الفرنسي، وصولًا إلى جماليات الطراز الإسلامي
                     والأندلسي والعثماني، وحتى الأساليب الحديثة.
                   </p>
-                  <p className="text-navy/70 leading-[1.95]">
+                  <p className="text-white/70 leading-[1.95]">
                     نؤمن أن النجاح يقوم على المعرفة والعطاء قبل المنافسة؛ لذلك نحرص على تقديم
                     الدعم الاستشاري لكافة العملاء — حتى غير المتعاقدين معنا — لمساعدتهم في
                     اختيار أفضل الخامات وتحديد الأنسب لمشروعاتهم وفق ميزانياتهم ومتطلباتهم الفنية.
@@ -224,34 +224,34 @@ export default function AboutPage() {
                 <span className="text-2xl uppercase text-primary font-semibold tracking-widest">
                   كلمة المدير
                 </span>
-                <h2 className="text-display-sm font-bold text-navy mt-4 mb-8">
+                <h2 className="text-display-sm font-bold text-shimmer-white mt-4 mb-8">
                   نؤمن أن النجاح يقوم على المعرفة والعطاء قبل المنافسة
                 </h2>
 
-                <div className="space-y-5">
-                  <p className="text-navy/70 leading-[1.95]">
+                <div className="space-y-6">
+                  <p className="text-lg md:text-xl text-white/95 font-medium leading-relaxed">
                     على مدار سنوات من العمل الهندسي والميداني، وبفضل الله، راكمنا خبرة
                     متكاملة في مجال الديكورات مسبقة الصنع. تمتد خبراتنا عبر طيف واسع
                     من الطرز المعمارية، من فخامة الكلاسيكو الروماني، ورقيّ النيوكلاسيك،
                     وصولًا إلى جماليات الطراز الإسلامي بمراحله المتنوعة.
                   </p>
-                  <p className="text-navy/70 leading-[1.95]">
+                  <p className="text-lg md:text-xl text-white/95 font-medium leading-relaxed">
                     نحرص على تقديم الدعم الاستشاري لكافة العملاء — حتى غير المتعاقدين
                     معنا — لمساعدتهم في اختيار أفضل الخامات وتحديد الأنسب لمشروعاتهم
                     وفق ميزانياتهم ومتطلباتهم الفنية.
                   </p>
-                  <p className="text-navy/70 leading-[1.95]">
+                  <p className="text-lg md:text-xl text-white/95 font-medium leading-relaxed">
                     هدفنا أن نكون اسمًا يُعرف بالمشورة الصادقة والإرشاد المهني، وتمكين
                     كل صاحب مشروع من اتخاذ القرار الصحيح.
                   </p>
                 </div>
 
-                <div className="mt-8 pt-6 border-t border-navy/[0.06]">
+                <div className="mt-8 pt-6 border-t border-white/[0.08]">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-px bg-primary" />
                     <div>
-                      <p className="text-navy font-semibold text-sm">المدير التنفيذي</p>
-                      <p className="text-navy/35 text-xs">شركة عرب فيوتشر المحدودة</p>
+                      <p className="text-white font-semibold text-sm">المدير التنفيذي</p>
+                      <p className="text-shimmer text-xs">شركة عرب فيوتشر المحدودة</p>
                     </div>
                   </div>
                 </div>
@@ -262,7 +262,7 @@ export default function AboutPage() {
       </section>
 
       {/* Vision & Mission */}
-      <section className="relative bg-white overflow-hidden">
+      <section className="relative bg-navy-dark overflow-hidden">
         <div className="pad-y-lg relative">
           <div className="pad-x container-wide">
             {/* Vision */}
@@ -276,13 +276,13 @@ export default function AboutPage() {
                 <span className="text-2xl uppercase text-primary font-semibold tracking-widest">
                   رؤيتنا
                 </span>
-                <h2 className="text-display-sm font-bold text-navy mt-4 mb-2">
+                <h2 className="text-display-sm font-bold text-white mt-4 mb-2">
                   نرسم ملامح الغد
                 </h2>
                 <h2 className="text-display-sm font-bold text-primary mb-8">
                   بإتقان اليوم
                 </h2>
-                <p className="text-navy/60 text-subhead max-w-2xl mx-auto leading-[1.95]">
+                <p className="text-white/60 text-subhead max-w-2xl mx-auto leading-[1.95]">
                   أن نكون الشريك الأول والوجهة الدائمة والمفضلة للعملاء
                   في عالم الواجهات والديكورات مسبقة التصنيع، وترميم المباني ذات القيمة،
                   من خلال تقديم حلول معمارية عالية الجودة تمزج بين الابتكار والإتقان.
@@ -302,10 +302,10 @@ export default function AboutPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1, duration: 0.6, ease }}
-                    className="glass-card p-7 text-center hover:-translate-y-1 hover:shadow-card-hover hover:border-primary/15 transition-all duration-500"
+                    className="glass-card-dark p-7 text-center hover:-translate-y-1 hover:shadow-card-hover hover:border-primary/30 transition-all duration-500"
                   >
-                    <h4 className="text-navy font-semibold mb-2">{item.title}</h4>
-                    <p className="text-warm-gray text-sm leading-relaxed">{item.desc}</p>
+                    <h4 className="text-white font-semibold mb-2">{item.title}</h4>
+                    <p className="text-white/70 text-sm leading-relaxed">{item.desc}</p>
                   </motion.div>
                 ))}
               </div>
@@ -323,10 +323,10 @@ export default function AboutPage() {
                 <span className="text-2xl uppercase text-primary font-semibold tracking-widest">
                   رسالتنا
                 </span>
-                <h2 className="text-display-sm font-bold text-navy mt-4">
+                <h2 className="text-display-sm font-bold text-white mt-4">
                   بصمة معمارية تتجاوز الزمن
                 </h2>
-                <p className="text-navy/60 text-subhead mt-4 max-w-2xl mx-auto leading-[1.95]">
+                <p className="text-white/60 text-subhead mt-4 max-w-2xl mx-auto leading-[1.95]">
                   توفير قيمة حقيقية لجميع أطراف الصناعة: عملاء، مهندسين، مصنعين،
                   وفنيين، عبر منهج عمل يقوم على الجودة والإتقان
                 </p>
@@ -340,15 +340,15 @@ export default function AboutPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.08, duration: 0.6, ease }}
-                    className="group glass-card p-7 hover:-translate-y-1 hover:shadow-card-hover hover:border-primary/15 transition-all duration-500"
+                    className="group glass-card-dark p-7 hover:-translate-y-1 hover:shadow-card-hover hover:border-primary/30 transition-all duration-500"
                   >
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center mb-4 group-hover:from-primary group-hover:to-primary-dark transition-all duration-500">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-4 group-hover:from-primary group-hover:to-primary-dark transition-all duration-500">
                       <div className="w-2 h-2 rounded-full bg-primary group-hover:bg-white transition-colors duration-500" />
                     </div>
-                    <h4 className="text-navy font-semibold text-[15px] mb-2 group-hover:text-primary transition-colors duration-400">
+                    <h4 className="text-white font-semibold text-[15px] mb-2 group-hover:text-primary transition-colors duration-400">
                       {pillar.title}
                     </h4>
-                    <p className="text-warm-gray text-sm leading-[1.85]">
+                    <p className="text-white/70 text-sm leading-[1.85]">
                       {pillar.desc}
                     </p>
                   </motion.div>
@@ -372,10 +372,10 @@ export default function AboutPage() {
               <span className="text-2xl uppercase text-primary font-semibold tracking-widest">
                 تخصصاتنا
               </span>
-              <h2 className="text-display-sm font-bold text-navy mt-4 mb-4">
+              <h2 className="text-display-sm font-bold text-white mt-4 mb-4">
                 طرز معمارية متنوعة
               </h2>
-              <p className="text-navy/60 text-subhead max-w-2xl mx-auto leading-[1.95] mb-10">
+              <p className="text-white/80 text-subhead max-w-2xl mx-auto leading-[1.95] mb-10">
                 تمتد خبراتنا عبر طيف واسع من الطرز المعمارية، مما يمنحنا القدرة
                 على تقديم حلول دقيقة تتوافق مع ذوق العميل وطبيعة المشروع
               </p>
@@ -389,7 +389,7 @@ export default function AboutPage() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.04, duration: 0.4 }}
-                  className="px-6 py-3 glass-card text-navy/60 text-sm hover:bg-primary hover:text-white hover:border-primary hover:shadow-glow transition-all duration-400 cursor-default"
+                  className="px-6 py-3 glass-card-dark text-white/80 text-sm hover:bg-primary hover:text-navy-deeper hover:border-primary hover:shadow-glow transition-all duration-400 cursor-default"
                 >
                   {style}
                 </motion.span>
@@ -421,17 +421,20 @@ export default function AboutPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1, duration: 0.6, ease }}
-                  className="group glass-card p-8 hover:-translate-y-2 hover:shadow-card-hover hover:border-primary/15 transition-all duration-500"
+                  className="group glass-card-dark p-8 hover:-translate-y-2 hover:shadow-card-hover hover:border-primary/50 gold-border-glow transition-all duration-500 overflow-hidden relative"
                 >
-                  <h4 className="font-semibold text-navy text-base mb-1 group-hover:text-primary transition-colors duration-400">
-                    {item.title}
-                  </h4>
-                  <span className="text-[10px] text-navy tracking-wider uppercase font-body block mb-4">
-                    {item.titleEn}
-                  </span>
-                  <p className="text-warm-gray text-sm leading-[1.85]">
-                    {item.desc}
-                  </p>
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                  <div className="relative z-10">
+                    <h4 className="font-semibold text-white text-base mb-1 group-hover:text-primary transition-colors duration-400">
+                      {item.title}
+                    </h4>
+                    <span className="text-[10px] text-primary/70 tracking-wider uppercase font-body block mb-4">
+                      {item.titleEn}
+                    </span>
+                    <p className="text-white/60 text-sm leading-[1.85]">
+                      {item.desc}
+                    </p>
+                  </div>
                 </motion.div>
               ))}
             </div>

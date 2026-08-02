@@ -52,7 +52,7 @@ export default function BlogPage() {
       </section>
 
       {/* Featured Article */}
-      <section className="bg-white">
+      <section className="bg-navy-dark">
         <div className="pad-y pad-x">
           <div className="container-wide">
             <motion.a
@@ -61,7 +61,7 @@ export default function BlogPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease }}
-              className="group grid md:grid-cols-2 gap-8 glass-card overflow-hidden cursor-pointer"
+              className="group grid md:grid-cols-2 gap-8 glass-card-dark overflow-hidden cursor-pointer"
             >
               <div className="relative aspect-[4/3] md:aspect-auto overflow-hidden rounded-[20px]">
                 <Image
@@ -77,15 +77,15 @@ export default function BlogPage() {
                 </div>
               </div>
               <div className="flex flex-col justify-center p-2 md:p-6">
-                <div className="flex items-center gap-3 text-sm text-warm-gray mb-4">
+                <div className="flex items-center gap-3 text-sm text-white/50 mb-4">
                   <span>{featured.date}</span>
-                  <span className="w-1 h-1 rounded-full bg-warm-gray/30" />
+                  <span className="w-1 h-1 rounded-full bg-white/10" />
                   <span>{featured.readTime} قراءة</span>
                 </div>
-                <h2 className="text-2xl md:text-3xl font-bold text-navy group-hover:text-primary transition-colors duration-300 mb-4">
+                <h2 className="text-2xl md:text-3xl font-bold text-white group-hover:text-primary transition-colors duration-300 mb-4">
                   {featured.title}
                 </h2>
-                <p className="text-warm-gray leading-relaxed mb-6">
+                <p className="text-white/70 leading-relaxed mb-6">
                   {featured.excerpt}
                 </p>
                 <span className="text-primary font-medium text-sm flex items-center gap-2 group-hover:gap-3 transition-all duration-300">
@@ -113,7 +113,7 @@ export default function BlogPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.08, duration: 0.5, ease }}
-                  className="group glass-card overflow-hidden cursor-pointer hover:-translate-y-1 hover:shadow-card-hover transition-all duration-500"
+                  className="group glass-card-dark overflow-hidden cursor-pointer hover:-translate-y-1 hover:shadow-card-hover transition-all duration-500"
                 >
                   <div className="relative aspect-[16/10] overflow-hidden">
                     <Image
@@ -129,15 +129,15 @@ export default function BlogPage() {
                     </div>
                   </div>
                   <div className="p-5 md:p-6">
-                    <div className="flex items-center gap-3 text-xs text-warm-gray mb-3">
+                    <div className="flex items-center gap-3 text-xs text-white/50 mb-3">
                       <span>{article.date}</span>
-                      <span className="w-1 h-1 rounded-full bg-warm-gray/30" />
+                      <span className="w-1 h-1 rounded-full bg-white/10" />
                       <span>{article.readTime} قراءة</span>
                     </div>
-                    <h3 className="text-lg font-bold text-navy group-hover:text-primary transition-colors duration-300 mb-2 line-clamp-2">
+                    <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors duration-300 mb-2 line-clamp-2">
                       {article.title}
                     </h3>
-                    <p className="text-warm-gray text-sm leading-relaxed line-clamp-2">
+                    <p className="text-white/70 text-sm leading-relaxed line-clamp-2">
                       {article.excerpt}
                     </p>
                   </div>

@@ -56,7 +56,7 @@ const contactInfo = [
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-navy-dark">
       <Navbar />
 
       {/* Hero */}
@@ -101,30 +101,30 @@ export default function ContactPage() {
                   transition={{ delay: 0.2 + i * 0.08, duration: 0.6, ease }}
                 >
                   {info.link ? (
-                    <a href={info.link} className="block group">
-                      <div className="glass-card p-6 text-center hover:-translate-y-2 hover:shadow-card-hover hover:border-primary/15 transition-all duration-500 h-full">
-                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center text-primary mx-auto mb-4 group-hover:from-primary group-hover:to-primary-dark group-hover:text-white transition-all duration-500 group-hover:shadow-glow">
+                    <a href={info.link} className="block group h-full">
+                      <div className="glass-card-dark p-6 text-center hover:-translate-y-2 hover:shadow-card-hover hover:border-primary/30 transition-all duration-500 h-full">
+                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary mx-auto mb-4 group-hover:from-primary group-hover:to-primary-dark group-hover:text-white transition-all duration-500 group-hover:shadow-glow">
                           {info.icon}
                         </div>
-                        <span className="text-[10px] text-navy tracking-widest uppercase block mb-1.5 font-body">
+                        <span className="text-[10px] text-white/50 tracking-widest uppercase block mb-1.5 font-body">
                           {info.labelEn}
                         </span>
-                        <h4 className="text-navy font-semibold text-sm mb-1">{info.label}</h4>
-                        <p dir="auto" className="text-warm-gray text-sm font-light group-hover:text-primary transition-colors duration-400">
+                        <h4 className="text-white font-semibold text-sm mb-1">{info.label}</h4>
+                        <p dir="auto" className="text-white/70 text-sm font-light group-hover:text-primary transition-colors duration-400">
                           {info.value}
                         </p>
                       </div>
                     </a>
                   ) : (
-                    <div className="glass-card p-6 text-center h-full">
-                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center text-primary mx-auto mb-4">
+                    <div className="glass-card-dark p-6 text-center h-full">
+                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary mx-auto mb-4">
                         {info.icon}
                       </div>
-                      <span className="text-[10px] text-navy tracking-widest uppercase block mb-1.5 font-body">
+                      <span className="text-[10px] text-white/50 tracking-widest uppercase block mb-1.5 font-body">
                         {info.labelEn}
                       </span>
-                      <h4 className="text-navy font-semibold text-sm mb-1">{info.label}</h4>
-                      <p dir="auto" className="text-warm-gray text-sm font-light">{info.value}</p>
+                      <h4 className="text-white font-semibold text-sm mb-1">{info.label}</h4>
+                      <p dir="auto" className="text-white/70 text-sm font-light">{info.value}</p>
                     </div>
                   )}
                 </motion.div>
@@ -135,7 +135,7 @@ export default function ContactPage() {
       </section>
 
       {/* Form + Map */}
-      <section className="relative bg-white overflow-hidden">
+      <section className="relative bg-navy-dark overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/[0.02] rounded-full blur-[120px] pointer-events-none" />
 
         <div className="pad-y-lg relative">
@@ -152,66 +152,66 @@ export default function ContactPage() {
                 <span className="text-caption uppercase text-primary font-medium tracking-widest">
                   أرسل رسالة
                 </span>
-                <h2 className="text-display-sm font-bold text-navy mt-3 mb-8">
+                <h2 className="text-display-sm font-bold text-white mt-3 mb-8">
                   أخبرنا عن مشروعك
                 </h2>
 
                 <form className="space-y-5">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-xs text-navy/45 mb-2">الاسم الكامل</label>
+                      <label className="block text-xs text-white/60 mb-2">الاسم الكامل</label>
                       <input
                         type="text"
                         placeholder="أدخل اسمك"
-                        className="w-full px-5 py-4 bg-section-gray/80 backdrop-blur-sm border border-navy/[0.06] rounded-2xl text-navy text-sm placeholder:text-navy focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all duration-400"
+                        className="w-full px-5 py-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl text-white text-sm placeholder:text-white/40 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-400"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-navy/45 mb-2">البريد الإلكتروني</label>
+                      <label className="block text-xs text-white/60 mb-2">البريد الإلكتروني</label>
                       <input
                         type="email"
                         placeholder="أدخل بريدك"
-                        className="w-full px-5 py-4 bg-section-gray/80 backdrop-blur-sm border border-navy/[0.06] rounded-2xl text-navy text-sm placeholder:text-navy focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all duration-400"
+                        className="w-full px-5 py-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl text-white text-sm placeholder:text-white/40 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-400"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-navy/45 mb-2">رقم الهاتف</label>
+                      <label className="block text-xs text-white/60 mb-2">رقم الهاتف</label>
                       <input
                         type="tel"
                         placeholder="أدخل رقم هاتفك"
-                        className="w-full px-5 py-4 bg-section-gray/80 backdrop-blur-sm border border-navy/[0.06] rounded-2xl text-navy text-sm placeholder:text-navy focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all duration-400"
+                        className="w-full px-5 py-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl text-white text-sm placeholder:text-white/40 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-400"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs text-navy/45 mb-2">نوع المشروع</label>
-                      <select className="w-full px-5 py-4 bg-section-gray/80 backdrop-blur-sm border border-navy/[0.06] rounded-2xl text-navy text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all duration-400 appearance-none cursor-pointer">
-                        <option value="">اختر نوع المشروع</option>
-                        <option value="residential">سكني</option>
-                        <option value="commercial">تجاري</option>
-                        <option value="palace">قصر</option>
-                        <option value="compound">كمبوند</option>
-                        <option value="restoration">ترميم</option>
-                        <option value="consulting">استشارة فنية</option>
-                        <option value="other">أخرى</option>
+                      <label className="block text-xs text-white/60 mb-2">نوع المشروع</label>
+                      <select className="w-full px-5 py-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl text-white text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-400 appearance-none cursor-pointer">
+                        <option value="" className="bg-navy-dark text-white">اختر نوع المشروع</option>
+                        <option value="residential" className="bg-navy-dark text-white">سكني</option>
+                        <option value="commercial" className="bg-navy-dark text-white">تجاري</option>
+                        <option value="palace" className="bg-navy-dark text-white">قصر</option>
+                        <option value="compound" className="bg-navy-dark text-white">كمبوند</option>
+                        <option value="restoration" className="bg-navy-dark text-white">ترميم</option>
+                        <option value="consulting" className="bg-navy-dark text-white">استشارة فنية</option>
+                        <option value="other" className="bg-navy-dark text-white">أخرى</option>
                       </select>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs text-navy/45 mb-2">الموضوع</label>
+                    <label className="block text-xs text-white/60 mb-2">الموضوع</label>
                     <input
                       type="text"
                       placeholder="موضوع الرسالة"
-                      className="w-full px-5 py-4 bg-section-gray/80 backdrop-blur-sm border border-navy/[0.06] rounded-2xl text-navy text-sm placeholder:text-navy focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all duration-400"
+                      className="w-full px-5 py-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl text-white text-sm placeholder:text-white/40 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-400"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs text-navy/45 mb-2">رسالتك</label>
+                    <label className="block text-xs text-white/60 mb-2">رسالتك</label>
                     <textarea
                       rows={6}
                       placeholder="أخبرنا عن مشروعك بالتفصيل..."
-                      className="w-full px-5 py-4 bg-section-gray/80 backdrop-blur-sm border border-navy/[0.06] rounded-2xl text-navy text-sm placeholder:text-navy focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all duration-400 resize-none"
+                      className="w-full px-5 py-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl text-white text-sm placeholder:text-white/40 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-400 resize-none"
                     />
                   </div>
 
@@ -253,8 +253,8 @@ export default function ContactPage() {
                 </div>
 
                 {/* FAQ */}
-                <div className="glass-card p-7">
-                  <h3 className="text-navy font-bold text-base mb-5">أسئلة شائعة</h3>
+                <div className="glass-card-dark p-7">
+                  <h3 className="text-white font-bold text-base mb-5">أسئلة شائعة</h3>
                   <div className="space-y-4">
                     {[
                       {
@@ -270,9 +270,9 @@ export default function ContactPage() {
                         a: "نعمل في جميع مناطق المملكة العربية السعودية.",
                       },
                     ].map((faq, i) => (
-                      <div key={i} className="border-b border-navy/[0.05] pb-4 last:border-0 last:pb-0">
-                        <h4 className="text-navy font-semibold text-sm mb-1.5">{faq.q}</h4>
-                        <p className="text-warm-gray text-[13px] font-light leading-[1.8]">{faq.a}</p>
+                      <div key={i} className="border-b border-white/[0.05] pb-4 last:border-0 last:pb-0">
+                        <h4 className="text-white font-semibold text-sm mb-1.5">{faq.q}</h4>
+                        <p className="text-white/70 text-[13px] font-light leading-[1.8]">{faq.a}</p>
                       </div>
                     ))}
                   </div>

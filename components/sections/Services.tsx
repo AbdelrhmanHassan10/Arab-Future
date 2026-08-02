@@ -1,166 +1,178 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
 const services = [
   {
-    slug: "project-management",
-    title: "إدارة المشاريع",
-    titleEn: "Project Management",
-    description:
-      "إشراف من البداية للنهاية على جميع مراحل المشروع بأعلى معايير الجودة والالتزام بالجداول الزمنية",
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
-      </svg>
-    ),
+    slug: "buying",
+    title: "شراء العقارات",
+    titleEn: "Buying Properties",
+    description: "نساعدك في العثور على عقار أحلامك بأفضل الأسعار وفي أرقى المواقع بكل سهولة وأمان.",
+    image: "/images/projects/project1.jpg",
   },
   {
-    slug: "architectural-design",
-    title: "التصميم المعماري",
-    titleEn: "Architectural Design",
-    description:
-      "مخططات مبتكرة وعملية تجمع بين الجمال الفني والوظيفية لمشاريع استثنائية",
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" />
-      </svg>
-    ),
+    slug: "selling",
+    title: "بيع العقارات",
+    titleEn: "Selling Properties",
+    description: "نقدم لك استراتيجيات تسويق فعالة لبيع عقارك بأعلى عائد وفي أسرع وقت ممكن.",
+    image: "/images/projects/project2.jpg",
   },
   {
-    slug: "interior-design",
-    title: "تصميم وتشطيبات داخلية",
-    titleEn: "Interior Design & Finishing",
-    description:
-      "مساحات أنيقة ومريحة تعكس الذوق الرفيع والتفاصيل الدقيقة في كل مساحة",
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-      </svg>
-    ),
+    slug: "renting",
+    title: "إيجار العقارات",
+    titleEn: "Renting Properties",
+    description: "مجموعة واسعة من الخيارات الإيجارية السكنية والتجارية التي تلبي كافة احتياجاتك.",
+    image: "/images/projects/project3.jpg",
   },
   {
-    slug: "hardscape",
-    title: "أعمال الهارد سكيب",
-    titleEn: "Hardscape Works",
-    description:
-      "تصميم وتنفيذ التشكيلات الخارجية للحدائق والمساحات المفتوحة بما يحقق التوازن بين الشكل الجمالي والوظيفة العملية",
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M8.25 21V10.5M15.75 21V10.5M3 10.5h18M9 6.75h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15" />
-      </svg>
-    ),
+    slug: "property-management",
+    title: "إدارة الأملاك",
+    titleEn: "Property Management",
+    description: "خدمات شاملة لإدارة عقاراتك لضمان أعلى عائد استثماري وراحة بال تامة.",
+    image: "/images/projects/project4.jpg",
   },
   {
-    slug: "maintenance",
-    title: "الصيانة والتشغيل",
-    titleEn: "Maintenance",
-    description:
-      "خدمات ما بعد التنفيذ وصيانة دورية وتشغيل متكامل لضمان الأداء الأمثل",
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75a4.5 4.5 0 01-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 11-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 016.336-4.486l-3.276 3.276a3.004 3.004 0 002.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852zM4.867 19.125h.008v.008h-.008v-.008z" />
-      </svg>
-    ),
-  },
-  {
-    slug: "technical",
-    title: "حلول تقنية متخصصة",
-    titleEn: "Technical Solutions",
-    description:
-      "حلول هندسية فريدة تلبي المتطلبات الخاصة بكل مشروع بتقنيات متقدمة",
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-      </svg>
-    ),
+    slug: "consulting",
+    title: "استشارات عقارية",
+    titleEn: "Real Estate Consulting",
+    description: "نصائح وإرشادات مبنية على تحليل دقيق للسوق لمساعدتك في اتخاذ أفضل القرارات الاستثمارية.",
+    image: "/images/projects/project5.jpg",
   },
 ];
 
 export default function Services() {
-  return (
-    <section id="services" className="relative bg-section-gray overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/[0.05] rounded-full blur-[100px] pointer-events-none" />
+  const [active, setActive] = useState(0);
+  const ease = [0.16, 1, 0.3, 1] as const;
 
-      <div className="pad-y relative">
-        <div className="pad-x container-wide">
-          {/* Header */}
+  return (
+    <section id="services" className="relative bg-[#0a0f1c] overflow-hidden py-24">
+      {/* Background Orbs */}
+      <div className="absolute top-1/4 -right-1/4 w-[800px] h-[800px] bg-primary/[0.03] rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] bg-primary/[0.02] rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="container-wide px-6 relative z-10">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="text-center mb-14"
+            transition={{ duration: 0.7, ease }}
+            className="max-w-xl"
           >
-            <span className="text-2xl uppercase text-primary font-semibold tracking-widest">
-              خدماتنا
-            </span>
-            <h2 className="text-display font-bold text-white mt-4">
-              خدمات متكاملة
+            <div className="flex items-center gap-3 mb-4">
+              <span className="w-8 h-[2px] bg-primary" />
+              <span className="text-sm uppercase text-primary font-medium tracking-widest font-body">خدماتنا</span>
+            </div>
+            <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white leading-tight">
+              خدمات عقارية <br />بمعايير <span className="text-primary italic">عالمية</span>
             </h2>
-            <p className="text-white/80 text-subhead mt-4 max-w-xl mx-auto">
-              خبرة احترافية لدعم مشاريعك من الفكرة إلى التنفيذ
-            </p>
           </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease, delay: 0.2 }}
+          >
+            <Link href="/services" className="group flex items-center gap-3 text-white/60 hover:text-primary transition-colors duration-300">
+              <span className="text-sm font-medium">عرض جميع الخدمات</span>
+              <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:border-primary/50 transition-colors">
+                <svg className="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                </svg>
+              </div>
+            </Link>
+          </motion.div>
+        </div>
 
-          {/* Services grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Interactive Reveal Layout */}
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 min-h-[600px]">
+
+          {/* Left: Interactive List */}
+          <div className="lg:w-5/12 flex flex-col justify-center w-full">
+            <div className="border-t border-white/5" />
             {services.map((service, i) => (
-              <motion.div
+              <div
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ delay: i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="group"
+                onMouseEnter={() => setActive(i)}
+                onClick={() => setActive(i)}
+                className={`group border-b border-white/5 py-6 md:py-8 cursor-pointer transition-all duration-500 ${active === i ? "opacity-100 pl-4 border-primary/30" : "opacity-40 hover:opacity-70"}`}
               >
-                <div className="glass-card p-8 lg:p-10 h-full hover:-translate-y-2 hover:shadow-card-hover hover:border-primary/50 transition-all duration-500 relative overflow-hidden group/card">
-                  {/* Large Card Number background indicator */}
-                  <div className="absolute top-4 left-6 text-6xl font-bold text-white/[0.03] group-hover/card:text-primary/[0.08] transition-colors duration-500 font-body pointer-events-none select-none">
-                    {(i + 1).toString().padStart(2, '0')}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-baseline gap-4">
+                    <span className={`font-body text-sm font-bold transition-colors duration-500 ${active === i ? "text-primary" : "text-white/30"}`}>
+                      0{i + 1}
+                    </span>
+                    <h3 className={`text-2xl md:text-3xl lg:text-4xl font-bold transition-colors duration-500 ${active === i ? "text-white" : "text-white"}`}>
+                      {service.title}
+                    </h3>
                   </div>
-
-                  {/* Icon */}
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center text-primary mb-6 group-hover:from-primary group-hover:to-primary-dark group-hover:text-navy-deeper transition-all duration-700 group-hover:shadow-glow group-hover:rotate-[360deg] relative z-10">
-                    {service.icon}
+                  <div className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-500 ${active === i ? "border-primary bg-primary/10 text-primary rotate-45" : "border-white/10 text-transparent group-hover:border-white/30 group-hover:text-white/50"}`}>
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                    </svg>
                   </div>
+                </div>
 
-                  {/* Title */}
-                  <h3 className="font-semibold text-white text-[17px] mb-1.5 group-hover:text-primary transition-colors duration-400 relative z-10">
-                    {service.title}
-                  </h3>
-                  <span className="text-xs text-primary/70 tracking-widest uppercase block mb-4 font-body relative z-10">
-                    {service.titleEn}
-                  </span>
-
-                  {/* Description */}
-                  <p className="text-white/60 text-sm font-normal leading-[1.85] mb-5 relative z-10">
+                {/* Expanded Description */}
+                <motion.div
+                  initial={false}
+                  animate={{ height: active === i ? "auto" : 0, opacity: active === i ? 1 : 0 }}
+                  transition={{ duration: 0.4, ease }}
+                  className="overflow-hidden"
+                >
+                  <p className="text-white/60 text-sm md:text-base leading-[1.8] mt-4 max-w-sm">
                     {service.description}
                   </p>
-
-                  {/* Link */}
-                  <a
-                    href={`/services/${service.slug}`}
-                    className="inline-flex items-center gap-2 text-primary text-sm font-medium hover:gap-3 transition-all duration-300 relative z-10"
-                  >
-                    <span>اعرف أكتر</span>
-                    <svg className="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                    </svg>
-                  </a>
-
-                  {/* Bottom animated accent line */}
-                  <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                </div>
-              </motion.div>
+                  <Link href={`/services/${service.slug}`} className="inline-block mt-4 text-primary text-sm font-medium hover:underline underline-offset-4">
+                    اكتشف المزيد
+                  </Link>
+                </motion.div>
+              </div>
             ))}
           </div>
+
+          {/* Right: Image Reveal */}
+          <div className="lg:w-7/12 w-full h-[400px] lg:h-auto relative">
+            <div className="sticky top-24 w-full h-full lg:h-[700px] rounded-[32px] overflow-hidden glass-card-dark border border-white/10 group">
+              <div className="absolute inset-0 bg-navy-deeper/20 z-10 pointer-events-none" />
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={active}
+                  src={services[active].image}
+                  alt={services[active].title}
+                  initial={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
+                  animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
+                  transition={{ duration: 0.7, ease }}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </AnimatePresence>
+
+              {/* Floating Content over Image */}
+              <div className="absolute bottom-0 left-0 right-0 p-8 z-20 bg-gradient-to-t from-navy-deeper via-navy-deeper/80 to-transparent">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={active}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                  >
+                    <span className="px-4 py-2 rounded-full glass-card-dark border border-white/20 text-white text-xs uppercase tracking-widest font-body mb-3 inline-block">
+                      {services[active].titleEn}
+                    </span>
+                    <h3 className="text-2xl font-bold text-white">{services[active].title}</h3>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
-
-      <div className="divider" />
     </section>
   );
 }

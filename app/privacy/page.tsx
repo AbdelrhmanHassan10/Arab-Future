@@ -147,7 +147,7 @@ export default function PrivacyPage() {
       </section>
 
       {/* Content */}
-      <section className="bg-white">
+      <section className="bg-navy-dark">
         <div className="pad-y pad-x">
           <div className="max-w-[850px] mx-auto">
             {/* Intro */}
@@ -156,9 +156,9 @@ export default function PrivacyPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease }}
-              className="bg-section-gray rounded-[20px] p-8 md:p-10 mb-12"
+              className="glass-card-dark p-8 md:p-10 mb-12"
             >
-              <p className="text-navy leading-[1.9]">
+              <p className="text-white leading-[1.9]">
                 تلتزم شركة عرب فيوتشر المحدودة (&quot;نحن&quot; أو &quot;الشركة&quot;) بحماية خصوصية مستخدمي موقعها الإلكتروني، وتوضح هذه السياسة كيفية جمع واستخدام وحماية المعلومات الشخصية الخاصة بك عند استخدام الموقع أو خدماتنا.
               </p>
             </motion.div>
@@ -178,13 +178,13 @@ export default function PrivacyPage() {
                     <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                       <span className="text-primary text-sm font-bold font-body">{idx + 1}</span>
                     </div>
-                    <h2 className="text-lg font-bold text-navy">{section.title}</h2>
+                    <h2 className="text-lg font-bold text-white">{section.title}</h2>
                   </div>
 
                   {/* Content */}
-                  <div className="bg-section-gray rounded-[16px] p-6 md:p-8">
+                  <div className="glass-card-dark p-6 md:p-8">
                     {section.content.map((text, i) => (
-                      <p key={i} className="text-navy text-[15px] leading-[1.85] mb-4 last:mb-0">
+                      <p key={i} className="text-white text-[15px] leading-[1.85] mb-4 last:mb-0">
                         {text}
                       </p>
                     ))}
@@ -194,14 +194,14 @@ export default function PrivacyPage() {
                         {section.list.map((item, i) => (
                           <li key={i} className="flex items-start gap-3">
                             <div className="w-1.5 h-1.5 rounded-full bg-primary/50 mt-2.5 flex-shrink-0" />
-                            <span dir="auto" className="text-navy text-[15px] leading-[1.85]">{item}</span>
+                            <span dir="auto" className="text-white text-[15px] leading-[1.85]">{item}</span>
                           </li>
                         ))}
                       </ul>
                     )}
 
                     {section.extra && (
-                      <p className="text-navy text-[15px] leading-[1.85] mt-5">
+                      <p className="text-white text-[15px] leading-[1.85] mt-5">
                         {section.extra}
                       </p>
                     )}
@@ -211,7 +211,7 @@ export default function PrivacyPage() {
                         {section.extraList.map((item, i) => (
                           <li key={i} className="flex items-start gap-3">
                             <div className="w-1.5 h-1.5 rounded-full bg-primary/50 mt-2.5 flex-shrink-0" />
-                            <span dir="auto" className="text-navy text-[15px] leading-[1.85]">{item}</span>
+                            <span dir="auto" className="text-white text-[15px] leading-[1.85]">{item}</span>
                           </li>
                         ))}
                       </ul>

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 
-const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
+const ease = [0.16, 1, 0.3, 1] as const;
 
 function useCounter(end: number, duration: number = 2000, inView: boolean) {
   const [count, setCount] = useState(0);
@@ -26,8 +26,8 @@ function useCounter(end: number, duration: number = 2000, inView: boolean) {
   return count;
 }
 
-function CircleProgress({ value, max, label, suffix, color, delay }: {
-  value: number; max: number; label: string; suffix: string; color: string; delay: number;
+function CircleProgress({ value, max, label, suffix, delay }: {
+  value: number; max: number; label: string; suffix: string; delay: number;
 }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
@@ -39,44 +39,52 @@ function CircleProgress({ value, max, label, suffix, color, delay }: {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, scale: 0.8, y: 20 }}
+      whileInView={{ opacity: 1, scale: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay, duration: 0.7, ease }}
-      className="flex flex-col items-center"
+      className="flex flex-col items-center relative group"
     >
-      <div className="relative w-32 h-32 md:w-36 md:h-36 mb-5 group">
-        {/* Pulsing glow halo */}
-        <div className="absolute inset-0 bg-primary/20 rounded-full blur-[25px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-glow-pulse pointer-events-none" />
-        
-        <svg className="w-full h-full -rotate-90 relative z-10" viewBox="0 0 120 120">
-          {/* Background circle */}
+      <div className="absolute inset-0 bg-primary/5 rounded-full blur-[30px] group-hover:bg-primary/20 transition-all duration-700 pointer-events-none" />
+      <div className="relative w-36 h-36 md:w-40 md:h-40 mb-6 flex items-center justify-center">
+        {/* 3D Glass Background */}
+        <div className="absolute inset-2 rounded-full glass-card-dark border border-white/5 shadow-[inset_0_4px_20px_rgba(255,255,255,0.05)]" />
+
+        <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 120 120">
           <circle
             cx="60" cy="60" r="54"
             fill="none"
-            stroke="rgba(255,255,255,0.06)"
-            strokeWidth="4"
+            stroke="rgba(255,255,255,0.03)"
+            strokeWidth="3"
           />
-          {/* Progress circle */}
           <circle
             cx="60" cy="60" r="54"
             fill="none"
-            stroke={color}
+            stroke="url(#goldGradient)"
             strokeWidth="4"
             strokeLinecap="round"
             strokeDasharray={circumference}
             strokeDashoffset={strokeDashoffset}
             style={{ transition: "stroke-dashoffset 2s cubic-bezier(0.16, 1, 0.3, 1)" }}
+            className="drop-shadow-[0_0_8px_rgba(191,154,95,0.8)]"
           />
+          <defs>
+            <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#DFBA7F" />
+              <stop offset="50%" stopColor="#BF9A5F" />
+              <stop offset="100%" stopColor="#A07B40" />
+            </linearGradient>
+          </defs>
         </svg>
-        {/* Center text */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-3xl md:text-4xl font-bold text-white font-body tabular-nums">
+
+        {/* Center Text */}
+        <div className="absolute flex flex-col items-center justify-center">
+          <span className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white to-white/60 font-body tabular-nums tracking-tighter">
             {count}{suffix}
           </span>
         </div>
       </div>
-      <span className="text-white/50 text-sm font-light">{label}</span>
+      <span className="text-white/70 text-sm font-medium tracking-wide uppercase">{label}</span>
     </motion.div>
   );
 }
@@ -96,15 +104,15 @@ function BarStat({ label, value, maxValue, delay }: {
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ delay, duration: 0.6, ease }}
-      className="group"
+      className="group relative p-4 rounded-2xl bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] transition-colors duration-300"
     >
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-white/70 text-sm">{label}</span>
-        <span className="text-white font-bold font-body text-sm tabular-nums">{count}%</span>
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-white text-sm font-medium">{label}</span>
+        <span className="text-primary font-bold font-body text-sm tabular-nums">{count}%</span>
       </div>
-      <div className="h-2 bg-white/[0.06] rounded-full overflow-hidden">
+      <div className="h-1.5 bg-black/50 rounded-full overflow-hidden shadow-inner">
         <motion.div
-          className="h-full rounded-full bg-gradient-to-l from-primary to-primary/70"
+          className="h-full rounded-full bg-gradient-to-r from-primary to-[#DFBA7F] shadow-[0_0_10px_rgba(191,154,95,0.5)]"
           initial={{ width: 0 }}
           whileInView={{ width: `${percentage}%` }}
           viewport={{ once: true }}
@@ -117,113 +125,65 @@ function BarStat({ label, value, maxValue, delay }: {
 
 export default function Achievements() {
   return (
-    <section className="relative bg-navy-deeper overflow-hidden">
-      {/* Decorative elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 right-[10%] w-[400px] h-[400px] bg-primary/[0.06] rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 left-[15%] w-[300px] h-[300px] bg-primary/[0.04] rounded-full blur-[100px]" />
+    <section className="relative bg-navy-deeper overflow-hidden py-24">
+      {/* 3D Decorative Grid Background */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)', backgroundSize: '50px 50px', transform: 'perspective(1000px) rotateX(60deg) scale(2.5)', transformOrigin: 'top center' }} />
 
-        {/* Floating geometric shapes - hidden on mobile */}
+      {/* Ambient Lights */}
+      <div className="absolute top-1/4 right-[10%] w-[500px] h-[500px] bg-primary/[0.04] rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-1/4 left-[10%] w-[400px] h-[400px] bg-[#DFBA7F]/[0.03] rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="container-wide px-6 relative z-10">
         <motion.div
-          animate={{ y: [-10, 10, -10], rotate: [0, 5, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="hidden md:block absolute top-[15%] left-[8%] w-16 h-16 border border-white/[0.04] rotate-45"
-        />
-        <motion.div
-          animate={{ y: [10, -10, 10], rotate: [45, 50, 45] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="hidden md:block absolute bottom-[20%] right-[12%] w-24 h-24 border border-primary/[0.08] rotate-12 rounded-2xl"
-        />
-        <motion.div
-          animate={{ y: [-8, 8, -8] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="hidden md:block absolute top-[40%] right-[25%] w-3 h-3 bg-primary/20 rounded-full"
-        />
-        <motion.div
-          animate={{ y: [6, -6, 6] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="hidden md:block absolute bottom-[35%] left-[30%] w-2 h-2 bg-white/10 rounded-full"
-        />
-      </div>
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease }}
+          className="text-center mb-20 max-w-2xl mx-auto"
+        >
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <span className="w-8 h-[2px] bg-primary" />
+            <span className="text-sm uppercase text-primary font-medium tracking-widest font-body">إنجازاتنا</span>
+            <span className="w-8 h-[2px] bg-primary" />
+          </div>
+          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white leading-tight">
+            أرقام تعكس <span className="text-primary italic">الثقة</span>
+          </h2>
+        </motion.div>
 
-      <div className="pad-y-lg relative">
-        <div className="pad-x container-wide">
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="text-center mb-16"
-          >
-            <span className="text-2xl uppercase text-primary font-semibold tracking-widest">
-              إنجازاتنا
-            </span>
-            <h2 className="text-display font-bold text-white mt-4">
-              أرقام تتحدث عنّا
-            </h2>
-            <p className="text-white/35 text-subhead font-light mt-4 max-w-xl mx-auto">
-              سنوات من العمل والإتقان انعكست على أرقام نفخر بها
-            </p>
-          </motion.div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 items-center">
+          {/* Left: 3D Circle Stats Grid */}
+          <div className="lg:col-span-7 grid grid-cols-2 gap-8 md:gap-12">
+            <CircleProgress value={10} max={20} label="سنة خبرة" suffix="+" delay={0} />
+            <CircleProgress value={1000} max={1500} label="عقار تم بيعه" suffix="+" delay={0.15} />
+            <CircleProgress value={50} max={100} label="مطور عقاري" suffix="+" delay={0.3} />
+            <CircleProgress value={100} max={100} label="رضا العملاء" suffix="%" delay={0.45} />
+          </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
-            {/* Left: Circle stats */}
-            <div className="grid grid-cols-2 gap-8 md:gap-10">
-              <CircleProgress value={12} max={20} label="سنة خبرة" suffix="+" color="#C5A059" delay={0} />
-              <CircleProgress value={350} max={400} label="مشروع منجز" suffix="+" color="#C5A059" delay={0.15} />
-              <CircleProgress value={50} max={100} label="عميل راضي" suffix="+" color="#C5A059" delay={0.3} />
-              <CircleProgress value={100} max={100} label="التزام بالجودة" suffix="%" color="#C5A059" delay={0.45} />
-            </div>
+          {/* Right: Glass Cards with Bars */}
+          <div className="lg:col-span-5">
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease }}
+              className="glass-card-dark rounded-3xl p-8 md:p-10 border border-white/10 shadow-2xl relative overflow-hidden"
+            >
+              <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/20 rounded-full blur-[40px]" />
 
-            {/* Right: Bar stats + text */}
-            <div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7 }}
-                className="mb-10"
-              >
-                <h3 className="text-white font-bold text-xl mb-3">
-                  تخصصاتنا ومستوى الخبرة
-                </h3>
-                <p className="text-white/35 text-sm font-light leading-[1.9]">
-                  نتميز بخبرة عميقة في مختلف مجالات التشطيبات المعمارية
-                  والواجهات مسبقة الصنع
-                </p>
-              </motion.div>
+              <h3 className="text-white font-bold text-2xl mb-2 relative z-10">تغطيتنا للسوق العقاري</h3>
+              <p className="text-white/50 text-sm font-light leading-[1.8] mb-8 relative z-10">
+                نمتلك قاعدة واسعة من العقارات في أهم المناطق الاستراتيجية لضمان تلبية كافة احتياجات عملائنا السكنية والتجارية.
+              </p>
 
-              <div className="space-y-6">
-                <BarStat label="واجهات GRC" value={35} maxValue={100} delay={0.1} />
-                <BarStat label="واجهات GRP" value={20} maxValue={100} delay={0.2} />
-                <BarStat label="واجهات GRG" value={15} maxValue={100} delay={0.25} />
-                <BarStat label="الحجر الصناعي" value={5} maxValue={100} delay={0.3} />
-                <BarStat label="الترميم المعماري" value={5} maxValue={100} delay={0.4} />
-                <BarStat label="التصميم الداخلي" value={10} maxValue={100} delay={0.5} />
+              <div className="space-y-4 relative z-10">
+                <BarStat label="القاهرة الجديدة والتجمع" value={35} maxValue={100} delay={0.1} />
+                <BarStat label="العاصمة الإدارية الجديدة" value={30} maxValue={100} delay={0.2} />
+                <BarStat label="الشيخ زايد وأكتوبر" value={15} maxValue={100} delay={0.3} />
+                <BarStat label="الساحل الشمالي" value={10} maxValue={100} delay={0.4} />
+                <BarStat label="العين السخنة" value={10} maxValue={100} delay={0.5} />
               </div>
-
-              {/* Highlight card */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.6, duration: 0.7 }}
-                className="mt-10 glass-card-dark p-6 flex items-center gap-5 hover:-translate-y-1 hover:shadow-card-hover hover:border-primary/40 transition-all duration-500 group/highlight"
-              >
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center flex-shrink-0 group-hover/highlight:from-primary group-hover/highlight:to-primary-dark transition-all duration-500 group-hover/highlight:shadow-glow">
-                  <svg className="w-6 h-6 text-primary group-hover/highlight:text-navy-deeper transition-colors duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="text-white font-semibold text-sm">رضا العملاء أولويتنا</h4>
-                  <p className="text-white/35 text-xs font-light mt-0.5">
-                    نقدم الدعم الاستشاري لكافة العملاء — حتى غير المتعاقدين معنا
-                  </p>
-                </div>
-              </motion.div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

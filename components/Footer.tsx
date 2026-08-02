@@ -66,19 +66,18 @@ export default function Footer() {
           {/* Brand column */}
           <div className="lg:col-span-4">
             <a href="/" className="flex items-center gap-3 mb-6 group">
-              <img src="/images/logo.png" alt="عرب فيوتشر" className="w-14 h-14 object-contain" />
+              <img src="/images/logo.png" alt="سمسار مصر" className="w-14 h-14 object-contain" />
               <div>
                 <span className="text-white font-bold text-sm block leading-none">
-                  عرب فيوتشر المحدودة
+                  سمسار مصر
                 </span>
                 <span className="text-white/40 text-[8px] tracking-[0.2em] uppercase mt-0.5 block font-body">
-                  Arab Future Ltd
+                  Semsar Masr
                 </span>
               </div>
             </a>
             <p className="text-white/50 font-light text-[13px] leading-[1.8] max-w-xs mb-8">
-              شركة رائدة في تصميم وتنفيذ الواجهات الزخرفية المسبقة الصنع
-              وترميم المباني التاريخية والحلول الهندسية المعمارية
+              شركة رائدة في مجال الاستشارات والوساطة العقارية، نساعدك في العثور على عقار أحلامك بأفضل المواقع.
             </p>
 
             {/* Social Links */}
@@ -105,8 +104,8 @@ export default function Footer() {
               links: [
                 { label: "الرئيسية", href: "/" },
                 { label: "من نحن", href: "/about" },
-                { label: "مشاريعنا", href: "/projects" },
-                { label: "معرض الأعمال", href: "/gallery" },
+                { label: "عقاراتنا", href: "/projects" },
+                { label: "فيلات وشقق", href: "/gallery" },
                 { label: "مقالات تهمك", href: "/blog" },
                 { label: "الأسئلة الشائعة", href: "/faq" },
                 { label: "تواصل معنا", href: "/contact" },
@@ -115,12 +114,12 @@ export default function Footer() {
             {
               title: "الخدمات",
               links: [
-                { label: "إدارة المشاريع", href: "/services/project-management" },
-                { label: "التصميم المعماري", href: "/services/architectural-design" },
-                { label: "تصميم وتشطيبات داخلية", href: "/services/interior-design" },
-                { label: "أعمال الهارد سكيب", href: "/services/hardscape" },
-                { label: "الصيانة والتشغيل", href: "/services/maintenance" },
-                { label: "حلول تقنية متخصصة", href: "/services/technical" },
+                { label: "شراء العقارات", href: "/services/buy" },
+                { label: "بيع العقارات", href: "/services/sell" },
+                { label: "تأجير العقارات", href: "/services/rent" },
+                { label: "إدارة الأملاك", href: "/services/property-management" },
+                { label: "استشارات عقارية", href: "/services/consulting" },
+                { label: "تقييم وتثمين", href: "/services/valuation" },
               ],
             },
           ].map((group, i) => (
@@ -151,19 +150,19 @@ export default function Footer() {
             <div className="space-y-4">
               <div>
                 <span className="text-white text-[10px] uppercase tracking-widest block mb-1 font-body">Phone</span>
-                <a href="tel:+966538086128" dir="ltr" className="text-white/55 text-[13px] hover:text-primary transition-colors duration-500 inline-block">
-                  +966 53 808 6128
+                <a href="tel:+201001234567" dir="ltr" className="text-white/55 text-[13px] hover:text-primary transition-colors duration-500 inline-block">
+                  +20 100 123 4567
                 </a>
               </div>
               <div>
                 <span className="text-white text-[10px] uppercase tracking-widest block mb-1 font-body">Email</span>
-                <a href="mailto:info@arabfuture.com" className="text-white/55 text-[13px] hover:text-primary transition-colors duration-500">
-                  info@arabfuture.com
+                <a href="mailto:info@semsarmasr.com" className="text-white/55 text-[13px] hover:text-primary transition-colors duration-500">
+                  info@semsarmasr.com
                 </a>
               </div>
               <div>
                 <span className="text-white text-[10px] uppercase tracking-widest block mb-1 font-body">Location</span>
-                <span className="text-white/55 text-[13px]">حفصة بنت عمر 3362، حي الروضة 7708، الرياض 13211</span>
+                <span className="text-white/55 text-[13px]">التجمع الخامس، شارع التسعين، القاهرة، مصر</span>
               </div>
             </div>
           </div>
@@ -174,7 +173,7 @@ export default function Footer() {
       <div className="border-t border-white/[0.06]">
         <div className="pad-x container-wide py-6 flex items-center justify-between">
           <p className="text-white/40 text-[11px]">
-            &copy; {new Date().getFullYear()} شركة عرب فيوتشر المحدودة — جميع الحقوق محفوظة
+            &copy; {new Date().getFullYear()} سمسار مصر — جميع الحقوق محفوظة
           </p>
           <div className="flex items-center gap-3">
             <a href="/privacy" className="text-white text-[11px] hover:text-primary transition-colors duration-400">سياسة الخصوصية</a>

@@ -44,27 +44,29 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "عرب فيوتشر | Arab Future - Architectural Excellence",
+  title: "سمسار مصر | Semsar Masr - Your Premium Real Estate Broker",
   description:
-    "شركة عرب فيوتشر المحدودة - رواد في الواجهات الزخرفية المسبقة الصنع وترميم المباني التاريخية والحلول الهندسية المعمارية",
+    "سمسار مصر - وجهتك الأولى لاكتشاف أفضل العقارات في مصر. بيع، شراء، وإيجار العقارات الفاخرة.",
   keywords: [
-    "architecture",
-    "facades",
-    "GRC",
-    "GRP",
-    "Islamic architecture",
-    "restoration",
-    "Saudi Arabia",
-    "واجهات",
-    "عمارة",
-    "ترميم",
+    "real estate",
+    "broker",
+    "egypt",
+    "property",
+    "villas",
+    "apartments",
+    "سمسار",
+    "عقارات",
+    "مصر",
+    "بيع",
+    "شراء",
+    "إيجار"
   ],
   openGraph: {
-    title: "عرب فيوتشر | Arab Future - Architectural Excellence",
+    title: "سمسار مصر | Semsar Masr",
     description:
-      "رواد في الواجهات الزخرفية المسبقة الصنع وترميم المباني التاريخية",
+      "اكتشف منزل أحلامك في مصر مع سمسار مصر.",
     type: "website",
-    locale: "ar_SA",
+    locale: "ar_EG",
   },
 };
 
