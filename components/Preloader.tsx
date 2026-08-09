@@ -35,7 +35,7 @@ export default function Preloader() {
           >
             <motion.img
               src="/images/logo.png"
-              alt="عرب فيوتشر"
+              alt="سمسار مصر"
               className="w-28 h-28 object-contain"
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -46,9 +46,9 @@ export default function Preloader() {
               transition={{ delay: 0.6, duration: 0.5 }}
               className="text-center"
             >
-              <h2 className="text-white font-bold text-lg">عرب فيوتشر المحدودة</h2>
+              <h2 className="text-white font-bold text-lg">سمسار مصر</h2>
               <p className="text-white/40 text-xs mt-1 tracking-[0.2em] uppercase font-body">
-                Arab Future Ltd
+                Semsar Masr
               </p>
             </motion.div>
             {/* Loading bar */}

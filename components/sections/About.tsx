@@ -31,12 +31,12 @@ export default function About() {
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease }}
           >
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <span className="w-8 h-[2px] bg-primary" />
-              <span className="text-sm uppercase text-primary font-medium tracking-widest font-body">
+            <div className="inline-flex items-center gap-4 px-8 py-3.5 rounded-full bg-white/5 border border-white/10 shadow-[0_0_20px_rgba(191,154,95,0.1)] backdrop-blur-md mb-8 hover:bg-white/10 hover:border-primary/30 transition-all duration-300">
+              <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
+              <span className="text-base md:text-lg text-primary font-bold tracking-widest font-body uppercase">
                 من نحن
               </span>
-              <span className="w-8 h-[2px] bg-primary" />
+              <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
             </div>
             <h2 className="text-[clamp(2rem,4vw,3rem)] font-bold text-white leading-tight">
               رؤية عقارية <span className="text-primary italic">تتجاوز</span> التوقعات
@@ -53,7 +53,7 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease }}
-            className="lg:col-span-2 lg:row-span-2 glass-card-dark rounded-3xl p-8 md:p-10 relative overflow-hidden group flex flex-col justify-end border border-white/10"
+            className="row-span-2 lg:col-span-2 glass-card-dark rounded-3xl p-8 md:p-10 relative overflow-hidden group flex flex-col justify-end border border-white/10"
           >
             <div className="absolute inset-0 bg-navy-deeper/40 z-10" />
             <div
@@ -80,7 +80,7 @@ export default function About() {
             transition={{ duration: 0.8, ease, delay: 0.1 }}
             className="lg:col-span-1 lg:row-span-1 bg-gradient-to-br from-primary to-[#A07B40] rounded-3xl p-8 relative overflow-hidden group border border-primary/50 shadow-[0_0_30px_rgba(191,154,95,0.15)] flex flex-col items-center justify-center text-center"
           >
-            <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-20 mix-blend-overlay" />
+            <div className="absolute inset-0 bg-primary/5 opacity-50 mix-blend-overlay" />
             <div className="relative z-10">
               <span className="text-5xl md:text-6xl font-black text-navy-deeper font-body block mb-2 group-hover:scale-110 transition-transform duration-500">
                 12+
@@ -148,7 +148,7 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease, delay: 0.5 }}
-            className="lg:col-span-4 lg:row-span-1 glass-card-dark rounded-3xl p-8 relative overflow-hidden border border-white/5 flex flex-col md:flex-row items-center justify-between gap-6"
+            className="row-span-2 lg:row-span-1 lg:col-span-4 glass-card-dark rounded-3xl p-8 relative overflow-hidden border border-white/5 flex flex-col md:flex-row items-center justify-between gap-6"
           >
             <div className="md:w-1/3 text-center md:text-right">
               <h3 className="text-white font-bold text-xl mb-2">خيارات عقارية متنوعة</h3>

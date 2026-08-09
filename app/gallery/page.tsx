@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 interface GalleryImage {
   src: string;
@@ -13,58 +14,58 @@ interface GalleryImage {
 }
 
 const galleryImages: GalleryImage[] = [
-  // عمارات سكنية
-  { src: "/gallery/gallery-1.png", title: "عمارة سكنية — واجهة كلاسيكية", category: "سكني" },
-  { src: "/gallery/gallery-2.png", title: "عمارة سكنية — تصميم فاخر", category: "سكني" },
-  { src: "/gallery/gallery-3.png", title: "واجهة سكنية — نيوكلاسيك", category: "سكني" },
-  { src: "/gallery/gallery-4.png", title: "عمارة — أعمدة وبلكونات", category: "سكني" },
-  { src: "/gallery/gallery-5.png", title: "واجهة سكنية — تفاصيل زخرفية", category: "سكني" },
-  { src: "/gallery/gallery-6.png", title: "مبنى سكني — واجهة GRC", category: "سكني" },
-  { src: "/gallery/gallery-7.png", title: "عمارة — كرانيش وحليات", category: "سكني" },
+  // فلل فاخرة
+  { src: "/projects/project-1.png", title: "فيلا كراون الفخمة — واجهة خارجية", category: "فلل فاخرة" },
+  { src: "/projects/project-2.png", title: "فيلا كراون — مسبح خاص", category: "فلل فاخرة" },
+  { src: "/projects/project-3.png", title: "فيلا كراون — حديقة بانورامية", category: "فلل فاخرة" },
+  { src: "/projects/project-10.png", title: "تاون هاوس الزمرد", category: "فلل فاخرة" },
+  { src: "/projects/project-11.png", title: "فيلا بحديقة واسعة", category: "فلل فاخرة" },
+  { src: "/projects/project-12.png", title: "تصميم فيلا نيوكلاسيك", category: "فلل فاخرة" },
+  { src: "/projects/project-18.png", title: "توين هاوس الكرمة", category: "فلل فاخرة" },
+
+  // شقق فندقية
+  { src: "/projects/project-4.png", title: "بنتهاوس سكاي لاين", category: "شقق فندقية" },
+  { src: "/projects/project-5.png", title: "إطلالة بانورامية من التراس", category: "شقق فندقية" },
+  { src: "/projects/project-6.png", title: "شقة فندقية ألترا مودرن", category: "شقق فندقية" },
+  { src: "/projects/project-15.png", title: "دوبلكس جاردن", category: "شقق فندقية" },
+  { src: "/projects/project-16.png", title: "دوبلكس جاردن — مدخل خاص", category: "شقق فندقية" },
+
+  // مساحات تجارية
+  { src: "/projects/project-7.png", title: "مقر إداري برستيج", category: "مساحات تجارية" },
+  { src: "/projects/project-8.png", title: "مساحات عمل ذكية", category: "مساحات تجارية" },
+  { src: "/projects/project-9.png", title: "واجهة المبنى الإداري", category: "مساحات تجارية" },
+
+  // إطلالات
+  { src: "/projects/project-13.png", title: "شاليه لاجونا المائي", category: "إطلالات بحرية" },
+  { src: "/projects/project-14.png", title: "شاليه صف أول على اللاجونا", category: "إطلالات بحرية" },
+  { src: "/projects/project-17.png", title: "إطلالة ساحرة وقت الغروب", category: "إطلالات بحرية" },
 
   // قصور
-  { src: "/gallery/gallery-8.png", title: "قصر فاخر — واجهة رئيسية", category: "قصور" },
-  { src: "/gallery/gallery-9.png", title: "قصر — تفاصيل زخرفية", category: "قصور" },
-  { src: "/gallery/gallery-10.png", title: "قصر — أعمدة وتيجان", category: "قصور" },
-
-  // كلاسيك
-  { src: "/gallery/gallery-11.png", title: "واجهة كلاسيكية راقية", category: "كلاسيك" },
-  { src: "/gallery/gallery-12.png", title: "تصميم كلاسيكي — واجهة فاخرة", category: "كلاسيك" },
-  { src: "/gallery/gallery-13.png", title: "واجهة — طراز كلاسيكي فاخر", category: "كلاسيك" },
-
-  // زخرفي
-  { src: "/gallery/gallery-14.png", title: "وحدات زخرفية — تفاصيل دقيقة", category: "زخرفي" },
-  { src: "/gallery/gallery-15.png", title: "زخارف واجهات — حرفية عالية", category: "زخرفي" },
-
-  // كمبوند السولو
-  { src: "/gallery/gallery-16.png", title: "كمبوند السولو — واجهة رئيسية", category: "مجمعات" },
-  { src: "/gallery/gallery-17.png", title: "كمبوند السولو — تفاصيل", category: "مجمعات" },
-  { src: "/gallery/gallery-18.png", title: "كمبوند السولو — تصميم عصري", category: "مجمعات" },
-
-  // كمبوند لانوفا فيستا
-  { src: "/gallery/gallery-19.png", title: "لانوفا فيستا — واجهة فاخرة", category: "مجمعات" },
-  { src: "/gallery/gallery-20.png", title: "لانوفا فيستا — تصميم كلاسيكي", category: "مجمعات" },
-  { src: "/gallery/gallery-21.png", title: "لانوفا فيستا — تفاصيل معمارية", category: "مجمعات" },
-  { src: "/gallery/gallery-22.png", title: "لانوفا فيستا — واجهات متعددة", category: "مجمعات" },
-
-  // معرض عام
-  { src: "/gallery/gallery-23.png", title: "مشروع معماري — تصميم مميز", category: "أعمال متنوعة" },
-  { src: "/gallery/gallery-24.png", title: "واجهة — تنفيذ احترافي", category: "أعمال متنوعة" },
-  { src: "/gallery/gallery-25.png", title: "مشروع — تفاصيل معمارية", category: "أعمال متنوعة" },
-  { src: "/gallery/gallery-26.png", title: "تصميم وتنفيذ — جودة عالية", category: "أعمال متنوعة" },
+  { src: "/projects/project-20.png", title: "قصر الأندلس — تصميم عريق", category: "قصور" },
+  { src: "/projects/project-19.png", title: "قصر الأندلس — نوافير", category: "قصور" },
 ];
 
-const categories = ["الكل", "سكني", "قصور", "كلاسيك", "زخرفي", "مجمعات", "أعمال متنوعة"];
+const categories = ["الكل", "فلل فاخرة", "شقق فندقية", "مساحات تجارية", "إطلالات بحرية", "قصور"];
+
+const ease = [0.16, 1, 0.3, 1] as const;
 
 export default function GalleryPage() {
   const [activeCategory, setActiveCategory] = useState("الكل");
   const [lightbox, setLightbox] = useState<number | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
-  const filtered =
-    activeCategory === "الكل"
-      ? galleryImages
-      : galleryImages.filter((img) => img.category === activeCategory);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
+  const filtered = activeCategory === "الكل" ? galleryImages : galleryImages.filter((img) => img.category === activeCategory);
+
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+
+  // Handle Lightbox Keys
   useEffect(() => {
     if (lightbox === null) return;
     const handleKey = (e: KeyboardEvent) => {
@@ -81,136 +82,130 @@ export default function GalleryPage() {
   }, [lightbox, filtered.length]);
 
   return (
-    <main className="min-h-screen bg-navy-deeper">
-      <Navbar />
-      {/* Header */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[150px] pointer-events-none" />
-          <div className="absolute bottom-0 left-1/3 w-[300px] h-[300px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
-        </div>
+    <>
+      <main className="min-h-screen bg-navy-deeper selection:bg-primary/30 selection:text-white pb-20">
+        <Navbar />
 
-        <div className="relative pt-32 pb-16 pad-x">
-          <div className="container-wide">
-            <motion.div
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Link
-                href="/"
-                className="inline-flex items-center gap-2 text-white/40 text-sm hover:text-primary transition-colors duration-400 mb-10"
+        {/* --- HERO SECTION --- */}
+        <section ref={heroRef} className="relative h-[50vh] md:h-[60vh] flex items-center justify-center overflow-hidden pt-20">
+          {!isMounted ? null : (
+            <>
+              <motion.div style={{ y, opacity }} className="absolute inset-0 w-full h-full">
+                <div className="absolute inset-0 bg-[url('/projects/project-2.png')] bg-cover bg-center scale-110 opacity-30 mix-blend-luminosity" />
+                <div className="absolute inset-0 bg-gradient-to-b from-navy-deeper via-navy-deeper/90 to-navy-deeper" />
+                <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[150px] mix-blend-screen pointer-events-none" />
+                <div className="absolute bottom-0 left-1/3 w-[300px] h-[300px] bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
+              </motion.div>
+            </>
+          )}
+
+          <div className="container-wide px-6 relative z-10 text-center">
+            {!isMounted ? null : (
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease }}
               >
-                <svg className="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                </svg>
-                <span>الرئيسية</span>
-              </Link>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="text-center"
-            >
-              <span className="text-caption uppercase text-primary font-medium tracking-widest">
-                معرض الأعمال
-              </span>
-              <h1 className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white mt-4">
-                أعمالنا بالصور
-              </h1>
-              <p className="text-white/35 text-subhead font-light mt-4 max-w-xl mx-auto">
-                استعرض مشاريعنا المنجزة واكتشف دقة التنفيذ وجمال التصميم في كل مشروع
-              </p>
-              <div className="mt-6 text-white/20 text-sm">
-                {galleryImages.length} صورة
-              </div>
-            </motion.div>
+                <span className="inline-block py-1.5 px-4 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-bold tracking-widest uppercase mb-6 shadow-[0_0_15px_rgba(191,154,95,0.2)]">
+                  Semsar Masr Gallery
+                </span>
+                <h1 className="text-[clamp(2.5rem,5vw,4.5rem)] font-black text-white leading-tight mb-4">
+                  جولة <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#DFBA7F] via-primary to-[#A07B40]">بصرية</span>
+                </h1>
+                <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed">
+                  استكشف تفاصيل الرقي والفخامة في مجموعة منتقاة من أرقى عقارات مصر، حيث تلتقي دقة التنفيذ بجمال التصميم.
+                </p>
+                <div className="mt-8 text-primary/80 text-sm font-bold tracking-widest bg-white/5 inline-block px-6 py-2 rounded-full border border-white/5">
+                  {galleryImages.length} لقطة حصرية
+                </div>
+              </motion.div>
+            )}
           </div>
-        </div>
-      </div>
+        </section>
 
-      {/* Filter tabs */}
-      <div className="pad-x">
-        <div className="container-wide">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex flex-wrap justify-center gap-2 mb-12"
-          >
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-5 py-2.5 text-[13px] rounded-full transition-all duration-500 ${
-                  activeCategory === cat
-                    ? "bg-primary text-white shadow-glow"
-                    : "bg-white/[0.06] text-white/50 border border-white/[0.08] hover:bg-white/[0.1] hover:text-white/80 backdrop-blur-sm"
-                }`}
-              >
-                {cat}
-                {cat !== "الكل" && (
-                  <span className="mr-1.5 text-[11px] opacity-50">
-                    ({galleryImages.filter(img => img.category === cat).length})
-                  </span>
-                )}
-              </button>
-            ))}
-          </motion.div>
-        </div>
-      </div>
+        {!isMounted ? null : (
+          <>
+            {/* --- FILTER TABS --- */}
+            <div className="sticky top-20 z-40 w-full mb-12 flex justify-center px-4">
+              <div className="inline-flex overflow-x-auto custom-scrollbar bg-navy-dark/90 backdrop-blur-xl p-2 rounded-full border border-white/10 shadow-2xl">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`whitespace-nowrap px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${activeCategory === cat
+                        ? "bg-primary text-navy-deeper shadow-[0_0_15px_rgba(191,154,95,0.4)]"
+                        : "text-white/60 hover:text-white hover:bg-white/5"
+                      }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-      {/* Gallery Grid - Masonry */}
-      <div className="pad-x pb-20">
-        <div className="container-wide">
-          <motion.div layout className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-5 space-y-5">
-            <AnimatePresence mode="popLayout">
-              {filtered.map((image, i) => (
-                <motion.div
-                  key={image.src}
-                  layout
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{
-                    duration: 0.5,
-                    delay: i * 0.03,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
-                  className="group cursor-pointer break-inside-avoid"
-                  onClick={() => setLightbox(i)}
-                >
-                  <div className="relative overflow-hidden rounded-[20px] bg-white/[0.04] border border-white/[0.06] hover:border-primary/20 transition-all duration-500">
-                    <Image
-                      src={image.src}
-                      alt={image.title}
-                      width={600}
-                      height={400}
-                      className="w-full h-auto object-cover transition-transform duration-[1.2s] ease-expo-out group-hover:scale-105"
-                      unoptimized
-                    />
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-navy-deeper/90 via-navy-deeper/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-5">
-                      <div>
-                        <span className="inline-block px-3 py-1 bg-primary/20 backdrop-blur-sm rounded-full text-[10px] text-primary font-medium mb-2 border border-primary/20">
-                          {image.category}
-                        </span>
-                        <h3 className="text-white font-semibold text-sm">
-                          {image.title}
-                        </h3>
-                      </div>
-                    </div>
-                  </div>
+            {/* --- GALLERY GRID --- */}
+            <div className="pad-x pb-20">
+              <div className="container-wide">
+                <motion.div layout className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
+                  <AnimatePresence mode="popLayout">
+                    {filtered.map((image, i) => (
+                      <motion.div
+                        key={image.src}
+                        layout
+                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{
+                          duration: 0.4,
+                          ease,
+                        }}
+                        className="group cursor-pointer break-inside-avoid relative"
+                        onClick={() => setLightbox(i)}
+                      >
+                        <div className="relative overflow-hidden rounded-3xl bg-navy-dark border border-white/5 hover:border-primary/30 transition-all duration-500 shadow-xl">
+                          <Image
+                            src={image.src}
+                            alt={image.title}
+                            width={600}
+                            height={800}
+                            className="w-full h-auto object-cover transition-transform duration-[1.5s] ease-expo-out group-hover:scale-110"
+                            unoptimized
+                          />
+
+                          {/* Premium Hover Overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-navy-deeper via-navy-deeper/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
+                            <motion.div
+                              initial={{ y: 20, opacity: 0 }}
+                              whileInView={{ y: 0, opacity: 1 }}
+                              className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500"
+                            >
+                              <span className="inline-block px-3 py-1 bg-primary/20 backdrop-blur-md rounded-full text-[11px] text-white border border-primary/30 mb-3 shadow-glow">
+                                {image.category}
+                              </span>
+                              <h3 className="text-white font-bold text-lg leading-tight mb-2 group-hover:text-primary transition-colors">
+                                {image.title}
+                              </h3>
+                              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white mt-4 border border-white/10 hover:bg-primary hover:text-navy-deeper transition-colors">
+                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
+                                </svg>
+                              </div>
+                            </motion.div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
                 </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
-        </div>
-      </div>
+              </div>
+            </div>
+          </>
+        )}
 
-      {/* Lightbox */}
+        <Footer />
+      </main>
+
+      {/* --- LIGHTBOX MODAL --- */}
       <AnimatePresence>
         {lightbox !== null && filtered[lightbox] && (
           <motion.div
@@ -218,74 +213,101 @@ export default function GalleryPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center"
+            className="fixed inset-0 z-[100] bg-navy-deeper/95 backdrop-blur-2xl flex items-center justify-center p-4 md:p-8"
             onClick={() => setLightbox(null)}
           >
-            {/* Close */}
-            <button
-              onClick={() => setLightbox(null)}
-              className="absolute top-6 left-6 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white/60 hover:text-white hover:bg-white/20 transition-all duration-300 z-10"
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-
-            {/* Nav arrows */}
-            {lightbox > 0 && (
-              <button
-                onClick={(e) => { e.stopPropagation(); setLightbox(lightbox - 1); }}
-                className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white/60 hover:text-white hover:bg-white/20 transition-all duration-300 z-10"
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                </svg>
-              </button>
-            )}
-            {lightbox < filtered.length - 1 && (
-              <button
-                onClick={(e) => { e.stopPropagation(); setLightbox(lightbox + 1); }}
-                className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white/60 hover:text-white hover:bg-white/20 transition-all duration-300 z-10"
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                </svg>
-              </button>
-            )}
-
-            {/* Image */}
-            <motion.div
-              key={lightbox}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="relative max-w-[90vw] max-h-[85vh]"
+            <div
+              className="relative z-10 w-full max-w-6xl h-full md:h-[85vh] flex flex-col md:flex-row glass-card-dark rounded-[2rem] overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/10"
               onClick={(e) => e.stopPropagation()}
             >
-              <Image
-                src={filtered[lightbox].src}
-                alt={filtered[lightbox].title}
-                width={1400}
-                height={900}
-                className="max-w-full max-h-[85vh] object-contain rounded-[16px]"
-                unoptimized
-              />
-              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent rounded-b-[16px]">
-                <span className="text-primary text-xs font-medium">
-                  {filtered[lightbox].category}
-                </span>
-                <h3 className="text-white font-semibold mt-1">
-                  {filtered[lightbox].title}
-                </h3>
-                <span className="text-white text-xs mt-1 block">
-                  {lightbox + 1} / {filtered.length}
-                </span>
+              {/* Close Button */}
+              <button
+                onClick={() => setLightbox(null)}
+                className="absolute top-4 left-4 w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-primary transition-colors z-50"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+
+              {/* Right Side: Image */}
+              <div className="relative w-full md:w-2/3 h-[50vh] md:h-full bg-black/50">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={lightbox}
+                    initial={{ opacity: 0, scale: 1.05 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5, ease }}
+                    className="absolute inset-0 bg-contain bg-no-repeat bg-center"
+                    style={{ backgroundImage: `url('${filtered[lightbox].src}')` }}
+                  />
+                </AnimatePresence>
+
+                {filtered.length > 1 && (
+                  <>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setLightbox(lightbox - 1); }}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-primary transition-colors z-20"
+                    >
+                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setLightbox(lightbox + 1); }}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-primary transition-colors z-20"
+                    >
+                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+                  </>
+                )}
+
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-md rounded-full px-4 py-1.5 text-white text-xs font-bold tracking-widest z-20 flex gap-2">
+                  <span>صورة</span>
+                  <bdi>{lightbox + 1} / {filtered.length}</bdi>
+                </div>
               </div>
-            </motion.div>
+
+              {/* Left Side: Info */}
+              <div className="w-full md:w-1/3 p-8 flex flex-col h-[50vh] md:h-full overflow-y-auto custom-scrollbar bg-navy-dark relative">
+                <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
+                
+                <div className="relative z-10 flex-1 flex flex-col">
+                  <div className="mb-6">
+                    <span className="inline-block px-3 py-1 bg-primary/20 text-primary text-xs font-bold rounded-full mb-4 border border-primary/20">
+                      {filtered[lightbox].category}
+                    </span>
+                    <h3 className="text-3xl font-bold text-white leading-tight">
+                      {filtered[lightbox].title}
+                    </h3>
+                  </div>
+
+                  <p className="text-white/60 leading-relaxed text-sm mb-8 pb-8 border-b border-white/5">
+                    استكشف تفاصيل هذا العقار الفاخر وتعرّف على أرقى التصميمات المعمارية التي نقدمها لعملائنا في سمسار مصر.
+                  </p>
+
+                  <div className="mt-auto pt-8">
+                    <div className="p-5 rounded-2xl bg-white/5 border border-white/5 mb-6 text-center">
+                      <p className="text-white/80 text-sm mb-2">هل أعجبك هذا التصميم؟</p>
+                      <p className="text-primary font-bold">يمكننا توفيره لك.</p>
+                    </div>
+
+                    <Link href="/contact" className="w-full py-4 bg-primary text-navy-deeper font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-white hover:shadow-[0_0_30px_rgba(191,154,95,0.4)] transition-all duration-300 group">
+                      <span>تواصل للاستفسار</span>
+                      <svg className="w-5 h-5 rotate-180 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                      </svg>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </main>
+    </>
   );
 }

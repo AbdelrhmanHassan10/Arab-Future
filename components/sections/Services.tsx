@@ -10,35 +10,35 @@ const services = [
     title: "شراء العقارات",
     titleEn: "Buying Properties",
     description: "نساعدك في العثور على عقار أحلامك بأفضل الأسعار وفي أرقى المواقع بكل سهولة وأمان.",
-    image: "/images/projects/project1.jpg",
+    image: "/projects/project-1.png",
   },
   {
     slug: "selling",
     title: "بيع العقارات",
     titleEn: "Selling Properties",
     description: "نقدم لك استراتيجيات تسويق فعالة لبيع عقارك بأعلى عائد وفي أسرع وقت ممكن.",
-    image: "/images/projects/project2.jpg",
+    image: "/projects/project-2.png",
   },
   {
     slug: "renting",
     title: "إيجار العقارات",
     titleEn: "Renting Properties",
     description: "مجموعة واسعة من الخيارات الإيجارية السكنية والتجارية التي تلبي كافة احتياجاتك.",
-    image: "/images/projects/project3.jpg",
+    image: "/projects/project-3.png",
   },
   {
     slug: "property-management",
     title: "إدارة الأملاك",
     titleEn: "Property Management",
     description: "خدمات شاملة لإدارة عقاراتك لضمان أعلى عائد استثماري وراحة بال تامة.",
-    image: "/images/projects/project4.jpg",
+    image: "/projects/project-4.png",
   },
   {
     slug: "consulting",
     title: "استشارات عقارية",
     titleEn: "Real Estate Consulting",
     description: "نصائح وإرشادات مبنية على تحليل دقيق للسوق لمساعدتك في اتخاذ أفضل القرارات الاستثمارية.",
-    image: "/images/projects/project5.jpg",
+    image: "/projects/project-5.png",
   },
 ];
 
@@ -62,9 +62,12 @@ export default function Services() {
             transition={{ duration: 0.7, ease }}
             className="max-w-xl"
           >
-            <div className="flex items-center gap-3 mb-4">
-              <span className="w-8 h-[2px] bg-primary" />
-              <span className="text-sm uppercase text-primary font-medium tracking-widest font-body">خدماتنا</span>
+            <div className="inline-flex items-center gap-4 px-8 py-3.5 rounded-full bg-white/5 border border-white/10 shadow-[0_0_20px_rgba(191,154,95,0.1)] backdrop-blur-md mb-8 hover:bg-white/10 hover:border-primary/30 transition-all duration-300">
+              <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
+              <span className="text-base md:text-lg text-primary font-bold tracking-widest font-body uppercase">
+                خدماتنا
+              </span>
+              <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
             </div>
             <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white leading-tight">
               خدمات عقارية <br />بمعايير <span className="text-primary italic">عالمية</span>

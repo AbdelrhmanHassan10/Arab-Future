@@ -26,65 +26,38 @@ function useCounter(end: number, duration: number = 2000, inView: boolean) {
   return count;
 }
 
-function CircleProgress({ value, max, label, suffix, delay }: {
-  value: number; max: number; label: string; suffix: string; delay: number;
+function StatCard({ value, label, suffix, delay, icon }: {
+  value: number; label: string; suffix: string; delay: number; icon: React.ReactNode;
 }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const inView = useInView(ref, { once: true, margin: "-50px" });
   const count = useCounter(value, 2000, inView);
-  const percentage = (value / max) * 100;
-  const circumference = 2 * Math.PI * 54;
-  const strokeDashoffset = circumference - (circumference * (inView ? percentage : 0)) / 100;
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, scale: 0.8, y: 20 }}
-      whileInView={{ opacity: 1, scale: 1, y: 0 }}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay, duration: 0.7, ease }}
-      className="flex flex-col items-center relative group"
+      className="glass-card-dark p-6 rounded-[2rem] border border-white/5 relative overflow-hidden group hover:border-primary/30 hover:bg-white/[0.06] transition-all duration-500 shadow-lg hover:shadow-2xl hover:-translate-y-1"
     >
-      <div className="absolute inset-0 bg-primary/5 rounded-full blur-[30px] group-hover:bg-primary/20 transition-all duration-700 pointer-events-none" />
-      <div className="relative w-36 h-36 md:w-40 md:h-40 mb-6 flex items-center justify-center">
-        {/* 3D Glass Background */}
-        <div className="absolute inset-2 rounded-full glass-card-dark border border-white/5 shadow-[inset_0_4px_20px_rgba(255,255,255,0.05)]" />
-
-        <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 120 120">
-          <circle
-            cx="60" cy="60" r="54"
-            fill="none"
-            stroke="rgba(255,255,255,0.03)"
-            strokeWidth="3"
-          />
-          <circle
-            cx="60" cy="60" r="54"
-            fill="none"
-            stroke="url(#goldGradient)"
-            strokeWidth="4"
-            strokeLinecap="round"
-            strokeDasharray={circumference}
-            strokeDashoffset={strokeDashoffset}
-            style={{ transition: "stroke-dashoffset 2s cubic-bezier(0.16, 1, 0.3, 1)" }}
-            className="drop-shadow-[0_0_8px_rgba(191,154,95,0.8)]"
-          />
-          <defs>
-            <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#DFBA7F" />
-              <stop offset="50%" stopColor="#BF9A5F" />
-              <stop offset="100%" stopColor="#A07B40" />
-            </linearGradient>
-          </defs>
-        </svg>
-
-        {/* Center Text */}
-        <div className="absolute flex flex-col items-center justify-center">
-          <span className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white to-white/60 font-body tabular-nums tracking-tighter">
-            {count}{suffix}
-          </span>
+      <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-[40px] group-hover:bg-primary/20 transition-all duration-500 pointer-events-none" />
+      
+      <div className="relative z-10 flex flex-col items-start text-right">
+        <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:bg-primary/10 transition-colors duration-500">
+          {icon}
         </div>
+        
+        <div className="flex items-baseline gap-1 mb-2 dir-ltr">
+          <span className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white to-white/70 font-body tabular-nums tracking-tight">
+            {count}
+          </span>
+          <span className="text-primary font-bold text-xl md:text-2xl">{suffix}</span>
+        </div>
+        
+        <span className="text-white/60 text-sm font-medium tracking-wide">{label}</span>
       </div>
-      <span className="text-white/70 text-sm font-medium tracking-wide uppercase">{label}</span>
     </motion.div>
   );
 }
@@ -141,10 +114,12 @@ export default function Achievements() {
           transition={{ duration: 0.7, ease }}
           className="text-center mb-20 max-w-2xl mx-auto"
         >
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <span className="w-8 h-[2px] bg-primary" />
-            <span className="text-sm uppercase text-primary font-medium tracking-widest font-body">إنجازاتنا</span>
-            <span className="w-8 h-[2px] bg-primary" />
+          <div className="inline-flex items-center gap-4 px-8 py-3.5 rounded-full bg-white/5 border border-white/10 shadow-[0_0_20px_rgba(191,154,95,0.1)] backdrop-blur-md mb-8 hover:bg-white/10 hover:border-primary/30 transition-all duration-300">
+            <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
+            <span className="text-base md:text-lg text-primary font-bold tracking-widest font-body uppercase">
+              إنجازاتنا
+            </span>
+            <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
           </div>
           <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white leading-tight">
             أرقام تعكس <span className="text-primary italic">الثقة</span>
@@ -154,10 +129,34 @@ export default function Achievements() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 items-center">
           {/* Left: 3D Circle Stats Grid */}
           <div className="lg:col-span-7 grid grid-cols-2 gap-8 md:gap-12">
-            <CircleProgress value={10} max={20} label="سنة خبرة" suffix="+" delay={0} />
-            <CircleProgress value={1000} max={1500} label="عقار تم بيعه" suffix="+" delay={0.15} />
-            <CircleProgress value={50} max={100} label="مطور عقاري" suffix="+" delay={0.3} />
-            <CircleProgress value={100} max={100} label="رضا العملاء" suffix="%" delay={0.45} />
+            <StatCard 
+              value={10} 
+              label="سنوات خبرة" 
+              suffix="+" 
+              delay={0} 
+              icon={<svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" /></svg>}
+            />
+            <StatCard 
+              value={1000} 
+              label="عقار تم بيعه" 
+              suffix="+" 
+              delay={0.15} 
+              icon={<svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" /></svg>}
+            />
+            <StatCard 
+              value={50} 
+              label="مطور عقاري" 
+              suffix="+" 
+              delay={0.3} 
+              icon={<svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z" /></svg>}
+            />
+            <StatCard 
+              value={100} 
+              label="رضا العملاء" 
+              suffix="%" 
+              delay={0.45} 
+              icon={<svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" /></svg>}
+            />
           </div>
 
           {/* Right: Glass Cards with Bars */}

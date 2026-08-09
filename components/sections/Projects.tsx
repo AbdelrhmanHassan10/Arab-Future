@@ -196,9 +196,12 @@ export default function Projects() {
               transition={{ duration: 0.7, ease }}
               className="max-w-xl"
             >
-              <div className="flex items-center gap-3 mb-4">
-                <span className="w-8 h-[2px] bg-primary" />
-                <span className="text-sm uppercase text-primary font-medium tracking-widest font-body">عقاراتنا</span>
+              <div className="inline-flex items-center gap-4 px-8 py-3.5 rounded-full bg-white/5 border border-white/10 shadow-[0_0_20px_rgba(191,154,95,0.1)] backdrop-blur-md mb-8 hover:bg-white/10 hover:border-primary/30 transition-all duration-300">
+                <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
+                <span className="text-base md:text-lg text-primary font-bold tracking-widest font-body uppercase">
+                  عقاراتنا
+                </span>
+                <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
               </div>
               <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white leading-tight">
                 عقارات ترتقي لمستوى <span className="text-primary italic">تطلعاتك</span>
@@ -229,16 +232,34 @@ export default function Projects() {
           </div>
 
           {/* Editorial Masonry Grid */}
-          <motion.div layout className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 auto-rows-[250px] md:auto-rows-[300px]">
+          <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 auto-rows-[250px] md:auto-rows-[300px] grid-flow-row-dense">
             <AnimatePresence mode="popLayout">
               {filtered.map((project, i) => {
-                // Determine span for editorial look
-                const isLarge = i === 0 || i === 4;
-                const isWide = i === 3;
-
-                let spanClasses = "md:col-span-1 md:row-span-1 lg:col-span-1 lg:row-span-1";
-                if (isLarge) spanClasses = "md:col-span-2 md:row-span-2 lg:col-span-2 lg:row-span-2";
-                if (isWide) spanClasses = "md:col-span-2 md:row-span-1 lg:col-span-2 lg:row-span-1";
+                // Determine span for perfect Bento grid packing
+                const pos = i % 6;
+                let spanClasses = "";
+                switch (pos) {
+                  case 0:
+                    spanClasses = "col-span-1 md:col-span-2 lg:col-span-2 row-span-1 md:row-span-2 lg:row-span-2";
+                    break;
+                  case 1:
+                    spanClasses = "col-span-1 md:col-span-1 lg:col-span-2 row-span-1 md:row-span-1 lg:row-span-1";
+                    break;
+                  case 2:
+                    spanClasses = "col-span-1 md:col-span-1 lg:col-span-1 row-span-1 md:row-span-1 lg:row-span-1";
+                    break;
+                  case 3:
+                    spanClasses = "col-span-1 md:col-span-2 lg:col-span-1 row-span-1 md:row-span-1 lg:row-span-1";
+                    break;
+                  case 4:
+                    spanClasses = "col-span-1 md:col-span-2 lg:col-span-2 row-span-1 md:row-span-2 lg:row-span-2";
+                    break;
+                  case 5:
+                    spanClasses = "col-span-1 md:col-span-2 lg:col-span-2 row-span-1 md:row-span-1 lg:row-span-2";
+                    break;
+                  default:
+                    spanClasses = "col-span-1 md:col-span-1 lg:col-span-1 row-span-1 md:row-span-1 lg:row-span-1";
+                }
 
                 return (
                   <motion.div

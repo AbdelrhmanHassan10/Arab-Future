@@ -11,7 +11,7 @@ export default function CeoMessage() {
       <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/20 via-navy-deeper to-navy-deeper" />
 
       <div className="container-wide px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-0 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
           {/* Image Column */}
           <motion.div
@@ -21,7 +21,7 @@ export default function CeoMessage() {
             transition={{ duration: 1, ease }}
             className="lg:col-span-5 relative z-20"
           >
-            <div className="relative aspect-[3/4] md:aspect-[4/5] rounded-[2rem] overflow-hidden group shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+            <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden group shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
               {/* Image */}
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
@@ -46,15 +46,15 @@ export default function CeoMessage() {
             </div>
           </motion.div>
 
-          {/* Content Column (Overlaps the image slightly on desktop) */}
+          {/* Content Column */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, ease, delay: 0.2 }}
-            className="lg:col-span-8 lg:-ml-16 xl:-ml-32 z-30"
+            className="lg:col-span-7 z-30"
           >
-            <div className="glass-card-dark rounded-[2.5rem] p-8 md:p-14 lg:p-16 border border-white/5 shadow-2xl relative overflow-hidden">
+            <div className="glass-card-dark rounded-[2.5rem] p-8 md:p-12 lg:p-16 border border-white/5 shadow-2xl relative overflow-hidden bg-[#0a0f1c]/80 backdrop-blur-2xl">
 
               {/* Giant Background Quote Mark */}
               <div className="absolute -top-10 left-10 text-[200px] text-white/5 font-serif leading-none select-none pointer-events-none rotate-180">
@@ -62,9 +62,12 @@ export default function CeoMessage() {
               </div>
 
               <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-8">
-                  <span className="w-8 h-[2px] bg-primary" />
-                  <span className="text-sm uppercase text-primary font-medium tracking-widest font-body">كلمة الإدارة</span>
+                <div className="inline-flex items-center gap-4 px-8 py-3.5 rounded-full bg-white/5 border border-white/10 shadow-[0_0_20px_rgba(191,154,95,0.1)] backdrop-blur-md mb-8 hover:bg-white/10 hover:border-primary/30 transition-all duration-300">
+                  <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
+                  <span className="text-base md:text-lg text-primary font-bold tracking-widest font-body uppercase">
+                    كلمة الإدارة
+                  </span>
+                  <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
                 </div>
 
                 <h2 className="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-white mb-8 leading-[1.4]">

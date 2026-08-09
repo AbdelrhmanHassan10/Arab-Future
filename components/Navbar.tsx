@@ -53,7 +53,7 @@ export default function Navbar() {
               {/* Logo */}
               <a href="/" className="group flex items-center gap-3">
                 <img src="/images/logo.png" alt="سمسار مصر" className="w-14 h-14 object-contain" />
-                <div className="hidden sm:block">
+                <div className="block">
                   <span className="font-bold text-[16px] block leading-none transition-colors duration-500 text-white">
                     سمسار مصر
                   </span>

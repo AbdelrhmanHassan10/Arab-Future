@@ -24,9 +24,12 @@ export default function Partners() {
             transition={{ duration: 0.7 }}
             className="text-center md:text-right mb-6 md:mb-0"
           >
-            <div className="flex items-center justify-center md:justify-start gap-3 mb-2">
-              <span className="w-6 h-[2px] bg-primary" />
-              <span className="text-xs uppercase text-primary font-medium tracking-widest font-body">شركاء النجاح</span>
+            <div className="inline-flex items-center gap-4 px-8 py-3.5 rounded-full bg-white/5 border border-white/10 shadow-[0_0_20px_rgba(191,154,95,0.1)] backdrop-blur-md mb-8 hover:bg-white/10 hover:border-primary/30 transition-all duration-300">
+              <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
+              <span className="text-base md:text-lg text-primary font-bold tracking-widest font-body uppercase">
+                شركاء النجاح
+              </span>
+              <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
             </div>
             <h2 className="text-2xl md:text-3xl font-bold text-white">
               أبرز المطورين العقاريين
