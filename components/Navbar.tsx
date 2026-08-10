@@ -53,6 +53,7 @@ export default function Navbar() {
             <div className={`flex items-center justify-between ${!scrolled ? "max-w-[1340px] mx-auto" : ""}`}>
               {/* Logo */}
               <Link href="/" className="group flex items-center gap-3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/images/logo.png" alt="سمسار مصر" className="w-14 h-14 object-contain" />
                 <div className="block">
                   <span className="font-bold text-[16px] block leading-none transition-colors duration-500 text-white">
@@ -176,7 +177,7 @@ export default function Navbar() {
               className="w-full bg-navy-deeper flex flex-col pt-24 pb-10 px-6 rounded-b-[2rem] shadow-[0_30px_60px_rgba(0,0,0,0.6)] border-b border-white/10"
             >
               <nav className="flex flex-col gap-2 w-full" dir="rtl">
-              {navLinks.map((link, i) => (
+              {navLinks.map((link) => (
                 <motion.div
                   key={link.href}
                   variants={{

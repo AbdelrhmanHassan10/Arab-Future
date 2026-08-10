@@ -66,6 +66,7 @@ export default function Footer() {
           {/* Brand column */}
           <div className="lg:col-span-4">
             <a href="/" className="flex items-center gap-3 mb-6 group">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/images/logo.png" alt="سمسار مصر" className="w-14 h-14 object-contain" />
               <div>
                 <span className="text-white font-bold text-sm block leading-none">
