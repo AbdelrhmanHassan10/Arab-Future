@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
@@ -82,7 +82,7 @@ function RenderSection({ section, index }: { section: ArticleSection; index: num
           </svg>
           <div className="relative z-10">
             <p className="text-primary text-lg md:text-xl font-bold leading-[2] text-center md:text-right">
-              "{section.text}"
+              &ldquo;{section.text}&rdquo;
             </p>
           </div>
         </motion.div>

@@ -52,6 +52,7 @@ export async function GET(request: Request) {
         "Content-Length": chunksize.toString(),
         "Content-Type": "video/mp4",
       };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return new NextResponse(file as any, { status: 206, headers: head });
     } else {
       const head = {
@@ -59,6 +60,7 @@ export async function GET(request: Request) {
         "Content-Type": "video/mp4",
       };
       const file = fs.createReadStream(fileToServe);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return new NextResponse(file as any, { status: 200, headers: head });
     }
   } catch (error) {

@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -164,6 +163,7 @@ export default function GalleryPage() {
                         onClick={() => setLightbox(i)}
                       >
                         <div className="relative overflow-hidden rounded-3xl bg-navy-dark border border-white/5 hover:border-primary/30 transition-all duration-500 shadow-xl">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={image.src}
                             alt={image.title}

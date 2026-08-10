@@ -322,7 +322,7 @@ export default function ProjectsPage() {
             <SectionHeader subtitle="Featured Masterpieces" title="المشاريع الاستثنائية" />
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-               {featuredProjects.map((project, i) => (
+               {featuredProjects.map((project) => (
                   <div 
                     key={project.id}
                     className="group cursor-pointer relative overflow-hidden rounded-[2rem] aspect-[4/5] lg:aspect-auto lg:h-[500px]"
@@ -377,7 +377,7 @@ export default function ProjectsPage() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {filtered.map((project, i) => (
+                  {filtered.map((project) => (
                   <div
                       key={project.id}
                       className="group cursor-pointer bg-navy-dark rounded-3xl overflow-hidden border border-white/5 hover:border-primary/30 transition-colors shadow-lg flex flex-col"

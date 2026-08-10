@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -194,6 +194,7 @@ export default function AboutPage() {
             className="mb-8"
           >
             <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border border-primary/20 flex items-center justify-center mx-auto mb-8 bg-white/5 backdrop-blur-xl shadow-glow">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/images/logo.png" alt="سمسار مصر" className="w-16 h-16 md:w-20 md:h-20 object-contain drop-shadow-2xl" />
             </div>
             
@@ -422,7 +423,7 @@ export default function AboutPage() {
                 
                 <h3 className="text-3xl font-bold text-white mb-6">كلمة الإدارة</h3>
                 <p className="text-lg md:text-xl text-white/80 leading-[2] font-light mb-8 italic">
-                  "في سمسار مصر، نحن لا نبيع مجرد جدران وأسقف، بل نصنع مستقبلاً ونؤسس لحياة أفضل. كل عميل يضع ثقته فينا يمنحنا شرفاً ومسؤولية كبرى. هدفنا الدائم هو أن نظل المستشار المؤتمن الذي يرشدك نحو الخيار الأمثل، سواء كنت تبحث عن منزل لعائلتك أو استثمار يؤمن مستقبلك."
+                  &ldquo;في سمسار مصر، نحن لا نبيع مجرد جدران وأسقف، بل نصنع مستقبلاً ونؤسس لحياة أفضل. كل عميل يضع ثقته فينا يمنحنا شرفاً ومسؤولية كبرى. هدفنا الدائم هو أن نظل المستشار المؤتمن الذي يرشدك نحو الخيار الأمثل، سواء كنت تبحث عن منزل لعائلتك أو استثمار يؤمن مستقبلك.&rdquo;
                 </p>
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xl">
