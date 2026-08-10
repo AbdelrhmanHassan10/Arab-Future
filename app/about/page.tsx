@@ -34,7 +34,7 @@ function SectionHeader({ title, subtitle }: { title: string; subtitle: string })
         className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white leading-tight"
       >
         {title.split(' ').map((word, i, arr) => (
-          i === arr.length - 1 ? <span key={i} className="text-primary italic"> {word}</span> : <span key={i}>{word} </span>
+          i === arr.length - 1 ? <span key={i} className="text-primary"> {word}</span> : <span key={i}>{word} </span>
         ))}
       </motion.h2>
     </div>
@@ -48,19 +48,23 @@ function PartnersMarquee() {
   ];
   
   return (
-    <div className="py-12 border-y border-white/5 bg-white/[0.01] overflow-hidden flex relative">
+    <div className="py-12 border-y border-white/5 bg-white/[0.01] overflow-hidden flex relative" dir="ltr">
       <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-navy-deeper to-transparent z-10" />
       <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-navy-deeper to-transparent z-10" />
       
       <motion.div 
-        animate={{ x: [0, -1035] }}
-        transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-        className="flex whitespace-nowrap gap-16 px-8 items-center"
+        animate={{ x: [0, "-50%"] }}
+        transition={{ repeat: Infinity, duration: 30, ease: "linear" }}
+        className="flex w-max"
       >
-        {[...partners, ...partners, ...partners].map((partner, i) => (
-          <div key={i} className="flex items-center gap-4 text-white/40 hover:text-white transition-colors duration-300">
-            <span className="w-2 h-2 rounded-full bg-primary/40" />
-            <span className="text-xl md:text-2xl font-bold tracking-wide">{partner}</span>
+        {[...Array(2)].map((_, idx) => (
+          <div key={idx} className="flex gap-16 pr-16 items-center w-max">
+            {partners.map((partner, i) => (
+              <div key={i} className="flex items-center gap-4 text-white/40 hover:text-white transition-colors duration-300">
+                <span className="w-2 h-2 rounded-full bg-primary/40" />
+                <span className="text-xl md:text-2xl font-bold tracking-wide whitespace-nowrap">{partner}</span>
+              </div>
+            ))}
           </div>
         ))}
       </motion.div>
@@ -204,20 +208,17 @@ export default function AboutPage() {
           </motion.div>
           
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 1 }}
-            className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-white/40"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 1 }}
+            className="mt-20 animate-bounce text-white/40"
           >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
             </svg>
           </motion.div>
         </div>
       </section>
-
-      {/* --- MARQUEE SECTION --- */}
-      <PartnersMarquee />
 
       {/* --- BENTO GRID INTRODUCTION --- */}
       <section className="py-24 relative">
@@ -449,7 +450,7 @@ export default function AboutPage() {
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent opacity-60 animate-pulse-slow" />
               
               <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 relative z-10">
-                مستعد لاتخاذ <span className="text-primary italic">قرارك الاستثماري؟</span>
+                مستعد لاتخاذ <span className="text-primary">قرارك الاستثماري؟</span>
               </h2>
               <p className="text-white/60 mb-10 max-w-xl mx-auto leading-relaxed relative z-10">
                 فريقنا من المستشارين العقاريين جاهز دائماً للرد على استفساراتك ومساعدتك في اختيار العقار الأنسب لاحتياجاتك.
@@ -466,6 +467,9 @@ export default function AboutPage() {
             </motion.div>
          </div>
       </section>
+
+      {/* --- MARQUEE SECTION --- */}
+      <PartnersMarquee />
 
       <Footer />
     </main>

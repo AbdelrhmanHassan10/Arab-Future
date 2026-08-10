@@ -122,7 +122,7 @@ export default function Achievements() {
             <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
           </div>
           <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white leading-tight">
-            أرقام تعكس <span className="text-primary italic">الثقة</span>
+            أرقام تعكس <span className="text-primary">الثقة</span>
           </h2>
         </motion.div>
 

@@ -39,7 +39,7 @@ export default function About() {
               <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
             </div>
             <h2 className="text-[clamp(2rem,4vw,3rem)] font-bold text-white leading-tight">
-              رؤية عقارية <span className="text-primary italic">تتجاوز</span> التوقعات
+              رؤية عقارية <span className="text-primary">تتجاوز</span> التوقعات
             </h2>
           </motion.div>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -133,8 +134,8 @@ export default function GalleryPage() {
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
                     className={`whitespace-nowrap px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${activeCategory === cat
-                        ? "bg-primary text-navy-deeper shadow-[0_0_15px_rgba(191,154,95,0.4)]"
-                        : "text-white/60 hover:text-white hover:bg-white/5"
+                      ? "bg-primary text-navy-deeper shadow-[0_0_15px_rgba(191,154,95,0.4)]"
+                      : "text-white/60 hover:text-white hover:bg-white/5"
                       }`}
                   >
                     {cat}
@@ -163,13 +164,11 @@ export default function GalleryPage() {
                         onClick={() => setLightbox(i)}
                       >
                         <div className="relative overflow-hidden rounded-3xl bg-navy-dark border border-white/5 hover:border-primary/30 transition-all duration-500 shadow-xl">
-                          <Image
+                          <img
                             src={image.src}
                             alt={image.title}
-                            width={600}
-                            height={800}
                             className="w-full h-auto object-cover transition-transform duration-[1.5s] ease-expo-out group-hover:scale-110"
-                            unoptimized
+                            loading="lazy"
                           />
 
                           {/* Premium Hover Overlay */}
@@ -206,108 +205,111 @@ export default function GalleryPage() {
       </main>
 
       {/* --- LIGHTBOX MODAL --- */}
-      <AnimatePresence>
-        {lightbox !== null && filtered[lightbox] && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[100] bg-navy-deeper/95 backdrop-blur-2xl flex items-center justify-center p-4 md:p-8"
-            onClick={() => setLightbox(null)}
-          >
-            <div
-              className="relative z-10 w-full max-w-6xl h-full md:h-[85vh] flex flex-col md:flex-row glass-card-dark rounded-[2rem] overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/10"
-              onClick={(e) => e.stopPropagation()}
+      {isMounted && createPortal(
+        <AnimatePresence>
+          {lightbox !== null && filtered[lightbox] && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 z-[100] bg-navy-deeper/95 backdrop-blur-2xl flex items-center justify-center p-4 md:p-8"
+              onClick={() => setLightbox(null)}
             >
-              {/* Close Button */}
-              <button
-                onClick={() => setLightbox(null)}
-                className="absolute top-4 left-4 w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-primary transition-colors z-50"
+              <div
+                className="relative z-10 w-full max-w-6xl h-full md:h-[85vh] flex flex-col md:flex-row glass-card-dark rounded-[2rem] overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/10"
+                onClick={(e) => e.stopPropagation()}
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
+                {/* Close Button */}
+                <button
+                  onClick={() => setLightbox(null)}
+                  className="absolute top-4 left-4 w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-primary transition-colors z-50"
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
 
-              {/* Right Side: Image */}
-              <div className="relative w-full md:w-2/3 h-[50vh] md:h-full bg-black/50">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={lightbox}
-                    initial={{ opacity: 0, scale: 1.05 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5, ease }}
-                    className="absolute inset-0 bg-contain bg-no-repeat bg-center"
-                    style={{ backgroundImage: `url('${filtered[lightbox].src}')` }}
-                  />
-                </AnimatePresence>
+                {/* Right Side: Image */}
+                <div className="relative w-full md:w-2/3 h-[40vh] md:h-full flex-none bg-black/50">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={lightbox}
+                      initial={{ opacity: 0, scale: 1.05 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.5, ease }}
+                      className="absolute inset-0 bg-contain bg-no-repeat bg-center"
+                      style={{ backgroundImage: `url('${filtered[lightbox].src}')` }}
+                    />
+                  </AnimatePresence>
 
-                {filtered.length > 1 && (
-                  <>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); setLightbox(lightbox - 1); }}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-primary transition-colors z-20"
-                    >
-                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                      </svg>
-                    </button>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); setLightbox(lightbox + 1); }}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-primary transition-colors z-20"
-                    >
-                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                      </svg>
-                    </button>
-                  </>
-                )}
+                  {filtered.length > 1 && (
+                    <>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setLightbox(lightbox - 1); }}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-primary transition-colors z-20"
+                      >
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setLightbox(lightbox + 1); }}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-primary transition-colors z-20"
+                      >
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                        </svg>
+                      </button>
+                    </>
+                  )}
 
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-md rounded-full px-4 py-1.5 text-white text-xs font-bold tracking-widest z-20 flex gap-2">
-                  <span>صورة</span>
-                  <bdi>{lightbox + 1} / {filtered.length}</bdi>
-                </div>
-              </div>
-
-              {/* Left Side: Info */}
-              <div className="w-full md:w-1/3 p-8 flex flex-col h-[50vh] md:h-full overflow-y-auto custom-scrollbar bg-navy-dark relative">
-                <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
-                
-                <div className="relative z-10 flex-1 flex flex-col">
-                  <div className="mb-6">
-                    <span className="inline-block px-3 py-1 bg-primary/20 text-primary text-xs font-bold rounded-full mb-4 border border-primary/20">
-                      {filtered[lightbox].category}
-                    </span>
-                    <h3 className="text-3xl font-bold text-white leading-tight">
-                      {filtered[lightbox].title}
-                    </h3>
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-md rounded-full px-4 py-1.5 text-white text-xs font-bold tracking-widest z-20 flex gap-2" dir="ltr">
+                    <bdi>{lightbox + 1} / {filtered.length}</bdi>
+                    <span>صورة</span>
                   </div>
+                </div>
 
-                  <p className="text-white/60 leading-relaxed text-sm mb-8 pb-8 border-b border-white/5">
-                    استكشف تفاصيل هذا العقار الفاخر وتعرّف على أرقى التصميمات المعمارية التي نقدمها لعملائنا في سمسار مصر.
-                  </p>
+                {/* Left Side: Info */}
+                <div className="w-full md:w-1/3 p-4 md:p-8 flex flex-col flex-1 min-h-0 overflow-y-auto custom-scrollbar bg-navy-dark relative">
+                  <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
 
-                  <div className="mt-auto pt-8">
-                    <div className="p-5 rounded-2xl bg-white/5 border border-white/5 mb-6 text-center">
-                      <p className="text-white/80 text-sm mb-2">هل أعجبك هذا التصميم؟</p>
-                      <p className="text-primary font-bold">يمكننا توفيره لك.</p>
+                  <div className="relative z-10 flex-1 flex flex-col">
+                    <div className="mb-4 md:mb-6">
+                      <span className="inline-block px-3 py-1 bg-primary/20 text-primary text-xs font-bold rounded-full mb-3 md:mb-4 border border-primary/20">
+                        {filtered[lightbox].category}
+                      </span>
+                      <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight">
+                        {filtered[lightbox].title}
+                      </h3>
                     </div>
 
-                    <Link href="/contact" className="w-full py-4 bg-primary text-navy-deeper font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-white hover:shadow-[0_0_30px_rgba(191,154,95,0.4)] transition-all duration-300 group">
-                      <span>تواصل للاستفسار</span>
-                      <svg className="w-5 h-5 rotate-180 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                      </svg>
-                    </Link>
+                    <p className="text-white/60 leading-relaxed text-sm mb-4 md:mb-8 pb-4 md:pb-8 border-b border-white/5">
+                      استكشف تفاصيل هذا العقار الفاخر وتعرّف على أرقى التصميمات المعمارية التي نقدمها لعملائنا في سمسار مصر.
+                    </p>
+
+                    <div className="mt-6 md:mt-8">
+                      <div className="p-4 md:p-5 rounded-2xl bg-white/5 border border-white/5 mb-4 md:mb-6 text-center">
+                        <p className="text-white/80 text-sm mb-1 md:mb-2">هل أعجبك هذا التصميم؟</p>
+                        <p className="text-primary text-base font-bold">يمكننا توفيره لك.</p>
+                      </div>
+
+                      <Link href="/contact" className="w-full py-3.5 md:py-4 bg-primary text-navy-deeper text-sm md:text-base font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-white hover:shadow-[0_0_30px_rgba(191,154,95,0.4)] transition-all duration-300 group">
+                        <span>تواصل للاستفسار</span>
+                        <svg className="w-5 h-5 rotate-180 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                        </svg>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </>
   );
 }

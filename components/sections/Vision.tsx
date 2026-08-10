@@ -30,7 +30,7 @@ export default function Vision() {
               <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
             </div>
             <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white mb-6 leading-tight">
-              نرسم ملامح الغد <span className="text-primary italic">بإتقان</span> اليوم
+              نرسم ملامح الغد <span className="text-primary">بإتقان</span> اليوم
             </h2>
             <p className="text-white/60 text-lg md:text-xl leading-relaxed font-light">
               أن نكون الشريك العقاري الأول والوجهة الدائمة والمفضلة للعملاء

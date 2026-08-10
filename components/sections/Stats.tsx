@@ -30,7 +30,7 @@ export default function Stats() {
             <span className="w-8 h-[2px] bg-primary" />
           </div>
           <h2 className="text-[clamp(2rem,4vw,3rem)] font-bold text-navy-deeper leading-tight">
-            أرقام تعكس <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-[#A07B40] italic">نجاحنا</span>
+            أرقام تعكس <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-[#A07B40]">نجاحنا</span>
           </h2>
         </motion.div>
 

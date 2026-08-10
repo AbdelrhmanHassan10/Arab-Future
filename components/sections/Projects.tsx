@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -88,18 +89,22 @@ function Lightbox({
         className="relative z-10 w-full max-w-6xl mx-4 md:mx-8 h-[90vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button */}
-        <button
-          onClick={onClose}
-          className="absolute -top-4 -right-4 md:top-0 md:-right-16 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all duration-300 z-50 border border-white/20"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path d="M6 18L18 6M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
-
         {/* Image Display */}
-        <div className="relative flex-1 rounded-3xl overflow-hidden bg-black mt-8 md:mt-0 border border-white/10 shadow-2xl">
+        <div className="relative flex-1 rounded-3xl overflow-hidden bg-navy-deeper mt-12 md:mt-0 border border-white/10 shadow-2xl">
+          
+          {/* Blurred Background to fill empty spaces */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current + "blur"}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.4 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              className="absolute inset-0 bg-cover bg-center blur-2xl scale-110"
+              style={{ backgroundImage: `url('${project.images[current]}')` }}
+            />
+          </AnimatePresence>
+
           <AnimatePresence mode="wait">
             <motion.div
               key={current}
@@ -112,12 +117,22 @@ function Lightbox({
             />
           </AnimatePresence>
 
+          {/* Close button */}
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-md flex items-center justify-center text-white transition-all duration-300 z-50 border border-white/20"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M6 18L18 6M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+
           {/* Navigation arrows */}
           {total > 1 && (
             <>
               <button
                 onClick={prev}
-                className="absolute right-6 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-primary hover:text-navy-deeper transition-all duration-300 border border-white/20"
+                className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white hover:bg-primary hover:text-navy-deeper transition-all duration-300 border border-white/20 z-50"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M9 5l7 7-7 7" />
@@ -125,7 +140,7 @@ function Lightbox({
               </button>
               <button
                 onClick={next}
-                className="absolute left-6 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-primary hover:text-navy-deeper transition-all duration-300 border border-white/20"
+                className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white hover:bg-primary hover:text-navy-deeper transition-all duration-300 border border-white/20 z-50"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M15 19l-7-7 7-7" />
@@ -135,7 +150,7 @@ function Lightbox({
           )}
 
           {/* Counter Badge */}
-          <div className="absolute top-6 left-6 bg-black/60 backdrop-blur-md rounded-full px-4 py-1.5 text-white/90 text-sm font-body border border-white/10 shadow-lg">
+          <div dir="ltr" className="absolute top-4 left-4 md:top-6 md:left-6 bg-black/60 backdrop-blur-md rounded-full px-4 py-1.5 text-white/90 text-xs md:text-sm font-body border border-white/10 shadow-lg z-50">
             {current + 1} / {total}
           </div>
         </div>
@@ -173,6 +188,11 @@ function Lightbox({
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState("الكل");
   const [selectedProject, setSelectedProject] = useState<(typeof projects)[0] | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const filtered =
     activeCategory === "الكل"
@@ -204,7 +224,7 @@ export default function Projects() {
                 <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
               </div>
               <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white leading-tight">
-                عقارات ترتقي لمستوى <span className="text-primary italic">تطلعاتك</span>
+                عقارات ترتقي لمستوى <span className="text-primary">تطلعاتك</span>
               </h2>
             </motion.div>
 
@@ -214,20 +234,23 @@ export default function Projects() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease, delay: 0.2 }}
-              className="flex flex-wrap gap-2 bg-white/5 p-1.5 rounded-full border border-white/10"
+              className="w-full md:w-auto overflow-x-auto pb-4 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
             >
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`px-5 py-2.5 text-sm rounded-full transition-all duration-500 font-medium ${activeCategory === cat
-                      ? "bg-primary text-navy-deeper shadow-glow"
-                      : "text-white/60 hover:text-white hover:bg-white/10"
+              <div className="flex w-max gap-2 bg-white/5 p-1.5 rounded-full border border-white/10">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`px-5 py-2.5 text-sm rounded-full transition-all duration-500 font-medium whitespace-nowrap ${
+                      activeCategory === cat
+                        ? "bg-primary text-navy-deeper shadow-glow"
+                        : "text-white/60 hover:text-white hover:bg-white/10"
                     }`}
-                >
-                  {cat}
-                </button>
-              ))}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
             </motion.div>
           </div>
 
@@ -322,15 +345,18 @@ export default function Projects() {
         </div>
       </section>
 
-      {/* Lightbox Modal */}
-      <AnimatePresence>
-        {selectedProject && (
-          <Lightbox
-            project={selectedProject}
-            onClose={() => setSelectedProject(null)}
-          />
-        )}
-      </AnimatePresence>
+      {/* Lightbox Modal via Portal */}
+      {mounted && createPortal(
+        <AnimatePresence>
+          {selectedProject && (
+            <Lightbox
+              project={selectedProject}
+              onClose={() => setSelectedProject(null)}
+            />
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </>
   );
 }

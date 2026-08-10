@@ -56,7 +56,7 @@ export default function Contact() {
             <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
           </div>
           <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white leading-tight">
-            نحن هنا لنبني <span className="text-primary italic">رؤيتك</span>
+            نحن هنا لنبني <span className="text-primary">رؤيتك</span>
           </h2>
           <p className="text-white/50 text-base mt-4 font-light">
             دعنا نناقش تفاصيل مشروعك القادم ونحوله من مجرد فكرة إلى واقع ملموس يحاكي الفخامة.

@@ -71,7 +71,7 @@ export default function CeoMessage() {
                 </div>
 
                 <h2 className="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-white mb-8 leading-[1.4]">
-                  نؤمن أن النجاح يقوم على <span className="text-primary italic">المعرفة والعطاء</span> قبل المنافسة
+                  نؤمن أن النجاح يقوم على <span className="text-primary">المعرفة والعطاء</span> قبل المنافسة
                 </h2>
 
                 <div className="space-y-6 text-white/70 font-light leading-[1.9] text-base md:text-lg">

@@ -35,7 +35,7 @@ function SectionHeader({ title, subtitle }: { title: string; subtitle: string })
         className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white leading-tight"
       >
         {title.split(' ').map((word, i, arr) => (
-          i === arr.length - 1 ? <span key={i} className="text-primary italic"> {word}</span> : <span key={i}>{word} </span>
+          i === arr.length - 1 ? <span key={i} className="text-primary"> {word}</span> : <span key={i}>{word} </span>
         ))}
       </motion.h2>
     </div>
@@ -475,7 +475,7 @@ export default function ProjectsPage() {
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent opacity-60 animate-pulse-slow" />
                 
                 <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 relative z-10">
-                  هل تبحث عن <span className="text-primary italic">عقار محدد؟</span>
+                  هل تبحث عن <span className="text-primary">عقار محدد؟</span>
                 </h2>
                 <p className="text-white/60 mb-10 max-w-xl mx-auto leading-relaxed relative z-10">
                   تواصل معنا الآن، وسيقوم أحد مستشارينا بالبحث في قاعدة بياناتنا الواسعة للعثور على العقار الذي يطابق مواصفاتك تماماً.

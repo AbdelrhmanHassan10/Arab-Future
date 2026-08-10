@@ -4,6 +4,7 @@ import "./globals.css";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import BackToTop from "@/components/BackToTop";
 import PageTransition from "@/components/PageTransition";
+import SmoothScroll from "@/components/SmoothScroll";
 import fs from "fs";
 import path from "path";
 
@@ -79,7 +80,9 @@ export default function RootLayout({
       <body
         className={`${cairo.variable} ${inter.variable} antialiased`}
       >
-        <PageTransition>{children}</PageTransition>
+        <SmoothScroll>
+          <PageTransition>{children}</PageTransition>
+        </SmoothScroll>
         <WhatsAppButton />
         <BackToTop />
       </body>

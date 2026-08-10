@@ -76,7 +76,7 @@ export default function Materials() {
             <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
           </div>
           <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white leading-tight">
-            استثمارات <span className="text-primary italic">متنوعة</span> لتلبية احتياجاتك
+            استثمارات <span className="text-primary">متنوعة</span> لتلبية احتياجاتك
           </h2>
           <p className="text-white/50 text-base mt-4 font-light">
             نوفر في سمسار مصر خيارات عقارية شاملة تناسب السكن الفاخر، الاستثمار التجاري، أو قضاء أوقات ممتعة في المنتجعات الساحلية.

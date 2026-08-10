@@ -70,7 +70,7 @@ export default function Services() {
               <span className="w-3 h-3 rounded-full bg-primary animate-pulse" />
             </div>
             <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-bold text-white leading-tight">
-              خدمات عقارية <br />بمعايير <span className="text-primary italic">عالمية</span>
+              خدمات عقارية <br />بمعايير <span className="text-primary">عالمية</span>
             </h2>
           </motion.div>
           <motion.div

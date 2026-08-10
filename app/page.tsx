@@ -1,6 +1,5 @@
 "use client";
 
-import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/sections/Hero";
 // import Stats from "@/components/sections/Stats";
@@ -17,7 +16,7 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <SmoothScroll>
+    <>
       <Navbar />
       <Hero />
       {/* <Stats /> */}
@@ -31,6 +30,6 @@ export default function Home() {
       <Partners />
       <Contact />
       <Footer />
-    </SmoothScroll>
+    </>
   );
 }
