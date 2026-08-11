@@ -31,10 +31,7 @@ export default function Contact() {
   }, []);
 
   return (
-    <section id="contact" className="relative bg-[#0a0f1c] overflow-hidden py-24 lg:py-32">
-      {/* Dynamic Backgrounds */}
-      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/[0.03] rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#DFBA7F]/[0.02] rounded-full blur-[150px] pointer-events-none" />
+    <section id="contact" className="relative py-24 md:py-32 bg-[#090909] overflow-hidden border-t border-white/5">
 
       {/* Grid Pattern */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+CjxyZWN0IHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgZmlsbD0ibm9uZSIvPgo8cGF0aCBkPSJNMCAwaDQwdjQwSDB6IiBmaWxsPSJub25lIi8+CjxwYXRoIGQ9Ik0wIDEwaDQwTTAgMjBoNDBNMCAzMGg0ME0xMCAwdjQwTTIwIDB2NDBNejAgMHY0MCIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjEiIG9wYWNpdHk9IjEiLz4KPC9zdmc+')] mix-blend-overlay" />
@@ -89,7 +86,7 @@ export default function Contact() {
                       type={field.type}
                       placeholder={field.placeholder}
                       dir="rtl"
-                      className="w-full text-right px-5 py-4 bg-[#0a0f1c]/50 border border-white/10 rounded-xl text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-primary focus:bg-white/5 transition-all duration-300 shadow-inner"
+                      className="w-full text-right px-5 py-4 bg-[#090909]/50 border border-white/10 rounded-xl text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-primary focus:bg-white/5 transition-all duration-300 shadow-inner"
                     />
                   </div>
                 ))}
@@ -100,7 +97,7 @@ export default function Contact() {
                   {/* Custom Select Button */}
                   <div
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className={`w-full flex items-center justify-between px-5 py-4 bg-[#0a0f1c]/50 border rounded-xl text-sm cursor-pointer shadow-inner transition-all duration-300 ${isDropdownOpen ? 'border-primary bg-white/5' : 'border-white/10 hover:bg-white/5'}`}
+                    className={`w-full flex items-center justify-between px-5 py-4 bg-[#090909]/50 border rounded-xl text-sm cursor-pointer shadow-inner transition-all duration-300 ${isDropdownOpen ? 'border-primary bg-white/5' : 'border-white/10 hover:bg-white/5'}`}
                   >
                     <span className={selectedType.value === "" ? "text-white/50" : "text-white"}>
                       {selectedType.label}
@@ -151,7 +148,7 @@ export default function Contact() {
                   rows={5}
                   dir="rtl"
                   placeholder="أخبرنا عن مشروعك وتفاصيله..."
-                  className="w-full h-full min-h-[120px] text-right px-5 py-4 bg-[#0a0f1c]/50 border border-white/10 rounded-xl text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-primary focus:bg-white/5 transition-all duration-300 resize-none shadow-inner"
+                  className="w-full h-full min-h-[120px] text-right px-5 py-4 bg-[#090909]/50 border border-white/10 rounded-xl text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-primary focus:bg-white/5 transition-all duration-300 resize-none shadow-inner"
                 />
               </div>
 

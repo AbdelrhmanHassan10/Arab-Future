@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cairo, Inter } from "next/font/google";
+import { Cairo } from "next/font/google";
 import "./globals.css";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import BackToTop from "@/components/BackToTop";
@@ -36,30 +36,30 @@ const cairo = Cairo({
   weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-const inter = Inter({
-  subsets: ["latin"],
+const cairoBody = Cairo({
+  subsets: ["arabic", "latin"],
   variable: "--font-body",
   display: "swap",
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
-  title: "سمسار مصر | Semsar Masr - Your Premium Real Estate Broker",
+  title: "سمسار بني سويف | Semsar Beni Suef - التسويق العقاري والتشطيبات",
   description:
-    "سمسار مصر - وجهتك الأولى لاكتشاف أفضل العقارات في مصر. بيع، شراء، وإيجار العقارات الفاخرة.",
+    "سمسار بني سويف - وجهتك الأولى لاكتشاف أفضل العقارات وتوفير خدمات التشطيب المتكاملة داخل بني سويف. بيع، شراء، وتشطيب.",
   keywords: [
     "real estate",
     "broker",
-    "egypt",
+    "beni suef",
     "property",
-    "villas",
-    "apartments",
+    "finishing",
     "سمسار",
     "عقارات",
-    "مصر",
+    "بني سويف",
+    "تشطيبات",
     "بيع",
     "شراء",
-    "إيجار"
+    "استثمار",
   ],
   openGraph: {
     title: "سمسار مصر | Semsar Masr",
@@ -76,9 +76,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className="scroll-smooth">
+    <html lang="ar" dir="rtl" className={`${cairo.variable} ${cairoBody.variable} scroll-smooth`}>
       <body
-        className={`${cairo.variable} ${inter.variable} antialiased`}
+        className={`antialiased`}
       >
         <SmoothScroll>
           <PageTransition>{children}</PageTransition>

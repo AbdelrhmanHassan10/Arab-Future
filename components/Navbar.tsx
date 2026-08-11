@@ -4,22 +4,13 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
-const serviceSubLinks = [
-  { label: "شراء العقارات", href: "/services/buying" },
-  { label: "بيع العقارات", href: "/services/selling" },
-  { label: "إيجار العقارات", href: "/services/renting" },
-  { label: "إدارة الأملاك", href: "/services/property-management" },
-  { label: "استشارات عقارية", href: "/services/consulting" },
-];
-
 const navLinks = [
   { label: "الرئيسية", href: "/" },
+  { label: "الوحدات", href: "/units" },
+  { label: "التشطيبات", href: "/finishing" },
+  { label: "أعمالنا", href: "/our-work" },
   { label: "من نحن", href: "/about" },
-  { label: "خدماتنا", href: "/services", hasDropdown: true },
-  { label: "العقارات", href: "/projects" },
-  { label: "معرض الصور", href: "/gallery" },
-  { label: "الأسئلة الشائعة", href: "/faq" },
-  { label: "المدونة", href: "/blog" },
+  { label: "تواصل معنا", href: "/contact" },
 ];
 
 export default function Navbar() {
@@ -47,71 +38,45 @@ export default function Navbar() {
         <div className={`transition-all duration-700 ease-expo-out ${scrolled ? "py-2 px-4 md:px-6 lg:px-8" : "py-4 md:py-5 px-6 md:px-10 lg:px-16 xl:px-24"
           }`}>
           <div className={`transition-all duration-700 ease-expo-out ${scrolled
-              ? "max-w-[1340px] mx-auto bg-navy-dark/90 backdrop-blur-2xl rounded-full shadow-card px-6 md:px-8 py-3 border border-white/[0.08]"
-              : ""
+            ? "max-w-[1340px] mx-auto bg-navy-dark/90 backdrop-blur-2xl rounded-full shadow-card px-6 md:px-8 py-3 border border-white/[0.08]"
+            : ""
             }`}>
             <div className={`flex items-center justify-between ${!scrolled ? "max-w-[1340px] mx-auto" : ""}`}>
               {/* Logo */}
-              <Link href="/" className="group flex items-center gap-3">
+              <Link href="/" className="group flex items-center gap-5">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/images/logo.png" alt="سمسار مصر" className="w-14 h-14 object-contain" />
-                <div className="block">
-                  <span className="font-bold text-[16px] block leading-none transition-colors duration-500 text-white">
-                    سمسار مصر
+                <img src="/samsar_logo_transparent.png" alt="سمسار بني سويف" className="w-16 h-16 md:w-24 md:h-22 object-contain transition-transform duration-500 group-hover:scale-105" />
+                
+                {/* Separator */}
+                <div className="w-[2px] h-16 bg-white/50 rounded-full hidden md:block"></div>
+                <div className="w-[2px] h-12 bg-white/50 rounded-full md:hidden"></div>
+
+                <div className="flex flex-col justify-center">
+                  <span className="font-bold text-lg md:text-xl block leading-none text-white font-arabic mb-1">
+                    سمسار بني سويف
                   </span>
-                  <span className="text-[9px] tracking-[0.2em] uppercase mt-1 block transition-colors duration-500 font-body text-primary/80">
-                    Semsar Masr
+                  <span className="text-[9px] md:text-[10px] tracking-[0.25em] uppercase block font-body text-primary font-bold">
+                    Semsar Beni Suef
                   </span>
                 </div>
               </Link>
 
               {/* Desktop Nav — centered pill */}
               <nav className={`hidden lg:flex items-center gap-1 transition-all duration-700 ${scrolled
-                  ? ""
-                  : "bg-white/[0.06] backdrop-blur-md rounded-full px-2 py-1.5 border border-white/[0.08]"
+                ? ""
+                : "bg-white/[0.06] backdrop-blur-md rounded-full px-2 py-1.5 border border-white/[0.08]"
                 }`}>
                 {navLinks.map((link) => (
-                  link.hasDropdown ? (
-                    <div key={link.href} className="relative group/dropdown">
-                      <Link
-                        href={link.href}
-                        className={`relative px-4 py-2 text-[13px] rounded-full transition-all duration-400 flex items-center gap-1 ${scrolled
-                            ? "text-white/70 hover:text-primary hover:bg-white/[0.06]"
-                            : "text-white/60 hover:text-primary hover:bg-white/[0.08]"
-                          }`}
-                      >
-                        {link.label}
-                        <svg className="w-3 h-3 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                        </svg>
-                      </Link>
-                      {/* Dropdown */}
-                      <div className="absolute top-full right-0 pt-2 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all duration-300">
-                        <div className="bg-navy-dark rounded-2xl shadow-card-hover border border-white/[0.08] py-3 min-w-[220px]">
-                          {serviceSubLinks.map((sub) => (
-                            <Link
-                              key={sub.href}
-                              href={sub.href}
-                              className="block px-5 py-2.5 text-[13px] text-white/70 hover:text-primary hover:bg-white/[0.05] transition-all duration-300"
-                            >
-                              {sub.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className={`relative px-4 py-2 text-[13px] rounded-full transition-all duration-400 ${scrolled
-                          ? "text-white/70 hover:text-primary hover:bg-white/[0.06]"
-                          : "text-white/60 hover:text-primary hover:bg-white/[0.08]"
-                        }`}
-                    >
-                      {link.label}
-                    </Link>
-                  )
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`relative px-4 py-2 text-[13px] rounded-full transition-all duration-400 ${scrolled
+                      ? "text-white/70 hover:text-primary hover:bg-white/[0.06]"
+                      : "text-white/60 hover:text-primary hover:bg-white/[0.08]"
+                      }`}
+                  >
+                    {link.label}
+                  </Link>
                 ))}
               </nav>
 
@@ -120,8 +85,8 @@ export default function Navbar() {
                 <Link
                   href="/contact"
                   className={`hidden lg:flex items-center gap-2 text-[13px] font-medium px-5 py-2.5 rounded-full transition-all duration-500 ${scrolled
-                      ? "bg-primary text-navy-deeper hover:bg-primary-dark hover:shadow-glow"
-                      : "bg-white/10 backdrop-blur-md text-white border border-white/15 hover:bg-white/20"
+                    ? "bg-primary text-navy-deeper hover:bg-primary-dark hover:shadow-glow"
+                    : "bg-white/10 backdrop-blur-md text-white border border-white/15 hover:bg-white/20"
                     }`}
                 >
                   <span>تواصل معنا</span>
@@ -177,38 +142,15 @@ export default function Navbar() {
               className="w-full bg-navy-deeper flex flex-col pt-24 pb-10 px-6 rounded-b-[2rem] shadow-[0_30px_60px_rgba(0,0,0,0.6)] border-b border-white/10"
             >
               <nav className="flex flex-col gap-2 w-full" dir="rtl">
-              {navLinks.map((link) => (
-                <motion.div
-                  key={link.href}
-                  variants={{
-                    closed: { opacity: 0, x: 30 },
-                    open: { opacity: 1, x: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
-                  }}
-                  className="w-full"
-                >
-                  {link.hasDropdown ? (
-                    <div className="flex flex-col w-full border-b border-white/10 pb-4 mb-2">
-                      <div className="text-2xl font-bold text-white py-3 flex items-center justify-between">
-                        {link.label}
-                        <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                        </svg>
-                      </div>
-                      <div className="flex flex-col gap-3 mt-2 pr-4 border-r-2 border-primary/30">
-                        {serviceSubLinks.map((sub) => (
-                          <Link
-                            key={sub.href}
-                            href={sub.href}
-                            onClick={() => setMobileOpen(false)}
-                            className="text-lg text-white/70 hover:text-primary transition-colors flex items-center gap-2"
-                          >
-                            <span className="w-1.5 h-1.5 rounded-full bg-primary/50"></span>
-                            {sub.label}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  ) : (
+                {navLinks.map((link) => (
+                  <motion.div
+                    key={link.href}
+                    variants={{
+                      closed: { opacity: 0, x: 30 },
+                      open: { opacity: 1, x: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
+                    }}
+                    className="w-full"
+                  >
                     <Link
                       href={link.href}
                       onClick={() => setMobileOpen(false)}
@@ -219,29 +161,28 @@ export default function Navbar() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                       </svg>
                     </Link>
-                  )}
-                </motion.div>
-              ))}
+                  </motion.div>
+                ))}
 
-              <motion.div
-                variants={{
-                  closed: { opacity: 0, y: 20 },
-                  open: { opacity: 1, y: 0 }
-                }}
-                className="mt-8 w-full"
-              >
-                <Link
-                  href="/contact"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center gap-2 w-full bg-primary text-navy-deeper text-lg font-bold py-4 rounded-xl shadow-glow hover:bg-primary-dark transition-all duration-300"
+                <motion.div
+                  variants={{
+                    closed: { opacity: 0, y: 20 },
+                    open: { opacity: 1, y: 0 }
+                  }}
+                  className="mt-8 w-full"
                 >
-                  تواصل معنا
-                </Link>
-              </motion.div>
-            </nav>
+                  <Link
+                    href="/contact"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center justify-center gap-2 w-full bg-primary text-navy-deeper text-lg font-bold py-4 rounded-xl shadow-glow hover:bg-primary-dark transition-all duration-300"
+                  >
+                    تواصل معنا
+                  </Link>
+                </motion.div>
+              </nav>
+            </motion.div>
           </motion.div>
-        </motion.div>
-      )}
+        )}
       </AnimatePresence>
     </>
   );

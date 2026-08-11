@@ -6,7 +6,7 @@ export default function Vision() {
   const ease = [0.16, 1, 0.3, 1] as const;
 
   return (
-    <section id="vision" className="relative bg-[#0a0f1c] overflow-hidden py-24 lg:py-32">
+    <section id="vision" className="relative bg-[#090909] overflow-hidden py-24 lg:py-32 border-t border-white/5">
       {/* Background Glow */}
       <div className="absolute top-1/4 -left-1/4 w-[800px] h-[800px] bg-primary/[0.03] rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-primary/[0.02] rounded-full blur-[100px] pointer-events-none" />

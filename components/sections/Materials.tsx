@@ -56,7 +56,7 @@ export default function Materials() {
   const ease = [0.16, 1, 0.3, 1] as const;
 
   return (
-    <section id="materials" className="relative bg-navy-deeper overflow-hidden py-24">
+    <section id="materials" className="relative bg-[#111111] overflow-hidden py-24 border-t border-white/5">
       {/* Dynamic Backgrounds */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/[0.02] rounded-full blur-[150px] pointer-events-none" />
 

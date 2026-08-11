@@ -16,10 +16,7 @@ export default function About() {
   const ease = [0.16, 1, 0.3, 1] as const;
 
   return (
-    <section id="about" className="relative bg-navy-deeper overflow-hidden py-24">
-      {/* Background Effects */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/[0.03] rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-white/[0.02] rounded-full blur-[150px] pointer-events-none" />
+    <section id="about" className="relative py-24 md:py-32 bg-[#111111] overflow-hidden border-t border-white/5">
 
       <div className="container-wide px-6 relative z-10">
         {/* Section Header */}

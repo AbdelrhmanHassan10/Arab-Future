@@ -61,24 +61,23 @@ export default function PageTransition({ children }: { children: React.ReactNode
               {/* Glowing background behind logo */}
               <div className="absolute inset-0 w-[200px] h-[200px] bg-primary/20 rounded-full blur-[60px] -z-10 flex items-center justify-center" />
               
-              <div className="relative w-32 h-32 mb-4">
+              <div className="relative w-56 h-24 mb-4">
                 <Image
-                  src="/images/logo.png"
-                  alt="سمسار مصر"
+                  src="/samsar_horizontal_transparent.png"
+                  alt="سمسار بني سويف"
                   fill
                   className="object-contain drop-shadow-[0_0_15px_rgba(191,154,95,0.4)]"
                   priority
                 />
               </div>
-              
-              <div className="flex flex-col items-center overflow-hidden">
+              <div className="overflow-hidden">
                 <motion.h2 
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.5, duration: 0.5 }}
                   className="text-white font-bold text-2xl tracking-wide mb-1"
                 >
-                  سمسار مصر
+                  سمسار بني سويف
                 </motion.h2>
                 <motion.p 
                   initial={{ y: 20, opacity: 0 }}

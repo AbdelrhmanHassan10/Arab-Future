@@ -2,11 +2,13 @@
 
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/sections/Hero";
+import QuickSearch from "@/components/QuickSearch";
 // import Stats from "@/components/sections/Stats";
 import CeoMessage from "@/components/sections/CeoMessage";
 import About from "@/components/sections/About";
 import Services from "@/components/sections/Services";
-import Projects from "@/components/sections/Projects";
+import Expertise from "@/components/sections/Expertise";
+import FeaturedUnits from "@/components/sections/Projects";
 import Achievements from "@/components/sections/Achievements";
 import Materials from "@/components/sections/Materials";
 import Vision from "@/components/sections/Vision";
@@ -19,11 +21,13 @@ export default function Home() {
     <>
       <Navbar />
       <Hero />
+      <QuickSearch />
       {/* <Stats /> */}
       <About />
       <Services />
+      <Expertise />
       <Achievements />
-      <Projects />
+      <FeaturedUnits />
       <CeoMessage />
       <Materials />
       <Vision />

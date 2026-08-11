@@ -9,17 +9,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "#C5A059",
+        primary: "#D6AE45",
+        "primary-light": "#F1D27A",
         "primary-dark": "#A8853D",
-        navy: "#2B2D42",
-        "navy-light": "#3D4060",
-        "navy-dark": "#1A1B2E",
-        "navy-deeper": "#12131F",
+        navy: "#161616",
+        "navy-light": "#1A1A1A",
+        "navy-dark": "#111111",
+        "navy-deeper": "#090909",
         cream: "#F5F3EF",
         "cream-dark": "#EDE9E3",
         "warm-gray": "#9CA3AF",
-        "off-white": "#FAFAF8",
-        "section-gray": "#161828",
+        "off-white": "#F7F7F5",
+        "section-gray": "#090909",
+        "gray-text": "#717171",
       },
       fontFamily: {
         arabic: ["var(--font-arabic)", "sans-serif"],

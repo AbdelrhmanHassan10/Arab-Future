@@ -8,17 +8,17 @@
 
 :root {
   --primary: #C5A059;
-  --navy: #2B2D42;
-  --navy-dark: #1A1B2E;
-  --navy-deeper: #12131F;
+  --navy: #161616;
+  --navy-dark: #111111;
+  --navy-deeper: #090909;
   --cream: #F5F3EF;
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-smooth: cubic-bezier(0.45, 0, 0.15, 1);
 }
 
 html {
-  overflow-x: hidden;
-  background: #12131F;
+  overflow-x: clip;
+  background: #090909;
 }
 
 html.lenis, html.lenis body {
@@ -39,8 +39,8 @@ html.lenis, html.lenis body {
 
 body {
   color: #ffffff;
-  background: #12131F;
-  overflow-x: hidden;
+  background: #090909;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -96,7 +96,7 @@ body {
   }
 
   .glass-card-dark {
-    @apply rounded-[20px] bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] shadow-glass-dark;
+    @apply rounded-[20px] bg-white/[0.04] backdrop-blur-xl border border-white/[0.12] shadow-glass-dark;
   }
 
   .card-rounded {
@@ -336,17 +336,19 @@ body {
    ============================== */
 
 @media (max-width: 768px) {
-  /* Disable heavy blur on mobile */
+  /* Disable heavy blur on mobile and replace with white/gold gradients */
   .glass-card {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: rgba(26,27,46,0.95) !important;
+    background: linear-gradient(145deg, rgba(255,255,255,0.12) 0%, rgba(197,160,89,0.05) 100%) !important;
+    border: 1px solid rgba(197,160,89, 0.2) !important;
   }
 
   .glass-card-dark {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: rgba(18,19,31,0.95) !important;
+    background: linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(197,160,89,0.08) 100%) !important;
+    border: 1px solid rgba(197,160,89, 0.25) !important;
   }
 
   .glass-subtle,

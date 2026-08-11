@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const PHONE_NUMBER = "966538086128";
+const PHONE_NUMBER = "201001234567";
 const MESSAGE = "مرحباً، أريد الاستفسار عن خدماتكم";
 const CONSULTATION_MSG = "مرحباً، أريد طلب استشارة مجانية";
 const INSPECTION_MSG = "مرحباً، أريد طلب معاينة مجانية";

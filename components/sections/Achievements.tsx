@@ -98,13 +98,9 @@ function BarStat({ label, value, maxValue, delay }: {
 
 export default function Achievements() {
   return (
-    <section className="relative bg-navy-deeper overflow-hidden py-24">
+    <section className="relative bg-[#111111] py-24 border-t border-white/5 overflow-hidden">
       {/* 3D Decorative Grid Background */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)', backgroundSize: '50px 50px', transform: 'perspective(1000px) rotateX(60deg) scale(2.5)', transformOrigin: 'top center' }} />
-
-      {/* Ambient Lights */}
-      <div className="absolute top-1/4 right-[10%] w-[500px] h-[500px] bg-primary/[0.04] rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-1/4 left-[10%] w-[400px] h-[400px] bg-[#DFBA7F]/[0.03] rounded-full blur-[120px] pointer-events-none" />
 
       <div className="container-wide px-6 relative z-10">
         <motion.div

@@ -1,17 +1,26 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 
-const partners = Array.from({ length: 8 }, (_, i) => ({
-  id: i + 1,
-  src: `/partners/partner-${i + 1}.jpg`,
-  alt: `شريك ${i + 1}`,
-}));
+const developers = [
+  "إعمار مصر",
+  "مجموعة طلعت مصطفى",
+  "بالم هيلز",
+  "سوديك",
+  "أورا للتطوير",
+  "ماونتن فيو",
+  "مصر إيطاليا",
+  "تطوير مصر",
+  "حسن علام",
+  "تطوير القابضة"
+];
+
+// Duplicate to ensure seamless infinite scroll
+const marqueeItems = [...developers, ...developers];
 
 export default function Partners() {
   return (
-    <section className="relative bg-navy-deeper overflow-hidden py-16 md:py-20 border-y border-white/5">
+    <section className="relative bg-[#111111] overflow-hidden py-16 md:py-20 border-y border-white/5">
       {/* Decorative Gradient Line */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
@@ -41,36 +50,44 @@ export default function Partners() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-white/40 text-sm font-light max-w-sm text-center md:text-left"
+            className="text-white/40 text-sm font-light max-w-sm text-center md:text-left leading-relaxed"
           >
-            شراكات استراتيجية مع كبرى شركات التطوير العقاري في مصر لضمان تقديم أفضل المشاريع لعملائنا.
+            شراكات استراتيجية مع كبرى شركات التطوير العقاري في مصر لضمان تقديم أفضل المشاريع لعملائنا بأعلى معايير الجودة.
           </motion.p>
         </div>
 
-        {/* Infinite Marquee Logos */}
-        <div className="relative flex overflow-hidden group py-4">
-          {/* Fade edges */}
-          <div className="absolute inset-y-0 left-0 w-24 md:w-40 bg-gradient-to-r from-navy-deeper to-transparent z-10 pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-24 md:w-40 bg-gradient-to-l from-navy-deeper to-transparent z-10 pointer-events-none" />
+        {/* Infinite Marquee Text Pills */}
+        <div className="relative flex overflow-hidden py-4 -mx-6 px-6">
+          {/* Fade edges matching the new #111111 background */}
+          <div className="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#111111] to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#111111] to-transparent z-10 pointer-events-none" />
 
-          <div className="flex animate-marquee group-hover:[animation-play-state:paused] whitespace-nowrap min-w-full items-center">
-            {[...partners, ...partners, ...partners].map((partner, i) => (
+          {/* 
+            RTL Marquee logic: 
+            Since document is RTL, flex lays out items Right-to-Left. 
+            Moving translateX to 50% moves the whole container to the right by exactly half its width, 
+            which perfectly loops the two identical halves.
+          */}
+          <motion.div
+            className="flex w-max"
+            animate={{ x: [0, "50%"] }}
+            transition={{ 
+              repeat: Infinity, 
+              ease: "linear", 
+              duration: 40 
+            }}
+          >
+            {marqueeItems.map((dev, i) => (
               <div
-                key={`${partner.id}-${i}`}
-                className="mx-4 md:mx-6 flex items-center justify-center w-[140px] md:w-[180px] h-[80px] group/logo cursor-pointer flex-shrink-0"
+                key={i}
+                className="mx-3 flex items-center justify-center px-8 py-4 glass-card-dark rounded-full cursor-pointer group hover:bg-primary/5 hover:border-primary/50 hover:-translate-y-1 transition-all duration-300"
               >
-                <div className="relative w-full h-full flex items-center justify-center p-4 rounded-2xl border border-transparent group-hover/logo:border-white/10 group-hover/logo:bg-white/[0.02] transition-all duration-500">
-                  <Image
-                    src={partner.src}
-                    alt={partner.alt}
-                    width={140}
-                    height={90}
-                    className="object-contain max-h-12 w-auto grayscale opacity-30 group-hover/logo:grayscale-0 group-hover/logo:opacity-100 transition-all duration-500"
-                  />
-                </div>
+                <span className="text-white/70 font-bold text-lg md:text-xl whitespace-nowrap group-hover:text-primary transition-colors duration-300">
+                  {dev}
+                </span>
               </div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
