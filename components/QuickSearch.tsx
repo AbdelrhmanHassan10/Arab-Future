@@ -14,7 +14,7 @@ function CustomSelect({
   onChange 
 }: { 
   label: string, 
-  icon: any, 
+  icon: React.ElementType, 
   value: string, 
   options: { value: string, label: string }[], 
   onChange: (val: string) => void 

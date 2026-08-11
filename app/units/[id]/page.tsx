@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { unitsData } from "@/lib/units";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { FiMapPin, FiMaximize, FiHome, FiDollarSign, FiCheckCircle, FiLayers, FiStar } from "react-icons/fi";
+import { FiMapPin, FiMaximize, FiHome, FiCheckCircle, FiLayers, FiStar } from "react-icons/fi";
 import { BiBed, BiBath } from "react-icons/bi";
 import { FaWhatsapp } from "react-icons/fa";
 import VideoPlayer from "@/components/VideoPlayer";

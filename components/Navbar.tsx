@@ -10,7 +10,7 @@ const navLinks = [
   { label: "التشطيبات", href: "/finishing" },
   { label: "أعمالنا", href: "/our-work" },
   { label: "من نحن", href: "/about" },
-  { label: "تواصل معنا", href: "/contact" },
+  { label: "الأسئلة الشائعة", href: "/faq" },
 ];
 
 export default function Navbar() {

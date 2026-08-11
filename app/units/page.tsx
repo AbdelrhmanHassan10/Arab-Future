@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import UnitCard from "@/components/UnitCard";
 import CustomSelect from "@/components/ui/CustomSelect";
-import { unitsData, Unit } from "@/lib/units";
+import { unitsData } from "@/lib/units";
 import { FiGrid, FiList, FiSearch, FiFilter } from "react-icons/fi";
 import { useSearchParams } from "next/navigation";
 

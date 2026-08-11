@@ -51,7 +51,7 @@ export default function OurWorkPage() {
           ].map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+              onClick={() => setActiveTab(tab.id as "completed" | "in-progress" | "sold")}
               className={`flex items-center gap-3 px-6 py-3.5 rounded-full font-bold transition-all duration-300 ${
                 activeTab === tab.id
                   ? "bg-primary text-[#090909] shadow-[0_0_20px_rgba(191,154,95,0.3)] scale-105"

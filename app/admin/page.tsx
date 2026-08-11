@@ -1,6 +1,6 @@
 "use client";
 
-import { FiUsers, FiBox, FiTool, FiDollarSign, FiTrendingUp } from "react-icons/fi";
+import { FiUsers, FiBox, FiTool, FiDollarSign } from "react-icons/fi";
 import { unitsData } from "@/lib/units";
 import { finishingProjects } from "@/lib/finishing";
 
