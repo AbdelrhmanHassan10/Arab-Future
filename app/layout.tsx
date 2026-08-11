@@ -78,7 +78,7 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl" className={`${cairo.variable} ${cairoBody.variable} scroll-smooth`}>
       <body
-        className={`antialiased`}
+        className={`${cairo.className} antialiased`}
       >
         <SmoothScroll>
           <PageTransition>{children}</PageTransition>
