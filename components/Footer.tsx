@@ -140,13 +140,13 @@ export default function Footer() {
             <div className="space-y-6">
               
               {/* Phone */}
-              <a href="tel:+201001234567" dir="ltr" className="flex items-center gap-4 group w-fit justify-end ml-auto md:ml-0 md:justify-start">
-                <div className="text-white/60 group-hover:text-white transition-colors duration-300 text-right md:text-left">
-                  <span className="block text-[10px] uppercase tracking-widest text-primary/70 mb-1 font-body">Phone</span>
-                  <span className="text-[15px] font-medium">+20 100 123 4567</span>
-                </div>
+              <a href="tel:+201001234567" className="flex items-center gap-4 group w-fit">
                 <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-navy-deeper group-hover:border-primary transition-all duration-300 flex-shrink-0">
                   <FiPhone className="text-xl" />
+                </div>
+                <div className="text-white/60 group-hover:text-white transition-colors duration-300 text-right">
+                  <span className="block text-[10px] uppercase tracking-widest text-primary/70 mb-1 font-body">Phone</span>
+                  <span className="text-[15px] font-medium" dir="ltr">+20 100 123 4567</span>
                 </div>
               </a>
 
@@ -162,13 +162,13 @@ export default function Footer() {
               </a>
 
               {/* Location */}
-              <div className="flex items-center gap-4 group w-fit justify-end ml-auto md:ml-0 md:justify-start">
-                <div className="text-white/60 text-right md:text-left">
-                  <span className="block text-[10px] uppercase tracking-widest text-primary/70 mb-1 font-body">Location</span>
-                  <span className="text-[15px] font-medium">بني سويف، مصر</span>
-                </div>
+              <div className="flex items-center gap-4 group w-fit">
                 <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-navy-deeper group-hover:border-primary transition-all duration-300 flex-shrink-0">
                   <FiMapPin className="text-xl" />
+                </div>
+                <div className="text-white/60 text-right">
+                  <span className="block text-[10px] uppercase tracking-widest text-primary/70 mb-1 font-body">Location</span>
+                  <span className="text-[15px] font-medium">بني سويف، مصر</span>
                 </div>
               </div>
 
