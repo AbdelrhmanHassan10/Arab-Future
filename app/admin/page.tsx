@@ -1,16 +1,38 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { FiUsers, FiBox, FiTool, FiDollarSign } from "react-icons/fi";
-import { unitsData } from "@/lib/units";
-import { finishingProjects } from "@/lib/finishing";
+import { Unit } from "@/lib/units";
 
 export default function AdminDashboard() {
+  const [units, setUnits] = useState<Unit[]>([]);
+  const [requests, setRequests] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    Promise.all([
+      fetch("/api/units").then(res => res.json()),
+      fetch("/api/requests").then(res => res.json())
+    ]).then(([unitsData, requestsData]) => {
+      setUnits(unitsData);
+      setRequests(requestsData);
+      setLoading(false);
+    }).catch(err => {
+      console.error("Failed to load dashboard data", err);
+      setLoading(false);
+    });
+  }, []);
+
   const stats = [
-    { label: "إجمالي الوحدات", value: unitsData.length, icon: FiBox, color: "text-blue-500", bg: "bg-blue-100" },
-    { label: "مشاريع التشطيب", value: finishingProjects.length, icon: FiTool, color: "text-purple-500", bg: "bg-purple-100" },
-    { label: "الوحدات المباعة", value: unitsData.filter(u => u.status === "sold").length, icon: FiDollarSign, color: "text-green-500", bg: "bg-green-100" },
-    { label: "الطلبات الجديدة", value: "12", icon: FiUsers, color: "text-orange-500", bg: "bg-orange-100" },
+    { label: "إجمالي الوحدات", value: units.length, icon: FiBox, color: "text-blue-500", bg: "bg-blue-100" },
+    { label: "مشاريع التشطيب", value: "3", icon: FiTool, color: "text-purple-500", bg: "bg-purple-100" },
+    { label: "الوحدات المباعة", value: units.filter(u => u.status === "sold").length, icon: FiDollarSign, color: "text-green-500", bg: "bg-green-100" },
+    { label: "الطلبات الجديدة", value: requests.filter(r => r.status === "جديد").length, icon: FiUsers, color: "text-orange-500", bg: "bg-orange-100" },
   ];
+
+  if (loading) {
+    return <div className="text-center py-20 text-navy-dark font-bold">جاري تحميل البيانات...</div>;
+  }
 
   return (
     <div className="space-y-6">
@@ -47,7 +69,7 @@ export default function AdminDashboard() {
             <a href="/admin/units" className="text-sm text-primary font-bold hover:underline">عرض الكل</a>
           </div>
           <div className="p-0">
-            {unitsData.slice(0, 4).map((unit) => (
+            {units.slice(0, 4).map((unit) => (
               <div key={unit.id} className="flex items-center justify-between p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 shrink-0">
@@ -75,12 +97,7 @@ export default function AdminDashboard() {
             <a href="/admin/requests" className="text-sm text-primary font-bold hover:underline">عرض الكل</a>
           </div>
           <div className="p-0">
-            {[
-              { name: "أحمد محمود", type: "طلب معاينة شقة", time: "منذ ساعتين", status: "جديد" },
-              { name: "سارة حسن", type: "استفسار عن باقة تشطيب", time: "منذ 5 ساعات", status: "قيد المراجعة" },
-              { name: "محمد علي", type: "طلب شراء فيلا", time: "أمس", status: "مكتمل" },
-              { name: "عمر فاروق", type: "طلب معاينة تجاري", time: "أمس", status: "جديد" },
-            ].map((req, idx) => (
+            {requests.slice(0, 4).map((req, idx) => (
               <div key={idx} className="flex items-center justify-between p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-full bg-navy-deeper text-white flex items-center justify-center font-bold text-sm shrink-0">
@@ -92,7 +109,9 @@ export default function AdminDashboard() {
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-1">
-                  <span className="text-xs text-gray-400">{req.time}</span>
+                  <span className="text-xs text-gray-400">
+                    {new Date(req.time).toLocaleDateString('ar-EG')}
+                  </span>
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                     req.status === "جديد" ? "bg-orange-100 text-orange-600" :
                     req.status === "قيد المراجعة" ? "bg-blue-100 text-blue-600" :

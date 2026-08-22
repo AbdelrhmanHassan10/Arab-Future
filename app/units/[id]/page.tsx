@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { unitsData } from "@/lib/units";
+import { getDB } from "@/lib/db";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { FiMapPin, FiMaximize, FiHome, FiCheckCircle, FiLayers, FiStar } from "react-icons/fi";
@@ -10,7 +10,8 @@ import GalleryLightbox from "@/components/GalleryLightbox";
 import ImageLightbox from "@/components/ImageLightbox";
 
 export function generateStaticParams() {
-  return unitsData.map((unit) => ({
+  const db = getDB();
+  return db.units.map((unit) => ({
     id: unit.id,
   }));
 }
@@ -39,7 +40,8 @@ const getFinishingLabel = (level: string) => {
 };
 
 export default function UnitDetailsPage({ params }: { params: { id: string } }) {
-  const unit = unitsData.find((u) => u.id === params.id);
+  const db = getDB();
+  const unit = db.units.find((u) => u.id === params.id);
 
   if (!unit) {
     notFound();

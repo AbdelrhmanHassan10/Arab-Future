@@ -1,13 +1,70 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiPlus, FiEdit2, FiTrash2, FiSearch, FiFilter } from "react-icons/fi";
-import { unitsData } from "@/lib/units";
+import { Unit } from "@/lib/units";
 
 export default function AdminUnitsPage() {
+  const [units, setUnits] = useState<Unit[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  const filteredUnits = unitsData.filter(u => 
+  const fetchUnits = () => {
+    fetch("/api/units")
+      .then(res => res.json())
+      .then(data => {
+        setUnits(data);
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    fetchUnits();
+  }, []);
+
+  const handleAddDemoUnit = async () => {
+    const newUnit = {
+      title: "وحدة جديدة " + Math.floor(Math.random() * 100),
+      type: "apartment",
+      location: "بني سويف الجديدة",
+      price: 1500000,
+      area: 120,
+      rooms: 3,
+      bathrooms: 2,
+      status: "available",
+      image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      images: ["https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"],
+      amenities: ["جراج", "أمن"],
+      description: "هذه وحدة تم إضافتها ديناميكياً من لوحة التحكم.",
+      finishing: "full"
+    };
+
+    await fetch("/api/units", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newUnit)
+    });
+    fetchUnits();
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("هل أنت متأكد من حذف هذه الوحدة؟")) return;
+    
+    await fetch(`/api/units?id=${id}`, { method: 'DELETE' });
+    fetchUnits();
+  };
+
+  const handleToggleStatus = async (unit: Unit) => {
+    const newStatus = unit.status === "available" ? "sold" : "available";
+    await fetch("/api/units", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: unit.id, status: newStatus })
+    });
+    fetchUnits();
+  };
+
+  const filteredUnits = units.filter(u => 
     u.title.includes(searchTerm) || u.id.includes(searchTerm)
   );
 
@@ -20,7 +77,10 @@ export default function AdminUnitsPage() {
           <h1 className="text-2xl font-bold text-navy-dark">إدارة الوحدات</h1>
           <p className="text-gray-500 text-sm">أضف، عدل، أو احذف الوحدات العقارية المعروضة.</p>
         </div>
-        <button className="bg-primary text-navy-deeper font-bold px-6 py-2.5 rounded-xl flex items-center gap-2 hover:bg-[#D6AE45] transition-colors shadow-sm whitespace-nowrap">
+        <button 
+          onClick={handleAddDemoUnit}
+          className="bg-primary text-navy-deeper font-bold px-6 py-2.5 rounded-xl flex items-center gap-2 hover:bg-[#D6AE45] transition-colors shadow-sm whitespace-nowrap"
+        >
           <FiPlus size={20} />
           <span>إضافة وحدة جديدة</span>
         </button>
@@ -48,6 +108,9 @@ export default function AdminUnitsPage() {
 
       {/* Table */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        {loading ? (
+           <div className="p-10 text-center text-gray-500 font-bold">جاري تحميل الوحدات...</div>
+        ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-right whitespace-nowrap">
             <thead className="bg-gray-50 border-b border-gray-100 text-gray-500 text-xs uppercase font-bold tracking-wider">
@@ -84,16 +147,23 @@ export default function AdminUnitsPage() {
                     <span className="text-sm font-bold text-navy-dark">{unit.price.toLocaleString("ar-EG")} ج.م</span>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold inline-block ${unit.status === "available" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}>
+                    <button 
+                      onClick={() => handleToggleStatus(unit)}
+                      className={`px-3 py-1 rounded-full text-xs font-bold inline-block transition-transform hover:scale-105 ${unit.status === "available" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}
+                    >
                       {unit.status === "available" ? "متاحة" : "تم البيع"}
-                    </span>
+                    </button>
                   </td>
                   <td className="px-6 py-4 text-left">
                     <div className="flex items-center justify-end gap-2">
                       <button className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors" title="تعديل">
                         <FiEdit2 size={16} />
                       </button>
-                      <button className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="حذف">
+                      <button 
+                        onClick={() => handleDelete(unit.id)}
+                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" 
+                        title="حذف"
+                      >
                         <FiTrash2 size={16} />
                       </button>
                     </div>
@@ -110,6 +180,7 @@ export default function AdminUnitsPage() {
             </tbody>
           </table>
         </div>
+        )}
       </div>
 
     </div>

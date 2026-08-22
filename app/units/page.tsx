@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import UnitCard from "@/components/UnitCard";
 import CustomSelect from "@/components/ui/CustomSelect";
-import { unitsData } from "@/lib/units";
+import { Unit } from "@/lib/units";
 import { FiGrid, FiList, FiSearch, FiFilter } from "react-icons/fi";
 import { useSearchParams } from "next/navigation";
 
@@ -21,6 +21,21 @@ function UnitsContent() {
     priceMax: "",
     rooms: "",
   });
+  const [units, setUnits] = useState<Unit[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/units")
+      .then((res) => res.json())
+      .then((data) => {
+        setUnits(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch units", err);
+        setLoading(false);
+      });
+  }, []);
 
   const typeOptions = [
     { value: "apartment", label: "شقة" },
@@ -91,7 +106,7 @@ function UnitsContent() {
     "al-wasta": "الواسطى",
   };
 
-  const filteredUnits = unitsData.filter((unit) => {
+  const filteredUnits = units.filter((unit) => {
     const matchSearch = unit.title.includes(searchTerm) || unit.id.includes(searchTerm);
     const matchType = filters.type ? unit.type === filters.type : true;
 
@@ -155,6 +170,17 @@ function UnitsContent() {
 
       <div className="bg-[#090909] py-12 min-h-screen">
         <div className="container-wide px-6">
+        {/* Page Header */}
+        <div className="mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">الوحدات العقارية</h1>
+          <p className="text-gray-400 max-w-2xl text-lg">تصفح أحدث العقارات المتاحة للبيع والاستثمار في أرقى مناطق بني سويف. شقق، فيلات، ومقرات إدارية وتجارية تلبي جميع احتياجاتك.</p>
+        </div>
+
+        {loading ? (
+          <div className="flex justify-center items-center py-32">
+            <div className="text-primary font-bold text-xl animate-pulse">جاري تحميل الوحدات...</div>
+          </div>
+        ) : (
           <div className="flex flex-col lg:flex-row gap-8">
 
             {/* Sidebar Filters */}
@@ -275,6 +301,7 @@ function UnitsContent() {
             </div>
 
           </div>
+        )}
         </div>
       </div>
 
