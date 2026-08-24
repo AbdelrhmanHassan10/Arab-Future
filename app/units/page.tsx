@@ -25,17 +25,35 @@ function UnitsContent() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/units")
+    setLoading(true);
+    
+    // Construct query parameters matching Laravel API
+    const params = new URLSearchParams();
+    if (filters.type) params.append("type", filters.type);
+    if (filters.status) params.append("status", filters.status);
+    if (filters.rooms) params.append("min_rooms", filters.rooms);
+    if (filters.priceMin) params.append("min_price", filters.priceMin);
+    if (filters.priceMax) params.append("max_price", filters.priceMax);
+    if (searchTerm) params.append("q", searchTerm);
+    
+    // If location is used in backend, you can pass it here, e.g., area_id if you have it
+    // Or just pass it as 'location' if backend supports it
+    if (filters.location) params.append("location", filters.location);
+
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+    fetch(`${API_URL}/units?${params.toString()}`)
       .then((res) => res.json())
       .then((data) => {
-        setUnits(data);
+        // Handle paginated or flat array response
+        setUnits(data.data || data || []);
         setLoading(false);
       })
       .catch((err) => {
         console.error("Failed to fetch units", err);
+        setUnits([]);
         setLoading(false);
       });
-  }, []);
+  }, [filters, searchTerm]);
 
   const typeOptions = [
     { value: "apartment", label: "شقة" },
@@ -99,32 +117,8 @@ function UnitsContent() {
     setFilters({ ...filters, [e.target.name]: e.target.value });
   };
 
-  const locationMapping: Record<string, string> = {
-    "beni-suef-city": "مدينة بني سويف",
-    "new-beni-suef": "بني سويف الجديدة",
-    "baba": "ببا",
-    "al-wasta": "الواسطى",
-  };
+  const filteredUnits = units; // We now rely on the backend for filtering
 
-  const filteredUnits = units.filter((unit) => {
-    const matchSearch = unit.title.includes(searchTerm) || unit.id.includes(searchTerm);
-    const matchType = filters.type ? unit.type === filters.type : true;
-
-    // Handle location mapping for English keys
-    const searchLoc = locationMapping[filters.location] || filters.location;
-    // Special case for 'beni-suef-city' to also match generic 'بني سويف' without 'الجديدة'
-    const isBeniSuefCity = filters.location === "beni-suef-city"
-      ? (unit.location.includes("مدينة بني سويف") || (unit.location.includes("بني سويف") && !unit.location.includes("بني سويف الجديدة")))
-      : unit.location.includes(searchLoc);
-
-    const matchLocation = filters.location ? isBeniSuefCity : true;
-    const matchStatus = filters.status ? unit.status === filters.status : true;
-    const matchPriceMin = filters.priceMin ? unit.price >= Number(filters.priceMin) : true;
-    const matchPriceMax = filters.priceMax ? unit.price <= Number(filters.priceMax) : true;
-    const matchRooms = filters.rooms ? unit.rooms >= Number(filters.rooms) : true;
-
-    return matchSearch && matchType && matchLocation && matchStatus && matchPriceMin && matchPriceMax && matchRooms;
-  });
 
   return (
     <>

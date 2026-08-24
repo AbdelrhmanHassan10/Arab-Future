@@ -3,63 +3,44 @@
 import { useState, useEffect } from "react";
 import { FiPlus, FiEdit2, FiTrash2, FiSearch, FiFilter } from "react-icons/fi";
 import { Unit } from "@/lib/units";
+import Link from "next/link";
 
 export default function AdminUnitsPage() {
   const [units, setUnits] = useState<Unit[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const fetchUnits = () => {
-    fetch("/api/units")
-      .then(res => res.json())
-      .then(data => {
-        setUnits(data);
-        setLoading(false);
-      });
+  const fetchUnits = async () => {
+    try {
+      const res = await fetch("/api/admin/units");
+      const data = await res.json();
+      const fetchedUnits = data.data || data;
+      setUnits(Array.isArray(fetchedUnits) ? fetchedUnits : []);
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch units:", error);
+      setUnits([]);
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     fetchUnits();
   }, []);
 
-  const handleAddDemoUnit = async () => {
-    const newUnit = {
-      title: "وحدة جديدة " + Math.floor(Math.random() * 100),
-      type: "apartment",
-      location: "بني سويف الجديدة",
-      price: 1500000,
-      area: 120,
-      rooms: 3,
-      bathrooms: 2,
-      status: "available",
-      image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      images: ["https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"],
-      amenities: ["جراج", "أمن"],
-      description: "هذه وحدة تم إضافتها ديناميكياً من لوحة التحكم.",
-      finishing: "full"
-    };
-
-    await fetch("/api/units", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newUnit)
-    });
-    fetchUnits();
-  };
-
   const handleDelete = async (id: string) => {
     if (!confirm("هل أنت متأكد من حذف هذه الوحدة؟")) return;
     
-    await fetch(`/api/units?id=${id}`, { method: 'DELETE' });
+    await fetch(`/api/admin/units/${id}`, { method: 'DELETE' });
     fetchUnits();
   };
 
   const handleToggleStatus = async (unit: Unit) => {
     const newStatus = unit.status === "available" ? "sold" : "available";
-    await fetch("/api/units", {
+    await fetch(`/api/admin/units/${unit.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: unit.id, status: newStatus })
+      body: JSON.stringify({ status: newStatus })
     });
     fetchUnits();
   };
@@ -77,13 +58,13 @@ export default function AdminUnitsPage() {
           <h1 className="text-2xl font-bold text-navy-dark">إدارة الوحدات</h1>
           <p className="text-gray-500 text-sm">أضف، عدل، أو احذف الوحدات العقارية المعروضة.</p>
         </div>
-        <button 
-          onClick={handleAddDemoUnit}
+        <Link 
+          href="/admin/units/add"
           className="bg-primary text-navy-deeper font-bold px-6 py-2.5 rounded-xl flex items-center gap-2 hover:bg-[#D6AE45] transition-colors shadow-sm whitespace-nowrap"
         >
           <FiPlus size={20} />
           <span>إضافة وحدة جديدة</span>
-        </button>
+        </Link>
       </div>
 
       {/* Filters Bar */}
@@ -156,9 +137,9 @@ export default function AdminUnitsPage() {
                   </td>
                   <td className="px-6 py-4 text-left">
                     <div className="flex items-center justify-end gap-2">
-                      <button className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors" title="تعديل">
+                      <Link href={`/admin/units/edit/${unit.id}`} className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors inline-block" title="تعديل">
                         <FiEdit2 size={16} />
-                      </button>
+                      </Link>
                       <button 
                         onClick={() => handleDelete(unit.id)}
                         className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" 

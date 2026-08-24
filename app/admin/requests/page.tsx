@@ -1,21 +1,33 @@
 "use client";
 
 import { FiSearch, FiCheck, FiX, FiEye } from "react-icons/fi";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function AdminRequestsPage() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [requests, setRequests] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const mockRequests = [
-    { id: "REQ-001", name: "أحمد محمود", phone: "+201012345678", type: "طلب معاينة شقة", date: "2026-08-11", status: "new" },
-    { id: "REQ-002", name: "سارة حسن", phone: "+201123456789", type: "استفسار عن باقة تشطيب", date: "2026-08-10", status: "pending" },
-    { id: "REQ-003", name: "محمد علي", phone: "+201234567890", type: "طلب شراء فيلا", date: "2026-08-09", status: "completed" },
-    { id: "REQ-004", name: "عمر فاروق", phone: "+201555555555", type: "طلب معاينة تجاري", date: "2026-08-09", status: "new" },
-    { id: "REQ-005", name: "منى سالم", phone: "+201000000000", type: "طلب معاينة شقة", date: "2026-08-08", status: "rejected" },
-  ];
+  const fetchRequests = async () => {
+    try {
+      const res = await fetch("/api/admin/requests");
+      const data = await res.json();
+      const fetchedRequests = data.data || data;
+      setRequests(Array.isArray(fetchedRequests) ? fetchedRequests : []);
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch requests:", error);
+      setRequests([]);
+      setLoading(false);
+    }
+  };
 
-  const filteredRequests = mockRequests.filter(r => 
-    r.name.includes(searchTerm) || r.id.includes(searchTerm) || r.phone.includes(searchTerm)
+  useEffect(() => {
+    fetchRequests();
+  }, []);
+
+  const filteredRequests = requests.filter(r => 
+    r.name?.includes(searchTerm) || r.id?.toString().includes(searchTerm) || r.phone?.includes(searchTerm)
   );
 
   return (

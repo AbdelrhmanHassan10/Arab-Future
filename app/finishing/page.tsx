@@ -3,13 +3,31 @@
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { finishingPackages, finishingProjects } from "@/lib/finishing";
+import { finishingPackages } from "@/lib/finishing";
 import { FiCheckCircle, FiTool, FiLayout, FiHome, FiImage } from "react-icons/fi";
 import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa";
+import { useState, useEffect } from "react";
 
 export default function FinishingPage() {
   const ease = [0.16, 1, 0.3, 1] as const;
+  const [projects, setProjects] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Fetch completed renovation projects from API
+    const params = new URLSearchParams();
+    params.append("status", "completed");
+
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+    fetch(`${API_URL}/renovation-projects?${params.toString()}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setProjects(data.data || data || []);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch renovation projects", err);
+      });
+  }, []);
 
   return (
     <>
@@ -112,41 +130,36 @@ export default function FinishingPage() {
                 باقات التشطيب
               </h2>
               <div className="w-24 h-[2px] bg-primary mx-auto opacity-50 mb-6" />
-              <p className="text-gray-500 max-w-2xl mx-auto text-lg">اختر الباقة الأنسب لميزانيتك واحتياجاتك لضمان تحقيق رؤيتك بأفضل المعايير.</p>
+              <p className="text-gray-500 max-w-2xl mx-auto text-lg">باقات مدروسة لتلبي كافة الاحتياجات وتتناسب مع ميزانيتك، مع ضمان الجودة العالية في التنفيذ.</p>
             </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center max-w-6xl mx-auto">
             {finishingPackages.map((pkg, idx) => (
               <motion.div
-                key={pkg.id}
+                key={idx}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.2 }}
-                className={`bg-white rounded-3xl p-8 border ${idx === 1 ? 'border-primary shadow-[0_20px_50px_rgba(191,154,95,0.25)] relative scale-[1.02] -translate-y-2 md:scale-[1.08] md:-translate-y-6 z-20' : 'border-gray-200 shadow-card'} flex flex-col h-full`}
+                className={`rounded-3xl p-8 relative flex flex-col h-full bg-white border border-gray-100 ${idx === 1 ? 'shadow-2xl md:scale-110 z-10 border-primary/20' : 'shadow-soft opacity-90'}`}
               >
                 {idx === 1 && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#DFBA7F] to-[#A07B40] text-black px-6 py-1.5 rounded-full text-sm font-bold uppercase tracking-widest shadow-[0_5px_15px_rgba(191,154,95,0.3)]">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-black font-bold px-4 py-1 rounded-full text-sm shadow-md whitespace-nowrap border border-white/20">
                     الأكثر طلباً
                   </div>
                 )}
                 
-                <h3 className="text-2xl font-bold text-navy-dark mb-2 text-center">{pkg.name}</h3>
-                <p className="text-gray-500 text-sm text-center mb-8 h-10 leading-relaxed">{pkg.description}</p>
+                <h3 className="text-2xl font-bold text-navy-deeper mb-2 text-center">{pkg.name}</h3>
+                <p className="text-gray-500 text-sm mb-6 text-center">{pkg.description}</p>
                 
-                {pkg.pricePerMeter ? (
-                  <div className="text-center mb-8 border-b border-gray-100 pb-8">
-                    <span className="text-4xl font-bold text-primary-dark">{pkg.pricePerMeter}</span>
-                    <span className="text-gray-400 text-sm"> ج.م / المتر</span>
-                  </div>
-                ) : (
-                  <div className="text-center mb-8 border-b border-gray-100 pb-8">
-                    <span className="text-2xl font-bold text-primary-dark">حسب المعاينة</span>
-                  </div>
-                )}
+                <div className="text-center mb-8">
+                  <span className="text-sm text-gray-500 font-medium">يبدأ من</span>
+                  <div className="text-4xl font-black text-navy-deeper my-1 font-body">{pkg.pricePerMeter}</div>
+                  <span className="text-sm text-gray-500 font-medium">ج.م / للمتر المربع</span>
+                </div>
 
-                <div className="flex-grow space-y-4 mb-10">
+                <div className="space-y-4 mb-8 flex-1">
                   {pkg.features.map((feature, fIdx) => (
                     <div key={fIdx} className="flex items-start gap-3">
                       <FiCheckCircle className="text-primary mt-1 shrink-0" size={18} />
@@ -198,9 +211,9 @@ export default function FinishingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {finishingProjects.map((project, idx) => (
+            {projects.map((project, idx) => (
               <motion.div
-                key={project.id}
+                key={project.id || idx}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -208,7 +221,7 @@ export default function FinishingPage() {
                 className="group rounded-3xl overflow-hidden bg-[#111111] border border-white/5 shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:border-primary/30 transition-all duration-500"
               >
                 <div className="relative h-[350px] overflow-hidden">
-                  <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <img src={project.main_image || project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-transparent opacity-80" />
                   <div className="absolute top-4 right-4 bg-[#111111]/80 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold text-primary border border-white/5">
                     {project.style}
@@ -216,7 +229,7 @@ export default function FinishingPage() {
                   <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md text-white w-10 h-10 rounded-full flex items-center justify-center border border-white/10">
                     <FiImage />
                     <span className="absolute -top-1 -right-1 bg-primary text-black w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold">
-                      {project.images.length}
+                      {project.images?.length || 0}
                     </span>
                   </div>
                 </div>
@@ -225,14 +238,18 @@ export default function FinishingPage() {
                   <p className="text-white/50 mb-8 line-clamp-2 leading-relaxed">{project.description}</p>
                   
                   <div className="flex flex-wrap gap-2 mb-8">
-                    {project.servicesProvided.map((service, sIdx) => (
+                    {project.scope_of_work?.map((service: string, sIdx: number) => (
+                      <span key={sIdx} className="bg-white/5 border border-white/10 px-3 py-1.5 rounded-full text-xs text-white/70 font-medium">
+                        {service}
+                      </span>
+                    )) || project.servicesProvided?.map((service: string, sIdx: number) => (
                       <span key={sIdx} className="bg-white/5 border border-white/10 px-3 py-1.5 rounded-full text-xs text-white/70 font-medium">
                         {service}
                       </span>
                     ))}
                   </div>
 
-                  <Link href={`/our-work/${project.id}`} className="inline-flex items-center gap-2 text-primary font-bold hover:text-white transition-colors group/link">
+                  <Link href={`/our-work/${project.id || project.code || ''}`} className="inline-flex items-center gap-2 text-primary font-bold hover:text-white transition-colors group/link">
                     <span>عرض التفاصيل والصور</span>
                     <svg className="w-5 h-5 rotate-180 group-hover/link:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />

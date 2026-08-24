@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 const PHONE_NUMBER = "201001234567";
 const MESSAGE = "مرحباً، أريد الاستفسار عن خدماتكم";
@@ -11,6 +12,7 @@ const INSPECTION_MSG = "مرحباً، أريد طلب معاينة مجانية
 export default function WhatsAppButton() {
   const [show, setShow] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const timer = setTimeout(() => setShow(true), 1500);
@@ -66,7 +68,7 @@ export default function WhatsAppButton() {
     }
   ];
 
-  if (!show) return null;
+  if (!show || pathname?.startsWith("/admin")) return null;
 
   return (
     <div

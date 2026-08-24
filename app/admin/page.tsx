@@ -1,42 +1,37 @@
-"use client";
-
-import { useState, useEffect } from "react";
+import { cookies } from "next/headers";
 import { FiUsers, FiBox, FiTool, FiDollarSign } from "react-icons/fi";
-import { Unit } from "@/lib/units";
+import { fetchApi } from "@/lib/api";
 
-export default function AdminDashboard() {
-  const [units, setUnits] = useState<Unit[]>([]);
-  const [requests, setRequests] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    Promise.all([
-      fetch("/api/units").then(res => res.json()),
-      fetch("/api/requests").then(res => res.json())
-    ]).then(([unitsData, requestsData]) => {
-      setUnits(unitsData);
-      setRequests(requestsData);
-      setLoading(false);
-    }).catch(err => {
-      console.error("Failed to load dashboard data", err);
-      setLoading(false);
+async function getDashboardData() {
+  try {
+    const data = await fetchApi("/admin/dashboard", {
+      cache: 'no-store'
     });
-  }, []);
-
-  const stats = [
-    { label: "إجمالي الوحدات", value: units.length, icon: FiBox, color: "text-blue-500", bg: "bg-blue-100" },
-    { label: "مشاريع التشطيب", value: "3", icon: FiTool, color: "text-purple-500", bg: "bg-purple-100" },
-    { label: "الوحدات المباعة", value: units.filter(u => u.status === "sold").length, icon: FiDollarSign, color: "text-green-500", bg: "bg-green-100" },
-    { label: "الطلبات الجديدة", value: requests.filter(r => r.status === "جديد").length, icon: FiUsers, color: "text-orange-500", bg: "bg-orange-100" },
-  ];
-
-  if (loading) {
-    return <div className="text-center py-20 text-navy-dark font-bold">جاري تحميل البيانات...</div>;
+    return data;
+  } catch (error) {
+    return null;
   }
+}
+
+export default async function AdminDashboard() {
+  const data = await getDashboardData();
+
+  if (!data) {
+    return <div className="text-center py-20 text-red-500 font-bold">فشل في تحميل بيانات لوحة التحكم. تأكد من عمل الخادم (Laravel).</div>;
+  }
+
+  // Assuming data structure based on typical Laravel responses:
+  // data = { stats: { total_units, total_renovation, sold_units, new_requests }, recent_requests: [], recent_units: [] }
+  const stats = [
+    { label: "إجمالي الوحدات", value: data.stats?.total_units || 0, icon: FiBox, color: "text-blue-500", bg: "bg-blue-100" },
+    { label: "مشاريع التشطيب", value: data.stats?.total_renovation || 0, icon: FiTool, color: "text-purple-500", bg: "bg-purple-100" },
+    { label: "الوحدات المباعة", value: data.stats?.sold_units || 0, icon: FiDollarSign, color: "text-green-500", bg: "bg-green-100" },
+    { label: "الطلبات الجديدة", value: data.stats?.new_requests || 0, icon: FiUsers, color: "text-orange-500", bg: "bg-orange-100" },
+  ];
 
   return (
     <div className="space-y-6">
-      
+
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-bold text-navy-dark">نظرة عامة</h1>
@@ -61,7 +56,7 @@ export default function AdminDashboard() {
 
       {/* Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-        
+
         {/* Recent Units */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
           <div className="p-6 border-b border-gray-100 flex justify-between items-center">
@@ -69,24 +64,27 @@ export default function AdminDashboard() {
             <a href="/admin/units" className="text-sm text-primary font-bold hover:underline">عرض الكل</a>
           </div>
           <div className="p-0">
-            {units.slice(0, 4).map((unit) => (
+            {data.recent_units?.map((unit: any) => (
               <div key={unit.id} className="flex items-center justify-between p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 shrink-0">
-                    <img src={unit.image} alt={unit.title} className="w-full h-full object-cover" />
+                    <img src={unit.main_image || unit.image} alt={unit.title} className="w-full h-full object-cover" />
                   </div>
                   <div>
                     <h4 className="font-bold text-sm text-navy-dark line-clamp-1">{unit.title}</h4>
-                    <p className="text-xs text-gray-500">{unit.location}</p>
+                    <p className="text-xs text-gray-500">{unit.address || unit.location}</p>
                   </div>
                 </div>
                 <div className="text-left">
                   <span className={`px-3 py-1 rounded-full text-xs font-bold ${unit.status === "available" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}>
-                    {unit.status === "available" ? "متاحة" : "تم البيع"}
+                    {unit.status === "available" ? "متاحة" : unit.status}
                   </span>
                 </div>
               </div>
             ))}
+            {(!data.recent_units || data.recent_units.length === 0) && (
+              <div className="p-6 text-center text-gray-500">لا توجد وحدات حتى الآن</div>
+            )}
           </div>
         </div>
 
@@ -97,11 +95,11 @@ export default function AdminDashboard() {
             <a href="/admin/requests" className="text-sm text-primary font-bold hover:underline">عرض الكل</a>
           </div>
           <div className="p-0">
-            {requests.slice(0, 4).map((req, idx) => (
+            {data.recent_requests?.map((req: any, idx: number) => (
               <div key={idx} className="flex items-center justify-between p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-full bg-navy-deeper text-white flex items-center justify-center font-bold text-sm shrink-0">
-                    {req.name.charAt(0)}
+                    {req.name?.charAt(0) || '-'}
                   </div>
                   <div>
                     <h4 className="font-bold text-sm text-navy-dark">{req.name}</h4>
@@ -110,18 +108,20 @@ export default function AdminDashboard() {
                 </div>
                 <div className="flex flex-col items-end gap-1">
                   <span className="text-xs text-gray-400">
-                    {new Date(req.time).toLocaleDateString('ar-EG')}
+                    {new Date(req.created_at || req.time).toLocaleDateString('ar-EG')}
                   </span>
-                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                    req.status === "جديد" ? "bg-orange-100 text-orange-600" :
-                    req.status === "قيد المراجعة" ? "bg-blue-100 text-blue-600" :
-                    "bg-green-100 text-green-600"
-                  }`}>
-                    {req.status}
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${req.status === "new" || req.status === "جديد" ? "bg-orange-100 text-orange-600" :
+                      req.status === "under_review" || req.status === "قيد المراجعة" ? "bg-blue-100 text-blue-600" :
+                        "bg-green-100 text-green-600"
+                    }`}>
+                    {req.status === 'new' ? 'جديد' : req.status === 'under_review' ? 'قيد المراجعة' : req.status === 'completed' ? 'مكتمل' : req.status}
                   </span>
                 </div>
               </div>
             ))}
+            {(!data.recent_requests || data.recent_requests.length === 0) && (
+              <div className="p-6 text-center text-gray-500">لا توجد طلبات حتى الآن</div>
+            )}
           </div>
         </div>
 

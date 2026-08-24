@@ -17,6 +17,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: "الإعدادات", path: "/admin/settings", icon: FiSettings },
   ];
 
+  if (pathname === "/admin/login") {
+    return <>{children}</>;
+  }
+
   return (
     <div className="flex h-screen bg-gray-50" dir="rtl">
       
@@ -59,9 +63,25 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </nav>
 
         <div className="p-4 border-t border-white/10">
-          <button className="flex items-center gap-3 px-4 py-3 w-full text-right rounded-xl text-gray-400 hover:text-red-400 hover:bg-white/5 transition-colors">
+          <div className="flex items-center gap-3 mb-4 px-2">
+            <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-lg border border-primary/30 shrink-0">
+              M
+            </div>
+            <div className="overflow-hidden">
+              <div className="text-sm font-bold text-white truncate">مدير النظام</div>
+              <div className="text-xs text-gray-400 truncate">admin@semsarbenisuef.com</div>
+            </div>
+          </div>
+          <button 
+            onClick={async () => {
+              const { logout } = await import('@/lib/auth');
+              await logout();
+              window.location.href = '/admin/login';
+            }}
+            className="flex items-center gap-3 px-4 py-2.5 w-full text-right rounded-xl text-red-400 hover:text-white hover:bg-red-500/20 transition-colors"
+          >
             <FiLogOut size={20} />
-            <span>تسجيل الخروج</span>
+            <span className="font-bold text-sm">تسجيل الخروج</span>
           </button>
         </div>
       </aside>
@@ -75,16 +95,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <FiMenu size={24} />
             </button>
             <h2 className="text-xl font-bold text-navy-dark">لوحة التحكم</h2>
-          </div>
-          
-          <div className="flex items-center gap-4">
-            <div className="hidden sm:block text-left">
-              <div className="text-sm font-bold text-navy-dark">مدير النظام</div>
-              <div className="text-xs text-gray-500">admin@semsarbenisuef.com</div>
-            </div>
-            <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-lg border border-primary/30">
-              M
-            </div>
           </div>
         </header>
 

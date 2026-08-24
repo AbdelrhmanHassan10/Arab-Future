@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import { getDB } from "@/lib/db";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { FiMapPin, FiMaximize, FiHome, FiCheckCircle, FiLayers, FiStar } from "react-icons/fi";
@@ -8,20 +7,27 @@ import { FaWhatsapp } from "react-icons/fa";
 import VideoPlayer from "@/components/VideoPlayer";
 import GalleryLightbox from "@/components/GalleryLightbox";
 import ImageLightbox from "@/components/ImageLightbox";
+import { fetchApi } from "@/lib/api";
 
-export function generateStaticParams() {
-  const db = getDB();
-  return db.units.map((unit) => ({
-    id: unit.id,
-  }));
+export async function generateStaticParams() {
+  try {
+    const data = await fetchApi("/units");
+    const units = data.data || data || [];
+    return units.map((unit: any) => ({
+      id: unit.id.toString(),
+    }));
+  } catch (error) {
+    return [];
+  }
 }
 
-const formatPrice = (price: number) => price.toLocaleString("ar-EG") + " ج.م";
+const formatPrice = (price: number) => price?.toLocaleString("ar-EG") + " ج.م";
 
 const getTypeLabel = (type: string) => {
   switch (type) {
     case "apartment": return "شقة";
     case "villa": return "فيلا";
+    case "commercial_shop":
     case "shop": return "محل تجاري";
     case "office": return "مكتب";
     case "land": return "أرض";
@@ -39,9 +45,14 @@ const getFinishingLabel = (level: string) => {
   }
 };
 
-export default function UnitDetailsPage({ params }: { params: { id: string } }) {
-  const db = getDB();
-  const unit = db.units.find((u) => u.id === params.id);
+export default async function UnitDetailsPage({ params }: { params: { id: string } }) {
+  let unit = null;
+  try {
+    const data = await fetchApi(`/units/${params.id}`, {
+      next: { revalidate: 60 } // Revalidate cache every minute
+    });
+    unit = data.data || data;
+  } catch (error) {}
 
   if (!unit) {
     notFound();
@@ -81,7 +92,7 @@ export default function UnitDetailsPage({ params }: { params: { id: string } }) 
               <img src={unit.image} alt={unit.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
             </div>
             <div className="hidden md:flex flex-col gap-4 h-full">
-              {unit.images.slice(1, 3).map((img, i) => (
+              {unit.images?.slice(1, 3).map((img: string, i: number) => (
                 <div key={i} className="h-1/2 rounded-2xl overflow-hidden group">
                   <img src={img} alt={`${unit.title} ${i + 2}`} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 </div>
@@ -239,7 +250,7 @@ export default function UnitDetailsPage({ params }: { params: { id: string } }) 
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {unit.amenities.map((amenity, idx) => (
+                  {unit.amenities?.map((amenity: string, idx: number) => (
                     <div key={idx} className="flex items-center gap-2 text-white/80">
                       <FiCheckCircle className="text-primary" />
                       <span className="font-medium text-sm">{amenity}</span>

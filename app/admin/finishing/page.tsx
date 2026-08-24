@@ -1,14 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiPlus, FiEdit2, FiTrash2, FiSearch } from "react-icons/fi";
 import { finishingProjects } from "@/lib/finishing";
+import Link from "next/link";
 
 export default function AdminFinishingPage() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [projects, setProjects] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredProjects = finishingProjects.filter(p => 
-    p.title.includes(searchTerm) || p.id.includes(searchTerm)
+  const fetchProjects = async () => {
+    try {
+      const res = await fetch("/api/admin/renovation-projects");
+      const data = await res.json();
+      const fetchedProjects = data.data || data;
+      setProjects(Array.isArray(fetchedProjects) ? fetchedProjects : []);
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch projects:", error);
+      setProjects([]);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const filteredProjects = projects.filter(p => 
+    p.title?.includes(searchTerm) || p.id?.toString().includes(searchTerm)
   );
 
   return (
@@ -20,10 +41,10 @@ export default function AdminFinishingPage() {
           <h1 className="text-2xl font-bold text-navy-dark">مشاريع التشطيب</h1>
           <p className="text-gray-500 text-sm">أضف، عدل، أو احذف مشاريع التشطيب في معرض الأعمال.</p>
         </div>
-        <button className="bg-primary text-navy-deeper font-bold px-6 py-2.5 rounded-xl flex items-center gap-2 hover:bg-[#D6AE45] transition-colors shadow-sm whitespace-nowrap">
+        <Link href="/admin/finishing/add" className="bg-primary text-navy-deeper font-bold px-6 py-2.5 rounded-xl flex items-center gap-2 hover:bg-[#D6AE45] transition-colors shadow-sm whitespace-nowrap">
           <FiPlus size={20} />
           <span>إضافة مشروع جديد</span>
-        </button>
+        </Link>
       </div>
 
       {/* Filters Bar */}
@@ -80,9 +101,9 @@ export default function AdminFinishingPage() {
                   </td>
                   <td className="px-6 py-4 text-left">
                     <div className="flex items-center justify-end gap-2">
-                      <button className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors" title="تعديل">
+                      <Link href={`/admin/finishing/edit/${project.id}`} className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors inline-block" title="تعديل">
                         <FiEdit2 size={16} />
-                      </button>
+                      </Link>
                       <button className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="حذف">
                         <FiTrash2 size={16} />
                       </button>
