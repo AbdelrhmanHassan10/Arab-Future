@@ -1,6 +1,8 @@
 import { cookies } from "next/headers";
 import { FiUsers, FiBox, FiTool, FiDollarSign } from "react-icons/fi";
 import { fetchApi } from "@/lib/api";
+import { getImageUrl } from "@/lib/config";
+import Link from "next/link";
 
 async function getDashboardData() {
   try {
@@ -61,18 +63,20 @@ export default async function AdminDashboard() {
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
           <div className="p-6 border-b border-gray-100 flex justify-between items-center">
             <h3 className="font-bold text-navy-dark text-lg">أحدث الوحدات المضافة</h3>
-            <a href="/admin/units" className="text-sm text-primary font-bold hover:underline">عرض الكل</a>
+            <Link href="/admin/units" className="text-sm text-primary font-bold hover:underline">عرض الكل</Link>
           </div>
           <div className="p-0">
             {data.recent_units?.map((unit: any) => (
               <div key={unit.id} className="flex items-center justify-between p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 shrink-0">
-                    <img src={unit.main_image || unit.image} alt={unit.title} className="w-full h-full object-cover" />
+                    <img src={getImageUrl(unit.main_image || unit.image, 0)} alt={unit.title} className="w-full h-full object-cover" />
                   </div>
                   <div>
                     <h4 className="font-bold text-sm text-navy-dark line-clamp-1">{unit.title}</h4>
-                    <p className="text-xs text-gray-500">{unit.address || unit.location}</p>
+                    <p className="text-xs text-gray-500">
+                      {unit.address || (typeof unit.location === 'object' ? unit.location?.name : unit.location) || (typeof unit.area === 'object' ? unit.area?.name : unit.area)}
+                    </p>
                   </div>
                 </div>
                 <div className="text-left">
@@ -92,7 +96,7 @@ export default async function AdminDashboard() {
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
           <div className="p-6 border-b border-gray-100 flex justify-between items-center">
             <h3 className="font-bold text-navy-dark text-lg">أحدث الطلبات</h3>
-            <a href="/admin/requests" className="text-sm text-primary font-bold hover:underline">عرض الكل</a>
+            <Link href="/admin/requests" className="text-sm text-primary font-bold hover:underline">عرض الكل</Link>
           </div>
           <div className="p-0">
             {data.recent_requests?.map((req: any, idx: number) => (
@@ -111,8 +115,8 @@ export default async function AdminDashboard() {
                     {new Date(req.created_at || req.time).toLocaleDateString('ar-EG')}
                   </span>
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${req.status === "new" || req.status === "جديد" ? "bg-orange-100 text-orange-600" :
-                      req.status === "under_review" || req.status === "قيد المراجعة" ? "bg-blue-100 text-blue-600" :
-                        "bg-green-100 text-green-600"
+                    req.status === "under_review" || req.status === "قيد المراجعة" ? "bg-blue-100 text-blue-600" :
+                      "bg-green-100 text-green-600"
                     }`}>
                     {req.status === 'new' ? 'جديد' : req.status === 'under_review' ? 'قيد المراجعة' : req.status === 'completed' ? 'مكتمل' : req.status}
                   </span>

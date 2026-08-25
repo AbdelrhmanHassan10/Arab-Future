@@ -8,6 +8,7 @@ import { FiCheckCircle, FiTool, FiLayout, FiHome, FiImage } from "react-icons/fi
 import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import { API_URL, getImageUrl } from "@/lib/config";
 
 export default function FinishingPage() {
   const ease = [0.16, 1, 0.3, 1] as const;
@@ -18,7 +19,6 @@ export default function FinishingPage() {
     const params = new URLSearchParams();
     params.append("status", "completed");
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
     fetch(`${API_URL}/renovation-projects?${params.toString()}`)
       .then((res) => res.json())
       .then((data) => {
@@ -161,7 +161,7 @@ export default function FinishingPage() {
 
                 <div className="space-y-4 mb-8 flex-1">
                   {pkg.features.map((feature, fIdx) => (
-                    <div key={fIdx} className="flex items-start gap-3">
+                    <div className="flex items-start gap-3" key={fIdx}>
                       <FiCheckCircle className="text-primary mt-1 shrink-0" size={18} />
                       <span className="text-gray-600 text-sm font-medium leading-relaxed">{feature}</span>
                     </div>
@@ -221,7 +221,7 @@ export default function FinishingPage() {
                 className="group rounded-3xl overflow-hidden bg-[#111111] border border-white/5 shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:border-primary/30 transition-all duration-500"
               >
                 <div className="relative h-[350px] overflow-hidden">
-                  <img src={project.main_image || project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <img src={getImageUrl(project.main_image || project.image, idx)} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-transparent opacity-80" />
                   <div className="absolute top-4 right-4 bg-[#111111]/80 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold text-primary border border-white/5">
                     {project.style}

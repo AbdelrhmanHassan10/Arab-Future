@@ -1,60 +1,101 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FiUpload, FiArrowRight, FiSave, FiX } from "react-icons/fi";
 import Link from "next/link";
+import { extractString, getImageUrl } from "@/lib/config";
 
-export default function EditFinishingProjectPage() {
+export default function EditFinishingProjectPage({ params }: { params: { id: string } }) {
   const router = useRouter();
-  const params = useParams();
-  const id = params.id as string;
-
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [projectRouteKey, setProjectRouteKey] = useState<string>(params.id);
 
   const [formData, setFormData] = useState({
     title: "",
     style: "",
     status: "completed",
     location: "",
+    description: "",
+    challenges: ""
   });
 
   const [mainImage, setMainImage] = useState<File | null>(null);
-  const [existingMainImage, setExistingMainImage] = useState<string>("");
-  const [galleryImages, setGalleryImages] = useState<FileList | null>(null);
+  const [existingImage, setExistingImage] = useState<string>("");
 
   useEffect(() => {
-    fetch(`/api/admin/renovation-projects/${id}`)
-      .then(res => {
-        if (!res.ok) throw new Error("Project not found");
-        return res.json();
-      })
-      .then(data => {
-        const project = data.data || data;
-        setFormData({
-          title: project.title || "",
-          style: project.style || "",
-          status: project.status || "completed",
-          location: project.location || "",
-        });
-        setExistingMainImage(project.main_image || project.image || "");
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, [id]);
+    const fetchProject = async () => {
+      try {
+        let res = await fetch(`/api/admin/renovation-projects/${params.id}`);
+        let data;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        if (!res.ok) {
+          if (res.status === 404) {
+             const listRes = await fetch(`/api/admin/renovation-projects`);
+             if (listRes.ok) {
+                const listData = await listRes.json();
+                const projectsList = listData.data || listData;
+                const found = projectsList.find((p: any) => String(p.id) === String(params.id) || String(p.code) === String(params.id) || String(p.renovation_code) === String(params.id));
+                if (found) {
+                  data = { data: found };
+                } else {
+                  throw new Error("المشروع غير موجود (404)");
+                }
+             } else {
+                throw new Error("فشل في تحميل بيانات المشروع");
+             }
+          } else {
+             throw new Error("فشل في تحميل بيانات المشروع");
+          }
+        } else {
+          data = await res.json();
+        }
+
+        const p = data.data || data;
+        setProjectRouteKey(p.code || p.renovation_code || p.id);
+
+        let challengesStr = "";
+        if (Array.isArray(p.challenges)) {
+          challengesStr = p.challenges.map((c: any) => c.title || c.description || c).join("، ");
+        }
+
+        setFormData({
+          title: extractString(p.title),
+          style: p.style || "",
+          status: p.status || "completed",
+          location: p.location || "",
+          description: extractString(p.description),
+          challenges: challengesStr
+        });
+        
+        if (p.main_image || p.image) {
+          setExistingImage(getImageUrl(p.main_image || p.image));
+        }
+
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setFetching(false);
+      }
+    };
+    fetchProject();
+  }, [params.id]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setMainImage(e.target.files[0]);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSaving(true);
+    setLoading(true);
     setError(null);
 
     try {
@@ -64,52 +105,31 @@ export default function EditFinishingProjectPage() {
       });
       if (mainImage) {
         data.append("main_image", mainImage);
+        data.append("image", mainImage);
       }
       data.append("_method", "PUT");
 
-      const res = await fetch(`/api/admin/renovation-projects/${id}`, {
+      const res = await fetch(`/api/admin/renovation-projects/${projectRouteKey}`, {
         method: "POST",
         body: data,
       });
 
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.message || "حدث خطأ أثناء حفظ المشروع");
+        throw new Error(errorData.message || "حدث خطأ أثناء تعديل المشروع");
       }
 
-      alert("تم الحفظ بنجاح!");
+      router.push("/admin/finishing");
       router.refresh();
-      setSaving(false);
     } catch (err: any) {
       setError(err.message);
-      setSaving(false);
+      setLoading(false);
     }
   };
 
-  const handleGallerySubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!galleryImages || galleryImages.length === 0) return;
-    
-    try {
-      const data = new FormData();
-      Array.from(galleryImages).forEach(file => {
-        data.append("images[]", file);
-      });
-
-      const res = await fetch(`/api/admin/renovation-projects/${id}/images`, {
-        method: "POST",
-        body: data,
-      });
-
-      if (!res.ok) throw new Error("فشل في رفع الصور");
-      alert("تم رفع الصور بنجاح");
-      setGalleryImages(null);
-    } catch (err: any) {
-      alert(err.message);
-    }
-  };
-
-  if (loading) return <div className="py-20 text-center font-bold text-gray-500">جاري التحميل...</div>;
+  if (fetching) {
+    return <div className="p-8 text-center text-gray-500">جاري تحميل المشروع...</div>;
+  }
 
   return (
     <div className="space-y-6">
@@ -120,7 +140,8 @@ export default function EditFinishingProjectPage() {
             <FiArrowRight size={20} className="text-navy-dark" />
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-navy-dark">تعديل المشروع: {formData.title}</h1>
+            <h1 className="text-2xl font-bold text-navy-dark">تعديل مشروع: {formData.title}</h1>
+            <p className="text-gray-500 text-sm">تعديل تفاصيل مشروع التشطيب.</p>
           </div>
         </div>
       </div>
@@ -132,7 +153,6 @@ export default function EditFinishingProjectPage() {
         </div>
       )}
 
-      {/* Main Form */}
       <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-gray-100 space-y-8">
         
         {/* Basic Info */}
@@ -164,31 +184,53 @@ export default function EditFinishingProjectPage() {
           </div>
         </div>
 
+        {/* Details & Challenges */}
         <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2">تحديث الصورة الرئيسية</label>
-            {existingMainImage && !mainImage && <img src={existingMainImage} alt="current" className="w-32 h-32 object-cover rounded-xl mb-4 border border-gray-200" />}
-            <input type="file" accept="image/*" onChange={(e) => setMainImage(e.target.files?.[0] || null)} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3" />
+          <h3 className="text-lg font-bold text-navy-dark mb-4 border-b border-gray-100 pb-2">تفاصيل إضافية</h3>
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-2">الوصف الكامل (اختياري)</label>
+              <textarea name="description" value={formData.description} onChange={handleChange} rows={5} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none resize-none"></textarea>
+            </div>
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-2">تحديات المشروع (مفصولة بفاصلة)</label>
+              <textarea name="challenges" value={formData.challenges} onChange={handleChange} rows={2} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none" placeholder="ضيق الوقت، صعوبة استخراج التصاريح..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        {/* Images */}
+        <div>
+          <h3 className="text-lg font-bold text-navy-dark mb-4 border-b border-gray-100 pb-2">صورة المشروع</h3>
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-2">الصورة الرئيسية (غلاف المشروع)</label>
+
+              {existingImage && !mainImage && (
+                <div className="mb-4">
+                  <p className="text-sm text-gray-500 mb-2">الصورة الحالية:</p>
+                  <img src={existingImage} alt="Current main image" className="w-32 h-32 object-cover rounded-xl" />
+                </div>
+              )}
+
+              <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-2xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  <FiUpload className="w-8 h-8 text-gray-400 mb-2" />
+                  <p className="text-sm text-gray-500 font-bold">{mainImage ? mainImage.name : "اضغط هنا لاختيار صورة جديدة"}</p>
+                </div>
+                <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
+              </label>
+            </div>
+          </div>
         </div>
 
         <div className="pt-6 border-t border-gray-100 flex justify-end gap-4">
-          <button disabled={saving} type="submit" className="bg-primary text-navy-deeper font-bold px-8 py-3 rounded-xl flex items-center gap-2 hover:bg-[#D6AE45] transition-colors shadow-sm disabled:opacity-50">
-            {saving ? "جاري الحفظ..." : <><FiSave size={20} /> <span>حفظ التعديلات</span></>}
+          <Link href="/admin/finishing" className="px-6 py-3 font-bold text-gray-500 hover:bg-gray-50 rounded-xl transition-colors">إلغاء</Link>
+          <button disabled={loading} type="submit" className="bg-primary text-navy-deeper font-bold px-8 py-3 rounded-xl flex items-center gap-2 hover:bg-[#D6AE45] transition-colors shadow-sm disabled:opacity-50">
+            {loading ? "جاري الحفظ..." : <><FiSave size={20} /> <span>حفظ التعديلات</span></>}
           </button>
         </div>
-      </form>
 
-      {/* Gallery Form */}
-      <form onSubmit={handleGallerySubmit} className="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-gray-100 space-y-6">
-        <h3 className="text-lg font-bold text-navy-dark mb-4 border-b border-gray-100 pb-2">معرض الصور (Gallery)</h3>
-        <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2">رفع صور إضافية</label>
-            <input type="file" multiple accept="image/*" onChange={(e) => setGalleryImages(e.target.files)} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3" />
-        </div>
-        <div className="flex justify-end">
-            <button type="submit" disabled={!galleryImages} className="bg-navy-dark text-white font-bold px-6 py-2.5 rounded-xl hover:bg-navy-deeper disabled:opacity-50">
-                رفع الصور
-            </button>
-        </div>
       </form>
     </div>
   );

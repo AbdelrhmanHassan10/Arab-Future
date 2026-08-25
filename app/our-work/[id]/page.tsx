@@ -5,18 +5,75 @@ import Footer from "@/components/Footer";
 import { finishingProjects } from "@/lib/finishing";
 import ImageGallery from "@/components/ImageGallery";
 
-export function generateStaticParams() {
-  return finishingProjects.map((project) => ({
-    id: project.id,
-  }));
+import { fetchApi } from "@/lib/api";
+
+export async function generateStaticParams() {
+  try {
+    const data = await fetchApi("/renovation-projects");
+    const projects = data.data || data || [];
+    const apiParams = projects.map((project: any) => ({
+      id: String(project.id || project.renovation_code || ""),
+    }));
+    const localParams = finishingProjects.map((project) => ({
+      id: String(project.id),
+    }));
+    return [...apiParams, ...localParams];
+  } catch (error) {
+    return finishingProjects.map((project) => ({ id: String(project.id) }));
+  }
 }
 
-export default function ProjectDetailsPage({ params }: { params: { id: string } }) {
-  const project = finishingProjects.find((p) => p.id === params.id);
+export default async function ProjectDetailsPage({ params }: { params: { id: string } }) {
+  let project: any = null;
+
+  try {
+    const data = await fetchApi("/renovation-projects");
+    const projects = data.data || data || [];
+    if (Array.isArray(projects)) {
+      project = projects.find((p: any) => String(p.id) === String(params.id) || String(p.renovation_code) === String(params.id));
+    }
+  } catch (error) {
+    console.error("Failed to fetch renovation projects from API:", error);
+  }
+
+  if (!project) {
+    project = finishingProjects.find((p) => String(p.id) === String(params.id));
+  }
+
+  if (project) {
+    const sanitized = { ...project };
+    for (const key of Object.keys(sanitized)) {
+      if (key === 'clientReview') continue;
+      
+      const val = sanitized[key];
+      if (typeof val === 'object' && val !== null && !Array.isArray(val)) {
+        sanitized[key] = val.name || val.title || val.ar || val.en || val.id || '';
+      }
+    }
+    project = sanitized;
+  }
 
   if (!project) {
     notFound();
   }
+
+  // Fallback values for backend projects that are missing extra fields
+  project.area = project.area || 150;
+  project.duration = project.duration || "3 أشهر";
+  project.type = project.type || "وحدة سكنية";
+  project.description = project.description || "تفاصيل المشروع غير متوفرة حالياً، تم تصميم وتنفيذ هذا المشروع بأعلى معايير الجودة والاحترافية من قبل فريق سمسار بني سويف لضمان راحة العميل.";
+
+  // Ensure arrays exist for rendering
+  project.images = project.images || (project.image ? [project.image] : []);
+  
+  let materials = Array.isArray(project.materialsUsed) ? project.materialsUsed : (project.materials_used ? (typeof project.materials_used === 'string' ? JSON.parse(project.materials_used) : project.materials_used) : []);
+  if (!materials || materials.length === 0) materials = ["دهانات جوتن", "تأسيس سويدي", "تشطيبات فاخرة"];
+  project.materialsUsed = materials;
+
+  let services = Array.isArray(project.servicesProvided) ? project.servicesProvided : (project.scope_of_work ? (typeof project.scope_of_work === 'string' ? JSON.parse(project.scope_of_work) : project.scope_of_work) : []);
+  if (!services || services.length === 0) services = ["تصميم داخلي", "إشراف هندسي", "تنفيذ متكامل"];
+  project.servicesProvided = services;
+
 
   return (
     <main className="min-h-screen bg-[#090909] font-body selection:bg-primary/30 selection:text-white">
@@ -25,7 +82,7 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
       {/* --- HERO SECTION --- */}
       <div className="relative pt-40 pb-24 min-h-[85vh] flex flex-col justify-end overflow-hidden group">
         <div className="absolute inset-0 z-0">
-          <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-[20s] group-hover:scale-110" />
+          <img src={project.main_image || project.image || '/projects/project-11.png'} alt={project.title} className="w-full h-full object-cover transition-transform duration-[20s] group-hover:scale-110" />
           <div className="absolute inset-0 bg-[#090909]/40 mix-blend-overlay" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#090909] via-[#090909]/80 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-b from-[#090909]/50 via-transparent to-transparent" />
@@ -140,7 +197,7 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                     </svg>
                   </div>
-                  <div>
+                  <div> 
                     <h4 className="text-white font-bold text-xl mb-2">توزيع الإضاءة</h4>
                     <p className="text-white/60 leading-relaxed text-sm md:text-base">
                       اعتمدنا على نظام إضاءة ذكي (Smart Lighting) يتيح للعميل التحكم الكامل في أجواء المنزل بما يتناسب مع نظام {project.style} ويعكس جماليات التصميم.
@@ -161,7 +218,7 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                   مراحل التنفيذ (قبل وبعد)
                 </h3>
                 <div className="space-y-16">
-                  {project.beforeAfter.map((stage, idx) => (
+                  {project.beforeAfter.map((stage: { before: string, after: string }, idx: number) => (
                     <div key={idx} className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative">
                       {/* VS Badge */}
                       <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-[#090909] rounded-full z-10 border border-white/10 items-center justify-center font-black text-2xl text-primary shadow-[0_0_30px_rgba(191,154,95,0.2)]">
@@ -201,18 +258,20 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                   </svg>
                   الخامات المستخدمة
                 </h3>
-                <div className="space-y-5">
-                  {project.materialsUsed.map((mat, idx) => (
-                    <div key={idx} className="flex items-center gap-4 group">
-                      <div className="w-8 h-8 rounded-full bg-primary/5 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
-                        <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
+                {project.materialsUsed && project.materialsUsed.length > 0 && (
+                  <div className="space-y-5">
+                    {project.materialsUsed.map((mat: string, idx: number) => (
+                      <div key={idx} className="flex items-center gap-4 group">
+                        <div className="w-8 h-8 rounded-full bg-primary/5 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
+                          <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                        </div>
+                        <span className="font-medium text-gray-300 group-hover:text-white transition-colors">{mat}</span>
                       </div>
-                      <span className="font-medium text-gray-300 group-hover:text-white transition-colors">{mat}</span>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Services */}
@@ -224,13 +283,15 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                   </svg>
                   نطاق الأعمال
                 </h3>
-                <div className="flex flex-wrap gap-2.5">
-                  {project.servicesProvided.map((service, idx) => (
-                    <span key={idx} className="bg-white/5 border border-white/10 px-5 py-2.5 rounded-full text-sm text-gray-300 font-medium hover:bg-white/10 hover:border-white/20 transition-colors">
-                      {service}
-                    </span>
-                  ))}
-                </div>
+                {project.servicesProvided && project.servicesProvided.length > 0 && (
+                  <div className="flex flex-wrap gap-2.5">
+                    {project.servicesProvided.map((service: string, idx: number) => (
+                      <span key={idx} className="bg-white/5 border border-white/10 px-5 py-2.5 rounded-full text-sm text-gray-300 font-medium hover:bg-white/10 hover:border-white/20 transition-colors">
+                        {service}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Review */}
@@ -248,11 +309,11 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                     <svg className="w-12 h-12 text-white/5 mb-6" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                     </svg>
-                    <p className="text-lg text-white/90 italic mb-8 leading-[2]">&quot;{project.clientReview.text}&quot;</p>
+                    <p className="text-lg text-white/90 italic mb-8 leading-[2]">&quot;{project.clientReview.text || ''}&quot;</p>
                     <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xl mb-3">
-                      {project.clientReview.name.charAt(0)}
+                      {(project.clientReview.name || "ع").charAt(0)}
                     </div>
-                    <div className="font-bold text-white text-lg">{project.clientReview.name}</div>
+                    <div className="font-bold text-white text-lg">{project.clientReview.name || "عميل مميز"}</div>
                     <div className="text-primary/60 text-xs mt-1 uppercase tracking-widest font-bold">رأي العميل</div>
                   </div>
                 </div>

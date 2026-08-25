@@ -8,6 +8,7 @@ import CustomSelect from "@/components/ui/CustomSelect";
 import { Unit } from "@/lib/units";
 import { FiGrid, FiList, FiSearch, FiFilter } from "react-icons/fi";
 import { useSearchParams } from "next/navigation";
+import { API_URL } from "@/lib/config";
 
 function UnitsContent() {
   const searchParams = useSearchParams();
@@ -40,7 +41,6 @@ function UnitsContent() {
     // Or just pass it as 'location' if backend supports it
     if (filters.location) params.append("location", filters.location);
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
     fetch(`${API_URL}/units?${params.toString()}`)
       .then((res) => res.json())
       .then((data) => {

@@ -9,17 +9,20 @@ export default function AdminFinishingPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [timestamp, setTimestamp] = useState(Date.now());
 
   const fetchProjects = async () => {
     try {
       const res = await fetch("/api/admin/renovation-projects");
+      if (!res.ok) throw new Error("Failed to fetch");
       const data = await res.json();
       const fetchedProjects = data.data || data;
       setProjects(Array.isArray(fetchedProjects) ? fetchedProjects : []);
-      setLoading(false);
+      setTimestamp(Date.now());
     } catch (error) {
-      console.error("Failed to fetch projects:", error);
+      console.error(error);
       setProjects([]);
+    } finally {
       setLoading(false);
     }
   };
@@ -27,6 +30,18 @@ export default function AdminFinishingPage() {
   useEffect(() => {
     fetchProjects();
   }, []);
+
+  const handleDelete = async (id: any) => {
+    if (!confirm("هل أنت متأكد من حذف هذا المشروع نهائياً؟")) return;
+    try {
+      const res = await fetch(`/api/admin/renovation-projects/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Failed to delete");
+      fetchProjects();
+    } catch (error) {
+      console.error(error);
+      alert("حدث خطأ أثناء الحذف");
+    }
+  };
 
   const filteredProjects = projects.filter(p => 
     p.title?.includes(searchTerm) || p.id?.toString().includes(searchTerm)
@@ -80,9 +95,9 @@ export default function AdminFinishingPage() {
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 shrink-0 border border-gray-200">
-                        <img src={project.image} alt={project.id} className="w-full h-full object-cover" />
+                        <img src={`${project.main_image || project.image || "https://picsum.photos/800"}?t=${timestamp}`} alt={project.title} className="w-full h-full object-cover" />
                       </div>
-                      <span className="font-bold text-navy-dark text-sm bg-gray-100 px-2 py-1 rounded-md">{project.id}</span>
+                      <span className="font-bold text-navy-dark text-sm bg-gray-100 px-2 py-1 rounded-md">{project.code || project.renovation_code || project.id}</span>
                     </div>
                   </td>
                   <td className="px-6 py-4">
@@ -101,10 +116,10 @@ export default function AdminFinishingPage() {
                   </td>
                   <td className="px-6 py-4 text-left">
                     <div className="flex items-center justify-end gap-2">
-                      <Link href={`/admin/finishing/edit/${project.id}`} className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors inline-block" title="تعديل">
+                      <Link href={`/admin/finishing/edit/${project.code || project.renovation_code || project.id}`} className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors inline-block" title="تعديل">
                         <FiEdit2 size={16} />
                       </Link>
-                      <button className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="حذف">
+                      <button onClick={() => handleDelete(project.code || project.renovation_code || project.id)} className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="حذف">
                         <FiTrash2 size={16} />
                       </button>
                     </div>

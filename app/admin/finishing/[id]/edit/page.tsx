@@ -1,13 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FiUpload, FiArrowRight, FiSave, FiX } from "react-icons/fi";
 import Link from "next/link";
+import { extractString, getImageUrl } from "@/lib/config";
 
-export default function AddFinishingProjectPage() {
+export default function EditFinishingProjectPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
@@ -20,8 +22,44 @@ export default function AddFinishingProjectPage() {
   });
 
   const [mainImage, setMainImage] = useState<File | null>(null);
+  const [existingImage, setExistingImage] = useState<string>("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        const res = await fetch(`/api/admin/renovation-projects/${params.id}`);
+        if (!res.ok) throw new Error("فشل في تحميل بيانات المشروع");
+        const data = await res.json();
+        const p = data.data || data;
+
+        let challengesStr = "";
+        if (Array.isArray(p.challenges)) {
+          challengesStr = p.challenges.map((c: any) => c.title || c.description || c).join("، ");
+        }
+
+        setFormData({
+          title: extractString(p.title),
+          style: p.style || "",
+          status: p.status || "completed",
+          location: p.location || "",
+          description: extractString(p.description),
+          challenges: challengesStr
+        });
+        
+        if (p.main_image || p.image) {
+          setExistingImage(getImageUrl(p.main_image || p.image));
+        }
+
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setFetching(false);
+      }
+    };
+    fetchProject();
+  }, [params.id]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -43,16 +81,18 @@ export default function AddFinishingProjectPage() {
       });
       if (mainImage) {
         data.append("main_image", mainImage);
+        data.append("image", mainImage);
       }
+      data.append("_method", "PUT");
 
-      const res = await fetch("/api/admin/renovation-projects", {
+      const res = await fetch(`/api/admin/renovation-projects/${params.id}`, {
         method: "POST",
         body: data,
       });
 
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.message || "حدث خطأ أثناء حفظ المشروع");
+        throw new Error(errorData.message || "حدث خطأ أثناء تعديل المشروع");
       }
 
       router.push("/admin/finishing");
@@ -63,6 +103,10 @@ export default function AddFinishingProjectPage() {
     }
   };
 
+  if (fetching) {
+    return <div className="p-8 text-center text-gray-500">جاري تحميل المشروع...</div>;
+  }
+
   return (
     <div className="space-y-6">
       
@@ -72,8 +116,8 @@ export default function AddFinishingProjectPage() {
             <FiArrowRight size={20} className="text-navy-dark" />
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-navy-dark">إضافة مشروع تشطيب</h1>
-            <p className="text-gray-500 text-sm">أدخل تفاصيل مشروع التشطيب لعرضه في معرض الأعمال.</p>
+            <h1 className="text-2xl font-bold text-navy-dark">تعديل مشروع: {formData.title}</h1>
+            <p className="text-gray-500 text-sm">تعديل تفاصيل مشروع التشطيب.</p>
           </div>
         </div>
       </div>
@@ -93,12 +137,12 @@ export default function AddFinishingProjectPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="md:col-span-2">
               <label className="block text-sm font-bold text-gray-700 mb-2">اسم المشروع <span className="text-red-500">*</span></label>
-              <input required type="text" name="title" value={formData.title} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none" placeholder="مثال: تشطيب فيلا في الحي الأول" />
+              <input required type="text" name="title" value={formData.title} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none" />
             </div>
             
             <div>
               <label className="block text-sm font-bold text-gray-700 mb-2">النمط (Style) <span className="text-red-500">*</span></label>
-              <input required type="text" name="style" value={formData.style} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none" placeholder="عصري (Modern)، كلاسيك..." />
+              <input required type="text" name="style" value={formData.style} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none" />
             </div>
 
             <div>
@@ -111,7 +155,7 @@ export default function AddFinishingProjectPage() {
 
             <div className="md:col-span-2">
               <label className="block text-sm font-bold text-gray-700 mb-2">الموقع (العنوان) <span className="text-red-500">*</span></label>
-              <input required type="text" name="location" value={formData.location} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none" placeholder="بني سويف، الحي الأول..." />
+              <input required type="text" name="location" value={formData.location} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none" />
             </div>
           </div>
         </div>
@@ -137,10 +181,18 @@ export default function AddFinishingProjectPage() {
           <div className="grid grid-cols-1 gap-6">
             <div>
               <label className="block text-sm font-bold text-gray-700 mb-2">الصورة الرئيسية (غلاف المشروع)</label>
+
+              {existingImage && !mainImage && (
+                <div className="mb-4">
+                  <p className="text-sm text-gray-500 mb-2">الصورة الحالية:</p>
+                  <img src={existingImage} alt="Current main image" className="w-32 h-32 object-cover rounded-xl" />
+                </div>
+              )}
+
               <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-2xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <FiUpload className="w-8 h-8 text-gray-400 mb-2" />
-                  <p className="text-sm text-gray-500 font-bold">{mainImage ? mainImage.name : "اضغط هنا لاختيار صورة"}</p>
+                  <p className="text-sm text-gray-500 font-bold">{mainImage ? mainImage.name : "اضغط هنا لاختيار صورة جديدة"}</p>
                 </div>
                 <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
               </label>
@@ -151,7 +203,7 @@ export default function AddFinishingProjectPage() {
         <div className="pt-6 border-t border-gray-100 flex justify-end gap-4">
           <Link href="/admin/finishing" className="px-6 py-3 font-bold text-gray-500 hover:bg-gray-50 rounded-xl transition-colors">إلغاء</Link>
           <button disabled={loading} type="submit" className="bg-primary text-navy-deeper font-bold px-8 py-3 rounded-xl flex items-center gap-2 hover:bg-[#D6AE45] transition-colors shadow-sm disabled:opacity-50">
-            {loading ? "جاري الحفظ..." : <><FiSave size={20} /> <span>حفظ المشروع</span></>}
+            {loading ? "جاري الحفظ..." : <><FiSave size={20} /> <span>حفظ التعديلات</span></>}
           </button>
         </div>
 

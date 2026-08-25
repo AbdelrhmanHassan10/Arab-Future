@@ -6,6 +6,7 @@ import { FiMapPin, FiMaximize, FiArrowLeft, FiCheckCircle } from "react-icons/fi
 import { BiBed, BiBath } from "react-icons/bi";
 import { FaWhatsapp } from "react-icons/fa";
 import { Unit } from "@/lib/units";
+import { getImageUrl } from "@/lib/config";
 
 const formatPrice = (price: number) => {
   return price.toLocaleString("ar-EG") + " ج.م";
@@ -44,8 +45,22 @@ const getTypeLabel = (type: Unit["type"]) => {
   }
 };
 
+import { extractString } from "@/lib/config";
+
+
+
 export default function UnitCard({ unit, index }: { unit: Unit; index: number }) {
-  const isSold = unit.status === "sold";
+  const isSold = extractString(unit.status) === "sold";
+  const safeId = extractString(unit.unit_code || unit.id);
+  const safeTitle = extractString(unit.title);
+  const safeLocation = extractString(unit.address || (unit as any).location);
+  const safeType = extractString(unit.type);
+  const safeImage = getImageUrl(unit.main_image || (unit as any).image || (unit.images && unit.images.length > 0 ? unit.images[0] : null), index);
+  let rawPrice: any = unit.price;
+  if (typeof rawPrice === 'object' && rawPrice !== null) {
+    rawPrice = rawPrice.price || rawPrice.name || 0;
+  }
+  const numericPrice = Number(extractString(rawPrice) || 0);
 
   return (
     <motion.div
@@ -57,10 +72,10 @@ export default function UnitCard({ unit, index }: { unit: Unit; index: number })
     >
       {/* Image Container */}
       <div className="relative h-60 w-full overflow-hidden p-2 pb-0">
-        <Link href={`/units/${unit.id}`} className="block w-full h-full rounded-[1.5rem] overflow-hidden relative">
+        <Link href={`/units/${safeId}`} className="block w-full h-full rounded-[1.5rem] overflow-hidden relative">
           <img
-            src={unit.image}
-            alt={unit.title}
+            src={safeImage}
+            alt={safeTitle}
             className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${isSold ? 'grayscale' : ''}`}
           />
           {/* Overlay Gradient */}
@@ -70,34 +85,34 @@ export default function UnitCard({ unit, index }: { unit: Unit; index: number })
         {/* Floating Badges */}
         <div className="absolute top-4 right-4 z-10 flex gap-2">
           <span className="bg-[#DFBA7F] text-navy-deeper px-3 py-1.5 rounded-full text-xs font-bold font-body shadow-md border border-[#DFBA7F]/20">
-            {getTypeLabel(unit.type)}
+            {getTypeLabel(safeType as any) || safeType}
           </span>
           <span className="bg-black/50 text-white px-3 py-1.5 rounded-full text-xs font-bold font-body shadow-md border border-white/10 backdrop-blur-md">
-            {unit.id}
+            {safeId}
           </span>
         </div>
         
         <div className="absolute top-4 left-4 z-10">
-          {getStatusBadge(unit.status)}
+          {getStatusBadge(extractString(unit.status) as any)}
         </div>
 
         {/* Price Tag positioned over the image bottom */}
         <div className="absolute bottom-4 right-4 z-10">
-           <span className="text-xl font-black text-white drop-shadow-md">{formatPrice(unit.price)}</span>
+           <span className="text-xl font-black text-white drop-shadow-md">{formatPrice(numericPrice)}</span>
         </div>
       </div>
 
       {/* Content */}
       <div className="p-6 flex flex-col flex-grow text-right">
         <div className="mb-4 flex-grow">
-          <Link href={`/units/${unit.id}`}>
+          <Link href={`/units/${safeId}`}>
             <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 hover:text-primary transition-colors leading-tight">
-              {unit.title}
+              {safeTitle}
             </h3>
           </Link>
           <div className="flex items-center text-white/50 text-sm gap-1.5 mb-4">
-            <FiMapPin className="text-primary text-base" />
-            <span className="line-clamp-1">{unit.location}</span>
+            <FiMapPin className="text-primary text-base shrink-0" />
+            <span className="line-clamp-1">{safeLocation}</span>
           </div>
         </div>
 
@@ -105,22 +120,22 @@ export default function UnitCard({ unit, index }: { unit: Unit; index: number })
         <div className="grid grid-cols-3 gap-2 border-y border-white/5 py-4 mb-6 bg-white/5 rounded-xl px-2">
           <div className="flex flex-col items-center justify-center gap-1.5">
             <FiMaximize className="text-primary/70" size={18} />
-            <span className="text-xs font-bold text-white/90">{unit.area} م²</span>
+            <span className="text-xs font-bold text-white/90">{extractString(unit.space_sqm || (unit as any).area)} م²</span>
           </div>
           <div className="flex flex-col items-center justify-center gap-1.5 border-x border-white/10">
             <BiBed className="text-primary/70" size={18} />
-            <span className="text-xs font-bold text-white/90">{unit.rooms} غرف</span>
+            <span className="text-xs font-bold text-white/90">{extractString(unit.bedrooms || (unit as any).rooms)} غرف</span>
           </div>
           <div className="flex flex-col items-center justify-center gap-1.5">
             <BiBath className="text-primary/70" size={18} />
-            <span className="text-xs font-bold text-white/90">{unit.bathrooms} حمام</span>
+            <span className="text-xs font-bold text-white/90">{extractString(unit.bathrooms)} حمام</span>
           </div>
         </div>
 
         {/* Actions (Two Buttons) */}
         <div className="mt-auto flex items-center gap-3">
           <Link
-            href={`/units/${unit.id}`}
+            href={`/units/${safeId}`}
             className="flex-1 text-center bg-white/5 text-white px-4 py-3 rounded-xl text-sm font-bold hover:bg-white/10 transition-colors flex items-center justify-center gap-2 border border-white/5"
           >
             التفاصيل <FiArrowLeft />
@@ -131,7 +146,7 @@ export default function UnitCard({ unit, index }: { unit: Unit; index: number })
             onClick={() => {
               if (!isSold) {
                 // Open WhatsApp logic here
-                window.open(`https://wa.me/201001234567?text=مرحباً، أود الاستفسار عن الوحدة كود: ${unit.id}`, '_blank');
+                window.open(`https://wa.me/201001234567?text=مرحباً، أود الاستفسار عن الوحدة كود: ${safeId}`, '_blank');
               }
             }}
             className={`flex-1 text-center px-4 py-3 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${

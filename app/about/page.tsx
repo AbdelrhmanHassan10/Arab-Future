@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -180,12 +181,12 @@ export default function AboutPage() {
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-6">
-               <a href="/our-work" className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-[#090909] font-bold rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(191,154,95,0.4)]">
+               <Link href="/our-work" className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-[#090909] font-bold rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(191,154,95,0.4)]">
                  اكتشف مشاريعنا
-               </a>
-               <a href="/contact" className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white/5 text-white font-bold rounded-full overflow-hidden border border-white/10 transition-all duration-300 hover:bg-white/10 hover:border-white/20">
+               </Link>
+               <Link href="/contact" className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-white/5 text-white font-bold rounded-full overflow-hidden border border-white/10 transition-all duration-300 hover:bg-white/10 hover:border-white/20">
                  تواصل معنا
-               </a>
+               </Link>
             </div>
           </motion.div>
 
@@ -470,14 +471,14 @@ export default function AboutPage() {
                 فريقنا من المستشارين العقاريين جاهز دائماً للرد على استفساراتك ومساعدتك في اختيار العقار الأنسب لاحتياجاتك.
               </p>
               
-              <a href="/contact" className="relative z-10 inline-flex items-center justify-center gap-3 px-10 py-5 bg-primary text-[#090909] font-bold rounded-full overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-[0_0_30px_rgba(191,154,95,0.4)] group">
+              <Link href="/contact" className="relative z-10 inline-flex items-center justify-center gap-3 px-10 py-5 bg-primary text-[#090909] font-bold rounded-full overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-[0_0_30px_rgba(191,154,95,0.4)] group">
                 <span className="relative z-10 text-[16px]">تواصل معنا الآن</span>
                 <div className="relative z-10 w-8 h-8 rounded-full bg-[#090909]/10 flex items-center justify-center transition-colors group-hover:bg-[#090909]/20">
                   <svg className="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
                   </svg>
                 </div>
-              </a>
+              </Link>
             </motion.div>
          </div>
       </section>

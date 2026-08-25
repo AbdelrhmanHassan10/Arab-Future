@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiHome, FiBox, FiTool, FiMessageSquare, FiSettings, FiLogOut, FiMenu, FiX } from "react-icons/fi";
+import { FiHome, FiBox, FiTool, FiMessageSquare, FiSettings, FiLogOut, FiMenu, FiX, FiMapPin, FiList } from "react-icons/fi";
 import { useState } from "react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -14,6 +14,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: "الوحدات", path: "/admin/units", icon: FiBox },
     { name: "مشاريع التشطيب", path: "/admin/finishing", icon: FiTool },
     { name: "الطلبات", path: "/admin/requests", icon: FiMessageSquare },
+    { name: "المناطق", path: "/admin/areas", icon: FiMapPin },
+    { name: "المرافق", path: "/admin/amenities", icon: FiList },
     { name: "الإعدادات", path: "/admin/settings", icon: FiSettings },
   ];
 
@@ -22,7 +24,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="flex h-screen bg-gray-50" dir="rtl">
+    <div className="flex min-h-screen bg-gray-50 admin-dashboard" dir="rtl">
       
       {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && (
@@ -33,7 +35,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       )}
 
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 right-0 z-50 w-64 bg-navy-deeper text-white transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:flex-shrink-0 flex flex-col ${isSidebarOpen ? "translate-x-0" : "translate-x-full"}`}>
+      <aside className={`fixed inset-y-0 right-0 z-50 w-64 bg-navy-deeper text-white transition-transform duration-300 ease-in-out lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen lg:flex-shrink-0 flex flex-col ${isSidebarOpen ? "translate-x-0" : "translate-x-full"}`}>
         <div className="flex items-center justify-between p-6 border-b border-white/10">
           <Link href="/admin" className="text-xl font-bold font-arabic text-primary">سمسار بني سويف</Link>
           <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden text-gray-400 hover:text-white">
@@ -87,7 +89,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col overflow-hidden">
+      <main className="flex-1 flex flex-col min-w-0">
         {/* Topbar */}
         <header className="bg-white h-20 border-b border-gray-200 flex items-center justify-between px-6 shrink-0">
           <div className="flex items-center gap-4">
@@ -99,7 +101,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </header>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto p-6 scroll-smooth">
+        <div className="flex-1 p-6">
           {children}
         </div>
       </main>

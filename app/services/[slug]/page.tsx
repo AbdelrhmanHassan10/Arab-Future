@@ -75,12 +75,12 @@ export default function ServicePage() {
                 </p>
 
                 <div className="flex flex-wrap gap-4">
-                  <a href="/contact" className="btn-primary">
+                  <Link href="/contact" className="btn-primary">
                     <span>اطلب الخدمة</span>
                     <svg className="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
                     </svg>
-                  </a>
+                  </Link>
                   <a href="https://wa.me/966538086128" target="_blank" rel="noopener noreferrer" className="btn-ghost">
                     <span>واتساب</span>
                   </a>
@@ -372,7 +372,7 @@ export default function ServicePage() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
                   </svg>
                 </a>
-                <a href="/projects" className="btn-ghost"><span>شاهد مشاريعنا</span></a>
+                <Link href="/projects" className="btn-ghost"><span>شاهد مشاريعنا</span></Link>
               </div>
             </motion.div>
           </div>

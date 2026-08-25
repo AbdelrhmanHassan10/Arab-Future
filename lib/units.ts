@@ -4,29 +4,32 @@ export type FinishingLevel = "none" | "half" | "full" | "luxury";
 export type PaymentMethod = "cash" | "installment" | "both";
 
 export interface Unit {
-  id: string; // e.g. BS-1024
+  id?: number;
+  unit_code: string;
   title: string;
-  type: UnitType;
-  status: UnitStatus;
-  location: string;
+  type: string;
+  status: string;
+  address?: string;
+  area_id?: number;
+  area?: { id: number, name: string };
   price: number;
-  area: number;
-  rooms: number;
+  space_sqm: number;
+  bedrooms: number;
   bathrooms: number;
   floor?: number;
-  finishing: FinishingLevel;
-  payment: PaymentMethod;
-  downPayment?: number;
-  installmentYears?: number;
-  image: string;
+  finishing: string;
+  payment_system: string;
+  down_payment?: number;
+  installment_years?: number;
+  main_image: string;
   images: string[];
   description: string;
-  amenities: string[];
-  featured: boolean;
-  createdAt: string;
+  features?: string[];
+  amenities?: any[];
+  created_at?: string;
 }
 
-export const unitsData: Unit[] = [
+export const unitsData: any[] = [
   {
     id: "BS-1024",
     title: "شقة فاخرة للبيع في قلب بني سويف الجديدة",

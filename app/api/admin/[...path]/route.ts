@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://simsar.acwad.tech/public/api";
 
 export async function proxyRequest(request: Request, { params }: { params: { path: string[] } }) {
   const token = cookies().get("admin_token")?.value;
@@ -21,21 +21,21 @@ export async function proxyRequest(request: Request, { params }: { params: { pat
     headers['Content-Type'] = contentType;
   }
 
-  const options: RequestInit = {
+  const options: RequestInit & { duplex?: 'half' } = {
     method: request.method,
     headers,
+    cache: "no-store",
   };
 
   if (request.method !== 'GET' && request.method !== 'HEAD') {
-    // If form data (for file uploads)
     if (contentType?.includes("multipart/form-data")) {
       const formData = await request.formData();
       options.body = formData;
-      // Fetch will automatically set the correct content-type with boundaries for FormData
-      delete (headers as Record<string, string>)['Content-Type'];
+      // MUST remove Content-Type so fetch can auto-generate the new boundary for the outgoing request
+      delete (options.headers as any)['Content-Type'];
+      delete (options.headers as any)['content-type'];
     } else {
-      const text = await request.text();
-      if (text) options.body = text;
+      options.body = await request.text();
     }
   }
 
@@ -53,9 +53,9 @@ export async function proxyRequest(request: Request, { params }: { params: { pat
     }
 
     return new NextResponse(await res.text(), { status: res.status });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Proxy Error:", error);
-    return NextResponse.json({ error: "Server Error" }, { status: 500 });
+    return NextResponse.json({ error: "Server Error", details: error?.message || String(error) }, { status: 500 });
   }
 }
 

@@ -452,3 +452,11 @@ a, button {
   opacity: 1;
 }
 
+/* ==============================
+   ADMIN DASHBOARD FORCED STYLES
+   ============================== */
+.admin-dashboard input,
+.admin-dashboard textarea,
+.admin-dashboard select {
+  color: var(--navy-dark);
+}

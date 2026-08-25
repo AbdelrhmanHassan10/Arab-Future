@@ -1,6 +1,5 @@
 import { cookies } from "next/headers";
-
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+import { API_URL } from "./config";
 
 export async function fetchApi(endpoint: string, options: RequestInit = {}) {
   const isServer = typeof window === 'undefined';

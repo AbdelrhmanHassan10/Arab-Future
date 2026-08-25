@@ -24,8 +24,9 @@ const config: Config = {
         "gray-text": "#717171",
       },
       fontFamily: {
-        arabic: ["var(--font-arabic)", "sans-serif"],
-        body: ["var(--font-body)", "var(--font-arabic)", "sans-serif"],
+        sans: ["var(--font-cairo)", "sans-serif"],
+        cairo: ["var(--font-cairo)", "sans-serif"],
+        body: ["var(--font-cairo)", "sans-serif"],
       },
       fontSize: {
         "hero": ["clamp(2.5rem, 6vw, 5rem)", { lineHeight: "1.2" }],

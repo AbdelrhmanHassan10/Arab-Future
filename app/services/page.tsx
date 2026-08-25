@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -350,15 +351,15 @@ export default function ServicesPage() {
                 تواصل معنا وسنوفر لك الحل الأمثل لمشروعك
               </p>
               <div className="flex flex-wrap justify-center gap-4">
-                <a href="/#contact" className="btn-primary">
+                <Link href="/#contact" className="btn-primary">
                   <span>تواصل معنا</span>
                   <svg className="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
                   </svg>
-                </a>
-                <a href="/gallery" className="inline-flex items-center gap-2 text-[13px] font-medium px-5 py-3.5 rounded-full border border-white/15 text-white/60 hover:text-primary hover:border-primary/30 transition-all duration-500">
+                </Link>
+                <Link href="/gallery" className="inline-flex items-center gap-2 text-[13px] font-medium px-5 py-3.5 rounded-full border border-white/15 text-white/60 hover:text-primary hover:border-primary/30 transition-all duration-500">
                   <span>معرض الأعمال</span>
-                </a>
+                </Link>
               </div>
             </motion.div>
           </div>
