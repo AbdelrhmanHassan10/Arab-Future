@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FiHome, FiBox, FiTool, FiMessageSquare, FiSettings, FiLogOut, FiMenu, FiX, FiMapPin, FiList } from "react-icons/fi";
+import { ToastProvider } from "@/components/ToastProvider";
+import { ConfirmProvider } from "@/components/ConfirmProvider";
 import { useState } from "react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -24,7 +26,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-50 admin-dashboard" dir="rtl">
+    <ToastProvider>
+    <ConfirmProvider>
+      <div className="flex min-h-screen bg-gray-50 admin-dashboard" dir="rtl">
       
       {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && (
@@ -106,6 +110,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
       </main>
 
-    </div>
+      </div>
+      </ConfirmProvider>
+    </ToastProvider>
   );
 }

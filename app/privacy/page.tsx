@@ -10,106 +10,102 @@ const sections = [
   {
     title: "المعلومات التي نقوم بجمعها",
     content: [
-      "قد نقوم بجمع ومعالجة البيانات التالية:",
+      "نحرص في سمسار بني سويف على جمع المعلومات الضرورية فقط لتقديم أفضل خدمة عقارية ممكنة. قد نقوم بجمع ومعالجة البيانات التالية:",
     ],
     list: [
-      "الاسم الكامل",
-      "رقم الهاتف",
-      "البريد الإلكتروني",
-      "عنوان المشروع أو الموقع",
-      "تفاصيل الطلب أو الخدمة المطلوبة",
-      "أي معلومات أخرى تقدمها من خلال نماذج التواصل",
+      "الاسم الكامل ورقم الهوية (عند الحاجة لإتمام العقود أو المعاينات الرسمية)",
+      "رقم الهاتف والبريد الإلكتروني",
+      "المنطقة الجغرافية المفضلة للبحث عن عقار",
+      "الميزانية المقترحة وتفاصيل الطلب العقاري",
+      "أي معلومات أخرى تقدمها من خلال نماذج التواصل أو المعاينة الميدانية",
     ],
-    extra: "كما قد يتم جمع بيانات تلقائية مثل:",
+    extra: "كما قد يتم جمع بيانات تقنية وتلقائية عند تصفحك للموقع مثل:",
     extraList: [
-      "عنوان IP",
-      "نوع المتصفح",
-      "بيانات الاستخدام داخل الموقع",
+      "عنوان بروتوكول الإنترنت (IP)",
+      "نوع المتصفح والجهاز المستخدم",
+      "بيانات الاستخدام وتفضيلات التصفح داخل الموقع",
     ],
   },
   {
     title: "كيفية استخدام المعلومات",
     content: [
-      "نستخدم المعلومات التي نجمعها للأغراض التالية:",
+      "نستخدم المعلومات التي نجمعها لضمان تجربة سلسة وآمنة، وللأغراض التالية:",
     ],
     list: [
-      "التواصل معك والرد على استفساراتك",
-      "تقديم العروض والخدمات (مثل GRC، GRG، GRP، الحجر الصناعي، الفوم، أعمال الهارد سكيب، التصميم الداخلي والتشطيبات)",
-      "تحسين جودة خدماتنا وتجربة المستخدم",
-      "إدارة العمليات الداخلية وتحليل الأداء",
+      "التواصل معك والرد على استفساراتك وطلباتك العقارية",
+      "تقديم العروض والخدمات الأنسب لك (مثل بيع وشراء العقارات، الاستشارات العقارية، التشطيبات والديكور)",
+      "تحديد مواعيد المعاينات الميدانية للعقارات",
+      "تحسين جودة خدماتنا وتخصيص تجربة المستخدم",
+      "إرسال تنبيهات بالعقارات الجديدة التي تطابق اهتماماتك",
     ],
   },
   {
-    title: "حماية البيانات",
+    title: "حماية البيانات وأمنها",
     content: [
-      "نلتزم باتخاذ كافة الإجراءات الأمنية والتقنية اللازمة لحماية بياناتك من:",
+      "نضع خصوصيتك في مقدمة أولوياتنا، ونلتزم باتخاذ كافة الإجراءات الأمنية والتقنية الصارمة لحماية بياناتك من:",
     ],
     list: [
-      "الوصول غير المصرح به",
+      "الوصول أو الاستخدام غير المصرح به",
       "التعديل أو الإفصاح غير القانوني",
-      "الفقد أو التلف",
+      "الفقد أو التلف العرضي",
     ],
+    extra: "نحن نستخدم أنظمة تقنية حديثة ونقيد وصول موظفينا للبيانات إلا في حدود ما تتطلبه مهامهم الوظيفية لخدمتك."
   },
   {
     title: "مشاركة البيانات مع أطراف ثالثة",
     content: [
-      "لا نقوم ببيع أو تأجير بياناتك لأي طرف ثالث.",
-      "وقد يتم مشاركة البيانات فقط في الحالات التالية:",
+      "الثقة هي أساس عملنا في سمسار بني سويف. نحن لا نقوم مطلقاً ببيع أو تأجير بياناتك لأي جهة خارجية.",
+      "وقد يتم مشاركة البيانات في أضيق الحدود وفي الحالات التالية فقط:",
     ],
     list: [
-      "لتنفيذ الخدمة (مثل شركاء التنفيذ أو الموردين)",
-      "للامتثال للمتطلبات القانونية",
-      "لحماية حقوق الشركة أو المستخدمين",
+      "مع الأطراف ذات الصلة المباشرة بإتمام الصفقة العقارية (مثل البائع أو المشتري أو الجهات القانونية) وذلك بعلمك وموافقتك.",
+      "مع شركاء التنفيذ (مثل شركات المقاولات أو التشطيبات إذا طلبت هذه الخدمة).",
+      "للامتثال للمتطلبات القانونية أو الأوامر القضائية.",
     ],
   },
   {
     title: "ملفات تعريف الارتباط (Cookies)",
     content: [
-      "قد يستخدم الموقع ملفات تعريف الارتباط لتحسين تجربة المستخدم، مثل:",
+      "نستخدم ملفات تعريف الارتباط (Cookies) لتحسين تجربتك وتوفير وقتك عند تصفح الموقع، ويشمل ذلك:",
     ],
     list: [
-      "حفظ تفضيلات المستخدم",
-      "تحليل أداء الموقع",
+      "حفظ تفضيلاتك وعمليات البحث السابقة عن العقارات",
+      "تحليل أداء الموقع لفهم احتياجات الزوار بشكل أفضل",
     ],
-    extra: "يمكنك تعطيل الكوكيز من خلال إعدادات المتصفح.",
+    extra: "يمكنك في أي وقت تعديل إعدادات المتصفح الخاص بك لرفض ملفات تعريف الارتباط، ولكن قد يؤثر ذلك على عمل بعض خصائص الموقع.",
   },
   {
     title: "الاحتفاظ بالبيانات",
     content: [
-      "نحتفظ ببياناتك فقط للفترة اللازمة لتحقيق الأغراض المذكورة في هذه السياسة، أو وفقًا لما يتطلبه القانون.",
+      "نحتفظ ببياناتك الشخصية فقط للفترة اللازمة لتقديم الخدمات العقارية المطلوبة، أو للامتثال لالتزاماتنا القانونية وتوثيق العقود وتسوية النزاعات.",
     ],
   },
   {
     title: "حقوق المستخدم",
     content: [
-      "يحق لك:",
+      "نحترم حقوقك الكاملة فيما يتعلق ببياناتك الشخصية، ويحق لك في أي وقت:",
     ],
     list: [
-      "طلب الاطلاع على بياناتك",
-      "طلب تعديل أو حذف بياناتك",
-      "سحب موافقتك على استخدام البيانات",
-    ],
-  },
-  {
-    title: "روابط خارجية",
-    content: [
-      "قد يحتوي الموقع على روابط لمواقع أخرى، ولا نتحمل مسؤولية سياسات الخصوصية الخاصة بهذه المواقع.",
+      "طلب الاطلاع على بياناتك التي نحتفظ بها",
+      "طلب تعديل أو تحديث أي معلومات غير دقيقة",
+      "طلب حذف بياناتك من سجلاتنا (ما لم يكن هناك مانع قانوني)",
+      "سحب موافقتك على استخدام البيانات للأغراض التسويقية",
     ],
   },
   {
     title: "التعديلات على سياسة الخصوصية",
     content: [
-      "نحتفظ بحق تحديث هذه السياسة في أي وقت، وسيتم نشر أي تعديل على هذه الصفحة.",
+      "نحتفظ بحق تحديث أو تعديل هذه السياسة من وقت لآخر لمواكبة التطورات التقنية أو القانونية. سيتم نشر أي تعديل على هذه الصفحة، ونشجعك على مراجعتها بشكل دوري.",
     ],
   },
   {
     title: "التواصل معنا",
     content: [
-      "في حال وجود أي استفسار بخصوص سياسة الخصوصية:",
+      "في حال وجود أي استفسار أو مخاوف بخصوص سياسة الخصوصية أو كيفية تعاملنا مع بياناتك، يسعدنا تواصلك معنا عبر:",
     ],
     list: [
-      "البريد الإلكتروني: info@arabfuture.com",
-      "الهاتف: \u202A+966 53 808 6128\u202C",
+      "البريد الإلكتروني: info@semsarbenisuef.com",
+      "الهاتف: \u202A+20 100 123 4567\u202C",
     ],
   },
 ];
@@ -119,103 +115,123 @@ export default function PrivacyPage() {
     <>
       <Navbar />
 
-      {/* Hero */}
-      <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-navy-deeper" />
-        <div className="absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/[0.06] rounded-full blur-[150px]" />
-        </div>
-
-        <div className="relative z-10 text-center pad-x pt-32 pb-16">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease }}
-            className="text-2xl uppercase text-primary font-semibold tracking-widest"
+      {/* Hero Section */}
+      <section className="relative min-h-[40vh] md:min-h-[50vh] flex items-center justify-center overflow-hidden bg-[#090909] pt-20">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/[0.04] rounded-full blur-[120px] pointer-events-none" />
+        
+        <div className="container-wide px-6 relative z-10 text-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#111111] border border-white/10 mb-6"
+            dir="ltr"
           >
-            Privacy Policy
-          </motion.span>
+            <span className="w-2 h-2 rounded-full bg-primary" />
+            <span className="text-xs text-white/80 uppercase font-body tracking-widest">Legal Document</span>
+          </motion.div>
+          
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease }}
-            className="text-display-sm md:text-display font-bold text-white mt-4"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 mb-6 drop-shadow-2xl leading-relaxed pb-4"
           >
             سياسة الخصوصية
           </motion.h1>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2, ease }}
+            className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed"
+          >
+            نحن نقدر ثقتك بنا ونلتزم بحماية بياناتك الشخصية بأعلى معايير الأمان.
+          </motion.p>
         </div>
       </section>
 
-      {/* Content */}
-      <section className="bg-navy-dark">
-        <div className="pad-y pad-x">
-          <div className="max-w-[850px] mx-auto">
+      {/* Content Section */}
+      <section className="py-24 relative bg-[#090909]">
+        <div className="container-wide px-6 relative z-10 pt-10">
+          <div className="max-w-[900px] mx-auto">
             {/* Intro */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease }}
-              className="glass-card-dark p-8 md:p-10 mb-12"
+              className="bg-[#1a1a1a] rounded-[2rem] p-8 md:p-12 mb-16 border border-white/5 relative overflow-hidden"
             >
-              <p className="text-white leading-[1.9]">
-                تلتزم شركة عرب فيوتشر المحدودة (&quot;نحن&quot; أو &quot;الشركة&quot;) بحماية خصوصية مستخدمي موقعها الإلكتروني، وتوضح هذه السياسة كيفية جمع واستخدام وحماية المعلومات الشخصية الخاصة بك عند استخدام الموقع أو خدماتنا.
+              <div className="absolute inset-0 bg-[url('/projects/project-3.png')] bg-cover bg-center opacity-5 grayscale mix-blend-overlay" />
+              <p className="text-white/80 leading-[2] text-lg relative z-10">
+                تلتزم <strong className="text-white">سمسار بني سويف</strong> للوساطة والاستشارات العقارية بحماية خصوصية عملائها الكرام. توضح هذه الوثيقة بوضوح وشفافية تامة كيفية جمع واستخدام وحماية المعلومات الشخصية الخاصة بك عند تواصلك معنا أو استخدامك لموقعنا الإلكتروني لضمان استثمار آمن وتجربة موثوقة.
               </p>
             </motion.div>
 
             {/* Sections */}
-            <div className="space-y-10">
+            <div className="space-y-10 md:space-y-16">
               {sections.map((section, idx) => (
                 <motion.div
                   key={idx}
-                  initial={{ opacity: 0, y: 15 }}
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, ease }}
+                  className="relative group"
                 >
-                  {/* Header */}
-                  <div className="flex items-center gap-3 mb-5">
-                    <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <span className="text-primary text-sm font-bold font-body">{idx + 1}</span>
+                  <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-start">
+                    {/* Number Indicator */}
+                    <div className="flex-shrink-0 relative">
+                      <div className="w-16 h-16 rounded-2xl bg-[#1a1a1a] border border-white/10 flex items-center justify-center shadow-lg group-hover:border-primary/30 group-hover:bg-primary/5 transition-all duration-300">
+                        <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-primary to-[#A07B40]">0{idx + 1}</span>
+                      </div>
+                      {/* Vertical line connector (hidden on last item) */}
+                      {idx !== sections.length - 1 && (
+                        <div className="hidden md:block absolute top-20 bottom-[-64px] left-1/2 -translate-x-1/2 w-px bg-gradient-to-b from-white/10 to-transparent" />
+                      )}
                     </div>
-                    <h2 className="text-lg font-bold text-white">{section.title}</h2>
-                  </div>
 
-                  {/* Content */}
-                  <div className="glass-card-dark p-6 md:p-8">
-                    {section.content.map((text, i) => (
-                      <p key={i} className="text-white text-[15px] leading-[1.85] mb-4 last:mb-0">
-                        {text}
-                      </p>
-                    ))}
-
-                    {section.list && (
-                      <ul className="space-y-3 mt-4">
-                        {section.list.map((item, i) => (
-                          <li key={i} className="flex items-start gap-3">
-                            <div className="w-1.5 h-1.5 rounded-full bg-primary/50 mt-2.5 flex-shrink-0" />
-                            <span dir="auto" className="text-white text-[15px] leading-[1.85]">{item}</span>
-                          </li>
+                    {/* Section Content */}
+                    <div className="flex-grow pt-2">
+                      <h2 className="text-2xl font-bold text-white mb-6 group-hover:text-primary transition-colors">{section.title}</h2>
+                      
+                      <div className="space-y-4">
+                        {section.content.map((text, i) => (
+                          <p key={i} className="text-white/70 text-lg leading-[1.9]">
+                            {text}
+                          </p>
                         ))}
-                      </ul>
-                    )}
 
-                    {section.extra && (
-                      <p className="text-white text-[15px] leading-[1.85] mt-5">
-                        {section.extra}
-                      </p>
-                    )}
+                        {section.list && (
+                          <ul className="space-y-4 mt-6 bg-[#1a1a1a]/50 rounded-2xl p-6 border border-white/5">
+                            {section.list.map((item, i) => (
+                              <li key={i} className="flex items-start gap-4">
+                                <div className="w-2 h-2 rounded-full bg-primary mt-2.5 flex-shrink-0 shadow-[0_0_10px_rgba(191,154,95,0.5)]" />
+                                <span className="text-white/80 text-lg leading-[1.8]">{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
 
-                    {section.extraList && (
-                      <ul className="space-y-3 mt-3">
-                        {section.extraList.map((item, i) => (
-                          <li key={i} className="flex items-start gap-3">
-                            <div className="w-1.5 h-1.5 rounded-full bg-primary/50 mt-2.5 flex-shrink-0" />
-                            <span dir="auto" className="text-white text-[15px] leading-[1.85]">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                        {section.extra && (
+                          <p className="text-white/70 text-lg leading-[1.9] mt-6 italic border-r-2 border-primary/30 pr-4">
+                            {section.extra}
+                          </p>
+                        )}
+
+                        {section.extraList && (
+                          <ul className="space-y-3 mt-4 pr-6">
+                            {section.extraList.map((item, i) => (
+                              <li key={i} className="flex items-center gap-3">
+                                <div className="w-1.5 h-1.5 rounded-full bg-white/30 flex-shrink-0" />
+                                <span className="text-white/60 text-[16px]">{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </motion.div>
               ))}

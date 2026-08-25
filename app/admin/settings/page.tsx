@@ -45,6 +45,19 @@ export default function AdminSettingsPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const phoneRegex = /^\+20(10|11|12|15)\d{8}$/;
+
+    if (settings.phone && !phoneRegex.test(settings.phone)) {
+      alert("رقم الهاتف غير صحيح! يجب أن يبدأ بـ +20 يليه 10 أو 11 أو 12 أو 15 ثم 8 أرقام.");
+      return;
+    }
+
+    if (settings.whatsapp_number && !phoneRegex.test(settings.whatsapp_number)) {
+      alert("رقم الواتساب غير صحيح! يجب أن يبدأ بـ +20 يليه 10 أو 11 أو 12 أو 15 ثم 8 أرقام.");
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
@@ -93,6 +106,7 @@ export default function AdminSettingsPage() {
                 <label className="block text-sm font-bold text-gray-700 mb-2">رقم الهاتف (للاتصال)</label>
                 <input 
                   type="text" name="phone" value={settings.phone} onChange={handleChange} dir="ltr"
+                  placeholder="+201012345678" maxLength={13}
                   className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/20 text-sm"
                 />
               </div>
@@ -100,6 +114,7 @@ export default function AdminSettingsPage() {
                 <label className="block text-sm font-bold text-gray-700 mb-2">رقم الواتساب</label>
                 <input 
                   type="text" name="whatsapp_number" value={settings.whatsapp_number} onChange={handleChange} dir="ltr"
+                  placeholder="+201012345678" maxLength={13}
                   className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/20 text-sm"
                 />
               </div>

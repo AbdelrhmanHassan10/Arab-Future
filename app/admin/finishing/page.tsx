@@ -2,10 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { FiPlus, FiEdit2, FiTrash2, FiSearch } from "react-icons/fi";
-import { finishingProjects } from "@/lib/finishing";
+import { getImageUrl } from "@/lib/config";
 import Link from "next/link";
+import { useToast } from "@/components/ToastProvider";
+import { useConfirm } from "@/components/ConfirmProvider";
 
 export default function AdminFinishingPage() {
+  const { showToast } = useToast();
+  const { confirm } = useConfirm();
   const [searchTerm, setSearchTerm] = useState("");
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -32,14 +36,15 @@ export default function AdminFinishingPage() {
   }, []);
 
   const handleDelete = async (id: any) => {
-    if (!confirm("هل أنت متأكد من حذف هذا المشروع نهائياً؟")) return;
+    if (!await confirm("هل أنت متأكد من حذف هذا المشروع نهائياً؟ لا يمكن التراجع.")) return;
     try {
       const res = await fetch(`/api/admin/renovation-projects/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Failed to delete");
+      showToast("تم حذف المشروع بنجاح", "success");
       fetchProjects();
     } catch (error) {
       console.error(error);
-      alert("حدث خطأ أثناء الحذف");
+      showToast("حدث خطأ أثناء الحذف", "error");
     }
   };
 
@@ -95,7 +100,7 @@ export default function AdminFinishingPage() {
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 shrink-0 border border-gray-200">
-                        <img src={`${project.main_image || project.image || "https://picsum.photos/800"}?t=${timestamp}`} alt={project.title} className="w-full h-full object-cover" />
+                        <img src={`${getImageUrl(project.main_image || project.image, project.id)}?t=${timestamp}`} alt={project.title} className="w-full h-full object-cover" />
                       </div>
                       <span className="font-bold text-navy-dark text-sm bg-gray-100 px-2 py-1 rounded-md">{project.code || project.renovation_code || project.id}</span>
                     </div>

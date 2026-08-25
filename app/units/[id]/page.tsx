@@ -9,11 +9,10 @@ import GalleryLightbox from "@/components/GalleryLightbox";
 import ImageLightbox from "@/components/ImageLightbox";
 import { fetchApi } from "@/lib/api";
 import { getImageUrl } from "@/lib/config";
-import { unitsData } from "@/lib/units";
 
 export async function generateStaticParams() {
   try {
-    const data = await fetchApi("/units");
+    const data = await fetchApi("/units", { cache: 'no-store' });
     const units = data.data || data || [];
     return units.map((unit: any) => {
       const id = typeof unit.id === 'object' && unit.id !== null ? (unit.id.id || unit.id.name) : (unit.unit_code || unit.id);
@@ -65,10 +64,7 @@ export default async function UnitDetailsPage({ params }: { params: { id: string
     console.error("Failed to fetch unit details from API:", error);
   }
 
-  // Fallback to local mock data (for "Our Work" sold units like BS-1024)
-  if (!unit) {
-    unit = unitsData.find((u: any) => String(u.unit_code || u.id) === String(params.id));
-  }
+  // No local fallback — API is the single source of truth
 
   if (unit) {
     const sanitized = { ...unit };

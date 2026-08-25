@@ -5,8 +5,12 @@ import { FiPlus, FiSearch, FiFilter, FiEdit2, FiTrash2, FiEye, FiMoreVertical } 
 import { getImageUrl, extractString } from "@/lib/config";
 import { Unit } from "@/lib/units";
 import Link from "next/link";
+import { useToast } from "@/components/ToastProvider";
+import { useConfirm } from "@/components/ConfirmProvider";
 
 export default function AdminUnitsPage() {
+  const { showToast } = useToast();
+  const { confirm } = useConfirm();
   const [units, setUnits] = useState<Unit[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -28,7 +32,7 @@ export default function AdminUnitsPage() {
       setLoading(false);
     } catch (error: any) {
       console.error("Failed to fetch units:", error?.message || error);
-      alert("خطأ في جلب الوحدات: " + (error?.message || ""));
+      showToast("خطأ في جلب الوحدات: " + (error?.message || ""), "error");
       setUnits([]);
       setLoading(false);
     }
@@ -39,21 +43,35 @@ export default function AdminUnitsPage() {
   }, []);
 
   const handleDelete = async (unit_code: string) => {
-    if (!confirm("هل أنت متأكد من حذف هذه الوحدة؟")) return;
+    if (!await confirm("هل أنت متأكد من حذف هذه الوحدة؟ لا يمكن التراجع عن هذا الإجراء.")) return;
 
-    await fetch(`/api/admin/units/${unit_code}`, { method: 'DELETE' });
-    fetchUnits();
+    try {
+      const res = await fetch(`/api/admin/units/${unit_code}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error("Failed to delete unit");
+      showToast("تم الحذف بنجاح", "success");
+      fetchUnits();
+    } catch (error) {
+      console.error(error);
+      showToast("حدث خطأ أثناء الحذف", "error");
+    }
   };
 
   const handleToggleStatus = async (unit: Unit) => {
     const newStatus = unit.status === "available" ? "sold" : "available";
     const code = extractString(unit.unit_code || unit.id);
-    await fetch(`/api/admin/units/${code}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: newStatus })
-    });
-    fetchUnits();
+    try {
+      const res = await fetch(`/api/admin/units/${code}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus })
+      });
+      if (!res.ok) throw new Error("Failed to update status");
+      showToast("تم تحديث حالة الوحدة", "success");
+      fetchUnits();
+    } catch (error) {
+      console.error(error);
+      showToast("حدث خطأ أثناء تحديث الحالة", "error");
+    }
   };
 
   const filteredUnits = units.filter(u => {
@@ -103,6 +121,7 @@ export default function AdminUnitsPage() {
         >
           <option value="all">جميع الحالات</option>
           <option value="available">متاحة</option>
+          <option value="reserved">محجوزة</option>
           <option value="sold">تم البيع</option>
         </select>
       </div>
@@ -162,9 +181,9 @@ export default function AdminUnitsPage() {
                     <td className="px-6 py-4">
                       <button
                         onClick={() => handleToggleStatus(unit)}
-                        className={`px-3 py-1 rounded-full text-xs font-bold inline-block transition-transform hover:scale-105 ${unit.status === "available" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}
+                        className={`px-3 py-1 rounded-full text-xs font-bold inline-block transition-transform hover:scale-105 ${unit.status === "available" ? "bg-green-100 text-green-600" : unit.status === "reserved" ? "bg-yellow-100 text-yellow-600" : "bg-red-100 text-red-600"}`}
                       >
-                        {unit.status === "available" ? "متاحة" : "تم البيع"}
+                        {unit.status === "available" ? "متاحة" : unit.status === "reserved" ? "محجوزة" : "تم البيع"}
                       </button>
                     </td>
                     <td className="px-6 py-4 text-left">

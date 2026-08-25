@@ -6,10 +6,13 @@ import Link from "next/link";
 
 async function getDashboardData() {
   try {
-    const data = await fetchApi("/admin/dashboard", {
-      cache: 'no-store'
-    });
-    return data;
+    const [dashboard, units, renovations, requests] = await Promise.all([
+      fetchApi("/admin/dashboard", { cache: 'no-store' }).catch(() => null),
+      fetchApi("/admin/units", { cache: 'no-store' }).catch(() => null),
+      fetchApi("/admin/renovation-projects", { cache: 'no-store' }).catch(() => null),
+      fetchApi("/admin/requests", { cache: 'no-store' }).catch(() => null),
+    ]);
+    return { dashboard, units, renovations, requests };
   } catch (error) {
     return null;
   }
@@ -18,17 +21,26 @@ async function getDashboardData() {
 export default async function AdminDashboard() {
   const data = await getDashboardData();
 
-  if (!data) {
+  if (!data || (!data.dashboard && !data.units && !data.renovations)) {
     return <div className="text-center py-20 text-red-500 font-bold">فشل في تحميل بيانات لوحة التحكم. تأكد من عمل الخادم (Laravel).</div>;
   }
 
-  // Assuming data structure based on typical Laravel responses:
-  // data = { stats: { total_units, total_renovation, sold_units, new_requests }, recent_requests: [], recent_units: [] }
+  const dashboardApi = data.dashboard || {};
+  const unitsList = Array.isArray(data.units?.data) ? data.units.data : (Array.isArray(data.units) ? data.units : []);
+  const renovationsList = Array.isArray(data.renovations?.data) ? data.renovations.data : (Array.isArray(data.renovations) ? data.renovations : []);
+  const requestsList = Array.isArray(data.requests?.data) ? data.requests.data : (Array.isArray(data.requests) ? data.requests : []);
+
+  // Calculate accurate totals from the actual lists to avoid relying on stale/hardcoded backend stats
+  const totalUnits = unitsList.length || dashboardApi.stats?.total_units || 0;
+  const soldUnits = unitsList.filter((u: any) => u.status === 'sold').length || dashboardApi.stats?.sold_units || 0;
+  const totalRenovation = renovationsList.length || dashboardApi.stats?.total_renovation || 0;
+  const newRequests = requestsList.filter((r: any) => r.status === 'new' || r.status === 'جديد').length || dashboardApi.stats?.new_requests || 0;
+
   const stats = [
-    { label: "إجمالي الوحدات", value: data.stats?.total_units || 0, icon: FiBox, color: "text-blue-500", bg: "bg-blue-100" },
-    { label: "مشاريع التشطيب", value: data.stats?.total_renovation || 0, icon: FiTool, color: "text-purple-500", bg: "bg-purple-100" },
-    { label: "الوحدات المباعة", value: data.stats?.sold_units || 0, icon: FiDollarSign, color: "text-green-500", bg: "bg-green-100" },
-    { label: "الطلبات الجديدة", value: data.stats?.new_requests || 0, icon: FiUsers, color: "text-orange-500", bg: "bg-orange-100" },
+    { label: "إجمالي الوحدات", value: totalUnits, icon: FiBox, color: "text-blue-500", bg: "bg-blue-100" },
+    { label: "مشاريع التشطيب", value: totalRenovation, icon: FiTool, color: "text-purple-500", bg: "bg-purple-100" },
+    { label: "الوحدات المباعة", value: soldUnits, icon: FiDollarSign, color: "text-green-500", bg: "bg-green-100" },
+    { label: "الطلبات الجديدة", value: newRequests, icon: FiUsers, color: "text-orange-500", bg: "bg-orange-100" },
   ];
 
   return (
@@ -66,7 +78,7 @@ export default async function AdminDashboard() {
             <Link href="/admin/units" className="text-sm text-primary font-bold hover:underline">عرض الكل</Link>
           </div>
           <div className="p-0">
-            {data.recent_units?.map((unit: any) => (
+            {(dashboardApi.recent_units || unitsList.slice(0, 5)).map((unit: any) => (
               <div key={unit.id} className="flex items-center justify-between p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 shrink-0">
@@ -86,7 +98,7 @@ export default async function AdminDashboard() {
                 </div>
               </div>
             ))}
-            {(!data.recent_units || data.recent_units.length === 0) && (
+            {(!(dashboardApi.recent_units || unitsList.slice(0, 5)) || (dashboardApi.recent_units || unitsList.slice(0, 5)).length === 0) && (
               <div className="p-6 text-center text-gray-500">لا توجد وحدات حتى الآن</div>
             )}
           </div>
@@ -99,7 +111,7 @@ export default async function AdminDashboard() {
             <Link href="/admin/requests" className="text-sm text-primary font-bold hover:underline">عرض الكل</Link>
           </div>
           <div className="p-0">
-            {data.recent_requests?.map((req: any, idx: number) => (
+            {(dashboardApi.recent_requests || requestsList.slice(0, 5)).map((req: any, idx: number) => (
               <div key={idx} className="flex items-center justify-between p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-full bg-navy-deeper text-white flex items-center justify-center font-bold text-sm shrink-0">
@@ -123,7 +135,7 @@ export default async function AdminDashboard() {
                 </div>
               </div>
             ))}
-            {(!data.recent_requests || data.recent_requests.length === 0) && (
+            {(!(dashboardApi.recent_requests || requestsList.slice(0, 5)) || (dashboardApi.recent_requests || requestsList.slice(0, 5)).length === 0) && (
               <div className="p-6 text-center text-gray-500">لا توجد طلبات حتى الآن</div>
             )}
           </div>

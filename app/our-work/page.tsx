@@ -1,20 +1,60 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
-import { finishingProjects } from "@/lib/finishing";
-import { unitsData } from "@/lib/units";
 import Link from "next/link";
 import { FiCheckCircle, FiHome, FiClock, FiArrowLeft } from "react-icons/fi";
+import { API_URL, getImageUrl } from "@/lib/config";
 
 export default function OurWorkPage() {
   const [activeTab, setActiveTab] = useState<"completed" | "in-progress" | "sold">("completed");
+  const [completedProjects, setCompletedProjects] = useState<any[]>([]);
+  const [inProgressProjects, setInProgressProjects] = useState<any[]>([]);
+  const [soldUnits, setSoldUnits] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const completedProjects = finishingProjects.filter(p => p.status === "completed");
-  const inProgressProjects = finishingProjects.filter(p => p.status === "in-progress");
-  const soldUnits = unitsData.filter(u => u.status === "sold");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch renovation projects from API
+        const projectsRes = await fetch(`${API_URL}/renovation-projects`, { cache: 'no-store' });
+        if (projectsRes.ok) {
+          const projectsData = await projectsRes.json();
+          const allProjects = projectsData.data || projectsData || [];
+          setCompletedProjects(allProjects.filter((p: any) => p.status === "completed"));
+          setInProgressProjects(allProjects.filter((p: any) => p.status === "in_progress" || p.status === "in-progress"));
+        }
+
+        // Fetch sold units from API
+        const unitsRes = await fetch(`${API_URL}/units?status=sold`, { cache: 'no-store' });
+        if (unitsRes.ok) {
+          const unitsData = await unitsRes.json();
+          const units = unitsData.data || unitsData || [];
+          setSoldUnits(Array.isArray(units) ? units : []);
+        }
+      } catch (error) {
+        console.error("Failed to fetch our work data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-[#090909] font-body">
+        <Navbar />
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <div className="text-primary font-bold text-xl animate-pulse">جاري تحميل المشاريع...</div>
+        </div>
+        <Footer />
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-[#090909] font-body selection:bg-primary/30 selection:text-white">
@@ -91,16 +131,16 @@ export default function OurWorkPage() {
                     className="group rounded-[2rem] overflow-hidden bg-[#111111] border border-white/5 shadow-2xl flex flex-col h-full hover:border-primary/30 transition-all duration-500 hover:-translate-y-2"
                   >
                     <div className="relative h-72 overflow-hidden">
-                      <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" />
+                      <img src={getImageUrl(project.main_image || project.image, idx)} alt={project.title} className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-transparent opacity-80" />
                       
                       <div className="absolute top-5 right-5 bg-black/60 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold text-white border border-white/10 shadow-lg">
-                        {project.style}
+                        {project.style === "modern" ? "عصري" : project.style === "neo_classic" ? "نيو كلاسيك" : project.style}
                       </div>
                       
                       {/* View details overlay on hover */}
                       <div className="absolute inset-0 bg-primary/20 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-                        <Link href={`/our-work/${project.id}`} className="bg-[#090909] text-white px-6 py-3 rounded-full font-bold flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                        <Link href={`/our-work/${project.code || project.renovation_code || project.id}`} className="bg-[#090909] text-white px-6 py-3 rounded-full font-bold flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
                           التفاصيل
                           <FiArrowLeft className="w-4 h-4" />
                         </Link>
@@ -110,13 +150,13 @@ export default function OurWorkPage() {
                     <div className="p-8 flex flex-col flex-grow relative z-10 bg-[#111111]">
                       <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-primary transition-colors">{project.title}</h3>
                       <div className="flex flex-wrap gap-2 mb-4">
-                        <span className="text-xs text-gray-400 bg-white/5 px-3 py-1 rounded-full">{project.type}</span>
-                        <span className="text-xs text-gray-400 bg-white/5 px-3 py-1 rounded-full">{project.area} م²</span>
+                        <span className="text-xs text-gray-400 bg-white/5 px-3 py-1 rounded-full">{project.property_type === "apartment" ? "شقة" : project.property_type === "villa" ? "فيلا" : project.property_type || "وحدة سكنية"}</span>
+                        <span className="text-xs text-gray-400 bg-white/5 px-3 py-1 rounded-full">{project.area_sqm || 150} م²</span>
                       </div>
-                      <p className="text-gray-400 text-sm mb-6 line-clamp-2 leading-relaxed">{project.description}</p>
+                      <p className="text-gray-400 text-sm mb-6 line-clamp-2 leading-relaxed">{project.description || "مشروع تشطيب بأعلى معايير الجودة والتصميم العصري."}</p>
                       
                       <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
-                        <Link href={`/our-work/${project.id}`} className="text-primary font-bold hover:text-white transition-colors text-sm flex items-center gap-2">
+                        <Link href={`/our-work/${project.code || project.renovation_code || project.id}`} className="text-primary font-bold hover:text-white transition-colors text-sm flex items-center gap-2">
                           عرض المشروع كامل
                           <FiArrowLeft className="w-4 h-4" />
                         </Link>
@@ -124,11 +164,11 @@ export default function OurWorkPage() {
                     </div>
                   </motion.div>
                 ))}
-                {(activeTab === "completed" && completedProjects.length === 0) || (activeTab === "in-progress" && inProgressProjects.length === 0) ? (
+                {((activeTab === "completed" && completedProjects.length === 0) || (activeTab === "in-progress" && inProgressProjects.length === 0)) && (
                   <div className="col-span-full py-20 text-center text-gray-500 bg-white/5 rounded-[2rem] border border-white/5 border-dashed">
                     لا توجد مشاريع مسجلة حالياً في هذا القسم.
                   </div>
-                ) : null}
+                )}
               </div>
             )}
 
@@ -144,7 +184,7 @@ export default function OurWorkPage() {
                     className="group rounded-[2rem] overflow-hidden bg-[#111111] border border-white/5 shadow-2xl flex flex-col h-full hover:border-red-500/30 transition-all duration-500 hover:-translate-y-2"
                   >
                     <div className="relative h-72 overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700">
-                      <img src={unit.image} alt={unit.title} className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" />
+                      <img src={getImageUrl(unit.main_image || unit.image, idx)} alt={unit.title} className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-red-900/20 to-transparent opacity-80" />
                       
                       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-red-600 text-white px-8 py-3 rounded-full text-xl font-black transform -rotate-12 border-4 border-[#111111] shadow-[0_0_30px_rgba(220,38,38,0.5)] tracking-wider">
@@ -161,11 +201,11 @@ export default function OurWorkPage() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
-                        {unit.location}
+                        {unit.address || (typeof unit.area === 'object' ? unit.area?.name : unit.location) || "بني سويف"}
                       </p>
                       
                       <div className="mt-auto pt-6 border-t border-white/5">
-                        <Link href={`/units/${unit.id}`} className="text-red-400 font-bold hover:text-red-300 transition-colors text-sm flex items-center gap-2 group-hover:translate-x-[-4px]">
+                        <Link href={`/units/${unit.unit_code || unit.id}`} className="text-red-400 font-bold hover:text-red-300 transition-colors text-sm flex items-center gap-2 group-hover:translate-x-[-4px]">
                           الاطلاع على التفاصيل
                           <FiArrowLeft className="w-4 h-4" />
                         </Link>

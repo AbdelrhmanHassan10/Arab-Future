@@ -1,15 +1,31 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { unitsData } from "@/lib/units";
 import UnitCard from "@/components/UnitCard";
+import { API_URL } from "@/lib/config";
+import { Unit } from "@/lib/units";
 
 export default function FeaturedUnits() {
   const ease = [0.16, 1, 0.3, 1] as const;
-  
-  // Filter only featured units
-  const featuredUnits = unitsData.filter(unit => unit.featured).slice(0, 6);
+
+  const [units, setUnits] = useState<Unit[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`${API_URL}/units?per_page=6`, { cache: 'no-store' })
+      .then(res => res.json())
+      .then(data => {
+        const fetched = data.data || data || [];
+        setUnits(Array.isArray(fetched) ? fetched.slice(0, 6) : []);
+      })
+      .catch(err => {
+        console.error("Failed to fetch featured units:", err);
+        setUnits([]);
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <section id="featured-units" className="relative bg-off-white pb-24 pt-32">
@@ -66,11 +82,19 @@ export default function FeaturedUnits() {
         </div>
 
         {/* Units Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-          {featuredUnits.map((unit, index) => (
-            <UnitCard key={unit.id} unit={unit} index={index} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex justify-center py-20">
+            <div className="text-primary font-bold text-lg animate-pulse">جاري تحميل الوحدات...</div>
+          </div>
+        ) : units.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            {units.map((unit, index) => (
+              <UnitCard key={unit.id} unit={unit} index={index} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-16 text-gray-400">لا توجد وحدات متاحة حالياً.</div>
+        )}
 
       </div>
     </section>

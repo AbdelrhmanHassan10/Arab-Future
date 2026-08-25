@@ -123,20 +123,20 @@ body {
 
 @layer base {
   body {
-    font-family: var(--font-arabic), sans-serif;
+    font-family: var(--font-cairo), sans-serif;
     font-size: 16px;
     line-height: 1.8;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-arabic font-bold;
+    @apply font-cairo font-bold;
     text-wrap: balance;
     letter-spacing: 0;
     line-height: 1.35;
   }
 
   p {
-    @apply font-arabic;
+    @apply font-cairo;
     text-wrap: pretty;
     letter-spacing: 0;
     line-height: 1.9;

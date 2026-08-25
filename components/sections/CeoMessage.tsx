@@ -38,7 +38,7 @@ export default function CeoMessage() {
               {/* Title Card Overlay */}
               <div className="absolute bottom-8 left-8 right-8">
                 <div className="glass-card-dark p-6 rounded-2xl border border-white/10 backdrop-blur-xl">
-                  <h4 className="text-white font-bold text-xl mb-1">عبد الرحمن حسن</h4>
+                  <h4 className="text-white font-bold text-xl mb-1">محمد ابو الفضل</h4>
                   <p className="text-primary text-sm font-medium tracking-wide">المدير التنفيذي للشركة</p>
                   <div className="w-12 h-px bg-white/20 mt-4" />
                 </div>

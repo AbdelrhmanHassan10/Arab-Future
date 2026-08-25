@@ -2,24 +2,19 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { finishingProjects } from "@/lib/finishing";
 import ImageGallery from "@/components/ImageGallery";
-
 import { fetchApi } from "@/lib/api";
+import { getImageUrl } from "@/lib/config";
 
 export async function generateStaticParams() {
   try {
     const data = await fetchApi("/renovation-projects");
     const projects = data.data || data || [];
-    const apiParams = projects.map((project: any) => ({
-      id: String(project.id || project.renovation_code || ""),
+    return projects.map((project: any) => ({
+      id: String(project.code || project.renovation_code || project.id || ""),
     }));
-    const localParams = finishingProjects.map((project) => ({
-      id: String(project.id),
-    }));
-    return [...apiParams, ...localParams];
   } catch (error) {
-    return finishingProjects.map((project) => ({ id: String(project.id) }));
+    return [];
   }
 }
 
@@ -27,18 +22,20 @@ export default async function ProjectDetailsPage({ params }: { params: { id: str
   let project: any = null;
 
   try {
-    const data = await fetchApi("/renovation-projects");
+    const data = await fetchApi("/renovation-projects", { cache: 'no-store' });
     const projects = data.data || data || [];
     if (Array.isArray(projects)) {
-      project = projects.find((p: any) => String(p.id) === String(params.id) || String(p.renovation_code) === String(params.id));
+      project = projects.find((p: any) => 
+        String(p.id) === String(params.id) || 
+        String(p.renovation_code) === String(params.id) || 
+        String(p.code) === String(params.id)
+      );
     }
   } catch (error) {
     console.error("Failed to fetch renovation projects from API:", error);
   }
 
-  if (!project) {
-    project = finishingProjects.find((p) => String(p.id) === String(params.id));
-  }
+  // No local fallback — API is the single source of truth
 
   if (project) {
     const sanitized = { ...project };
@@ -82,7 +79,7 @@ export default async function ProjectDetailsPage({ params }: { params: { id: str
       {/* --- HERO SECTION --- */}
       <div className="relative pt-40 pb-24 min-h-[85vh] flex flex-col justify-end overflow-hidden group">
         <div className="absolute inset-0 z-0">
-          <img src={project.main_image || project.image || '/projects/project-11.png'} alt={project.title} className="w-full h-full object-cover transition-transform duration-[20s] group-hover:scale-110" />
+          <img src={getImageUrl(project.main_image || project.image, 0)} alt={project.title} className="w-full h-full object-cover transition-transform duration-[20s] group-hover:scale-110" />
           <div className="absolute inset-0 bg-[#090909]/40 mix-blend-overlay" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#090909] via-[#090909]/80 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-b from-[#090909]/50 via-transparent to-transparent" />

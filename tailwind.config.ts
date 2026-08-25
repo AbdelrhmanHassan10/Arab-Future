@@ -27,6 +27,7 @@ const config: Config = {
         sans: ["var(--font-cairo)", "sans-serif"],
         cairo: ["var(--font-cairo)", "sans-serif"],
         body: ["var(--font-cairo)", "sans-serif"],
+        arabic: ["var(--font-cairo)", "sans-serif"],
       },
       fontSize: {
         "hero": ["clamp(2.5rem, 6vw, 5rem)", { lineHeight: "1.2" }],

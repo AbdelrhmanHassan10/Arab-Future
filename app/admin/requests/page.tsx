@@ -2,8 +2,12 @@
 
 import { FiSearch, FiCheck, FiX, FiEye, FiTrash2 } from "react-icons/fi";
 import { useState, useEffect } from "react";
+import { useToast } from "@/components/ToastProvider";
+import { useConfirm } from "@/components/ConfirmProvider";
 
 export default function AdminRequestsPage() {
+  const { showToast } = useToast();
+  const { confirm } = useConfirm();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [requests, setRequests] = useState<any[]>([]);
@@ -29,7 +33,7 @@ export default function AdminRequestsPage() {
   }, []);
 
   const handleUpdateStatus = async (id: any, newStatus: string) => {
-    if (!confirm(`هل أنت متأكد من تغيير حالة الطلب إلى: ${newStatus}؟`)) return;
+    if (!await confirm(`هل أنت متأكد من تغيير حالة الطلب إلى: ${newStatus}؟`)) return;
     try {
       const res = await fetch(`/api/admin/requests/${id}/status`, {
         method: "PATCH",
@@ -37,22 +41,24 @@ export default function AdminRequestsPage() {
         body: JSON.stringify({ status: newStatus }),
       });
       if (!res.ok) throw new Error("Failed to update status");
+      showToast("تم تغيير حالة الطلب بنجاح", "success");
       fetchRequests();
     } catch (error) {
       console.error(error);
-      alert("حدث خطأ أثناء تغيير الحالة");
+      showToast("حدث خطأ أثناء تغيير الحالة", "error");
     }
   };
 
   const handleDelete = async (id: any) => {
-    if (!confirm("هل أنت متأكد من حذف هذا الطلب نهائياً؟")) return;
+    if (!await confirm("هل أنت متأكد من حذف هذا الطلب نهائياً؟ لا يمكن التراجع.")) return;
     try {
       const res = await fetch(`/api/admin/requests/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Failed to delete");
+      showToast("تم حذف الطلب بنجاح", "success");
       fetchRequests();
     } catch (error) {
       console.error(error);
-      alert("حدث خطأ أثناء الحذف");
+      showToast("حدث خطأ أثناء الحذف", "error");
     }
   };
 
@@ -119,7 +125,7 @@ export default function AdminRequestsPage() {
               {filteredRequests.map((req) => (
                 <tr key={req.id} className="hover:bg-gray-50/50 transition-colors">
                   <td className="px-6 py-4">
-                    <span className="font-bold text-navy-dark text-sm bg-gray-100 px-2 py-1 rounded-md">{req.id}</span>
+                    <span className="font-bold text-navy-dark text-sm bg-gray-100 px-2 py-1 rounded-md">{req.code || req.lead_code || req.id}</span>
                   </td>
                   <td className="px-6 py-4">
                     <div className="font-bold text-sm text-navy-dark">{req.name}</div>
@@ -131,7 +137,7 @@ export default function AdminRequestsPage() {
                     <span className="text-sm text-gray-700">{req.type}</span>
                   </td>
                   <td className="px-6 py-4">
-                    <span className="text-sm text-gray-500">{req.date}</span>
+                    <span className="text-sm text-gray-500">{req.created_at ? new Date(req.created_at).toLocaleDateString('ar-EG') : (req.date || '-')}</span>
                   </td>
                   <td className="px-6 py-4">
                     <span className={`px-3 py-1 rounded-full text-[11px] font-bold inline-block ${
@@ -145,16 +151,16 @@ export default function AdminRequestsPage() {
                   </td>
                   <td className="px-6 py-4 text-left">
                     <div className="flex items-center justify-end gap-2">
-                      <button onClick={() => handleUpdateStatus(req.id || req.lead_code, 'under_review')} className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors" title="قيد المراجعة">
+                      <button onClick={() => handleUpdateStatus(req.code || req.lead_code || req.id, 'under_review')} className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors" title="قيد المراجعة">
                         <FiEye size={16} />
                       </button>
-                      <button onClick={() => handleUpdateStatus(req.id || req.lead_code, 'completed')} className="p-2 text-green-500 hover:bg-green-50 rounded-lg transition-colors" title="مكتمل">
+                      <button onClick={() => handleUpdateStatus(req.code || req.lead_code || req.id, 'completed')} className="p-2 text-green-500 hover:bg-green-50 rounded-lg transition-colors" title="مكتمل">
                         <FiCheck size={16} />
                       </button>
-                      <button onClick={() => handleUpdateStatus(req.id || req.lead_code, 'rejected')} className="p-2 text-orange-500 hover:bg-orange-50 rounded-lg transition-colors" title="رفض الطلب">
+                      <button onClick={() => handleUpdateStatus(req.code || req.lead_code || req.id, 'rejected')} className="p-2 text-orange-500 hover:bg-orange-50 rounded-lg transition-colors" title="رفض الطلب">
                         <FiX size={16} />
                       </button>
-                      <button onClick={() => handleDelete(req.id || req.lead_code)} className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="حذف نهائي">
+                      <button onClick={() => handleDelete(req.code || req.lead_code || req.id)} className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="حذف نهائي">
                         <FiTrash2 size={16} />
                       </button>
                     </div>

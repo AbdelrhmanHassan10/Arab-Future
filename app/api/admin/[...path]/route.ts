@@ -25,23 +25,38 @@ export async function proxyRequest(request: Request, { params }: { params: { pat
     method: request.method,
     headers,
     cache: "no-store",
+    duplex: 'half',
   };
 
   if (request.method !== 'GET' && request.method !== 'HEAD') {
     if (contentType?.includes("multipart/form-data")) {
-      const formData = await request.formData();
-      options.body = formData;
-      // MUST remove Content-Type so fetch can auto-generate the new boundary for the outgoing request
-      delete (options.headers as any)['Content-Type'];
-      delete (options.headers as any)['content-type'];
+      options.body = await request.arrayBuffer();
     } else {
-      options.body = await request.text();
+      const textBody = await request.text();
+      if (textBody) {
+        options.body = textBody;
+      }
     }
   }
 
   try {
     const res = await fetch(url, options);
     
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error(`Backend returned ${res.status} for ${url}:`, errorText.substring(0, 1000));
+      try {
+        require('fs').writeFileSync('d:/projects/Arab-Future/last_backend_error.html', errorText);
+      } catch(e) {}
+      
+      try {
+        const json = JSON.parse(errorText);
+        return NextResponse.json(json, { status: res.status });
+      } catch {
+        return NextResponse.json({ error: "Backend Error", details: errorText }, { status: res.status });
+      }
+    }
+
     if (res.status === 204) {
       return new NextResponse(null, { status: 204 });
     }
@@ -54,7 +69,7 @@ export async function proxyRequest(request: Request, { params }: { params: { pat
 
     return new NextResponse(await res.text(), { status: res.status });
   } catch (error: any) {
-    console.error("Proxy Error:", error);
+    console.error("Proxy Error Exception:", error);
     return NextResponse.json({ error: "Server Error", details: error?.message || String(error) }, { status: 500 });
   }
 }
