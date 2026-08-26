@@ -26,6 +26,7 @@ export interface Unit {
   images: string[];
   description: string;
   features?: string[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   amenities?: any[];
   created_at?: string;
 }

@@ -28,6 +28,7 @@ export async function login(email: string, password: string) {
 
     return { success: true };
   } catch (error) {
+    console.error("Login Error:", error);
     return { success: false, error: "حدث خطأ أثناء الاتصال بالخادم" };
   }
 }
@@ -44,7 +45,7 @@ export async function logout() {
         }
       });
     } catch (e) {
-      // Ignore errors on logout
+      console.error("Logout Error:", e);
     }
   }
 

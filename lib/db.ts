@@ -1,13 +1,16 @@
 import fs from "fs";
 import path from "path";
-import { unitsData as initialUnits, Unit } from "./units";
+import { Unit } from "./units";
 import { finishingProjects as initialFinishing } from "./finishing";
+
+const initialUnits: Unit[] = [];
 
 const DB_PATH = path.join(process.cwd(), "data.json");
 
 export interface Database {
   units: Unit[];
   finishing: typeof initialFinishing;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   requests: any[];
 }
 

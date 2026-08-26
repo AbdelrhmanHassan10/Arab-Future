@@ -1,5 +1,6 @@
 export const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://simsar.acwad.tech/public/api";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function extractString(val: any): string {
   if (val === null || val === undefined) return '';
   if (typeof val === 'string' || typeof val === 'number' || typeof val === 'boolean') return String(val);
@@ -19,6 +20,7 @@ export function extractString(val: any): string {
 
 const BASE_URL = API_URL.replace(/\/api$/, "");
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getImageUrl(val: any, fallbackIndex: number = 0): string {
   if (!val) {
     return `https://picsum.photos/seed/${fallbackIndex}/800/600`;
