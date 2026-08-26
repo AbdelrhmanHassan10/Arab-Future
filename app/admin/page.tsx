@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { FiUsers, FiBox, FiTool, FiDollarSign } from "react-icons/fi";
 import { fetchApi } from "@/lib/api";
 import { getImageUrl } from "@/lib/config";

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiHome, FiBox, FiTool, FiMessageSquare, FiSettings, FiLogOut, FiMenu, FiX, FiMapPin, FiList, FiImage } from "react-icons/fi";
+import { FiHome, FiBox, FiTool, FiMessageSquare, FiLogOut, FiMenu, FiX, FiMapPin, FiList } from "react-icons/fi";
 import { ToastProvider } from "@/components/ToastProvider";
 import { ConfirmProvider } from "@/components/ConfirmProvider";
 import { useState } from "react";

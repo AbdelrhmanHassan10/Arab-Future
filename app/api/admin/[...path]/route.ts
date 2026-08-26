@@ -45,9 +45,6 @@ export async function proxyRequest(request: Request, { params }: { params: { pat
     if (!res.ok) {
       const errorText = await res.text();
       console.error(`Backend returned ${res.status} for ${url}:`, errorText.substring(0, 1000));
-      try {
-        require('fs').writeFileSync('d:/projects/Arab-Future/last_backend_error.html', errorText);
-      } catch(e) {}
       
       try {
         const json = JSON.parse(errorText);

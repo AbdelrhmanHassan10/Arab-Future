@@ -74,7 +74,7 @@ export default function FinishingRequestPage() {
   const propertyTypeOptions = [
     { value: "apartment", label: "شقة" },
     { value: "villa", label: "فيلا" },
-    { value: "shop", label: "محل تجاري" },
+    { value: "commercial_shop", label: "محل تجاري" },
     { value: "office", label: "مكتب" },
     { value: "other", label: "أخرى" },
   ];

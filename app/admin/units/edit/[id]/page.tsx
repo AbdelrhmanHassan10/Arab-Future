@@ -216,7 +216,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
               <select name="type" value={formData.type} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none text-navy-dark">
                 <option value="apartment">شقة</option>
                 <option value="villa">فيلا</option>
-                <option value="shop">محل تجاري</option>
+                <option value="commercial_shop">محل تجاري</option>
                 <option value="office">مكتب</option>
                 <option value="land">أرض</option>
               </select>

@@ -1,5 +1,5 @@
 export type UnitStatus = "available" | "reserved" | "sold";
-export type UnitType = "apartment" | "villa" | "shop" | "office" | "land";
+export type UnitType = "apartment" | "villa" | "shop" | "commercial_shop" | "office" | "land";
 export type FinishingLevel = "none" | "half" | "full" | "luxury";
 export type PaymentMethod = "cash" | "installment" | "both";
 

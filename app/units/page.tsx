@@ -62,7 +62,7 @@ function UnitsContent() {
   const typeOptions = [
     { value: "apartment", label: "شقة" },
     { value: "villa", label: "فيلا" },
-    { value: "shop", label: "محل تجاري" },
+    { value: "commercial_shop", label: "محل تجاري" },
     { value: "office", label: "مكتب" },
     { value: "land", label: "أرض" },
   ];

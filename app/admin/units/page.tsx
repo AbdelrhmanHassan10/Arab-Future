@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FiPlus, FiSearch, FiFilter, FiEdit2, FiTrash2, FiEye, FiMoreVertical } from "react-icons/fi";
+import { FiPlus, FiSearch, FiEdit2, FiTrash2 } from "react-icons/fi";
 import { getImageUrl, extractString } from "@/lib/config";
 import { Unit } from "@/lib/units";
 import Link from "next/link";
