@@ -41,7 +41,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
   useEffect(() => {
     const fetchUnit = async () => {
       try {
-        let res = await fetch(`/api/admin/units/${params.id}`);
+        const res = await fetch(`/api/admin/units/${params.id}`);
         let data;
         
         if (!res.ok) {

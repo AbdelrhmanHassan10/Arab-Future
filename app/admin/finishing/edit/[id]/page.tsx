@@ -34,7 +34,7 @@ export default function EditFinishingProjectPage({ params }: { params: { id: str
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        let res = await fetch(`/api/admin/renovation-projects/${params.id}`);
+        const res = await fetch(`/api/admin/renovation-projects/${params.id}`);
         let data;
 
         if (!res.ok) {
