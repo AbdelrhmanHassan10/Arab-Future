@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiArrowLeft } from "react-icons/fi";
 import Link from "next/link";
+import Image from "next/image";
 
 const expertiseData = [
   {
@@ -73,11 +74,12 @@ export default function Expertise() {
           {/* Left Column: Image (Sticky/Fixed height container) */}
           <div className="relative h-[400px] md:h-[600px] w-full rounded-[2rem] overflow-hidden order-2 lg:order-1">
             {expertiseData.map((item, index) => (
-              <img
+              <Image
                 key={item.id}
                 src={item.image}
                 alt={item.title}
-                className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out ${
+                fill
+                className={`object-cover transition-all duration-700 ease-in-out ${
                   index === activeIndex ? "opacity-100 scale-100 z-10" : "opacity-0 scale-105 z-0"
                 }`}
               />

@@ -1,4 +1,5 @@
 import { getImageUrl } from "@/lib/config";
+import Image from "next/image";
 
 export default function ImageGallery({ images, title }: { images: string[], title: string }) {
   if (!images || images.length === 0) return null;
@@ -17,10 +18,11 @@ export default function ImageGallery({ images, title }: { images: string[], titl
             key={i} 
             className="rounded-[2rem] overflow-hidden relative group h-[300px] md:h-[400px] shadow-lg border border-white/5"
           >
-            <img 
+            <Image 
               src={getImageUrl(img, i)} 
               alt={`${title} ${i}`} 
-              className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110" 
+              fill
+              className="object-cover transition-transform duration-[1.5s] group-hover:scale-110" 
             />
             <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

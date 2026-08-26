@@ -3,6 +3,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { FiMapPin, FiMaximize, FiArrowLeft, FiCheckCircle } from "react-icons/fi";
 import { BiBed, BiBath } from "react-icons/bi";
 import { FaWhatsapp } from "react-icons/fa";
@@ -75,13 +76,14 @@ export default function UnitCard({ unit, index }: { unit: Unit; index: number })
       {/* Image Container */}
       <div className="relative h-60 w-full overflow-hidden p-2 pb-0">
         <Link href={`/units/${safeId}`} className="block w-full h-full rounded-[1.5rem] overflow-hidden relative">
-          <img
+          <Image
             src={safeImage}
             alt={safeTitle}
-            className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${isSold ? 'grayscale' : ''}`}
+            fill
+            className={`object-cover transition-transform duration-700 group-hover:scale-110 ${isSold ? 'grayscale' : ''}`}
           />
           {/* Overlay Gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent pointer-events-none" />
         </Link>
         
         {/* Floating Badges */}

@@ -5,6 +5,8 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiX } from "react-icons/fi";
 
+import Image from "next/image";
+
 export default function ImageLightbox({ children, src }: { children: React.ReactNode, src: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -51,12 +53,13 @@ export default function ImageLightbox({ children, src }: { children: React.React
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
                 transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                className="relative w-full max-w-5xl max-h-[90vh] flex items-center justify-center"
+                className="relative w-full max-w-5xl h-[85vh] flex items-center justify-center"
               >
-                <img 
+                <Image 
                   src={src} 
                   alt="Full Screen" 
-                  className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-[0_20px_100px_rgba(0,0,0,0.8)] border border-white/10"
+                  fill
+                  className="object-contain rounded-2xl shadow-[0_20px_100px_rgba(0,0,0,0.8)] border border-white/10"
                 />
               </motion.div>
             </motion.div>
