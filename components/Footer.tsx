@@ -87,22 +87,6 @@ export default function Footer() {
             <p className="text-white/50 font-light text-[14px] leading-[2] max-w-sm mb-10">
               الوجهة الأولى للتسويق العقاري وإعادة البيع وأعمال التشطيبات المتكاملة في بني سويف. نضع خبراتنا بين يديك لضمان أفضل استثمار لك ولعائلتك.
             </p>
-
-            {/* Social Links */}
-            <div className="flex items-center gap-3">
-              {socialLinks.map((social, i) => (
-                <a
-                  key={i}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.name}
-                  className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-center text-white/40 hover:text-navy-deeper hover:bg-primary hover:border-primary hover:shadow-[0_10px_20px_rgba(191,154,95,0.3)] hover:-translate-y-1 transition-all duration-300"
-                >
-                  {social.icon}
-                </a>
-              ))}
-            </div>
           </div>
 
           {/* Spacer for large screens */}
@@ -168,7 +152,7 @@ export default function Footer() {
                 </div>
                 <div className="text-white/60 text-right">
                   <span className="block text-[10px] uppercase tracking-widest text-primary/70 mb-1 font-body">Location</span>
-                  <span className="text-[15px] font-medium">بني سويف، مصر</span>
+                  <span className="text-[15px] font-medium whitespace-nowrap">الحي الأول، شرق النيل، بني سويف</span>
                 </div>
               </div>
 

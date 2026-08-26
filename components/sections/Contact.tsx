@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
+import { useToast } from "@/components/ToastProvider";
 
 const projectTypes = [
   { value: "", label: "اختر نوع العقار" },
@@ -16,9 +17,19 @@ const projectTypes = [
 
 export default function Contact() {
   const ease = [0.16, 1, 0.3, 1] as const;
+  const { showToast } = useToast();
   const [selectedType, setSelectedType] = useState(projectTypes[0]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Form State
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: ""
+  });
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -29,6 +40,57 @@ export default function Contact() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.name || !formData.phone) {
+      showToast("يرجى إدخال الاسم ورقم الهاتف", "error");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const payload = {
+        name: formData.name,
+        phone: formData.phone,
+        type: "viewing", // Backend only supports 'viewing' currently
+        message: formData.message || "لا توجد تفاصيل إضافية",
+      };
+
+      console.log("🚀 [DEBUG] Data being sent to Backend:", payload);
+
+      const res = await fetch("/api/requests", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      console.log("🚀 [DEBUG] Response Status:", res.status);
+      
+      const responseData = await res.json().catch(() => null);
+      console.log("🚀 [DEBUG] Response Data:", responseData);
+
+      if (!res.ok) {
+        console.error("Backend Error Response:", responseData);
+        throw new Error(responseData?.message || "Failed to submit request");
+      }
+
+      showToast("تم إرسال طلبك بنجاح! سنتواصل معك قريباً", "success");
+      
+      // Reset form
+      setFormData({ name: "", email: "", phone: "", message: "" });
+    } catch (error) {
+      console.error("🚀 [DEBUG] Request Failed:", error);
+      showToast("حدث خطأ أثناء إرسال الطلب (التفاصيل في الكونسول).", "error");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <section id="contact" className="relative py-24 md:py-32 bg-[#090909] overflow-hidden border-t border-white/5">
@@ -70,75 +132,46 @@ export default function Contact() {
             transition={{ duration: 0.8, ease }}
             className="lg:col-span-7"
           >
-            <form className="glass-card-dark rounded-[2rem] p-8 lg:p-12 border border-white/5 shadow-2xl relative overflow-hidden group/form flex flex-col">
+            <form onSubmit={handleSubmit} className="glass-card-dark rounded-[2rem] p-8 lg:p-12 border border-white/5 shadow-2xl relative overflow-hidden group/form flex flex-col">
 
               <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-transparent pointer-events-none" />
 
               <div className="relative z-[100] grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                {[
-                  { label: "الاسم الكامل", type: "text", placeholder: "أدخل اسمك" },
-                  { label: "البريد الإلكتروني", type: "email", placeholder: "أدخل بريدك" },
-                  { label: "رقم الهاتف", type: "tel", placeholder: "أدخل رقم هاتفك" },
-                ].map((field, i) => (
-                  <div key={i} className="relative">
-                    <label className="block text-right text-xs font-medium text-white/70 mb-2">{field.label}</label>
-                    <input
-                      type={field.type}
-                      placeholder={field.placeholder}
-                      dir="rtl"
-                      className="w-full text-right px-5 py-4 bg-[#090909]/50 border border-white/10 rounded-xl text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-primary focus:bg-white/5 transition-all duration-300 shadow-inner"
-                    />
-                  </div>
-                ))}
-
-                <div className="relative" ref={dropdownRef}>
-                  <label className="block text-right text-xs font-medium text-white/70 mb-2">نوع المشروع</label>
-                  
-                  {/* Custom Select Button */}
-                  <div
-                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className={`w-full flex items-center justify-between px-5 py-4 bg-[#090909]/50 border rounded-xl text-sm cursor-pointer shadow-inner transition-all duration-300 ${isDropdownOpen ? 'border-primary bg-white/5' : 'border-white/10 hover:bg-white/5'}`}
-                  >
-                    <span className={selectedType.value === "" ? "text-white/50" : "text-white"}>
-                      {selectedType.label}
-                    </span>
-                    <svg className={`w-4 h-4 text-white/50 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M6 9l6 6 6-6" />
-                    </svg>
-                  </div>
-
-                  {/* Dropdown Menu */}
-                  <AnimatePresence>
-                    {isDropdownOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute z-50 w-full mt-2 py-2 bg-[#121827] border border-white/10 rounded-xl shadow-2xl backdrop-blur-xl overflow-hidden"
-                      >
-                        {projectTypes.map((type, i) => (
-                          <div
-                            key={i}
-                            onClick={() => {
-                              setSelectedType(type);
-                              setIsDropdownOpen(false);
-                            }}
-                            className={`px-5 py-3 text-right text-sm cursor-pointer transition-colors ${
-                              selectedType.value === type.value
-                                ? "bg-primary/20 text-primary font-bold"
-                                : "text-white/70 hover:bg-white/5 hover:text-white"
-                            }`}
-                          >
-                            {type.label}
-                          </div>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                  
-                  {/* Hidden input for form submission */}
-                  <input type="hidden" name="projectType" value={selectedType.value} />
+                <div className="relative">
+                  <label className="block text-right text-xs font-medium text-white/70 mb-2">الاسم الكامل</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="أدخل اسمك"
+                    dir="rtl"
+                    className="w-full text-right px-5 py-4 bg-[#090909]/50 border border-white/10 rounded-xl text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-primary focus:bg-white/5 transition-all duration-300 shadow-inner"
+                  />
+                </div>
+                <div className="relative">
+                  <label className="block text-right text-xs font-medium text-white/70 mb-2">البريد الإلكتروني</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="أدخل بريدك"
+                    dir="rtl"
+                    className="w-full text-right px-5 py-4 bg-[#090909]/50 border border-white/10 rounded-xl text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-primary focus:bg-white/5 transition-all duration-300 shadow-inner"
+                  />
+                </div>
+                <div className="relative md:col-span-2">
+                  <label className="block text-right text-xs font-medium text-white/70 mb-2">رقم الهاتف</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="أدخل رقم هاتفك"
+                    dir="rtl"
+                    className="w-full text-right px-5 py-4 bg-[#090909]/50 border border-white/10 rounded-xl text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-primary focus:bg-white/5 transition-all duration-300 shadow-inner"
+                  />
                 </div>
               </div>
 
@@ -146,6 +179,9 @@ export default function Contact() {
                 <label className="block text-right text-xs font-medium text-white/70 mb-2">رسالتك</label>
                 <textarea
                   rows={5}
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
                   dir="rtl"
                   placeholder="أخبرنا عن مشروعك وتفاصيله..."
                   className="w-full h-full min-h-[120px] text-right px-5 py-4 bg-[#090909]/50 border border-white/10 rounded-xl text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-primary focus:bg-white/5 transition-all duration-300 resize-none shadow-inner"
@@ -153,13 +189,21 @@ export default function Contact() {
               </div>
 
               <div className="relative z-0 mt-auto">
-                <button type="submit" className="w-full group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-navy-deeper font-bold rounded-xl overflow-hidden transition-all duration-500 hover:shadow-[0_0_20px_rgba(191,154,95,0.3)] hover:-translate-y-1">
-                  <span className="relative z-10 text-[15px]">إرسال الرسالة</span>
-                  <div className="relative z-10 w-6 h-6 rounded-full bg-navy-deeper/10 flex items-center justify-center group-hover:bg-navy-deeper/20 transition-colors">
-                    <svg className="w-3.5 h-3.5 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                  </div>
+                <button 
+                  type="submit" 
+                  disabled={isLoading}
+                  className={`w-full group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-navy-deeper font-bold rounded-xl overflow-hidden transition-all duration-500 ${isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:shadow-[0_0_20px_rgba(191,154,95,0.3)] hover:-translate-y-1'}`}
+                >
+                  <span className="relative z-10 text-[15px]">
+                    {isLoading ? "جاري الإرسال..." : "إرسال الرسالة"}
+                  </span>
+                  {!isLoading && (
+                    <div className="relative z-10 w-6 h-6 rounded-full bg-navy-deeper/10 flex items-center justify-center group-hover:bg-navy-deeper/20 transition-colors">
+                      <svg className="w-3.5 h-3.5 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </div>
+                  )}
                 </button>
               </div>
             </form>
@@ -222,3 +266,4 @@ export default function Contact() {
     </section>
   );
 }
+

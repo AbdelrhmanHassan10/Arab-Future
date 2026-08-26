@@ -221,10 +221,10 @@ export default function FinishingPage() {
                 className="group rounded-3xl overflow-hidden bg-[#111111] border border-white/5 shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:border-primary/30 transition-all duration-500"
               >
                 <div className="relative h-[350px] overflow-hidden">
-                  <img src={getImageUrl(project.main_image || project.image, idx)} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <img src={project.main_image_url || getImageUrl(project.main_image || project.image, idx)} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-transparent opacity-80" />
                   <div className="absolute top-4 right-4 bg-[#111111]/80 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold text-primary border border-white/5">
-                    {project.style}
+                    {project.style_label || project.style}
                   </div>
                   <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md text-white w-10 h-10 rounded-full flex items-center justify-center border border-white/10">
                     <FiImage />

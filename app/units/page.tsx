@@ -45,7 +45,11 @@ function UnitsContent() {
       .then((res) => res.json())
       .then((data) => {
         // Handle paginated or flat array response
-        setUnits(data.data || data || []);
+        let fetched = data.data || data || [];
+        if (fetched && !Array.isArray(fetched) && Array.isArray(fetched.data)) {
+          fetched = fetched.data;
+        }
+        setUnits(Array.isArray(fetched) ? fetched : []);
         setLoading(false);
       })
       .catch((err) => {

@@ -14,10 +14,13 @@ export default function FeaturedUnits() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${API_URL}/units?per_page=6`, { cache: 'no-store' })
+    fetch(`/api/units?per_page=6`, { cache: 'no-store' })
       .then(res => res.json())
       .then(data => {
-        const fetched = data.data || data || [];
+        let fetched = data.data || data || [];
+        if (fetched && !Array.isArray(fetched) && Array.isArray(fetched.data)) {
+          fetched = fetched.data;
+        }
         setUnits(Array.isArray(fetched) ? fetched.slice(0, 6) : []);
       })
       .catch(err => {

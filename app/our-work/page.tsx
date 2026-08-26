@@ -131,11 +131,11 @@ export default function OurWorkPage() {
                     className="group rounded-[2rem] overflow-hidden bg-[#111111] border border-white/5 shadow-2xl flex flex-col h-full hover:border-primary/30 transition-all duration-500 hover:-translate-y-2"
                   >
                     <div className="relative h-72 overflow-hidden">
-                      <img src={getImageUrl(project.main_image || project.image, idx)} alt={project.title} className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" />
+                      <img src={project.main_image_url || getImageUrl(project.main_image || project.image, idx)} alt={project.title} className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-transparent opacity-80" />
                       
                       <div className="absolute top-5 right-5 bg-black/60 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold text-white border border-white/10 shadow-lg">
-                        {project.style === "modern" ? "عصري" : project.style === "neo_classic" ? "نيو كلاسيك" : project.style}
+                        {project.style_label || (project.style === "modern" ? "عصري" : project.style === "neo_classic" ? "نيو كلاسيك" : project.style)}
                       </div>
                       
                       {/* View details overlay on hover */}
@@ -150,7 +150,7 @@ export default function OurWorkPage() {
                     <div className="p-8 flex flex-col flex-grow relative z-10 bg-[#111111]">
                       <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-primary transition-colors">{project.title}</h3>
                       <div className="flex flex-wrap gap-2 mb-4">
-                        <span className="text-xs text-gray-400 bg-white/5 px-3 py-1 rounded-full">{project.property_type === "apartment" ? "شقة" : project.property_type === "villa" ? "فيلا" : project.property_type || "وحدة سكنية"}</span>
+                        <span className="text-xs text-gray-400 bg-white/5 px-3 py-1 rounded-full">{project.property_type === "apartment" ? "شقة" : project.property_type === "villa" ? "فيلا" : project.property_type === "commercial_shop" ? "محل تجاري" : project.property_type || "وحدة سكنية"}</span>
                         <span className="text-xs text-gray-400 bg-white/5 px-3 py-1 rounded-full">{project.area_sqm || 150} م²</span>
                       </div>
                       <p className="text-gray-400 text-sm mb-6 line-clamp-2 leading-relaxed">{project.description || "مشروع تشطيب بأعلى معايير الجودة والتصميم العصري."}</p>
@@ -184,7 +184,7 @@ export default function OurWorkPage() {
                     className="group rounded-[2rem] overflow-hidden bg-[#111111] border border-white/5 shadow-2xl flex flex-col h-full hover:border-red-500/30 transition-all duration-500 hover:-translate-y-2"
                   >
                     <div className="relative h-72 overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700">
-                      <img src={getImageUrl(unit.main_image || unit.image, idx)} alt={unit.title} className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" />
+                      <img src={unit.main_image_url || getImageUrl(unit.main_image || unit.image, idx)} alt={unit.title} className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-red-900/20 to-transparent opacity-80" />
                       
                       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-red-600 text-white px-8 py-3 rounded-full text-xl font-black transform -rotate-12 border-4 border-[#111111] shadow-[0_0_30px_rgba(220,38,38,0.5)] tracking-wider">

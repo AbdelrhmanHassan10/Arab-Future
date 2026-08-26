@@ -3,6 +3,7 @@ import { FiUsers, FiBox, FiTool, FiDollarSign } from "react-icons/fi";
 import { fetchApi } from "@/lib/api";
 import { getImageUrl } from "@/lib/config";
 import Link from "next/link";
+import SessionExpired from "@/components/SessionExpired";
 
 async function getDashboardData() {
   try {
@@ -22,7 +23,7 @@ export default async function AdminDashboard() {
   const data = await getDashboardData();
 
   if (!data || (!data.dashboard && !data.units && !data.renovations)) {
-    return <div className="text-center py-20 text-red-500 font-bold">فشل في تحميل بيانات لوحة التحكم. تأكد من عمل الخادم (Laravel).</div>;
+    return <SessionExpired />;
   }
 
   const dashboardApi = data.dashboard || {};
@@ -82,7 +83,7 @@ export default async function AdminDashboard() {
               <div key={unit.id} className="flex items-center justify-between p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 shrink-0">
-                    <img src={getImageUrl(unit.main_image || unit.image, 0)} alt={unit.title} className="w-full h-full object-cover" />
+                    <img src={unit.main_image_url || getImageUrl(unit.main_image || unit.image, 0)} alt={unit.title} className="w-full h-full object-cover" />
                   </div>
                   <div>
                     <h4 className="font-bold text-sm text-navy-dark line-clamp-1">{unit.title}</h4>
@@ -92,8 +93,8 @@ export default async function AdminDashboard() {
                   </div>
                 </div>
                 <div className="text-left">
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${unit.status === "available" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}>
-                    {unit.status === "available" ? "متاحة" : unit.status}
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${unit.status === "available" ? "bg-green-100 text-green-600" : unit.status === "reserved" ? "bg-orange-100 text-orange-600" : "bg-red-100 text-red-600"}`}>
+                    {unit.status === "available" ? "متاحة" : unit.status === "sold" ? "مباعة" : unit.status === "reserved" ? "محجوزة" : unit.status}
                   </span>
                 </div>
               </div>

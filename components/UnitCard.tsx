@@ -39,7 +39,8 @@ const getTypeLabel = (type: Unit["type"]) => {
   switch (type) {
     case "apartment": return "شقة";
     case "villa": return "فيلا";
-    case "shop": return "محل تجاري";
+    case "shop": 
+    case "commercial_shop": return "محل تجاري";
     case "office": return "مكتب";
     case "land": return "أرض";
   }
@@ -55,7 +56,7 @@ export default function UnitCard({ unit, index }: { unit: Unit; index: number })
   const safeTitle = extractString(unit.title);
   const safeLocation = extractString(unit.address || (unit as any).location);
   const safeType = extractString(unit.type);
-  const safeImage = getImageUrl(unit.main_image || (unit as any).image || (unit.images && unit.images.length > 0 ? unit.images[0] : null), index);
+  const safeImage = getImageUrl(unit.main_image_url || unit.main_image || (unit as any).image || (unit.images && unit.images.length > 0 ? unit.images[0] : null), index);
   let rawPrice: any = unit.price;
   if (typeof rawPrice === 'object' && rawPrice !== null) {
     rawPrice = rawPrice.price || rawPrice.name || 0;

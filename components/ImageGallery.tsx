@@ -1,4 +1,4 @@
-import React from "react";
+import { getImageUrl } from "@/lib/config";
 
 export default function ImageGallery({ images, title }: { images: string[], title: string }) {
   if (!images || images.length === 0) return null;
@@ -18,7 +18,7 @@ export default function ImageGallery({ images, title }: { images: string[], titl
             className="rounded-[2rem] overflow-hidden relative group h-[300px] md:h-[400px] shadow-lg border border-white/5"
           >
             <img 
-              src={img} 
+              src={getImageUrl(img, i)} 
               alt={`${title} ${i}`} 
               className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110" 
             />

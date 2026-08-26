@@ -57,11 +57,15 @@ export default async function ProjectDetailsPage({ params }: { params: { id: str
   // Fallback values for backend projects that are missing extra fields
   project.area = project.area || 150;
   project.duration = project.duration || "3 أشهر";
-  project.type = project.type || "وحدة سكنية";
+  let translatedType = project.property_type || project.type;
+  if (translatedType === "apartment") translatedType = "شقة";
+  else if (translatedType === "villa") translatedType = "فيلا";
+  else if (translatedType === "commercial_shop" || translatedType === "shop") translatedType = "محل تجاري";
+  project.type = translatedType || "وحدة سكنية";
   project.description = project.description || "تفاصيل المشروع غير متوفرة حالياً، تم تصميم وتنفيذ هذا المشروع بأعلى معايير الجودة والاحترافية من قبل فريق سمسار بني سويف لضمان راحة العميل.";
 
   // Ensure arrays exist for rendering
-  project.images = project.images || (project.image ? [project.image] : []);
+  project.images = project.images_urls || project.images || (project.main_image_url ? [project.main_image_url] : (project.image ? [project.image] : []));
   
   let materials = Array.isArray(project.materialsUsed) ? project.materialsUsed : (project.materials_used ? (typeof project.materials_used === 'string' ? JSON.parse(project.materials_used) : project.materials_used) : []);
   if (!materials || materials.length === 0) materials = ["دهانات جوتن", "تأسيس سويدي", "تشطيبات فاخرة"];
@@ -79,7 +83,7 @@ export default async function ProjectDetailsPage({ params }: { params: { id: str
       {/* --- HERO SECTION --- */}
       <div className="relative pt-40 pb-24 min-h-[85vh] flex flex-col justify-end overflow-hidden group">
         <div className="absolute inset-0 z-0">
-          <img src={getImageUrl(project.main_image || project.image, 0)} alt={project.title} className="w-full h-full object-cover transition-transform duration-[20s] group-hover:scale-110" />
+          <img src={project.main_image_url || getImageUrl(project.main_image || project.image, 0)} alt={project.title} className="w-full h-full object-cover transition-transform duration-[20s] group-hover:scale-110" />
           <div className="absolute inset-0 bg-[#090909]/40 mix-blend-overlay" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#090909] via-[#090909]/80 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-b from-[#090909]/50 via-transparent to-transparent" />
@@ -96,7 +100,7 @@ export default async function ProjectDetailsPage({ params }: { params: { id: str
           
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="bg-primary/10 border border-primary/20 text-primary px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase backdrop-blur-md shadow-[0_0_15px_rgba(191,154,95,0.2)]">
-              {project.style}
+              {project.style_label || project.style}
             </span>
             <span className="bg-white/5 border border-white/10 text-white/90 px-4 py-1.5 rounded-full text-xs font-bold backdrop-blur-md">
               {project.type}

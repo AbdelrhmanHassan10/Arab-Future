@@ -154,14 +154,14 @@ export default function AdminUnitsPage() {
                     rawPrice = rawPrice.price || rawPrice.name || 0;
                   }
                   const safePrice = extractString(rawPrice);
-                  const displayType = safeType === "apartment" ? "شقة" : safeType === "villa" ? "فيلا" : safeType === "shop" ? "محل" : safeType;
+                  const displayType = safeType === "apartment" ? "شقة" : safeType === "villa" ? "فيلا" : (safeType === "shop" || safeType === "commercial_shop") ? "محل تجاري" : safeType;
 
                   return (
                   <tr key={safeId || Math.random().toString()} className="hover:bg-gray-50/50 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 shrink-0 border border-gray-200">
-                          <img src={`${getImageUrl(unit.main_image || (unit as any).image || (unit.images && unit.images.length > 0 ? unit.images[0] : null), index)}?t=${timestamp}`} alt={safeId} className="w-full h-full object-cover" />
+                          <img src={`${getImageUrl(unit.main_image_url || unit.main_image || (unit as any).image || (unit.images && unit.images.length > 0 ? unit.images[0] : null), index)}?t=${timestamp}`} alt={safeId} className="w-full h-full object-cover" />
                         </div>
                         <span className="font-bold text-navy-dark text-sm bg-gray-100 px-2 py-1 rounded-md">{safeId}</span>
                       </div>

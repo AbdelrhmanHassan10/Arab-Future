@@ -13,6 +13,8 @@ export default function AdminRequestsPage() {
   const [requests, setRequests] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const [selectedRequest, setSelectedRequest] = useState<any>(null);
+
   const fetchRequests = async () => {
     try {
       const res = await fetch("/api/admin/requests");
@@ -33,7 +35,8 @@ export default function AdminRequestsPage() {
   }, []);
 
   const handleUpdateStatus = async (id: any, newStatus: string) => {
-    if (!await confirm(`هل أنت متأكد من تغيير حالة الطلب إلى: ${newStatus}؟`)) return;
+    const statusAr = newStatus === "new" ? "جديد" : newStatus === "completed" ? "مكتمل" : newStatus === "rejected" ? "مرفوض" : newStatus;
+    if (!await confirm(`هل أنت متأكد من تغيير حالة الطلب إلى: ${statusAr}؟`)) return;
     try {
       const res = await fetch(`/api/admin/requests/${id}/status`, {
         method: "PATCH",
@@ -63,13 +66,14 @@ export default function AdminRequestsPage() {
   };
 
   const filteredRequests = requests.filter(r => {
-    const matchesSearch = r.name?.includes(searchTerm) || r.id?.toString().includes(searchTerm) || r.phone?.includes(searchTerm);
-    const matchesStatus = statusFilter === "all" || r.status === statusFilter;
+    const matchesSearch = r.name?.includes(searchTerm) || r.id?.toString().includes(searchTerm) || r.phone?.includes(searchTerm) || false;
+    const currentStatus = r.status || "new"; // Default to 'new' if status is missing
+    const matchesStatus = statusFilter === "all" || currentStatus === statusFilter;
     return matchesSearch && matchesStatus;
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
       
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -80,8 +84,8 @@ export default function AdminRequestsPage() {
       </div>
 
       {/* Filters Bar */}
-      <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
-        <div className="relative w-full md:w-96">
+      <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col xl:flex-row gap-4 items-start xl:items-center justify-between overflow-hidden">
+        <div className="relative w-full xl:w-96 shrink-0">
           <FiSearch className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
             type="text"
@@ -91,18 +95,25 @@ export default function AdminRequestsPage() {
             className="w-full bg-gray-50 border border-gray-200 rounded-xl pr-12 pl-4 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 outline-none"
           />
         </div>
-        <div className="flex items-center gap-2">
-          <select 
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 outline-none w-full md:w-auto"
-          >
-            <option value="all">كل الحالات</option>
-            <option value="new">جديد</option>
-            <option value="under_review">قيد المراجعة</option>
-            <option value="completed">مكتمل</option>
-            <option value="rejected">مرفوض</option>
-          </select>
+        <div className="flex items-center gap-2 overflow-x-auto w-full pb-2 xl:pb-0 scrollbar-hide">
+          {[
+            { id: "all", label: "الكل" },
+            { id: "new", label: "جديد" },
+            { id: "completed", label: "مكتمل" },
+            { id: "rejected", label: "مرفوض" },
+          ].map((status) => (
+            <button
+              key={status.id}
+              onClick={() => setStatusFilter(status.id)}
+              className={`whitespace-nowrap px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${
+                statusFilter === status.id 
+                ? "bg-navy-dark text-white shadow-md" 
+                : "bg-gray-50 border border-gray-100 text-gray-500 hover:bg-gray-100"
+              }`}
+            >
+              {status.label}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -115,7 +126,7 @@ export default function AdminRequestsPage() {
                 <th className="px-6 py-4">رقم الطلب</th>
                 <th className="px-6 py-4">اسم العميل</th>
                 <th className="px-6 py-4">رقم الهاتف</th>
-                <th className="px-6 py-4">نوع الطلب</th>
+                <th className="px-6 py-4 w-1/4">الرسالة</th>
                 <th className="px-6 py-4">التاريخ</th>
                 <th className="px-6 py-4">الحالة</th>
                 <th className="px-6 py-4 text-left">الإجراءات</th>
@@ -133,8 +144,8 @@ export default function AdminRequestsPage() {
                   <td className="px-6 py-4">
                     <span className="text-sm text-gray-600 font-medium font-body" dir="ltr">{req.phone}</span>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className="text-sm text-gray-700">{req.type}</span>
+                  <td className="px-6 py-4 max-w-xs whitespace-normal">
+                    <span className="text-sm text-gray-600 block line-clamp-2" title={req.message}>{req.message || 'لا توجد رسالة'}</span>
                   </td>
                   <td className="px-6 py-4">
                     <span className="text-sm text-gray-500">{req.created_at ? new Date(req.created_at).toLocaleDateString('ar-EG') : (req.date || '-')}</span>
@@ -142,16 +153,15 @@ export default function AdminRequestsPage() {
                   <td className="px-6 py-4">
                     <span className={`px-3 py-1 rounded-full text-[11px] font-bold inline-block ${
                       req.status === "new" ? "bg-orange-100 text-orange-600" :
-                      req.status === "under_review" ? "bg-blue-100 text-blue-600" :
                       req.status === "completed" ? "bg-green-100 text-green-600" :
                       "bg-red-100 text-red-600"
                     }`}>
-                      {req.status === "new" ? "جديد" : req.status === "under_review" ? "قيد المراجعة" : req.status === "completed" ? "مكتمل" : req.status === "rejected" ? "مرفوض" : req.status}
+                      {req.status === "new" ? "جديد" : req.status === "completed" ? "مكتمل" : req.status === "rejected" ? "مرفوض" : req.status}
                     </span>
                   </td>
                   <td className="px-6 py-4 text-left">
                     <div className="flex items-center justify-end gap-2">
-                      <button onClick={() => handleUpdateStatus(req.code || req.lead_code || req.id, 'under_review')} className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors" title="قيد المراجعة">
+                      <button onClick={() => setSelectedRequest(req)} className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors" title="عرض التفاصيل">
                         <FiEye size={16} />
                       </button>
                       <button onClick={() => handleUpdateStatus(req.code || req.lead_code || req.id, 'completed')} className="p-2 text-green-500 hover:bg-green-50 rounded-lg transition-colors" title="مكتمل">
@@ -178,6 +188,56 @@ export default function AdminRequestsPage() {
           </table>
         </div>
       </div>
+
+      {/* Details Modal */}
+      {selectedRequest && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-navy-dark/60 backdrop-blur-sm transition-opacity">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden border border-gray-100">
+            <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50/50">
+              <h3 className="text-xl font-bold text-navy-dark">تفاصيل الطلب #{selectedRequest.code || selectedRequest.lead_code || selectedRequest.id}</h3>
+              <button 
+                onClick={() => setSelectedRequest(null)}
+                className="p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 rounded-lg transition-colors"
+              >
+                <FiX size={20} />
+              </button>
+            </div>
+            
+            <div className="p-6 space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-gray-50 p-4 rounded-xl">
+                  <span className="text-xs text-gray-500 block mb-1">اسم العميل</span>
+                  <div className="font-bold text-navy-dark">{selectedRequest.name}</div>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-xl">
+                  <span className="text-xs text-gray-500 block mb-1">رقم الهاتف</span>
+                  <div className="font-bold text-navy-dark" dir="ltr">{selectedRequest.phone}</div>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-xl col-span-2 md:col-span-1">
+                  <span className="text-xs text-gray-500 block mb-1">تاريخ الطلب</span>
+                  <div className="font-bold text-navy-dark">{selectedRequest.created_at ? new Date(selectedRequest.created_at).toLocaleDateString('ar-EG') : (selectedRequest.date || '-')}</div>
+                </div>
+              </div>
+              
+              <div className="bg-blue-50/50 p-4 rounded-xl border border-blue-100">
+                <span className="text-xs text-blue-600 font-bold block mb-2">نص الرسالة / التفاصيل:</span>
+                <p className="text-navy-dark text-sm leading-relaxed whitespace-pre-wrap">
+                  {selectedRequest.message || "لا توجد تفاصيل إضافية مرفقة مع هذا الطلب."}
+                </p>
+              </div>
+            </div>
+            
+            <div className="p-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
+              <button 
+                onClick={() => setSelectedRequest(null)}
+                className="px-6 py-2.5 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition-colors"
+              >
+                إغلاق
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );

@@ -40,7 +40,7 @@ const contactInfo = [
     ),
     label: "المقر الرئيسي",
     labelEn: "Location",
-    value: "بني سويف، مصر",
+    value: "الحي الأول، شرق النيل، بني سويف",
     link: null,
   },
   {
@@ -56,8 +56,62 @@ const contactInfo = [
   },
 ];
 
+import { useToast } from "@/components/ToastProvider";
+
 export default function ContactPage() {
   const [isMounted, setIsMounted] = useState(false);
+  const { showToast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    message: ""
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.name || !formData.phone) {
+      showToast("يرجى إدخال الاسم ورقم الهاتف", "error");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const payload = {
+        name: formData.name,
+        phone: formData.phone,
+        type: "viewing", // Backend only supports 'viewing' currently
+        unit_id: 1, // Adding dummy unit_id in case backend validation strictly requires it
+        message: formData.message || "لا توجد تفاصيل إضافية",
+      };
+
+      const res = await fetch("/api/requests", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      const responseData = await res.json().catch(() => null);
+
+      if (!res.ok) {
+        console.error("Backend Error Response:", responseData);
+        throw new Error(responseData?.message || "Failed to submit request");
+      }
+
+      showToast("تم إرسال طلبك بنجاح! سنتواصل معك قريباً", "success");
+      setFormData({ name: "", phone: "", message: "" });
+    } catch (error) {
+      console.error(error);
+      showToast("حدث خطأ أثناء إرسال الطلب (تفاصيل في الكونسول)", "error");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     setIsMounted(true);
@@ -177,47 +231,30 @@ export default function ContactPage() {
                       تواصل مع سمسار بني سويف عبر النموذج أدناه وسيقوم أحد خبرائنا العقاريين بالتواصل معك خلال ساعة واحدة.
                     </p>
 
-                    <form className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-6">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-2">
                           <label className="block text-sm font-medium text-white/80">الاسم الكامل</label>
                           <input
                             type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
                             placeholder="أدخل اسمك الكريم"
                             className="w-full px-6 py-4 bg-navy-deeper border border-white/5 rounded-2xl text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all duration-300"
                           />
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-2 md:col-span-2">
                           <label className="block text-sm font-medium text-white/80">رقم الهاتف</label>
                           <input
                             type="tel"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handleChange}
                             placeholder="010 xxxx xxxx"
-                            className="w-full px-6 py-4 bg-navy-deeper border border-white/5 rounded-2xl text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all duration-300 text-left"
+                            className="w-full px-6 py-4 bg-navy-deeper border border-white/5 rounded-2xl text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all duration-300 text-right"
                             dir="ltr"
                           />
-                        </div>
-                        <div className="space-y-2">
-                          <label className="block text-sm font-medium text-white/80">البريد الإلكتروني</label>
-                          <input
-                            type="email"
-                            placeholder="أدخل بريدك الإلكتروني"
-                            className="w-full px-6 py-4 bg-navy-deeper border border-white/5 rounded-2xl text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all duration-300"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <label className="block text-sm font-medium text-white/80">نوع الطلب</label>
-                          <div className="relative">
-                            <select className="w-full px-6 py-4 bg-navy-deeper border border-white/5 rounded-2xl text-white text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all duration-300 appearance-none cursor-pointer pr-6">
-                              <option value="" className="bg-navy-dark text-white">حدد نوع طلبك</option>
-                              <option value="buy" className="bg-navy-dark text-white">شراء عقار (سكني / تجاري)</option>
-                              <option value="sell" className="bg-navy-dark text-white">بيع عقار (إعادة بيع)</option>
-                              <option value="invest" className="bg-navy-dark text-white">استثمار (بحث عن أعلى عائد)</option>
-                              <option value="consult" className="bg-navy-dark text-white">استشارة عقارية عامة</option>
-                            </select>
-                            <svg className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                            </svg>
-                          </div>
                         </div>
                       </div>
 
@@ -225,17 +262,22 @@ export default function ContactPage() {
                         <label className="block text-sm font-medium text-white/80">تفاصيل الطلب (اختياري)</label>
                         <textarea
                           rows={4}
+                          name="message"
+                          value={formData.message}
+                          onChange={handleChange}
                           placeholder="هل تبحث عن منطقة معينة؟ أو ميزانية محددة؟ أخبرنا بالتفاصيل..."
                           className="w-full px-6 py-4 bg-navy-deeper border border-white/5 rounded-2xl text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all duration-300 resize-none"
                         />
                       </div>
 
                       <div className="pt-4">
-                        <button type="submit" className="w-full flex items-center justify-center gap-3 px-8 py-4 bg-primary text-navy-deeper font-bold rounded-2xl hover:bg-white hover:shadow-[0_0_30px_rgba(191,154,95,0.4)] transition-all duration-300">
-                          <span>إرسال الطلب الآن</span>
-                          <svg className="w-5 h-5 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                          </svg>
+                        <button type="submit" disabled={isLoading} className={`w-full flex items-center justify-center gap-3 px-8 py-4 bg-primary text-navy-deeper font-bold rounded-2xl transition-all duration-300 ${isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-white hover:shadow-[0_0_30px_rgba(191,154,95,0.4)]'}`}>
+                          <span>{isLoading ? "جاري الإرسال..." : "إرسال الطلب الآن"}</span>
+                          {!isLoading && (
+                            <svg className="w-5 h-5 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                          )}
                         </button>
                       </div>
                     </form>

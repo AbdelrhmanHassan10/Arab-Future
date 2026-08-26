@@ -5,6 +5,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import BackToTop from "@/components/BackToTop";
 import PageTransition from "@/components/PageTransition";
 import SmoothScroll from "@/components/SmoothScroll";
+import { ToastProvider } from "@/components/ToastProvider";
 import fs from "fs";
 import path from "path";
 
@@ -73,11 +74,13 @@ export default function RootLayout({
       <body
         className="font-arabic antialiased bg-[#090909] text-white"
       >
-        <SmoothScroll>
-          <PageTransition>{children}</PageTransition>
-        </SmoothScroll>
-        <WhatsAppButton />
-        <BackToTop />
+        <ToastProvider>
+          <SmoothScroll>
+            <PageTransition>{children}</PageTransition>
+          </SmoothScroll>
+          <WhatsAppButton />
+          <BackToTop />
+        </ToastProvider>
       </body>
     </html>
   );

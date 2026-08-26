@@ -122,22 +122,20 @@ export default async function UnitDetailsPage({ params }: { params: { id: string
           </div>
 
           {/* Image Gallery */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12 h-[400px] md:h-[500px]">
-            <div className="md:col-span-3 h-full rounded-2xl overflow-hidden group relative">
-              <img src={getImageUrl(unit.main_image || (unit as any).image || (unit.images && unit.images.length > 0 ? unit.images[0] : null), unit.id ? String(unit.id).charCodeAt(0) : 0)} alt={unit.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <div className="flex flex-col md:flex-row gap-4 mb-12 items-stretch">
+            <div className={`w-full ${(unit.images || []).length > 1 ? 'md:w-3/4' : ''} rounded-2xl overflow-hidden group relative`}>
+              <img src={getImageUrl(unit.main_image_url || unit.main_image || (unit as any).image || (unit.images && unit.images.length > 0 ? unit.images[0] : null), unit.id ? String(unit.id).charCodeAt(0) : 0)} alt={unit.title} className="w-full h-auto max-h-[85vh] object-cover transition-transform duration-700 group-hover:scale-105" />
             </div>
-            <div className="hidden md:flex flex-col gap-4 h-full">
-              {(unit.images || []).slice(1, 3).map((img: string, i: number) => (
-                <div key={i} className="h-1/2 rounded-2xl overflow-hidden group">
-                  <img src={getImageUrl(img)} alt={`${unit.title} ${i + 2}`} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                </div>
-              ))}
-              {(unit.images || []).length <= 1 && (
-                <div className="h-full rounded-2xl overflow-hidden bg-white/5 flex items-center justify-center">
-                  <FiHome className="text-white/20" size={48} />
-                </div>
-              )}
-            </div>
+            
+            {(unit.images || []).length > 1 && (
+              <div className="hidden md:flex flex-col gap-4 w-full md:w-1/4">
+                {(unit.images || []).slice(1, 3).map((img: string, i: number) => (
+                  <div key={i} className="flex-1 rounded-2xl overflow-hidden group relative">
+                    <img src={getImageUrl(img)} alt={`${unit.title} ${i + 2}`} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Navigation Tabs */}
