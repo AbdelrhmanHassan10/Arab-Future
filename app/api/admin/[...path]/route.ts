@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://simsar.acwad.tech/public/api";
 
-export async function proxyRequest(request: Request, { params }: { params: { path: string[] } }) {
+async function proxyRequest(request: Request, { params }: { params: { path: string[] } }) {
   const token = cookies().get("admin_token")?.value;
   if (!token) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
@@ -65,9 +65,10 @@ export async function proxyRequest(request: Request, { params }: { params: { pat
     }
 
     return new NextResponse(await res.text(), { status: res.status });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Proxy Error Exception:", error);
-    return NextResponse.json({ error: "Server Error", details: error?.message || String(error) }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return NextResponse.json({ error: "Server Error", details: errorMessage }, { status: 500 });
   }
 }
 
