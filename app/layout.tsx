@@ -32,6 +32,7 @@ try {
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
   display: "swap",
+  variable: "--font-cairo",
   weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
@@ -68,9 +69,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className="scroll-smooth">
+    <html lang="ar" dir="rtl" className={`scroll-smooth ${cairo.variable}`}>
       <body
-        className={`${cairo.className} antialiased`}
+        className="font-arabic antialiased bg-[#090909] text-white"
       >
         <SmoothScroll>
           <PageTransition>{children}</PageTransition>

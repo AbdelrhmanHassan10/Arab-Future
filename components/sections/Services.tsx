@@ -46,7 +46,7 @@ export default function Services() {
     <section id="services" className="relative bg-[#090909] overflow-hidden py-24 md:py-32 border-t border-white/5">
 
       <div className="container-wide px-6 relative z-10">
-        
+
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-20">
           <motion.div
