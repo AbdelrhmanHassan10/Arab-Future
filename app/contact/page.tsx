@@ -17,8 +17,8 @@ const contactInfo = [
     ),
     label: "رقم الهاتف",
     labelEn: "Phone",
-    value: "+20 100 123 4567",
-    link: "tel:+201001234567",
+    value: "01008450553",
+    link: "tel:+201008450553",
   },
   {
     icon: (

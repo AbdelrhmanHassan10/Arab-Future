@@ -169,7 +169,7 @@ export default function FinishingPage() {
                 </div>
 
                 <a
-                  href={`https://wa.me/201001234567?text=مرحباً، أريد الاستفسار عن ${pkg.name} للتشطيب.`}
+                  href={`https://wa.me/201008450553?text=مرحباً، أريد الاستفسار عن ${pkg.name} للتشطيب.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`w-full py-4 rounded-xl font-bold text-center transition-all duration-300 flex items-center justify-center gap-2 ${idx === 1 ? 'bg-primary text-black hover:bg-navy-deeper hover:text-white shadow-md' : 'bg-off-white text-navy-dark hover:bg-gray-200 border border-gray-100'}`}

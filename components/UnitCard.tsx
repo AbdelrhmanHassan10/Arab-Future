@@ -150,7 +150,7 @@ export default function UnitCard({ unit, index }: { unit: Unit; index: number })
             onClick={() => {
               if (!isSold) {
                 // Open WhatsApp logic here
-                window.open(`https://wa.me/201001234567?text=مرحباً، أود الاستفسار عن الوحدة كود: ${safeId}`, '_blank');
+                window.open(`https://wa.me/201008450553?text=مرحباً، أود الاستفسار عن الوحدة كود: ${safeId}`, '_blank');
               }
             }}
             className={`flex-1 text-center px-4 py-3 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${

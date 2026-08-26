@@ -331,7 +331,7 @@ export default async function ProjectDetailsPage({ params }: { params: { id: str
                   </p>
                   
                   <a
-                    href="https://wa.me/201001234567?text=مرحباً، أريد الاستفسار عن تفاصيل وأسعار التشطيبات"
+                    href="https://wa.me/201008450553?text=مرحباً، أريد الاستفسار عن تفاصيل وأسعار التشطيبات"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full bg-[#090909] text-white font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-3 hover:bg-black hover:scale-105 transition-all duration-300 shadow-xl group"

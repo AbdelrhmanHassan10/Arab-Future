@@ -429,7 +429,7 @@ export default async function UnitDetailsPage({ params }: { params: { id: string
 
                   <div className="space-y-4 relative z-10 w-full max-w-[280px]">
                     <a
-                      href={`https://wa.me/201001234567?text=مرحباً، أستفسر عن الوحدة ${unit.id}`}
+                      href={`https://wa.me/201008450553?text=مرحباً، أستفسر عن الوحدة ${unit.id}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-full bg-[#25D366] text-white font-bold py-4 px-4 rounded-xl flex items-center justify-center gap-3 hover:bg-[#128C7E] transition-all hover:scale-105 shadow-lg"
@@ -438,7 +438,7 @@ export default async function UnitDetailsPage({ params }: { params: { id: string
                       <span>تواصل عبر واتساب</span>
                     </a>
                     <a
-                      href="tel:+201001234567"
+                      href="tel:+201008450553"
                       className="w-full bg-white/5 text-white font-bold py-4 px-4 rounded-xl flex items-center justify-center gap-3 hover:bg-white/10 transition-all hover:scale-105 border border-white/10 shadow-lg"
                     >
                       <span>اتصل بنا هاتفياً</span>
