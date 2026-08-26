@@ -36,7 +36,7 @@ export default function AdminRequestsPage() {
 
   const handleUpdateStatus = async (id: any, newStatus: string) => {
     const statusAr = newStatus === "new" ? "جديد" : newStatus === "completed" ? "مكتمل" : newStatus === "rejected" ? "مرفوض" : newStatus;
-    if (!await confirm(`هل أنت متأكد من تغيير حالة الطلب إلى: ${statusAr}؟`)) return;
+    if (!confirm(`هل أنت متأكد من تغيير حالة الطلب إلى: ${statusAr}؟`)) return;
     try {
       const res = await fetch(`/api/admin/requests/${id}/status`, {
         method: "PATCH",
