@@ -1,27 +1,13 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
+import { useState } from "react";
 import { useToast } from "@/components/ToastProvider";
-
-const projectTypes = [
-  { value: "", label: "اختر نوع العقار" },
-  { value: "residential", label: "شقة سكنية" },
-  { value: "commercial", label: "محل تجاري" },
-  { value: "admin", label: "مقر إداري" },
-  { value: "villa", label: "فيلا مستقلة" },
-  { value: "chalet", label: "شاليه / ساحلي" },
-  { value: "consulting", label: "استشارة عقارية" },
-  { value: "other", label: "أخرى" },
-];
 
 export default function Contact() {
   const ease = [0.16, 1, 0.3, 1] as const;
   const { showToast } = useToast();
-  const [selectedType, setSelectedType] = useState(projectTypes[0]);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -30,16 +16,6 @@ export default function Contact() {
     phone: "",
     message: ""
   });
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));

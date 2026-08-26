@@ -22,6 +22,7 @@ export async function fetchApi(endpoint: string, options: RequestInit = {}) {
       }
     } catch (e) {
       // cookies() throws error if called outside of request context (shouldn't happen here)
+      console.error("Error reading cookies:", e);
     }
   }
 

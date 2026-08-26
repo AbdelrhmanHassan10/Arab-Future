@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import UnitCard from "@/components/UnitCard";
-import { API_URL } from "@/lib/config";
 import { Unit } from "@/lib/units";
 
 export default function FeaturedUnits() {
