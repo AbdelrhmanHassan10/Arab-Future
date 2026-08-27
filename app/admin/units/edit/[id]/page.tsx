@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import { FiUpload, FiArrowRight, FiSave, FiX } from "react-icons/fi";
 import Link from "next/link";
 import { extractString, getImageUrl } from "@/lib/config";
+import { useConfirm } from "@/components/ConfirmProvider";
 
 export default function EditUnitPage({ params }: { params: { id: string } }) {
   const router = useRouter();
+  const { confirm } = useConfirm();
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -199,7 +201,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
   };
 
   const deleteGalleryImage = async (id: number) => {
-    if(!confirm("تأكيد الحذف؟")) return;
+    if(!(await confirm("تأكيد الحذف؟"))) return;
     await fetch(`/api/admin/units/${unitRouteKey}/images/${id}`, { method: "DELETE" });
     await refreshUnitData();
   };
@@ -217,7 +219,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
   };
 
   const deleteFloorPlan = async (id: number) => {
-    if(!confirm("تأكيد الحذف؟")) return;
+    if(!(await confirm("تأكيد الحذف؟"))) return;
     await fetch(`/api/admin/units/${unitRouteKey}/floor-plans/${id}`, { method: "DELETE" });
     await refreshUnitData();
   };
@@ -235,7 +237,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
   };
 
   const deleteNearbyPlace = async (id: number) => {
-    if(!confirm("تأكيد الحذف؟")) return;
+    if(!(await confirm("تأكيد الحذف؟"))) return;
     await fetch(`/api/admin/units/${unitRouteKey}/nearby-places/${id}`, { method: "DELETE" });
     await refreshUnitData();
   };
@@ -252,7 +254,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
   };
 
   const deleteAttachment = async (id: number) => {
-    if(!confirm("تأكيد الحذف؟")) return;
+    if(!(await confirm("تأكيد الحذف؟"))) return;
     await fetch(`/api/admin/units/${unitRouteKey}/attachments/${id}`, { method: "DELETE" });
     await refreshUnitData();
   };
@@ -529,7 +531,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
           <div className="flex gap-4 overflow-x-auto pb-4 mb-4">
             {galleryImagesList.map((img: any) => (
               <div key={img.id} className="relative group shrink-0 w-32 h-32 rounded-xl overflow-hidden border">
-                <img src={getImageUrl(img.image_path)} alt="" className="w-full h-full object-cover" />
+                <img src={getImageUrl(img)} alt="" className="w-full h-full object-cover" />
                 <button onClick={() => deleteGalleryImage(img.id)} className="absolute top-2 left-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition"><FiX /></button>
               </div>
             ))}
@@ -550,7 +552,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             {floorPlans.map((plan: any) => (
               <div key={plan.id} className="flex gap-4 bg-gray-50 p-4 rounded-xl items-center relative">
-                <img src={getImageUrl(plan.image_path)} className="w-20 h-20 object-cover rounded-lg" alt="" />
+                <img src={getImageUrl(plan)} className="w-20 h-20 object-cover rounded-lg" alt="" />
                 <div>
                   <h4 className="font-bold text-navy-dark">{plan.title}</h4>
                   <p className="text-xs text-gray-500">{plan.description}</p>

@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { FiPlus, FiEdit2, FiTrash2, FiSearch } from "react-icons/fi";
+import { useConfirm } from "@/components/ConfirmProvider";
 
 export default function AdminAreasPage() {
+  const { confirm } = useConfirm();
   const [areas, setAreas] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
@@ -67,7 +69,7 @@ export default function AdminAreasPage() {
   };
 
   const handleDelete = async (id: number) => {
-    if (!confirm("هل أنت متأكد من حذف هذه المنطقة؟")) return;
+    if (!(await confirm("هل أنت متأكد من حذف هذه المنطقة؟"))) return;
 
     try {
       const res = await fetch(`/api/admin/areas/${id}`, { method: "DELETE" });

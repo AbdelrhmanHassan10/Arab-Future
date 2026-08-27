@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiSearch, FiMapPin, FiHome, FiDollarSign, FiMaximize, FiChevronDown } from "react-icons/fi";
 import { useRouter } from "next/navigation";
+import { API_URL } from "@/lib/config";
 
 // Reusable Custom Select Component
 function CustomSelect({ 
@@ -87,6 +88,23 @@ export default function QuickSearch() {
     priceRange: "",
     rooms: "",
   });
+  
+  const [areas, setAreas] = useState<{value: string, label: string}[]>([{ value: "", label: "كل المناطق" }]);
+
+  useEffect(() => {
+    fetch(`${API_URL}/areas?per_page=100`)
+      .then(res => res.json())
+      .then(data => {
+        const fetched = data.data || data || [];
+        const arr = Array.isArray(fetched) ? fetched : (Array.isArray(fetched.data) ? fetched.data : []);
+        const formatted = arr.map((area: any) => ({
+          value: area.id.toString(),
+          label: area.name
+        }));
+        setAreas([{ value: "", label: "كل المناطق" }, ...formatted]);
+      })
+      .catch(err => console.error("Failed to fetch areas", err));
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -134,13 +152,7 @@ export default function QuickSearch() {
               icon={FiMapPin}
               value={formData.location}
               onChange={(val) => setFormData({ ...formData, location: val })}
-              options={[
-                { value: "", label: "كل المناطق" },
-                { value: "beni-suef-city", label: "مدينة بني سويف" },
-                { value: "new-beni-suef", label: "بني سويف الجديدة" },
-                { value: "baba", label: "ببا" },
-                { value: "al-wasta", label: "الواسطى" },
-              ]}
+              options={areas}
             />
 
             <CustomSelect

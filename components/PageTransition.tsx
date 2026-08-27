@@ -66,6 +66,7 @@ export default function PageTransition({ children }: { children: React.ReactNode
                   src="/samsar_horizontal_transparent.png"
                   alt="سمسار بني سويف"
                   fill
+                  sizes="224px"
                   className="object-contain drop-shadow-[0_0_15px_rgba(191,154,95,0.4)]"
                   priority
                 />

@@ -56,7 +56,6 @@ const CustomSelect = ({ options, value, onChange, name }: any) => {
   );
 };
 
-import { API_URL } from "@/lib/config";
 
 export default function FinishingRequestPage() {
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success">("idle");
@@ -105,7 +104,7 @@ export default function FinishingRequestPage() {
     setFormStatus("submitting");
     try {
       // Send the request data to the backend API
-      const response = await fetch(`${API_URL}/requests`, {
+      const response = await fetch(`/api/requests`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

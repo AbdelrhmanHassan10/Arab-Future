@@ -14,10 +14,9 @@ export async function generateStaticParams() {
   try {
     const data = await fetchApi("/units", { cache: 'no-store' });
     const units = data.data || data || [];
-    return units.map((unit: any) => {
-      const id = typeof unit.id === 'object' && unit.id !== null ? (unit.id.id || unit.id.name) : (unit.unit_code || unit.id);
-      return { id: String(id || '') };
-    });
+    // In a dynamic app, we don't necessarily want to pre-render all units,
+    // but if we do, this is correct for generating static paths.
+    return [];
   } catch (error) {
     return [];
   }
@@ -50,18 +49,13 @@ const getFinishingLabel = (level: string) => {
 export default async function UnitDetailsPage({ params }: { params: { id: string } }) {
   let unit: any = null;
   try {
-    const data = await fetchApi("/units", {
+    const data = await fetchApi(`/units/${params.id}`, {
       next: { revalidate: 60 }
     });
-    const units = data.data || data || [];
-    if (Array.isArray(units)) {
-      unit = units.find((u: any) => {
-        const uId = typeof u.id === 'object' && u.id !== null ? (u.id.id || u.id.name) : (u.unit_code || u.id);
-        return String(uId) === String(params.id);
-      });
-    }
+    // The API might return { data: { unit } } or { data: unit } or just the unit.
+    unit = data.data || data;
   } catch (error) {
-    console.error("Failed to fetch unit details from API:", error);
+    console.error(`Failed to fetch unit details for ID ${params.id}:`, error);
   }
 
   // No local fallback — API is the single source of truth
@@ -340,37 +334,57 @@ export default async function UnitDetailsPage({ params }: { params: { id: string
               <div id="floorplans" className="scroll-mt-32">
                 <h3 className="text-xl font-bold text-white mb-6">المخططات</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Floor Plan 1 */}
-                  <ImageLightbox src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80">
-                    <div className="bg-[#111111] border border-white/5 rounded-2xl p-6 shadow-[0_10px_30px_rgba(0,0,0,0.2)] group hover:border-primary/30 transition-colors relative overflow-hidden cursor-pointer h-full">
-                      <div className="w-full h-48 bg-[#1c1c1c] rounded-xl mb-4 relative overflow-hidden border border-white/10 group-hover:shadow-[0_0_20px_rgba(197,160,89,0.2)] transition-shadow">
-                        <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Floor Plan" className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700 opacity-90 group-hover:opacity-100 grayscale group-hover:grayscale-0 contrast-125" />
-                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          <div className="w-12 h-12 rounded-full bg-primary/80 flex items-center justify-center text-white backdrop-blur-sm shadow-[0_0_15px_rgba(197,160,89,0.5)]">
-                            <FiMaximize size={20} />
+                  {(unit.floor_plans && unit.floor_plans.length > 0) ? (
+                    unit.floor_plans.map((plan: any, idx: number) => (
+                      <ImageLightbox key={idx} src={getImageUrl(plan.image || plan)}>
+                        <div className="bg-[#111111] border border-white/5 rounded-2xl p-6 shadow-[0_10px_30px_rgba(0,0,0,0.2)] group hover:border-primary/30 transition-colors relative overflow-hidden cursor-pointer h-full">
+                          <div className="w-full h-48 bg-[#1c1c1c] rounded-xl mb-4 relative overflow-hidden border border-white/10 group-hover:shadow-[0_0_20px_rgba(197,160,89,0.2)] transition-shadow">
+                            <img src={getImageUrl(plan.image || plan)} alt={plan.title || `مخطط ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700 opacity-90 group-hover:opacity-100" />
+                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                              <div className="w-12 h-12 rounded-full bg-primary/80 flex items-center justify-center text-white backdrop-blur-sm shadow-[0_0_15px_rgba(197,160,89,0.5)]">
+                                <FiMaximize size={20} />
+                              </div>
+                            </div>
                           </div>
+                          <h4 className="text-lg font-bold text-white mb-2 group-hover:text-primary transition-colors">{plan.title || `مخطط الطابق ${idx + 1}`}</h4>
+                          <p className="text-sm text-white/50">{plan.description || "توضيح دقيق لأبعاد الغرف والاستقبال والمرافق."}</p>
                         </div>
-                      </div>
-                      <h4 className="text-lg font-bold text-white mb-2 group-hover:text-primary transition-colors">المخطط الهندسي للوحدة</h4>
-                      <p className="text-sm text-white/50">تصميم ذكي يستغل المساحات بأفضل شكل ممكن، مع توزيع مثالي للغرف والإضاءة.</p>
-                    </div>
-                  </ImageLightbox>
-
-                  {/* Floor Plan 2 */}
-                  <ImageLightbox src="/api/floorplan">
-                    <div className="bg-[#111111] border border-white/5 rounded-2xl p-6 shadow-[0_10px_30px_rgba(0,0,0,0.2)] group hover:border-primary/30 transition-colors relative overflow-hidden cursor-pointer h-full">
-                      <div className="w-full h-48 bg-[#1c1c1c] rounded-xl mb-4 relative overflow-hidden border border-white/10 group-hover:shadow-[0_0_20px_rgba(197,160,89,0.2)] transition-shadow">
-                        <img src="/api/floorplan" alt="Room Distribution" className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700 opacity-90 group-hover:opacity-100" />
-                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          <div className="w-12 h-12 rounded-full bg-primary/80 flex items-center justify-center text-white backdrop-blur-sm shadow-[0_0_15px_rgba(197,160,89,0.5)]">
-                            <FiMaximize size={20} />
+                      </ImageLightbox>
+                    ))
+                  ) : (
+                    <>
+                      {/* Floor Plan 1 Fallback */}
+                      <ImageLightbox src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80">
+                        <div className="bg-[#111111] border border-white/5 rounded-2xl p-6 shadow-[0_10px_30px_rgba(0,0,0,0.2)] group hover:border-primary/30 transition-colors relative overflow-hidden cursor-pointer h-full">
+                          <div className="w-full h-48 bg-[#1c1c1c] rounded-xl mb-4 relative overflow-hidden border border-white/10 group-hover:shadow-[0_0_20px_rgba(197,160,89,0.2)] transition-shadow">
+                            <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Floor Plan" className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700 opacity-90 group-hover:opacity-100 grayscale group-hover:grayscale-0 contrast-125" />
+                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                              <div className="w-12 h-12 rounded-full bg-primary/80 flex items-center justify-center text-white backdrop-blur-sm shadow-[0_0_15px_rgba(197,160,89,0.5)]">
+                                <FiMaximize size={20} />
+                              </div>
+                            </div>
                           </div>
+                          <h4 className="text-lg font-bold text-white mb-2 group-hover:text-primary transition-colors">المخطط الهندسي للوحدة</h4>
+                          <p className="text-sm text-white/50">تصميم ذكي يستغل المساحات بأفضل شكل ممكن، مع توزيع مثالي للغرف والإضاءة.</p>
                         </div>
-                      </div>
-                      <h4 className="text-lg font-bold text-white mb-2 group-hover:text-primary transition-colors">توزيع الغرف والأبعاد</h4>
-                      <p className="text-sm text-white/50">توضيح دقيق لأبعاد الغرف، الاستقبال، والمرافق الداخلية بأسلوب عصري ومريح.</p>
-                    </div>
-                  </ImageLightbox>
+                      </ImageLightbox>
+                      {/* Floor Plan 2 Fallback */}
+                      <ImageLightbox src="/api/floorplan">
+                        <div className="bg-[#111111] border border-white/5 rounded-2xl p-6 shadow-[0_10px_30px_rgba(0,0,0,0.2)] group hover:border-primary/30 transition-colors relative overflow-hidden cursor-pointer h-full">
+                          <div className="w-full h-48 bg-[#1c1c1c] rounded-xl mb-4 relative overflow-hidden border border-white/10 group-hover:shadow-[0_0_20px_rgba(197,160,89,0.2)] transition-shadow">
+                            <img src="/api/floorplan" alt="Room Distribution" className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700 opacity-90 group-hover:opacity-100" />
+                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                              <div className="w-12 h-12 rounded-full bg-primary/80 flex items-center justify-center text-white backdrop-blur-sm shadow-[0_0_15px_rgba(197,160,89,0.5)]">
+                                <FiMaximize size={20} />
+                              </div>
+                            </div>
+                          </div>
+                          <h4 className="text-lg font-bold text-white mb-2 group-hover:text-primary transition-colors">توزيع الغرف والأبعاد</h4>
+                          <p className="text-sm text-white/50">توضيح دقيق لأبعاد الغرف، الاستقبال، والمرافق الداخلية بأسلوب عصري ومريح.</p>
+                        </div>
+                      </ImageLightbox>
+                    </>
+                  )}
                 </div>
               </div>
 

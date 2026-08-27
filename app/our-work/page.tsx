@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { FiCheckCircle, FiHome, FiClock, FiArrowLeft } from "react-icons/fi";
-import { API_URL, getImageUrl } from "@/lib/config";
+import { getImageUrl } from "@/lib/config";
 
 export default function OurWorkPage() {
   const [activeTab, setActiveTab] = useState<"completed" | "in-progress" | "sold">("completed");
@@ -19,7 +19,7 @@ export default function OurWorkPage() {
     const fetchData = async () => {
       try {
         // Fetch renovation projects from API
-        const projectsRes = await fetch(`${API_URL}/renovation-projects`, { cache: 'no-store' });
+        const projectsRes = await fetch(`/api/renovation-projects`, { cache: 'no-store' });
         if (projectsRes.ok) {
           const projectsData = await projectsRes.json();
           const allProjects = projectsData.data || projectsData || [];
@@ -28,7 +28,7 @@ export default function OurWorkPage() {
         }
 
         // Fetch sold units from API
-        const unitsRes = await fetch(`${API_URL}/units?status=sold`, { cache: 'no-store' });
+        const unitsRes = await fetch(`/api/units?status=sold`, { cache: 'no-store' });
         if (unitsRes.ok) {
           const unitsData = await unitsRes.json();
           const units = unitsData.data || unitsData || [];

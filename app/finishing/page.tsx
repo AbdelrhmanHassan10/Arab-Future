@@ -3,29 +3,41 @@
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { finishingPackages } from "@/lib/finishing";
+// Removed static finishing packages
 import { FiCheckCircle, FiTool, FiLayout, FiHome, FiImage } from "react-icons/fi";
 import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa";
 import { useState, useEffect } from "react";
-import { API_URL, getImageUrl } from "@/lib/config";
+import { getImageUrl } from "@/lib/config";
 
 export default function FinishingPage() {
   const ease = [0.16, 1, 0.3, 1] as const;
   const [projects, setProjects] = useState<any[]>([]);
+
+  const [packages, setPackages] = useState<any[]>([]);
 
   useEffect(() => {
     // Fetch completed renovation projects from API
     const params = new URLSearchParams();
     params.append("status", "completed");
 
-    fetch(`${API_URL}/renovation-projects?${params.toString()}`)
+    fetch(`/api/renovation-projects?${params.toString()}`)
       .then((res) => res.json())
       .then((data) => {
         setProjects(data.data || data || []);
       })
       .catch((err) => {
         console.error("Failed to fetch renovation projects", err);
+      });
+
+    // Fetch renovation packages from API
+    fetch(`/api/renovation-packages`)
+      .then((res) => res.json())
+      .then((data) => {
+        setPackages(data.data || data || []);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch renovation packages", err);
       });
   }, []);
 
@@ -135,9 +147,9 @@ export default function FinishingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center max-w-6xl mx-auto">
-            {finishingPackages.map((pkg, idx) => (
+            {packages.map((pkg, idx) => (
               <motion.div
-                key={idx}
+                key={pkg.id || idx}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -150,17 +162,17 @@ export default function FinishingPage() {
                   </div>
                 )}
                 
-                <h3 className="text-2xl font-bold text-navy-deeper mb-2 text-center">{pkg.name}</h3>
+                <h3 className="text-2xl font-bold text-navy-deeper mb-2 text-center">{pkg.title || pkg.name}</h3>
                 <p className="text-gray-500 text-sm mb-6 text-center">{pkg.description}</p>
                 
                 <div className="text-center mb-8">
                   <span className="text-sm text-gray-500 font-medium">يبدأ من</span>
-                  <div className="text-4xl font-black text-navy-deeper my-1 font-body">{pkg.pricePerMeter}</div>
+                  <div className="text-4xl font-black text-navy-deeper my-1 font-body">{pkg.price_per_sqm || pkg.pricePerMeter || '0'}</div>
                   <span className="text-sm text-gray-500 font-medium">ج.م / للمتر المربع</span>
                 </div>
 
                 <div className="space-y-4 mb-8 flex-1">
-                  {pkg.features.map((feature, fIdx) => (
+                  {(pkg.features ? (typeof pkg.features === 'string' ? JSON.parse(pkg.features) : pkg.features) : []).map((feature: string, fIdx: number) => (
                     <div className="flex items-start gap-3" key={fIdx}>
                       <FiCheckCircle className="text-primary mt-1 shrink-0" size={18} />
                       <span className="text-gray-600 text-sm font-medium leading-relaxed">{feature}</span>
@@ -169,7 +181,7 @@ export default function FinishingPage() {
                 </div>
 
                 <a
-                  href={`https://wa.me/201008450553?text=مرحباً، أريد الاستفسار عن ${pkg.name} للتشطيب.`}
+                  href={`https://wa.me/201008450553?text=مرحباً، أريد الاستفسار عن ${pkg.title || pkg.name} للتشطيب.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`w-full py-4 rounded-xl font-bold text-center transition-all duration-300 flex items-center justify-center gap-2 ${idx === 1 ? 'bg-primary text-black hover:bg-navy-deeper hover:text-white shadow-md' : 'bg-off-white text-navy-dark hover:bg-gray-200 border border-gray-100'}`}

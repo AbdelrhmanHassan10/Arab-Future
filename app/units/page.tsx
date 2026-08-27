@@ -1,4 +1,4 @@
-"use client";
+"use client"; // Force recompile
 
 import { useState, useEffect, Suspense } from "react";
 import Navbar from "@/components/Navbar";
@@ -24,6 +24,22 @@ function UnitsContent() {
   });
   const [units, setUnits] = useState<Unit[]>([]);
   const [loading, setLoading] = useState(true);
+  const [locationOptions, setLocationOptions] = useState<{value: string, label: string}[]>([]);
+
+  useEffect(() => {
+    fetch("/api/areas?per_page=100")
+      .then((res) => res.json())
+      .then((data) => {
+        const fetched = data.data || data || [];
+        const arr = Array.isArray(fetched) ? fetched : (Array.isArray(fetched.data) ? fetched.data : []);
+        const formatted = arr.map((area: any) => ({
+          value: area.id.toString(),
+          label: area.name,
+        }));
+        setLocationOptions(formatted);
+      })
+      .catch((err) => console.error("Failed to fetch areas", err));
+  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -41,7 +57,7 @@ function UnitsContent() {
     // Or just pass it as 'location' if backend supports it
     if (filters.location) params.append("location", filters.location);
 
-    fetch(`${API_URL}/units?${params.toString()}`)
+    fetch(`/api/units?${params.toString()}`)
       .then((res) => res.json())
       .then((data) => {
         // Handle paginated or flat array response
@@ -67,12 +83,7 @@ function UnitsContent() {
     { value: "land", label: "أرض" },
   ];
 
-  const locationOptions = [
-    { value: "beni-suef-city", label: "مدينة بني سويف" },
-    { value: "new-beni-suef", label: "بني سويف الجديدة" },
-    { value: "baba", label: "ببا" },
-    { value: "al-wasta", label: "الواسطى" },
-  ];
+  // Location options are now fetched dynamically
 
   const statusOptions = [
     { value: "available", label: "متاحة" },

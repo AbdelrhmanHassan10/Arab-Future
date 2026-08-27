@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { FiPlus, FiEdit2, FiTrash2, FiSearch } from "react-icons/fi";
+import { useConfirm } from "@/components/ConfirmProvider";
 
 export default function AdminAmenitiesPage() {
+  const { confirm } = useConfirm();
   const [amenities, setAmenities] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
@@ -67,7 +69,7 @@ export default function AdminAmenitiesPage() {
   };
 
   const handleDelete = async (id: number) => {
-    if (!confirm("هل أنت متأكد من حذف هذا المرفق؟")) return;
+    if (!(await confirm("هل أنت متأكد من حذف هذا المرفق؟"))) return;
 
     try {
       const res = await fetch(`/api/admin/amenities/${id}`, { method: "DELETE" });

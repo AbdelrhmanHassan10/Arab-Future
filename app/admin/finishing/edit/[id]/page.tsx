@@ -6,10 +6,12 @@ import { FiUpload, FiArrowRight, FiSave, FiX, FiTrash2, FiPlus } from "react-ico
 import Link from "next/link";
 import { extractString, getImageUrl } from "@/lib/config";
 import { useToast } from "@/components/ToastProvider";
+import { useConfirm } from "@/components/ConfirmProvider";
 
 export default function EditFinishingProjectPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const { showToast } = useToast();
+  const { confirm } = useConfirm();
   
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
@@ -221,7 +223,7 @@ export default function EditFinishingProjectPage({ params }: { params: { id: str
   };
 
   const handleDeleteGalleryImage = async (imageId: number) => {
-    if (!confirm("هل أنت متأكد من حذف هذه الصورة؟")) return;
+    if (!(await confirm("هل أنت متأكد من حذف هذه الصورة؟"))) return;
     try {
       const res = await fetch(`/api/admin/renovation-projects/${projectRouteKey}/images/${imageId}`, {
         method: "DELETE"
@@ -273,7 +275,7 @@ export default function EditFinishingProjectPage({ params }: { params: { id: str
   };
 
   const handleDeleteChallenge = async (id: number) => {
-    if (!confirm("هل أنت متأكد من حذف هذا التحدي؟")) return;
+    if (!(await confirm("هل أنت متأكد من حذف هذا التحدي؟"))) return;
     try {
       const res = await fetch(`/api/admin/renovation-projects/${projectRouteKey}/challenges/${id}`, {
         method: "DELETE"
@@ -413,7 +415,7 @@ export default function EditFinishingProjectPage({ params }: { params: { id: str
               <div className="grid grid-cols-2 gap-3 mb-4">
                 {galleryImagesList.map((img: any) => (
                   <div key={img.id} className="relative group rounded-xl overflow-hidden bg-gray-100 aspect-square border border-gray-200">
-                    <img src={getImageUrl(img.url || img.image_url)} alt="Gallery" className="w-full h-full object-cover" />
+                    <img src={getImageUrl(img)} alt="Gallery" className="w-full h-full object-cover" />
                     <button 
                       onClick={() => handleDeleteGalleryImage(img.id)}
                       className="absolute inset-0 bg-black/50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"

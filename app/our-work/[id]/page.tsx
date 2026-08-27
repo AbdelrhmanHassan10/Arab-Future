@@ -10,9 +10,8 @@ export async function generateStaticParams() {
   try {
     const data = await fetchApi("/renovation-projects");
     const projects = data.data || data || [];
-    return projects.map((project: any) => ({
-      id: String(project.code || project.renovation_code || project.id || ""),
-    }));
+    // Only pre-rendering is optional in dynamic routing
+    return [];
   } catch (error) {
     return [];
   }
@@ -22,17 +21,10 @@ export default async function ProjectDetailsPage({ params }: { params: { id: str
   let project: any = null;
 
   try {
-    const data = await fetchApi("/renovation-projects", { cache: 'no-store' });
-    const projects = data.data || data || [];
-    if (Array.isArray(projects)) {
-      project = projects.find((p: any) => 
-        String(p.id) === String(params.id) || 
-        String(p.renovation_code) === String(params.id) || 
-        String(p.code) === String(params.id)
-      );
-    }
+    const data = await fetchApi(`/renovation-projects/${params.id}`, { cache: 'no-store' });
+    project = data.data || data;
   } catch (error) {
-    console.error("Failed to fetch renovation projects from API:", error);
+    console.error(`Failed to fetch renovation project details for ID ${params.id}:`, error);
   }
 
   // No local fallback — API is the single source of truth

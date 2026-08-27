@@ -27,7 +27,7 @@ export function getImageUrl(val: any, fallbackIndex: number = 0): string {
   }
   let str = "";
   if (typeof val === 'object') {
-    str = String(val.url || val.path || val.src || val.name || val.file || val.id || "");
+    str = String(val.url || val.image_url || val.image_path || val.path || val.src || val.image || val.name || val.file || val.id || "");
   } else {
     str = String(val);
   }
@@ -35,6 +35,10 @@ export function getImageUrl(val: any, fallbackIndex: number = 0): string {
   if (!str || str === "[object Object]") return `https://picsum.photos/seed/${fallbackIndex}/800/600`;
 
   if (str.startsWith('/projects/') || str.startsWith('/images/')) return str;
+  if (str.startsWith('http://localhost/') || str.startsWith('http://127.0.0.1/')) {
+    str = str.replace(/^http:\/\/(localhost|127\.0\.0\.1)\//, `${BASE_URL}/`);
+  }
+
   if (str.startsWith('http') || str.startsWith('data:')) return str;
   if (str.startsWith('/')) return `${BASE_URL}${str}`;
   return `${BASE_URL}/storage/${str}`;
