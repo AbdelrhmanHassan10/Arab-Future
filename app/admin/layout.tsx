@@ -48,20 +48,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               </button>
             </div>
 
-            <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
-              <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-4 px-4">القائمة الرئيسية</div>
+            <nav className="flex-1 p-3 space-y-2 overflow-y-auto">
+              <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 px-3">القائمة الرئيسية</div>
               {menuItems.map((item) => {
                 const isActive = pathname === item.path;
                 return (
                   <Link
                     key={item.path}
                     href={item.path}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${isActive
+                    className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-colors text-[15px] ${isActive
                         ? "bg-primary/10 text-primary font-bold border border-primary/20"
                         : "text-gray-400 hover:text-white hover:bg-white/5"
                       }`}
                   >
-                    <item.icon size={20} />
+                    <item.icon size={18} />
                     <span>{item.name}</span>
                   </Link>
                 );
@@ -69,13 +69,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </nav>
 
             <div className="p-4 border-t border-white/10">
-              <div className="flex items-center gap-3 mb-4 px-2">
-                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-lg border border-primary/30 shrink-0">
+              <div className="flex items-center gap-3 mb-3 px-2">
+                <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-base border border-primary/30 shrink-0">
                   M
                 </div>
                 <div className="overflow-hidden">
-                  <div className="text-sm font-bold text-white truncate">مدير النظام</div>
-                  <div className="text-xs text-gray-400 truncate">admin@semsarbenisuef.com</div>
+                  <div className="text-[13px] font-bold text-white truncate">مدير النظام</div>
+                  <div className="text-[11px] text-gray-400 truncate">admin@semsarbenisuef.com</div>
                 </div>
               </div>
               <button
@@ -84,10 +84,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   await logout();
                   window.location.href = '/admin/login';
                 }}
-                className="flex items-center gap-3 px-4 py-2.5 w-full text-right rounded-xl text-red-400 hover:text-white hover:bg-red-500/20 transition-colors"
+                className="flex items-center gap-2.5 px-3.5 py-2.5 w-full text-right rounded-xl text-red-400 hover:text-white hover:bg-red-500/20 transition-colors"
               >
-                <FiLogOut size={20} />
-                <span className="font-bold text-sm">تسجيل الخروج</span>
+                <FiLogOut size={18} />
+                <span className="font-bold text-[15px]">تسجيل الخروج</span>
               </button>
             </div>
           </aside>
