@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { FiUpload, FiArrowRight, FiSave, FiX } from "react-icons/fi";
+import { FiUpload, FiArrowRight, FiSave, FiX, FiCheckCircle } from "react-icons/fi";
 import Link from "next/link";
+import { useToast } from "@/components/ToastProvider";
 
 export default function AddUnitPage() {
   const router = useRouter();
+  const { showToast } = useToast();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [amenities, setAmenities] = useState<any[]>([]);
@@ -95,8 +97,10 @@ export default function AddUnitPage() {
       Object.entries(formData).forEach(([key, value]) => {
         if (key === 'features') {
           const feats = value.split(/[،,]/).map(f => f.trim()).filter(Boolean);
-          feats.forEach(f => data.append("features[]", f));
-        } else {
+          if (feats.length > 0) {
+            feats.forEach(f => data.append("features[]", f));
+          }
+        } else if (value !== "" && value !== null) {
           data.append(key, value.toString());
         }
       });
@@ -118,18 +122,32 @@ export default function AddUnitPage() {
         body: data,
       });
 
+      const jsonRes = await res.json().catch(() => ({}));
+
       if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        let errMsg = errorData.message || "حدث خطأ أثناء حفظ الوحدة";
-        if (errorData.errors) {
-          const validationErrors = Object.values(errorData.errors).flat().join(" ، ");
+        let errMsg = jsonRes.message || "حدث خطأ أثناء حفظ الوحدة";
+        if (jsonRes.errors) {
+          const validationErrors = Object.values(jsonRes.errors).flat().join(" ، ");
           errMsg = `${errMsg} - ${validationErrors}`;
         }
+        showToast(errMsg, "error");
         throw new Error(errMsg);
       }
 
-      router.push("/admin/units");
-      router.refresh();
+      showToast("تم إضافة الوحدة بنجاح! جاري تحويلك لإضافة المخططات والصور...", "success");
+
+      const newUnitCode = jsonRes.data?.code || jsonRes.code || jsonRes.data?.unit_code || jsonRes.unit_code;
+      
+      // Delay navigation slightly so user can read the toast
+      setTimeout(() => {
+        if (newUnitCode) {
+          router.push(`/admin/units/edit/${newUnitCode}`);
+        } else {
+          router.push("/admin/units");
+        }
+        router.refresh();
+      }, 1500);
+      
     } catch (err: any) {
       setError(err.message);
       setLoading(false);

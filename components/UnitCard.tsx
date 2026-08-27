@@ -1,6 +1,7 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
@@ -53,6 +54,7 @@ import { extractString } from "@/lib/config";
 
 
 export default function UnitCard({ unit, index }: { unit: Unit; index: number }) {
+  const [imgError, setImgError] = useState(false);
   const isSold = extractString(unit.status) === "sold";
   const safeId = extractString(unit.unit_code || unit.id);
   const safeTitle = extractString(unit.title);
@@ -77,9 +79,10 @@ export default function UnitCard({ unit, index }: { unit: Unit; index: number })
       <div className="relative h-60 w-full overflow-hidden p-2 pb-0">
         <Link href={`/units/${safeId}`} className="block w-full h-full rounded-[1.5rem] overflow-hidden relative">
           <Image
-            src={safeImage}
+            src={imgError ? `https://placehold.co/800x600/111111/9ca3af.png?text=No+Image` : safeImage}
             alt={safeTitle}
             fill
+            onError={() => setImgError(true)}
             className={`object-cover transition-transform duration-700 group-hover:scale-110 ${isSold ? 'grayscale' : ''}`}
           />
           {/* Overlay Gradient */}

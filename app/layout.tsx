@@ -41,6 +41,9 @@ export const metadata: Metadata = {
   title: "سمسار بني سويف | Semsar Beni Suef - التسويق العقاري والتشطيبات",
   description:
     "سمسار بني سويف - وجهتك الأولى لاكتشاف أفضل العقارات وتوفير خدمات التشطيب المتكاملة داخل بني سويف. بيع، شراء، وتشطيب.",
+  icons: {
+    icon: '/samsar-beni-suef-concept-3.png',
+  },
   keywords: [
     "real estate",
     "broker",

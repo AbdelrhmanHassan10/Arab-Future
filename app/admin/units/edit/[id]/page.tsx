@@ -6,10 +6,12 @@ import { FiUpload, FiArrowRight, FiSave, FiX } from "react-icons/fi";
 import Link from "next/link";
 import { extractString, getImageUrl } from "@/lib/config";
 import { useConfirm } from "@/components/ConfirmProvider";
+import { useToast } from "@/components/ToastProvider";
 
 export default function EditUnitPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const { confirm } = useConfirm();
+  const { showToast } = useToast();
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -41,14 +43,14 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
 
   const [mainImage, setMainImage] = useState<File | null>(null);
   const [existingImage, setExistingImage] = useState<string>("");
-  
+
   // Nested relation states
   const [selectedAmenities, setSelectedAmenities] = useState<number[]>([]);
   const [galleryImagesList, setGalleryImagesList] = useState<any[]>([]);
   const [floorPlans, setFloorPlans] = useState<any[]>([]);
   const [nearbyPlaces, setNearbyPlaces] = useState<any[]>([]);
   const [attachments, setAttachments] = useState<any[]>([]);
-  
+
   // UI states for new additions
   const [newImages, setNewImages] = useState<File[]>([]);
   const [newFloorPlan, setNewFloorPlan] = useState({ title: '', description: '', image: null as File | null });
@@ -60,9 +62,9 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
       try {
         const res = await fetch(`/api/admin/units/${params.id}`);
         let data;
-        
+
         if (!res.ok) {
-          if (res.status === 404) {
+          if (res.status === 404 || res.status === 500) {
             // Fallback: try finding it in the list
             const listRes = await fetch(`/api/admin/units`);
             if (listRes.ok) {
@@ -89,7 +91,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
         }
 
         const u = data.data || data;
-        setUnitRouteKey(u.code || u.unit_code || u.id);
+        setUnitRouteKey(u.code || u.unit_code || u.slug || String(u.id));
 
         setFormData({
           title: extractString(u.title),
@@ -112,7 +114,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
           video_description: u.video_description || "",
           featured: u.featured?.toString() || "0"
         });
-        
+
         if (u.main_image) {
           setExistingImage(getImageUrl(u.main_image));
         }
@@ -131,7 +133,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
       }
     };
     fetchUnit();
-    
+
     fetch('/api/admin/amenities')
       .then(r => { if (r.ok) return r.json(); throw new Error("Failed"); })
       .then(data => setAmenities(Array.isArray(data.data) ? data.data : (Array.isArray(data) ? data : [])))
@@ -151,9 +153,9 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
     const featuresStr = Array.isArray(formData.features) ? (formData.features as string[]).join("، ") : (typeof formData.features === 'string' ? formData.features : "");
     let current = featuresStr.split(/[،,]/).map(f => f.trim()).filter(Boolean);
     if (current.includes(feat)) {
-       current = current.filter(f => f !== feat);
+      current = current.filter(f => f !== feat);
     } else {
-       current.push(feat);
+      current.push(feat);
     }
     setFormData({ ...formData, features: current.join('، ') });
   };
@@ -173,7 +175,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
   };
 
   // ----- Nested Relations Handlers -----
-  
+
   const refreshUnitData = async () => {
     try {
       const res = await fetch(`/api/admin/units/${unitRouteKey}`);
@@ -195,20 +197,30 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
     if (newImages.length === 0) return;
     const data = new FormData();
     newImages.forEach(img => data.append("images[]", img));
-    await fetch(`/api/admin/units/${unitRouteKey}/images`, { method: "POST", body: data });
+    try {
+      const res = await fetch(`/api/admin/units/${unitRouteKey}/images`, { method: "POST", body: data });
+      if (!res.ok) throw new Error("فشل رفع الصور");
+      showToast("تم رفع الصور بنجاح", "success");
+    } catch (e: any) {
+      showToast(e.message, "error");
+    }
     setNewImages([]);
     await refreshUnitData();
   };
 
   const deleteGalleryImage = async (id: number) => {
-    if(!(await confirm("تأكيد الحذف؟"))) return;
+    if (!(await confirm("تأكيد الحذف؟"))) return;
     await fetch(`/api/admin/units/${unitRouteKey}/images/${id}`, { method: "DELETE" });
+    showToast("تم حذف الصورة بنجاح", "success");
     await refreshUnitData();
   };
 
   const addFloorPlan = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newFloorPlan.title || !newFloorPlan.image) return alert("الاسم والصورة مطلوبان");
+    if (!newFloorPlan.title || !newFloorPlan.image) {
+      showToast("الاسم والصورة مطلوبان", "error");
+      return;
+    }
     const data = new FormData();
     data.append("title", newFloorPlan.title);
     data.append("description", newFloorPlan.description);
@@ -216,17 +228,22 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
     await fetch(`/api/admin/units/${unitRouteKey}/floor-plans`, { method: "POST", body: data });
     setNewFloorPlan({ title: '', description: '', image: null });
     await refreshUnitData();
+    showToast("تم إضافة المخطط بنجاح", "success");
   };
 
   const deleteFloorPlan = async (id: number) => {
-    if(!(await confirm("تأكيد الحذف؟"))) return;
+    if (!(await confirm("تأكيد الحذف؟"))) return;
     await fetch(`/api/admin/units/${unitRouteKey}/floor-plans/${id}`, { method: "DELETE" });
     await refreshUnitData();
+    showToast("تم الحذف بنجاح", "success");
   };
 
   const addNearbyPlace = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newNearbyPlace.title || !newNearbyPlace.distance_text) return alert("الاسم والمسافة مطلوبان");
+    if (!newNearbyPlace.title || !newNearbyPlace.distance_text) {
+      showToast("الاسم والمسافة مطلوبان", "error");
+      return;
+    }
     await fetch(`/api/admin/units/${unitRouteKey}/nearby-places`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -234,29 +251,36 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
     });
     setNewNearbyPlace({ title: '', distance_text: '' });
     await refreshUnitData();
+    showToast("تم إضافة المكان بنجاح", "success");
   };
 
   const deleteNearbyPlace = async (id: number) => {
-    if(!(await confirm("تأكيد الحذف؟"))) return;
+    if (!(await confirm("تأكيد الحذف؟"))) return;
     await fetch(`/api/admin/units/${unitRouteKey}/nearby-places/${id}`, { method: "DELETE" });
     await refreshUnitData();
+    showToast("تم الحذف بنجاح", "success");
   };
 
   const addAttachment = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newAttachment.title) return alert("اسم المرفق مطلوب");
+    if (!newAttachment.title) {
+      showToast("اسم المرفق مطلوب", "error");
+      return;
+    }
     const data = new FormData();
     data.append("title", newAttachment.title);
-    if(newAttachment.image) data.append("image", newAttachment.image);
+    if (newAttachment.image) data.append("image", newAttachment.image);
     await fetch(`/api/admin/units/${unitRouteKey}/attachments`, { method: "POST", body: data });
     setNewAttachment({ title: '', image: null });
     await refreshUnitData();
+    showToast("تمت إضافة المرفق بنجاح", "success");
   };
 
   const deleteAttachment = async (id: number) => {
-    if(!(await confirm("تأكيد الحذف؟"))) return;
+    if (!(await confirm("تأكيد الحذف؟"))) return;
     await fetch(`/api/admin/units/${unitRouteKey}/attachments/${id}`, { method: "DELETE" });
     await refreshUnitData();
+    showToast("تم حذف المرفق بنجاح", "success");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -270,11 +294,18 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
         if (key === 'features') {
           const featsStr = Array.isArray(value) ? (value as string[]).join("، ") : (typeof value === 'string' ? value : "");
           const feats = featsStr.split(/[،,]/).map(f => f.trim()).filter(Boolean);
-          feats.forEach(f => data.append("features[]", f));
-        } else {
+          if (feats.length > 0) {
+            feats.forEach(f => data.append("features[]", f));
+          }
+        } else if (value !== "" && value !== null) {
           data.append(key, value.toString());
         }
       });
+      
+      selectedAmenities.forEach(id => {
+        data.append("amenity_ids[]", id.toString());
+      });
+
       if (mainImage) {
         data.append("main_image", mainImage);
         data.append("image", mainImage);
@@ -286,9 +317,16 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
         body: data,
       });
 
+      const jsonRes = await res.json().catch(() => ({}));
+
       if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.message || "حدث خطأ أثناء تعديل الوحدة");
+        let errMsg = jsonRes.message || "حدث خطأ أثناء تعديل الوحدة";
+        if (jsonRes.errors) {
+          const validationErrors = Object.values(jsonRes.errors).flat().join(" ، ");
+          errMsg = `${errMsg} - ${validationErrors}`;
+        }
+        showToast(errMsg, "error");
+        throw new Error(errMsg);
       }
 
       // Sync Amenities
@@ -298,8 +336,12 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
         body: JSON.stringify({ amenity_ids: selectedAmenities })
       });
 
-      router.push("/admin/units");
-      router.refresh();
+      showToast("تم تعديل الوحدة بنجاح!", "success");
+
+      setTimeout(() => {
+        router.push("/admin/units");
+        router.refresh();
+      }, 1500);
     } catch (err: any) {
       setError(err.message);
       setLoading(false);
@@ -312,7 +354,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
 
   return (
     <div className="space-y-6">
-      
+
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-4">
           <Link href="/admin/units" className="p-2 bg-white rounded-xl shadow-sm hover:bg-gray-50 transition-colors">
@@ -328,12 +370,12 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
       {error && (
         <div className="bg-red-50 text-red-600 p-4 rounded-xl font-bold flex items-center justify-between">
           <span>{error}</span>
-          <button onClick={() => setError(null)}><FiX size={20}/></button>
+          <button onClick={() => setError(null)}><FiX size={20} /></button>
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-gray-100 space-y-8">
-        
+
         {/* Basic Info */}
         <div>
           <h3 className="text-lg font-bold text-navy-dark mb-4 border-b border-gray-100 pb-2">المعلومات الأساسية</h3>
@@ -342,7 +384,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
               <label className="block text-sm font-bold text-gray-700 mb-2">عنوان الوحدة <span className="text-red-500">*</span></label>
               <input required type="text" name="title" value={formData.title} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none text-navy-dark" />
             </div>
-            
+
             <div>
               <label className="block text-sm font-bold text-gray-700 mb-2">النوع <span className="text-red-500">*</span></label>
               <select name="type" value={formData.type} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none text-navy-dark">
@@ -387,7 +429,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
               <label className="block text-sm font-bold text-gray-700 mb-2">السعر (ج.م) <span className="text-red-500">*</span></label>
               <input required type="number" name="price" value={formData.price} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none text-navy-dark" />
             </div>
-            
+
             <div>
               <label className="block text-sm font-bold text-gray-700 mb-2">نظام الدفع <span className="text-red-500">*</span></label>
               <select name="payment_system" value={formData.payment_system} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none text-navy-dark">
@@ -459,16 +501,16 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
               <label className="block text-sm font-bold text-gray-700 mb-2">الوصف الكامل</label>
               <textarea name="description" value={formData.description} onChange={handleChange} rows={5} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none resize-none text-navy-dark"></textarea>
             </div>
-            
+
             <div className="md:col-span-2">
               <label className="block text-sm font-bold text-gray-700 mb-2">المرافق والخدمات الأساسية</label>
               <div className="flex flex-wrap gap-2 mb-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
                 {amenities.map((amenity) => {
                   const isSelected = selectedAmenities.includes(amenity.id);
                   return (
-                    <button 
+                    <button
                       key={amenity.id}
-                      type="button" 
+                      type="button"
                       onClick={() => toggleAmenity(amenity.id)}
                       className={`px-3 py-1.5 text-xs font-bold rounded-full border transition-all ${isSelected ? 'bg-primary text-navy-deeper border-primary shadow-sm' : 'bg-white text-gray-500 border-gray-200 hover:bg-gray-50 hover:border-gray-300'}`}
                     >
@@ -495,7 +537,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
 
             <div>
               <label className="block text-sm font-bold text-gray-700 mb-2">الصورة الرئيسية (اتركها فارغة لعدم التغيير)</label>
-              
+
               {existingImage && !mainImage && (
                 <div className="mb-4">
                   <p className="text-sm text-gray-500 mb-2">الصورة الحالية:</p>
@@ -527,7 +569,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
         {/* Gallery Images */}
         <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
           <h3 className="text-lg font-bold text-navy-dark mb-4 border-b border-gray-100 pb-2">معرض الصور الإضافية</h3>
-          
+
           <div className="flex gap-4 overflow-x-auto pb-4 mb-4">
             {galleryImagesList.map((img: any) => (
               <div key={img.id} className="relative group shrink-0 w-32 h-32 rounded-xl overflow-hidden border">
@@ -536,7 +578,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
               </div>
             ))}
           </div>
-          
+
           <div className="flex items-end gap-4">
             <div className="flex-1">
               <input type="file" multiple accept="image/*" onChange={(e) => e.target.files && setNewImages(Array.from(e.target.files))} className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20" />
@@ -548,7 +590,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
         {/* Floor Plans */}
         <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
           <h3 className="text-lg font-bold text-navy-dark mb-4 border-b border-gray-100 pb-2">المخططات الهندسية</h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             {floorPlans.map((plan: any) => (
               <div key={plan.id} className="flex gap-4 bg-gray-50 p-4 rounded-xl items-center relative">
@@ -565,11 +607,11 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
           <form onSubmit={addFloorPlan} className="bg-gray-50 p-4 rounded-xl flex flex-wrap gap-4 items-end">
             <div className="flex-1 min-w-[200px]">
               <label className="block text-sm font-bold text-gray-700 mb-1">الاسم (مثال: توزيع الغرف)</label>
-              <input type="text" required value={newFloorPlan.title} onChange={e => setNewFloorPlan({...newFloorPlan, title: e.target.value})} className="w-full border rounded-lg px-3 py-2 text-navy-dark" />
+              <input type="text" required value={newFloorPlan.title} onChange={e => setNewFloorPlan({ ...newFloorPlan, title: e.target.value })} className="w-full border rounded-lg px-3 py-2 text-navy-dark" />
             </div>
             <div className="flex-1 min-w-[200px]">
               <label className="block text-sm font-bold text-gray-700 mb-1">صورة المخطط</label>
-              <input type="file" required accept="image/*" onChange={e => e.target.files && setNewFloorPlan({...newFloorPlan, image: e.target.files[0]})} className="w-full border rounded-lg px-3 py-1.5 bg-white" />
+              <input type="file" required accept="image/*" onChange={e => e.target.files && setNewFloorPlan({ ...newFloorPlan, image: e.target.files[0] })} className="w-full border rounded-lg px-3 py-1.5 bg-white" />
             </div>
             <button type="submit" className="bg-primary text-navy-dark px-6 py-2 rounded-lg font-bold">إضافة مخطط</button>
           </form>
@@ -578,7 +620,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
         {/* Nearby Places */}
         <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
           <h3 className="text-lg font-bold text-navy-dark mb-4 border-b border-gray-100 pb-2">الأماكن القريبة والموقع</h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             {nearbyPlaces.map((place: any) => (
               <div key={place.id} className="bg-gray-50 p-4 rounded-xl relative">
@@ -592,11 +634,11 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
           <form onSubmit={addNearbyPlace} className="bg-gray-50 p-4 rounded-xl flex flex-wrap gap-4 items-end">
             <div className="flex-1 min-w-[200px]">
               <label className="block text-sm font-bold text-gray-700 mb-1">المكان (مثال: الطريق الدائري)</label>
-              <input type="text" required value={newNearbyPlace.title} onChange={e => setNewNearbyPlace({...newNearbyPlace, title: e.target.value})} className="w-full border rounded-lg px-3 py-2 text-navy-dark" />
+              <input type="text" required value={newNearbyPlace.title} onChange={e => setNewNearbyPlace({ ...newNearbyPlace, title: e.target.value })} className="w-full border rounded-lg px-3 py-2 text-navy-dark" />
             </div>
             <div className="flex-1 min-w-[150px]">
               <label className="block text-sm font-bold text-gray-700 mb-1">المسافة (مثال: 10 دقائق)</label>
-              <input type="text" required value={newNearbyPlace.distance_text} onChange={e => setNewNearbyPlace({...newNearbyPlace, distance_text: e.target.value})} className="w-full border rounded-lg px-3 py-2 text-navy-dark" />
+              <input type="text" required value={newNearbyPlace.distance_text} onChange={e => setNewNearbyPlace({ ...newNearbyPlace, distance_text: e.target.value })} className="w-full border rounded-lg px-3 py-2 text-navy-dark" />
             </div>
             <button type="submit" className="bg-primary text-navy-dark px-6 py-2 rounded-lg font-bold">إضافة مكان</button>
           </form>

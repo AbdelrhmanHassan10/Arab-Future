@@ -1,12 +1,15 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://simsar.acwad.tech/public/api";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   try {
-    const res = await fetch(`${API_URL}/units?${searchParams.toString()}`);
+    const res = await fetch(`${API_URL}/units?${searchParams.toString()}`, { cache: 'no-store' });
     const data = await res.json();
     return NextResponse.json(data.data || data); // Laravel usually wraps in .data
   } catch (error) {

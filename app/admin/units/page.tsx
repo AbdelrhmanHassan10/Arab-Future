@@ -47,11 +47,15 @@ export default function AdminUnitsPage() {
 
     try {
       const res = await fetch(`/api/admin/units/${unit_code}`, { method: 'DELETE' });
-      if (!res.ok) throw new Error("Failed to delete unit");
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`[${res.status}] ${errText}`);
+      }
       showToast("تم الحذف بنجاح", "success");
       fetchUnits();
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      alert("رسالة الخطأ من الباك إند:\n" + error.message);
       showToast("حدث خطأ أثناء الحذف", "error");
     }
   };
@@ -188,11 +192,11 @@ export default function AdminUnitsPage() {
                     </td>
                     <td className="px-6 py-4 text-left">
                       <div className="flex items-center justify-end gap-2">
-                        <Link href={`/admin/units/edit/${safeId}`} className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors inline-block" title="تعديل">
+                        <Link href={`/admin/units/edit/${unit.code || unit.unit_code || unit.id}`} className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors inline-block" title="تعديل">
                           <FiEdit2 size={16} />
                         </Link>
                         <button
-                          onClick={() => handleDelete(String(safeId))}
+                          onClick={() => handleDelete(safeId)}
                           className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                           title="حذف"
                         >

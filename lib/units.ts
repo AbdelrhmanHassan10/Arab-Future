@@ -5,6 +5,8 @@ export type PaymentMethod = "cash" | "installment" | "both";
 
 export interface Unit {
   id?: number;
+  code?: string;
+  slug?: string;
   unit_code: string;
   title: string;
   type: string;

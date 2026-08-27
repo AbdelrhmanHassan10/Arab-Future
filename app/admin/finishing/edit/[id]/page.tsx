@@ -188,6 +188,10 @@ export default function EditFinishingProjectPage({ params }: { params: { id: str
         body,
       });
 
+      const rawText = await res.text();
+      console.log("Renovation Project Edit Response:", rawText);
+      alert(`Renovation Update Status: ${res.status}\nResponse: ${rawText.substring(0, 500)}`);
+
       if (!res.ok) throw new Error("حدث خطأ أثناء تعديل البيانات الأساسية");
       showToast("تم تحديث البيانات الأساسية بنجاح", "success");
       fetchProject();
@@ -211,6 +215,10 @@ export default function EditFinishingProjectPage({ params }: { params: { id: str
         method: "POST",
         body: data
       });
+      const rawText = await res.text();
+      console.log("Renovation Gallery Upload Response:", rawText);
+      alert(`Gallery Upload Status: ${res.status}\nResponse: ${rawText.substring(0, 500)}`);
+      
       if (!res.ok) throw new Error("Failed to upload images");
       showToast("تم رفع الصور الإضافية", "success");
       setGalleryImagesToUpload([]);

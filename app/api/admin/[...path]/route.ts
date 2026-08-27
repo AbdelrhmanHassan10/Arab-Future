@@ -30,7 +30,9 @@ async function proxyRequest(request: Request, { params }: { params: { path: stri
 
   if (request.method !== 'GET' && request.method !== 'HEAD') {
     if (contentType?.includes("multipart/form-data")) {
-      options.body = await request.arrayBuffer();
+      // Let fetch auto-generate the correct multipart boundary
+      delete (options.headers as Record<string, string>)['Content-Type'];
+      options.body = await request.formData();
     } else {
       const textBody = await request.text();
       if (textBody) {

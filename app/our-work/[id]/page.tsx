@@ -6,16 +6,8 @@ import ImageGallery from "@/components/ImageGallery";
 import { fetchApi } from "@/lib/api";
 import { getImageUrl } from "@/lib/config";
 
-export async function generateStaticParams() {
-  try {
-    const data = await fetchApi("/renovation-projects");
-    const projects = data.data || data || [];
-    // Only pre-rendering is optional in dynamic routing
-    return [];
-  } catch (error) {
-    return [];
-  }
-}
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function ProjectDetailsPage({ params }: { params: { id: string } }) {
   let project: any = null;
@@ -25,6 +17,21 @@ export default async function ProjectDetailsPage({ params }: { params: { id: str
     project = data.data || data;
   } catch (error) {
     console.error(`Failed to fetch renovation project details for ID ${params.id}:`, error);
+  }
+
+  // Fallback: If direct fetch fails (e.g. because params.id is a code like fp-02 but API expects ID)
+  if (!project) {
+    try {
+      const listData = await fetchApi("/renovation-projects", { cache: 'no-store' });
+      const projectsList = listData.data || listData || [];
+      project = projectsList.find((p: any) => 
+        String(p.id) === String(params.id) || 
+        String(p.code) === String(params.id) || 
+        String(p.slug) === String(params.id)
+      );
+    } catch (e) {
+      console.error("Fallback fetch failed", e);
+    }
   }
 
   // No local fallback — API is the single source of truth
@@ -46,25 +53,34 @@ export default async function ProjectDetailsPage({ params }: { params: { id: str
     notFound();
   }
 
-  // Fallback values for backend projects that are missing extra fields
-  project.area = project.area || 150;
-  project.duration = project.duration || "3 أشهر";
+  // Map backend fields to frontend variables
+  project.area = project.area_sqm || project.area || 0;
+  project.duration = project.execution_duration || project.duration || "غير محدد";
   let translatedType = project.property_type || project.type;
   if (translatedType === "apartment") translatedType = "شقة";
   else if (translatedType === "villa") translatedType = "فيلا";
   else if (translatedType === "commercial_shop" || translatedType === "shop") translatedType = "محل تجاري";
   project.type = translatedType || "وحدة سكنية";
-  project.description = project.description || "تفاصيل المشروع غير متوفرة حالياً، تم تصميم وتنفيذ هذا المشروع بأعلى معايير الجودة والاحترافية من قبل فريق سمسار بني سويف لضمان راحة العميل.";
+  project.description = project.description || "لا توجد تفاصيل إضافية لهذا المشروع حالياً.";
 
   // Ensure arrays exist for rendering
-  project.images = project.images_urls || project.images || (project.main_image_url ? [project.main_image_url] : (project.image ? [project.image] : []));
+  let rawImages = project.images_urls || project.images || (project.main_image_url ? [project.main_image_url] : (project.image ? [project.image] : []));
+  if (!Array.isArray(rawImages)) rawImages = [];
+  project.images = rawImages.map((img: any) => typeof img === 'string' ? img : (img.url || img.image_url || img.file_path || ""));
   
-  let materials = Array.isArray(project.materialsUsed) ? project.materialsUsed : (project.materials_used ? (typeof project.materials_used === 'string' ? JSON.parse(project.materials_used) : project.materials_used) : []);
-  if (!materials || materials.length === 0) materials = ["دهانات جوتن", "تأسيس سويدي", "تشطيبات فاخرة"];
+  // Filter out the main image from the gallery
+  const galleryImages = project.images.filter((img: string) => img && img !== project.main_image_url && img !== project.main_image);
+  
+  let materials = Array.isArray(project.materials_used) ? project.materials_used : (Array.isArray(project.materialsUsed) ? project.materialsUsed : []);
+  if (typeof project.materials_used === 'string' && project.materials_used.trim()) {
+    try { materials = JSON.parse(project.materials_used); } catch { materials = project.materials_used.split(/[،,]/).map((s: string) => s.trim()); }
+  }
   project.materialsUsed = materials;
 
-  let services = Array.isArray(project.servicesProvided) ? project.servicesProvided : (project.scope_of_work ? (typeof project.scope_of_work === 'string' ? JSON.parse(project.scope_of_work) : project.scope_of_work) : []);
-  if (!services || services.length === 0) services = ["تصميم داخلي", "إشراف هندسي", "تنفيذ متكامل"];
+  let services = Array.isArray(project.scope_of_work) ? project.scope_of_work : (Array.isArray(project.servicesProvided) ? project.servicesProvided : []);
+  if (typeof project.scope_of_work === 'string' && project.scope_of_work.trim()) {
+    try { services = JSON.parse(project.scope_of_work); } catch { services = project.scope_of_work.split(/[،,]/).map((s: string) => s.trim()); }
+  }
   project.servicesProvided = services;
 
 
@@ -92,7 +108,7 @@ export default async function ProjectDetailsPage({ params }: { params: { id: str
           
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="bg-primary/10 border border-primary/20 text-primary px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase backdrop-blur-md shadow-[0_0_15px_rgba(191,154,95,0.2)]">
-              {project.style_label || project.style}
+              {project.style_label || project.style || "تشطيب متكامل"}
             </span>
             <span className="bg-white/5 border border-white/10 text-white/90 px-4 py-1.5 rounded-full text-xs font-bold backdrop-blur-md">
               {project.type}
@@ -100,6 +116,11 @@ export default async function ProjectDetailsPage({ params }: { params: { id: str
             <span className="bg-white/5 border border-white/10 text-white/70 px-4 py-1.5 rounded-full text-xs font-bold backdrop-blur-md">
               {project.area} م²
             </span>
+            {project.status && (
+              <span className={`px-4 py-1.5 rounded-full text-xs font-bold backdrop-blur-md border ${project.status === 'completed' || project.status === 'مكتمل' ? 'bg-green-500/10 border-green-500/20 text-green-400' : 'bg-orange-500/10 border-orange-500/20 text-orange-400'}`}>
+                {project.status === 'completed' ? 'مكتمل' : (project.status === 'in_progress' ? 'قيد التنفيذ' : project.status)}
+              </span>
+            )}
           </div>
           
           <h1 className="text-[clamp(2.5rem,6vw,5rem)] font-black text-white mb-6 leading-tight drop-shadow-2xl">
@@ -111,7 +132,7 @@ export default async function ProjectDetailsPage({ params }: { params: { id: str
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
-            <span className="text-xl md:text-2xl font-light">{project.location}</span>
+            <span className="text-xl md:text-2xl font-light">{project.location || "غير محدد"}</span>
           </div>
         </div>
       </div>
@@ -163,45 +184,38 @@ export default async function ProjectDetailsPage({ params }: { params: { id: str
               </p>
             </div>
 
-            {/* Project Challenges (New Section to expand content) */}
-            <div className="bg-[#1a1a1a] border border-white/5 rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden shadow-[0_0_30px_rgba(191,154,95,0.03)]">
-              <div className="absolute top-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-[80px]" />
-              <h3 className="text-3xl font-bold text-white mb-8 flex items-center gap-4 relative z-10">
-                <span className="w-3 h-3 rounded-full bg-primary shadow-[0_0_10px_rgba(191,154,95,0.8)]" />
-                التحديات والحلول
-              </h3>
-              <div className="space-y-6 relative z-10">
-                <div className="flex flex-col md:flex-row gap-6 bg-[#111111] p-6 rounded-[1.5rem] border border-white/5">
-                  <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20">
-                    <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="text-white font-bold text-xl mb-2">استغلال المساحات</h4>
-                    <p className="text-white/60 leading-relaxed text-sm md:text-base">
-                      كان التحدي الأكبر هو تصميم مساحات مفتوحة وواسعة مع الحفاظ على خصوصية الغرف. استخدمنا قواطع ديكورية حديثة ومرايا موزعة بذكاء لإعطاء إحساس بالاتساع.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex flex-col md:flex-row gap-6 bg-[#111111] p-6 rounded-[1.5rem] border border-white/5">
-                  <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20">
-                    <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                    </svg>
-                  </div>
-                  <div> 
-                    <h4 className="text-white font-bold text-xl mb-2">توزيع الإضاءة</h4>
-                    <p className="text-white/60 leading-relaxed text-sm md:text-base">
-                      اعتمدنا على نظام إضاءة ذكي (Smart Lighting) يتيح للعميل التحكم الكامل في أجواء المنزل بما يتناسب مع نظام {project.style} ويعكس جماليات التصميم.
-                    </p>
-                  </div>
+            {/* Project Challenges */}
+            {project.challenges && project.challenges.length > 0 && (
+              <div className="bg-[#1a1a1a] border border-white/5 rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden shadow-[0_0_30px_rgba(191,154,95,0.03)]">
+                <div className="absolute top-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-[80px]" />
+                <h3 className="text-3xl font-bold text-white mb-8 flex items-center gap-4 relative z-10">
+                  <span className="w-3 h-3 rounded-full bg-primary shadow-[0_0_10px_rgba(191,154,95,0.8)]" />
+                  التحديات والحلول
+                </h3>
+                <div className="space-y-6 relative z-10">
+                  {project.challenges.map((ch: any, idx: number) => (
+                    <div key={ch.id || idx} className="flex flex-col md:flex-row gap-6 bg-[#111111] p-6 rounded-[1.5rem] border border-white/5">
+                      <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20">
+                        <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={idx % 2 === 0 ? "M13 10V3L4 14h7v7l9-11h-7z" : "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"} />
+                        </svg>
+                      </div>
+                      <div>
+                        <h4 className="text-white font-bold text-xl mb-2">{ch.title}</h4>
+                        <p className="text-white/60 leading-relaxed text-sm md:text-base">
+                          {ch.description}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Gallery (Using Client Component) */}
-            <ImageGallery images={project.images.slice(1)} title={project.title} />
+            {galleryImages.length > 0 && (
+              <ImageGallery images={galleryImages} title={project.title} />
+            )}
 
             {/* Before / After */}
             {project.beforeAfter && project.beforeAfter.length > 0 && (

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 // Removed static finishing packages
-import { FiCheckCircle, FiTool, FiLayout, FiHome, FiImage } from "react-icons/fi";
+import { FiCheckCircle, FiTool, FiLayout, FiHome, FiImage, FiArrowLeft } from "react-icons/fi";
 import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa";
 import { useState, useEffect } from "react";
@@ -24,7 +24,8 @@ export default function FinishingPage() {
     fetch(`/api/renovation-projects?${params.toString()}`)
       .then((res) => res.json())
       .then((data) => {
-        setProjects(data.data || data || []);
+        const res = data.data || data;
+        setProjects(Array.isArray(res) ? res : []);
       })
       .catch((err) => {
         console.error("Failed to fetch renovation projects", err);
@@ -34,10 +35,12 @@ export default function FinishingPage() {
     fetch(`/api/renovation-packages`)
       .then((res) => res.json())
       .then((data) => {
-        setPackages(data.data || data || []);
+        const res = Array.isArray(data.data || data) ? (data.data || data) : [];
+        setPackages(res);
       })
       .catch((err) => {
         console.error("Failed to fetch renovation packages", err);
+        setPackages([]);
       });
   }, []);
 
@@ -147,32 +150,32 @@ export default function FinishingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center max-w-6xl mx-auto">
-            {packages.map((pkg, idx) => (
+            {packages.length > 0 ? packages.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0)).map((pkg, idx) => (
               <motion.div
                 key={pkg.id || idx}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.2 }}
-                className={`rounded-3xl p-8 relative flex flex-col h-full bg-white border border-gray-100 ${idx === 1 ? 'shadow-2xl md:scale-110 z-10 border-primary/20' : 'shadow-soft opacity-90'}`}
+                className={`rounded-3xl p-8 relative flex flex-col h-full bg-white border border-gray-100 ${pkg.is_recommended ? 'shadow-2xl md:scale-110 z-10 border-primary/20' : 'shadow-soft opacity-90'}`}
               >
-                {idx === 1 && (
+                {pkg.is_recommended && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-black font-bold px-4 py-1 rounded-full text-sm shadow-md whitespace-nowrap border border-white/20">
                     الأكثر طلباً
                   </div>
                 )}
                 
-                <h3 className="text-2xl font-bold text-navy-deeper mb-2 text-center">{pkg.title || pkg.name}</h3>
+                <h3 className="text-2xl font-bold text-navy-deeper mb-2 text-center">{pkg.title}</h3>
                 <p className="text-gray-500 text-sm mb-6 text-center">{pkg.description}</p>
                 
                 <div className="text-center mb-8">
                   <span className="text-sm text-gray-500 font-medium">يبدأ من</span>
-                  <div className="text-4xl font-black text-navy-deeper my-1 font-body">{pkg.price_per_sqm || pkg.pricePerMeter || '0'}</div>
+                  <div className="text-4xl font-black text-navy-deeper my-1 font-body">{pkg.price?.toLocaleString("ar-EG") || '0'}</div>
                   <span className="text-sm text-gray-500 font-medium">ج.م / للمتر المربع</span>
                 </div>
 
                 <div className="space-y-4 mb-8 flex-1">
-                  {(pkg.features ? (typeof pkg.features === 'string' ? JSON.parse(pkg.features) : pkg.features) : []).map((feature: string, fIdx: number) => (
+                  {(Array.isArray(pkg.notes) ? pkg.notes : (typeof pkg.notes === 'string' ? JSON.parse(pkg.notes || '[]') : [])).map((feature: string, fIdx: number) => (
                     <div className="flex items-start gap-3" key={fIdx}>
                       <FiCheckCircle className="text-primary mt-1 shrink-0" size={18} />
                       <span className="text-gray-600 text-sm font-medium leading-relaxed">{feature}</span>
@@ -181,16 +184,18 @@ export default function FinishingPage() {
                 </div>
 
                 <a
-                  href={`https://wa.me/201008450553?text=مرحباً، أريد الاستفسار عن ${pkg.title || pkg.name} للتشطيب.`}
+                  href={`https://wa.me/201008450553?text=مرحباً، أريد الاستفسار عن باقة التشطيب: ${pkg.title}.`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`w-full py-4 rounded-xl font-bold text-center transition-all duration-300 flex items-center justify-center gap-2 ${idx === 1 ? 'bg-primary text-black hover:bg-navy-deeper hover:text-white shadow-md' : 'bg-off-white text-navy-dark hover:bg-gray-200 border border-gray-100'}`}
+                  className={`w-full py-4 rounded-xl font-bold text-center transition-all duration-300 flex items-center justify-center gap-2 ${pkg.is_recommended ? 'bg-primary text-black hover:bg-navy-deeper hover:text-white shadow-md' : 'bg-off-white text-navy-dark hover:bg-gray-200 border border-gray-100'}`}
                 >
                   <FaWhatsapp size={20} />
                   <span>طلب معاينة</span>
                 </a>
               </motion.div>
-            ))}
+            )) : (
+              <div className="col-span-3 text-center py-16 text-gray-400">لا توجد باقات تشطيب حالياً.</div>
+            )}
           </div>
         </div>
       </div>
@@ -222,54 +227,55 @@ export default function FinishingPage() {
             </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, idx) => (
               <motion.div
                 key={project.id || idx}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.2 }}
-                className="group rounded-3xl overflow-hidden bg-[#111111] border border-white/5 shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:border-primary/30 transition-all duration-500"
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="group rounded-[2rem] overflow-hidden bg-[#111111] border border-white/5 shadow-2xl flex flex-col h-full hover:border-primary/30 transition-all duration-500 hover:-translate-y-2"
               >
-                <div className="relative h-[350px] overflow-hidden">
-                  <img src={project.main_image_url || getImageUrl(project.main_image || project.image, idx)} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="relative h-72 overflow-hidden">
+                  <img src={project.main_image_url || getImageUrl(project.main_image || project.image, idx)} alt={project.title} className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-transparent opacity-80" />
-                  <div className="absolute top-4 right-4 bg-[#111111]/80 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold text-primary border border-white/5">
-                    {project.style_label || project.style}
+                  
+                  <div className="absolute top-5 right-5 bg-black/60 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold text-white border border-white/10 shadow-lg">
+                    {project.style_label || (project.style === "modern" ? "عصري" : project.style === "neo_classic" ? "نيو كلاسيك" : project.style)}
                   </div>
-                  <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md text-white w-10 h-10 rounded-full flex items-center justify-center border border-white/10">
-                    <FiImage />
-                    <span className="absolute -top-1 -right-1 bg-primary text-black w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold">
-                      {project.images?.length || 0}
-                    </span>
+                  
+                  {/* View details overlay on hover */}
+                  <div className="absolute inset-0 bg-primary/20 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                    <Link href={`/our-work/${project.code || project.renovation_code || project.id}`} className="bg-[#090909] text-white px-6 py-3 rounded-full font-bold flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                      التفاصيل
+                      <FiArrowLeft className="w-4 h-4" />
+                    </Link>
                   </div>
                 </div>
-                <div className="p-8 relative">
+                
+                <div className="p-8 flex flex-col flex-grow relative z-10 bg-[#111111]">
                   <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-primary transition-colors">{project.title}</h3>
-                  <p className="text-white/50 mb-8 line-clamp-2 leading-relaxed">{project.description}</p>
-                  
-                  <div className="flex flex-wrap gap-2 mb-8">
-                    {project.scope_of_work?.map((service: string, sIdx: number) => (
-                      <span key={sIdx} className="bg-white/5 border border-white/10 px-3 py-1.5 rounded-full text-xs text-white/70 font-medium">
-                        {service}
-                      </span>
-                    )) || project.servicesProvided?.map((service: string, sIdx: number) => (
-                      <span key={sIdx} className="bg-white/5 border border-white/10 px-3 py-1.5 rounded-full text-xs text-white/70 font-medium">
-                        {service}
-                      </span>
-                    ))}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <span className="text-xs text-gray-400 bg-white/5 px-3 py-1 rounded-full">{project.property_type === "apartment" ? "شقة" : project.property_type === "villa" ? "فيلا" : project.property_type === "commercial_shop" ? "محل تجاري" : project.property_type || "وحدة سكنية"}</span>
+                    <span className="text-xs text-gray-400 bg-white/5 px-3 py-1 rounded-full">{project.area_sqm || 150} م²</span>
                   </div>
-
-                  <Link href={`/our-work/${project.id || project.code || ''}`} className="inline-flex items-center gap-2 text-primary font-bold hover:text-white transition-colors group/link">
-                    <span>عرض التفاصيل والصور</span>
-                    <svg className="w-5 h-5 rotate-180 group-hover/link:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                    </svg>
-                  </Link>
+                  <p className="text-gray-400 text-sm mb-6 line-clamp-2 leading-relaxed">{project.description || "مشروع تشطيب بأعلى معايير الجودة والتصميم العصري."}</p>
+                  
+                  <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
+                    <Link href={`/our-work/${project.code || project.renovation_code || project.id}`} className="text-primary font-bold hover:text-white transition-colors text-sm flex items-center gap-2">
+                      عرض المشروع كامل
+                      <FiArrowLeft className="w-4 h-4" />
+                    </Link>
+                  </div>
                 </div>
               </motion.div>
             ))}
+            {projects.length === 0 && (
+              <div className="col-span-full py-20 text-center text-gray-500 bg-white/5 rounded-[2rem] border border-white/5 border-dashed">
+                لا توجد مشاريع مسجلة حالياً.
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -53,9 +53,7 @@ function UnitsContent() {
     if (filters.priceMax) params.append("max_price", filters.priceMax);
     if (searchTerm) params.append("q", searchTerm);
     
-    // If location is used in backend, you can pass it here, e.g., area_id if you have it
-    // Or just pass it as 'location' if backend supports it
-    if (filters.location) params.append("location", filters.location);
+    if (filters.location) params.append("area_id", filters.location);
 
     fetch(`/api/units?${params.toString()}`)
       .then((res) => res.json())
