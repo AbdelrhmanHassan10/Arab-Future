@@ -76,6 +76,10 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
               throw new Error("فشل في تحميل بيانات الوحدة");
             }
           } else {
+            if (res.status === 401) {
+              router.push("/admin/login");
+              return;
+            }
             throw new Error("فشل في تحميل بيانات الوحدة");
           }
         } else {
@@ -127,14 +131,14 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
     fetchUnit();
     
     fetch('/api/admin/amenities')
-      .then(r => r.json())
-      .then(data => setAmenities(data.data || data))
-      .catch(() => null);
+      .then(r => { if (r.ok) return r.json(); throw new Error("Failed"); })
+      .then(data => setAmenities(Array.isArray(data.data) ? data.data : (Array.isArray(data) ? data : [])))
+      .catch(() => setAmenities([]));
 
     fetch('/api/admin/areas')
-      .then(r => r.json())
-      .then(data => setAreas(data.data || data))
-      .catch(() => null);
+      .then(r => { if (r.ok) return r.json(); throw new Error("Failed"); })
+      .then(data => setAreas(Array.isArray(data.data) ? data.data : (Array.isArray(data) ? data : [])))
+      .catch(() => setAreas([]));
   }, [params.id]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {

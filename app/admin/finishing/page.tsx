@@ -100,7 +100,7 @@ export default function AdminFinishingPage() {
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 shrink-0 border border-gray-200">
-                        <img src={project.main_image_url || `${getImageUrl(project.main_image || project.image, project.id)}?t=${timestamp}`} alt={project.title} className="w-full h-full object-cover" />
+                        <img src={project.main_image_url || `${getImageUrl(project.main_image || project.image, project.id)}?t=${timestamp}`} alt={project.title} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = 'https://placehold.co/800x600/f3f4f6/9ca3af.png?text=No+Image' }} />
                       </div>
                       <span className="font-bold text-navy-dark text-sm bg-gray-100 px-2 py-1 rounded-md">{project.code || project.renovation_code || project.id}</span>
                     </div>

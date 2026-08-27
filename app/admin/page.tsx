@@ -25,7 +25,7 @@ export default async function AdminDashboard() {
     return <SessionExpired />;
   }
 
-  const dashboardApi = data.dashboard || {};
+  const dashboardApi = data.dashboard?.data || data.dashboard || {};
   const unitsList = Array.isArray(data.units?.data) ? data.units.data : (Array.isArray(data.units) ? data.units : []);
   const renovationsList = Array.isArray(data.renovations?.data) ? data.renovations.data : (Array.isArray(data.renovations) ? data.renovations : []);
   const requestsList = Array.isArray(data.requests?.data) ? data.requests.data : (Array.isArray(data.requests) ? data.requests : []);
@@ -33,7 +33,7 @@ export default async function AdminDashboard() {
   // Calculate accurate totals from the actual lists to avoid relying on stale/hardcoded backend stats
   const totalUnits = unitsList.length || dashboardApi.stats?.total_units || 0;
   const soldUnits = unitsList.filter((u: any) => u.status === 'sold').length || dashboardApi.stats?.sold_units || 0;
-  const totalRenovation = renovationsList.length || dashboardApi.stats?.total_renovation || 0;
+  const totalRenovation = renovationsList.length || dashboardApi.stats?.total_renovation_projects || 0;
   const newRequests = requestsList.filter((r: any) => r.status === 'new' || r.status === 'جديد').length || dashboardApi.stats?.new_requests || 0;
 
   const stats = [

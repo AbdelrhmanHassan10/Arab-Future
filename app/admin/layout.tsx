@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiHome, FiBox, FiTool, FiMessageSquare, FiLogOut, FiMenu, FiX, FiMapPin, FiList } from "react-icons/fi";
+import { FiHome, FiBox, FiTool, FiMessageSquare, FiLogOut, FiMenu, FiX, FiMapPin, FiList, FiClipboard, FiSettings } from "react-icons/fi";
 import { ToastProvider } from "@/components/ToastProvider";
 import { ConfirmProvider } from "@/components/ConfirmProvider";
 import { useState } from "react";
@@ -18,8 +18,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: "الطلبات", path: "/admin/requests", icon: FiMessageSquare },
     { name: "المناطق", path: "/admin/areas", icon: FiMapPin },
     { name: "المرافق", path: "/admin/amenities", icon: FiList },
-    // { name: "معرض الصور", path: "/admin/gallery", icon: FiImage },
-    // { name: "الإعدادات", path: "/admin/settings", icon: FiSettings },
+    { name: "باقات التشطيب", path: "/admin/plans", icon: FiClipboard },
+    { name: "الإعدادات", path: "/admin/settings", icon: FiSettings },
   ];
 
   if (pathname === "/admin/login") {

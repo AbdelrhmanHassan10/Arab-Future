@@ -40,14 +40,14 @@ export default function AddUnitPage() {
 
   useEffect(() => {
     fetch('/api/admin/amenities')
-      .then(r => r.json())
-      .then(data => setAmenities(data.data || data))
-      .catch(() => null);
+      .then(r => { if (r.ok) return r.json(); throw new Error(); })
+      .then(data => setAmenities(Array.isArray(data.data) ? data.data : (Array.isArray(data) ? data : [])))
+      .catch(() => setAmenities([]));
 
     fetch('/api/admin/areas')
-      .then(r => r.json())
-      .then(data => setAreas(data.data || data))
-      .catch(() => null);
+      .then(r => { if (r.ok) return r.json(); throw new Error(); })
+      .then(data => setAreas(Array.isArray(data.data) ? data.data : (Array.isArray(data) ? data : [])))
+      .catch(() => setAreas([]));
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {

@@ -9,6 +9,8 @@ export default function AdminSettingsPage() {
     whatsapp_number: "",
     facebook_url: "",
     instagram_url: "",
+    tiktok_url: "",
+    linkedin_url: "",
     address: "",
     about_text: "",
     map_embed_url: ""
@@ -28,6 +30,8 @@ export default function AdminSettingsPage() {
         whatsapp_number: s.whatsapp_number || "",
         facebook_url: s.facebook_url || "",
         instagram_url: s.instagram_url || "",
+        tiktok_url: s.tiktok_url || "",
+        linkedin_url: s.linkedin_url || "",
         address: s.address || "",
         about_text: s.about_text || "",
         map_embed_url: s.map_embed_url || ""
@@ -143,6 +147,20 @@ export default function AdminSettingsPage() {
                 <label className="block text-sm font-bold text-gray-700 mb-2">إنستجرام (Instagram)</label>
                 <input 
                   type="url" name="instagram_url" value={settings.instagram_url} onChange={handleChange} dir="ltr"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/20 text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">تيك توك (TikTok)</label>
+                <input 
+                  type="url" name="tiktok_url" value={settings.tiktok_url} onChange={handleChange} dir="ltr"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/20 text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">لينكد إن (LinkedIn)</label>
+                <input 
+                  type="url" name="linkedin_url" value={settings.linkedin_url} onChange={handleChange} dir="ltr"
                   className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/20 text-sm"
                 />
               </div>
