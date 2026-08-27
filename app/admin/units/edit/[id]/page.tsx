@@ -32,11 +32,26 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
     installment_years: "",
     description: "",
     features: "",
+    video_url: "",
+    video_description: "",
     featured: "0"
   });
 
   const [mainImage, setMainImage] = useState<File | null>(null);
   const [existingImage, setExistingImage] = useState<string>("");
+  
+  // Nested relation states
+  const [selectedAmenities, setSelectedAmenities] = useState<number[]>([]);
+  const [galleryImagesList, setGalleryImagesList] = useState<any[]>([]);
+  const [floorPlans, setFloorPlans] = useState<any[]>([]);
+  const [nearbyPlaces, setNearbyPlaces] = useState<any[]>([]);
+  const [attachments, setAttachments] = useState<any[]>([]);
+  
+  // UI states for new additions
+  const [newImages, setNewImages] = useState<File[]>([]);
+  const [newFloorPlan, setNewFloorPlan] = useState({ title: '', description: '', image: null as File | null });
+  const [newNearbyPlace, setNewNearbyPlace] = useState({ title: '', distance_text: '' });
+  const [newAttachment, setNewAttachment] = useState({ title: '', image: null as File | null });
 
   useEffect(() => {
     const fetchUnit = async () => {
@@ -87,12 +102,21 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
           installment_years: u.installment_years?.toString() || "",
           description: extractString(u.description),
           features: Array.isArray(u.features) ? u.features.join("، ") : (typeof u.features === 'string' ? u.features : ""),
+          video_url: u.video_url || "",
+          video_description: u.video_description || "",
           featured: u.featured?.toString() || "0"
         });
         
         if (u.main_image) {
           setExistingImage(getImageUrl(u.main_image));
         }
+
+        // Populate nested relations
+        setSelectedAmenities(u.amenities?.map((a: any) => a.id) || []);
+        setGalleryImagesList(u.images || []);
+        setFloorPlans(u.floor_plans || []);
+        setNearbyPlaces(u.nearby_places || []);
+        setAttachments(u.attachments || []);
 
       } catch (err: any) {
         setError(err.message);
@@ -134,6 +158,101 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
     }
   };
 
+  const toggleAmenity = (id: number) => {
+    if (selectedAmenities.includes(id)) {
+      setSelectedAmenities(selectedAmenities.filter(a => a !== id));
+    } else {
+      setSelectedAmenities([...selectedAmenities, id]);
+    }
+  };
+
+  // ----- Nested Relations Handlers -----
+  
+  const refreshUnitData = async () => {
+    try {
+      const res = await fetch(`/api/admin/units/${unitRouteKey}`);
+      if (res.ok) {
+        const data = await res.json();
+        const u = data.data || data;
+        setGalleryImagesList(u.images || []);
+        setFloorPlans(u.floor_plans || []);
+        setNearbyPlaces(u.nearby_places || []);
+        setAttachments(u.attachments || []);
+        setSelectedAmenities(u.amenities?.map((a: any) => a.id) || []);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const uploadGalleryImages = async () => {
+    if (newImages.length === 0) return;
+    const data = new FormData();
+    newImages.forEach(img => data.append("images[]", img));
+    await fetch(`/api/admin/units/${unitRouteKey}/images`, { method: "POST", body: data });
+    setNewImages([]);
+    await refreshUnitData();
+  };
+
+  const deleteGalleryImage = async (id: number) => {
+    if(!confirm("تأكيد الحذف؟")) return;
+    await fetch(`/api/admin/units/${unitRouteKey}/images/${id}`, { method: "DELETE" });
+    await refreshUnitData();
+  };
+
+  const addFloorPlan = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newFloorPlan.title || !newFloorPlan.image) return alert("الاسم والصورة مطلوبان");
+    const data = new FormData();
+    data.append("title", newFloorPlan.title);
+    data.append("description", newFloorPlan.description);
+    data.append("image", newFloorPlan.image);
+    await fetch(`/api/admin/units/${unitRouteKey}/floor-plans`, { method: "POST", body: data });
+    setNewFloorPlan({ title: '', description: '', image: null });
+    await refreshUnitData();
+  };
+
+  const deleteFloorPlan = async (id: number) => {
+    if(!confirm("تأكيد الحذف؟")) return;
+    await fetch(`/api/admin/units/${unitRouteKey}/floor-plans/${id}`, { method: "DELETE" });
+    await refreshUnitData();
+  };
+
+  const addNearbyPlace = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newNearbyPlace.title || !newNearbyPlace.distance_text) return alert("الاسم والمسافة مطلوبان");
+    await fetch(`/api/admin/units/${unitRouteKey}/nearby-places`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newNearbyPlace)
+    });
+    setNewNearbyPlace({ title: '', distance_text: '' });
+    await refreshUnitData();
+  };
+
+  const deleteNearbyPlace = async (id: number) => {
+    if(!confirm("تأكيد الحذف؟")) return;
+    await fetch(`/api/admin/units/${unitRouteKey}/nearby-places/${id}`, { method: "DELETE" });
+    await refreshUnitData();
+  };
+
+  const addAttachment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newAttachment.title) return alert("اسم المرفق مطلوب");
+    const data = new FormData();
+    data.append("title", newAttachment.title);
+    if(newAttachment.image) data.append("image", newAttachment.image);
+    await fetch(`/api/admin/units/${unitRouteKey}/attachments`, { method: "POST", body: data });
+    setNewAttachment({ title: '', image: null });
+    await refreshUnitData();
+  };
+
+  const deleteAttachment = async (id: number) => {
+    if(!confirm("تأكيد الحذف؟")) return;
+    await fetch(`/api/admin/units/${unitRouteKey}/attachments/${id}`, { method: "DELETE" });
+    await refreshUnitData();
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -165,6 +284,13 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
         const errorData = await res.json().catch(() => ({}));
         throw new Error(errorData.message || "حدث خطأ أثناء تعديل الوحدة");
       }
+
+      // Sync Amenities
+      await fetch(`/api/admin/units/${unitRouteKey}/amenities`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amenity_ids: selectedAmenities })
+      });
 
       router.push("/admin/units");
       router.refresh();
@@ -327,39 +453,47 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
               <label className="block text-sm font-bold text-gray-700 mb-2">الوصف الكامل</label>
               <textarea name="description" value={formData.description} onChange={handleChange} rows={5} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none resize-none text-navy-dark"></textarea>
             </div>
+            
             <div className="md:col-span-2">
-              <label className="block text-sm font-bold text-gray-700 mb-2">المرافق والمميزات</label>
-              
-              <div className="flex flex-wrap gap-2 mb-3">
-                {Array.from(new Set([...[
-                  "جراج", "حمام سباحة", "أمن 24 ساعة", "أسانسير", "حديقة خاصة", 
-                  "رووف", "غاز طبيعي", "تكييف مركزي", "كاميرات مراقبة", "انترنت"
-                ], ...amenities.map(a => a.name)])).map((feat, index) => {
-                  const featuresStr = Array.isArray(formData.features) ? (formData.features as string[]).join("، ") : (typeof formData.features === 'string' ? formData.features : "");
-                  const currentFeatures = featuresStr.split(/[،,]/).map(f => f.trim()).filter(Boolean);
-                  const isSelected = currentFeatures.includes(feat);
+              <label className="block text-sm font-bold text-gray-700 mb-2">المرافق والخدمات الأساسية</label>
+              <div className="flex flex-wrap gap-2 mb-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                {amenities.map((amenity) => {
+                  const isSelected = selectedAmenities.includes(amenity.id);
                   return (
                     <button 
-                      key={index}
+                      key={amenity.id}
                       type="button" 
-                      onClick={() => toggleFeature(feat)}
+                      onClick={() => toggleAmenity(amenity.id)}
                       className={`px-3 py-1.5 text-xs font-bold rounded-full border transition-all ${isSelected ? 'bg-primary text-navy-deeper border-primary shadow-sm' : 'bg-white text-gray-500 border-gray-200 hover:bg-gray-50 hover:border-gray-300'}`}
                     >
-                      {isSelected ? '✓ ' : '+ '}{feat}
+                      {isSelected ? '✓ ' : '+ '}{amenity.name}
                     </button>
                   )
                 })}
               </div>
 
-              <textarea name="features" value={formData.features} onChange={handleChange} rows={2} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none text-navy-dark" placeholder="أو اكتب يدوياً (مفصولة بفاصلة)..."></textarea>
+              <label className="block text-sm font-bold text-gray-700 mb-2">مميزات إضافية مخصصة (اختياري)</label>
+              <textarea name="features" value={formData.features} onChange={handleChange} rows={2} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none text-navy-dark" placeholder="اكتب يدوياً (مفصولة بفاصلة مثل: جراج خاص، رووف...)"></textarea>
             </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">رابط فيديو (مثال: يوتيوب)</label>
+                <input type="url" name="video_url" value={formData.video_url} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none text-navy-dark" />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">وصف الفيديو</label>
+                <input type="text" name="video_description" value={formData.video_description} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none text-navy-dark" />
+              </div>
+            </div>
+
             <div>
               <label className="block text-sm font-bold text-gray-700 mb-2">الصورة الرئيسية (اتركها فارغة لعدم التغيير)</label>
               
               {existingImage && !mainImage && (
                 <div className="mb-4">
                   <p className="text-sm text-gray-500 mb-2">الصورة الحالية:</p>
-                  <img src={existingImage} alt="Current main image" className="w-32 h-32 object-cover rounded-xl" />
+                  <img src={existingImage} alt="Current main image" className="w-32 h-32 object-cover rounded-xl border" />
                 </div>
               )}
 
@@ -377,11 +511,91 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
         <div className="pt-6 border-t border-gray-100 flex justify-end gap-4">
           <Link href="/admin/units" className="px-6 py-3 font-bold text-gray-500 hover:bg-gray-50 rounded-xl transition-colors">إلغاء</Link>
           <button disabled={loading} type="submit" className="bg-primary text-navy-deeper font-bold px-8 py-3 rounded-xl flex items-center gap-2 hover:bg-[#D6AE45] transition-colors shadow-sm disabled:opacity-50">
-            {loading ? "جاري الحفظ..." : <><FiSave size={20} /> <span>حفظ التعديلات</span></>}
+            {loading ? "جاري الحفظ..." : <><FiSave size={20} /> <span>حفظ التعديلات الأساسية</span></>}
           </button>
         </div>
-
       </form>
+
+      {/* --- EXTRA SECTIONS FOR EXISTING UNIT --- */}
+      <div className="space-y-8 mt-12">
+        {/* Gallery Images */}
+        <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+          <h3 className="text-lg font-bold text-navy-dark mb-4 border-b border-gray-100 pb-2">معرض الصور الإضافية</h3>
+          
+          <div className="flex gap-4 overflow-x-auto pb-4 mb-4">
+            {galleryImagesList.map((img: any) => (
+              <div key={img.id} className="relative group shrink-0 w-32 h-32 rounded-xl overflow-hidden border">
+                <img src={getImageUrl(img.image_path)} alt="" className="w-full h-full object-cover" />
+                <button onClick={() => deleteGalleryImage(img.id)} className="absolute top-2 left-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition"><FiX /></button>
+              </div>
+            ))}
+          </div>
+          
+          <div className="flex items-end gap-4">
+            <div className="flex-1">
+              <input type="file" multiple accept="image/*" onChange={(e) => e.target.files && setNewImages(Array.from(e.target.files))} className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20" />
+            </div>
+            <button onClick={uploadGalleryImages} disabled={newImages.length === 0} className="bg-navy-dark text-white px-6 py-2 rounded-xl font-bold disabled:opacity-50 hover:bg-navy-deeper">رفع الصور</button>
+          </div>
+        </div>
+
+        {/* Floor Plans */}
+        <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+          <h3 className="text-lg font-bold text-navy-dark mb-4 border-b border-gray-100 pb-2">المخططات الهندسية</h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            {floorPlans.map((plan: any) => (
+              <div key={plan.id} className="flex gap-4 bg-gray-50 p-4 rounded-xl items-center relative">
+                <img src={getImageUrl(plan.image_path)} className="w-20 h-20 object-cover rounded-lg" alt="" />
+                <div>
+                  <h4 className="font-bold text-navy-dark">{plan.title}</h4>
+                  <p className="text-xs text-gray-500">{plan.description}</p>
+                </div>
+                <button onClick={() => deleteFloorPlan(plan.id)} className="absolute top-2 left-2 text-red-500 hover:bg-red-50 p-1 rounded-md"><FiX /></button>
+              </div>
+            ))}
+          </div>
+
+          <form onSubmit={addFloorPlan} className="bg-gray-50 p-4 rounded-xl flex flex-wrap gap-4 items-end">
+            <div className="flex-1 min-w-[200px]">
+              <label className="block text-sm font-bold text-gray-700 mb-1">الاسم (مثال: توزيع الغرف)</label>
+              <input type="text" required value={newFloorPlan.title} onChange={e => setNewFloorPlan({...newFloorPlan, title: e.target.value})} className="w-full border rounded-lg px-3 py-2 text-navy-dark" />
+            </div>
+            <div className="flex-1 min-w-[200px]">
+              <label className="block text-sm font-bold text-gray-700 mb-1">صورة المخطط</label>
+              <input type="file" required accept="image/*" onChange={e => e.target.files && setNewFloorPlan({...newFloorPlan, image: e.target.files[0]})} className="w-full border rounded-lg px-3 py-1.5 bg-white" />
+            </div>
+            <button type="submit" className="bg-primary text-navy-dark px-6 py-2 rounded-lg font-bold">إضافة مخطط</button>
+          </form>
+        </div>
+
+        {/* Nearby Places */}
+        <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+          <h3 className="text-lg font-bold text-navy-dark mb-4 border-b border-gray-100 pb-2">الأماكن القريبة والموقع</h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            {nearbyPlaces.map((place: any) => (
+              <div key={place.id} className="bg-gray-50 p-4 rounded-xl relative">
+                <div className="font-bold text-navy-dark text-sm">{place.title}</div>
+                <div className="text-primary text-xs font-bold mt-1">{place.distance_text}</div>
+                <button onClick={() => deleteNearbyPlace(place.id)} className="absolute top-2 left-2 text-red-500 hover:bg-red-50 p-1 rounded-md"><FiX /></button>
+              </div>
+            ))}
+          </div>
+
+          <form onSubmit={addNearbyPlace} className="bg-gray-50 p-4 rounded-xl flex flex-wrap gap-4 items-end">
+            <div className="flex-1 min-w-[200px]">
+              <label className="block text-sm font-bold text-gray-700 mb-1">المكان (مثال: الطريق الدائري)</label>
+              <input type="text" required value={newNearbyPlace.title} onChange={e => setNewNearbyPlace({...newNearbyPlace, title: e.target.value})} className="w-full border rounded-lg px-3 py-2 text-navy-dark" />
+            </div>
+            <div className="flex-1 min-w-[150px]">
+              <label className="block text-sm font-bold text-gray-700 mb-1">المسافة (مثال: 10 دقائق)</label>
+              <input type="text" required value={newNearbyPlace.distance_text} onChange={e => setNewNearbyPlace({...newNearbyPlace, distance_text: e.target.value})} className="w-full border rounded-lg px-3 py-2 text-navy-dark" />
+            </div>
+            <button type="submit" className="bg-primary text-navy-dark px-6 py-2 rounded-lg font-bold">إضافة مكان</button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }

@@ -29,10 +29,14 @@ export default function AddUnitPage() {
     installment_years: "",
     description: "",
     features: "",
+    video_url: "",
+    video_description: "",
     featured: "0"
   });
 
   const [mainImage, setMainImage] = useState<File | null>(null);
+  const [galleryImages, setGalleryImages] = useState<File[]>([]);
+  const [selectedAmenities, setSelectedAmenities] = useState<number[]>([]);
 
   useEffect(() => {
     fetch('/api/admin/amenities')
@@ -51,7 +55,6 @@ export default function AddUnitPage() {
   };
 
   const toggleFeature = (feat: string) => {
-    // Split by both Arabic and English commas to be safe
     const featuresStr = Array.isArray(formData.features) ? (formData.features as string[]).join("، ") : (typeof formData.features === 'string' ? formData.features : "");
     let current = featuresStr.split(/[،,]/).map(f => f.trim()).filter(Boolean);
     if (current.includes(feat)) {
@@ -62,9 +65,23 @@ export default function AddUnitPage() {
     setFormData({ ...formData, features: current.join('، ') });
   };
 
+  const toggleAmenity = (id: number) => {
+    if (selectedAmenities.includes(id)) {
+      setSelectedAmenities(selectedAmenities.filter(a => a !== id));
+    } else {
+      setSelectedAmenities([...selectedAmenities, id]);
+    }
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setMainImage(e.target.files[0]);
+    }
+  };
+
+  const handleGalleryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setGalleryImages(Array.from(e.target.files));
     }
   };
 
@@ -83,10 +100,18 @@ export default function AddUnitPage() {
           data.append(key, value.toString());
         }
       });
+      
+      selectedAmenities.forEach(id => {
+        data.append("amenity_ids[]", id.toString());
+      });
+
       if (mainImage) {
         data.append("main_image", mainImage);
-        data.append("image", mainImage);
       }
+      
+      galleryImages.forEach(img => {
+        data.append("images[]", img);
+      });
 
       const res = await fetch("/api/admin/units", {
         method: "POST",
@@ -260,41 +285,62 @@ export default function AddUnitPage() {
               <label className="block text-sm font-bold text-gray-700 mb-2">الوصف الكامل</label>
               <textarea name="description" value={formData.description} onChange={handleChange} rows={5} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none resize-none text-navy-dark"></textarea>
             </div>
+            
             <div className="md:col-span-2">
-              <label className="block text-sm font-bold text-gray-700 mb-2">المرافق والمميزات</label>
-              
-              <div className="flex flex-wrap gap-2 mb-3">
-                {Array.from(new Set([...[
-                  "جراج", "حمام سباحة", "أمن 24 ساعة", "أسانسير", "حديقة خاصة", 
-                  "رووف", "غاز طبيعي", "تكييف مركزي", "كاميرات مراقبة", "انترنت"
-                ], ...amenities.map(a => a.name)])).map((feat, index) => {
-                  const featuresStr = Array.isArray(formData.features) ? (formData.features as string[]).join("، ") : (typeof formData.features === 'string' ? formData.features : "");
-                  const currentFeatures = featuresStr.split(/[،,]/).map(f => f.trim()).filter(Boolean);
-                  const isSelected = currentFeatures.includes(feat);
+              <label className="block text-sm font-bold text-gray-700 mb-2">المرافق والخدمات الأساسية</label>
+              <div className="flex flex-wrap gap-2 mb-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                {amenities.map((amenity) => {
+                  const isSelected = selectedAmenities.includes(amenity.id);
                   return (
                     <button 
-                      key={index}
+                      key={amenity.id}
                       type="button" 
-                      onClick={() => toggleFeature(feat)}
+                      onClick={() => toggleAmenity(amenity.id)}
                       className={`px-3 py-1.5 text-xs font-bold rounded-full border transition-all ${isSelected ? 'bg-primary text-navy-deeper border-primary shadow-sm' : 'bg-white text-gray-500 border-gray-200 hover:bg-gray-50 hover:border-gray-300'}`}
                     >
-                      {isSelected ? '✓ ' : '+ '}{feat}
+                      {isSelected ? '✓ ' : '+ '}{amenity.name}
                     </button>
                   )
                 })}
               </div>
 
-              <textarea name="features" value={formData.features} onChange={handleChange} rows={2} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none text-navy-dark" placeholder="أو اكتب يدوياً (مفصولة بفاصلة)..."></textarea>
+              <label className="block text-sm font-bold text-gray-700 mb-2">مميزات إضافية مخصصة (اختياري)</label>
+              <textarea name="features" value={formData.features} onChange={handleChange} rows={2} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none text-navy-dark" placeholder="اكتب يدوياً (مفصولة بفاصلة مثل: جراج خاص، رووف...)"></textarea>
             </div>
-            <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">الصورة الرئيسية (غلاف الوحدة)</label>
-              <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-2xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <FiUpload className="w-8 h-8 text-gray-400 mb-2" />
-                  <p className="text-sm text-gray-500 font-bold">{mainImage ? mainImage.name : "اضغط هنا لاختيار صورة"}</p>
-                </div>
-                <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
-              </label>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">رابط فيديو (مثال: يوتيوب)</label>
+                <input type="url" name="video_url" value={formData.video_url} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none text-navy-dark" placeholder="https://youtube.com/watch?v=..." />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">وصف الفيديو</label>
+                <input type="text" name="video_description" value={formData.video_description} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none text-navy-dark" placeholder="فيديو جولة داخل الوحدة..." />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">الصورة الرئيسية (غلاف الوحدة) <span className="text-red-500">*</span></label>
+                <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-2xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center px-4">
+                    <FiUpload className="w-8 h-8 text-gray-400 mb-2" />
+                    <p className="text-sm text-gray-500 font-bold">{mainImage ? mainImage.name : "اضغط لاختيار الصورة الرئيسية"}</p>
+                  </div>
+                  <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
+                </label>
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">معرض الصور (تحديد عدة صور)</label>
+                <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-2xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center px-4">
+                    <FiUpload className="w-8 h-8 text-gray-400 mb-2" />
+                    <p className="text-sm text-gray-500 font-bold">{galleryImages.length > 0 ? `تم اختيار ${galleryImages.length} صور` : "اضغط لتحديد أكثر من صورة"}</p>
+                  </div>
+                  <input type="file" multiple className="hidden" accept="image/*" onChange={handleGalleryChange} />
+                </label>
+              </div>
             </div>
           </div>
         </div>
