@@ -166,6 +166,13 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
     }
   };
 
+  const [videoFile, setVideoFile] = useState<File | null>(null);
+  const handleVideoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setVideoFile(e.target.files[0]);
+    }
+  };
+
   const toggleAmenity = (id: number) => {
     if (selectedAmenities.includes(id)) {
       setSelectedAmenities(selectedAmenities.filter(a => a !== id));
@@ -307,9 +314,11 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
       });
 
       if (mainImage) {
-        data.append("main_image", mainImage);
         data.append("image", mainImage);
+        data.append("main_image", mainImage);
       }
+      if (videoFile) data.append("video", videoFile);
+      data.append("title", formData.title);
       data.append("_method", "PUT"); // Laravel way to update with multipart
 
       const res = await fetch(`/api/admin/units/${unitRouteKey}`, {
@@ -526,15 +535,15 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">رابط فيديو (مثال: يوتيوب)</label>
-                <input type="url" name="video_url" value={formData.video_url} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none text-navy-dark" />
+                <label className="block text-sm font-bold text-gray-700 mb-2">رابط فيديو (من يوتيوب أو منصة أخرى)</label>
+                <input type="url" name="video_url" value={formData.video_url} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none text-navy-dark" placeholder="https://youtube.com/watch?v=..." />
               </div>
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">وصف الفيديو</label>
-                <input type="text" name="video_description" value={formData.video_description} onChange={handleChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none text-navy-dark" />
+                <label className="block text-sm font-bold text-gray-700 mb-2">أو رفع فيديو من الجهاز (Local File)</label>
+                <input type="file" accept="video/mp4,video/webm,video/ogg" onChange={handleVideoFileChange} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-[9px] focus:ring-2 focus:ring-primary/50 outline-none text-navy-dark file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20" />
+                {videoFile && <p className="text-xs text-green-600 mt-2">تم اختيار: {videoFile.name}</p>}
               </div>
             </div>
-
             <div>
               <label className="block text-sm font-bold text-gray-700 mb-2">الصورة الرئيسية (اتركها فارغة لعدم التغيير)</label>
 

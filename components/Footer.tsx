@@ -1,19 +1,10 @@
 "use client";
 
-import { FiPhone, FiMail, FiMapPin, FiArrowLeft } from "react-icons/fi";
+import { FiPhone, FiMail, FiMapPin, FiArrowLeft, FiInstagram, FiLinkedin } from "react-icons/fi";
+import { FaTiktok } from "react-icons/fa";
 import Link from "next/link";
-
-const socialLinks = [
-  {
-    name: "Facebook",
-    href: "https://www.facebook.com/share/19PFyHxhdo/",
-    icon: (
-      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-      </svg>
-    ),
-  },
-];
+import { useState, useEffect } from "react";
+import { API_URL } from "@/lib/config";
 
 const footerLinks = [
   {
@@ -37,6 +28,65 @@ const footerLinks = [
 ];
 
 export default function Footer() {
+  const [settings, setSettings] = useState<any>(null);
+
+  useEffect(() => {
+    fetch(`${API_URL}/settings`)
+      .then(res => res.json())
+      .then(data => {
+        // Handle if response is wrapped in 'data'
+        const s = data.data || data;
+        setSettings(s);
+      })
+      .catch(console.error);
+  }, []);
+
+  const socialLinks = [];
+  if (settings?.facebook_url) {
+    socialLinks.push({
+      name: "Facebook",
+      href: settings.facebook_url,
+      icon: (
+        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+        </svg>
+      ),
+    });
+  }
+
+  if (settings?.instagram_url) {
+    socialLinks.push({
+      name: "Instagram",
+      href: settings.instagram_url,
+      label: "تابعنا على إنستجرام",
+      icon: <FiInstagram className="w-5 h-5" />,
+    });
+  }
+  
+  if (settings?.tiktok_url) {
+    socialLinks.push({
+      name: "TikTok",
+      href: settings.tiktok_url,
+      label: "تابعنا على تيك توك",
+      icon: <FaTiktok className="w-5 h-5" />,
+    });
+  }
+  
+  if (settings?.linkedin_url) {
+    socialLinks.push({
+      name: "LinkedIn",
+      href: settings.linkedin_url,
+      label: "تابعنا على لينكد إن",
+      icon: <FiLinkedin className="w-5 h-5" />,
+    });
+  }
+
+  const phoneDisplay = settings?.whatsapp_number || "+20 100 845 0553";
+  const phoneLink = `tel:${phoneDisplay.replace(/\s+/g, '')}`;
+  const address = settings?.address || "الحي الأول، شرق النيل، بني سويف";
+  const aboutText = settings?.about_text || "الوجهة الأولى للتسويق العقاري وإعادة البيع وأعمال التشطيبات المتكاملة في بني سويف. نضع خبراتنا بين يديك لضمان أفضل استثمار لك ولعائلتك.";
+  const email = settings?.email || "info@semsarbenisuef.com";
+
   return (
     <footer className="relative bg-[#111111] overflow-hidden pt-20 pb-8 border-t border-white/10">
       
@@ -67,26 +117,21 @@ export default function Footer() {
             </Link>
             
             <p className="text-white/50 font-light text-[14px] leading-[2] max-w-sm mb-8">
-              الوجهة الأولى للتسويق العقاري وإعادة البيع وأعمال التشطيبات المتكاملة في بني سويف. نضع خبراتنا بين يديك لضمان أفضل استثمار لك ولعائلتك.
+              {aboutText}
             </p>
 
             {/* Social Links */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 flex-wrap">
               {socialLinks.map((social, idx) => (
                 <a
                   key={idx}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 w-fit px-6 py-3 rounded-full bg-gradient-to-l from-white/5 to-transparent border border-white/10 hover:border-primary/50 hover:bg-primary/5 transition-all duration-500 group shadow-lg"
+                  className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/80 hover:bg-primary hover:text-navy-deeper hover:scale-110 transition-all duration-500 hover:border-primary hover:shadow-[0_0_15px_rgba(214,174,69,0.4)]"
                   aria-label={social.name}
                 >
-                  <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/80 group-hover:bg-primary group-hover:text-navy-deeper group-hover:scale-110 transition-all duration-500 group-hover:border-primary group-hover:shadow-[0_0_15px_rgba(214,174,69,0.4)]">
-                    {social.icon}
-                  </div>
-                  <span className="text-white/80 text-[15px] font-bold group-hover:text-white transition-colors duration-500">
-                    تابعنا على فيسبوك
-                  </span>
+                  {social.icon}
                 </a>
               ))}
             </div>
@@ -127,21 +172,21 @@ export default function Footer() {
             <div className="space-y-6">
               
               {/* Phone */}
-              <a href="tel:+201008450553" className="flex items-center gap-4 group w-fit">
+              <a href={phoneLink} className="flex items-center gap-4 group w-fit">
                 <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-navy-deeper group-hover:border-primary transition-all duration-300 flex-shrink-0">
                   <FiPhone className="text-xl" />
                 </div>
                 <div className="text-white/60 group-hover:text-white transition-colors duration-300 text-right">
                   <span className="block text-[10px] uppercase tracking-widest text-primary/70 mb-1 font-body">Phone</span>
-                  <span className="text-[15px] font-medium" dir="ltr">+20 100 845 0553</span>
+                  <span className="text-[15px] font-medium" dir="ltr">{phoneDisplay}</span>
                 </div>
               </a>
 
               {/* Email */}
-              <a href="mailto:info@semsarbenisuef.com" className="flex items-center gap-4 group w-fit justify-end ml-auto md:ml-0 md:justify-start">
+              <a href={`mailto:${email}`} className="flex items-center gap-4 group w-fit justify-end ml-auto md:ml-0 md:justify-start">
                 <div className="text-white/60 group-hover:text-white transition-colors duration-300 text-right md:text-left">
                   <span className="block text-[10px] uppercase tracking-widest text-primary/70 mb-1 font-body">Email</span>
-                  <span className="text-[14px] font-medium">info@semsarbenisuef.com</span>
+                  <span className="text-[14px] font-medium">{email}</span>
                 </div>
                 <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-navy-deeper group-hover:border-primary transition-all duration-300 flex-shrink-0">
                   <FiMail className="text-xl" />
@@ -155,7 +200,7 @@ export default function Footer() {
                 </div>
                 <div className="text-white/60 text-right">
                   <span className="block text-[10px] uppercase tracking-widest text-primary/70 mb-1 font-body">Location</span>
-                  <span className="text-[15px] font-medium whitespace-nowrap">الحي الأول، شرق النيل، بني سويف</span>
+                  <span className="text-[15px] font-medium whitespace-nowrap">{address}</span>
                 </div>
               </div>
 
@@ -182,3 +227,4 @@ export default function Footer() {
     </footer>
   );
 }
+

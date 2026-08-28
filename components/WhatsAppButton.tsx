@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
+import { API_URL } from "@/lib/config";
 
-const PHONE_NUMBER = "201008450553";
+const DEFAULT_PHONE_NUMBER = "201008450553";
 const MESSAGE = "مرحباً، أريد الاستفسار عن خدماتكم";
 const CONSULTATION_MSG = "مرحباً، أريد طلب استشارة مجانية";
 const INSPECTION_MSG = "مرحباً، أريد طلب معاينة مجانية";
@@ -12,17 +13,31 @@ const INSPECTION_MSG = "مرحباً، أريد طلب معاينة مجانية
 export default function WhatsAppButton() {
   const [show, setShow] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState(DEFAULT_PHONE_NUMBER);
   const pathname = usePathname();
 
   useEffect(() => {
     const timer = setTimeout(() => setShow(true), 1500);
+    
+    // Fetch settings to get dynamic phone number
+    fetch(`${API_URL}/settings`)
+      .then(res => res.json())
+      .then(data => {
+        const s = data.data || data;
+        if (s?.whatsapp_number) {
+          // Remove '+' if present and spaces
+          setPhoneNumber(s.whatsapp_number.replace(/\s+/g, '').replace('+', ''));
+        }
+      })
+      .catch(console.error);
+
     return () => clearTimeout(timer);
   }, []);
 
-  const waUrl = `https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(MESSAGE)}`;
-  const telUrl = `tel:+${PHONE_NUMBER}`;
-  const consultationUrl = `https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(CONSULTATION_MSG)}`;
-  const inspectionUrl = `https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(INSPECTION_MSG)}`;
+  const waUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(MESSAGE)}`;
+  const telUrl = `tel:+${phoneNumber}`;
+  const consultationUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(CONSULTATION_MSG)}`;
+  const inspectionUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(INSPECTION_MSG)}`;
 
   const buttons = [
     {

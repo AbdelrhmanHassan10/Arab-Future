@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { FiSave } from "react-icons/fi";
+import { useToast } from "@/components/ToastProvider";
 
 export default function AdminSettingsPage() {
+  const { showToast } = useToast();
   const [settings, setSettings] = useState({
     phone: "",
     whatsapp_number: "",
@@ -53,12 +55,12 @@ export default function AdminSettingsPage() {
     const phoneRegex = /^\+20(10|11|12|15)\d{8}$/;
 
     if (settings.phone && !phoneRegex.test(settings.phone)) {
-      alert("رقم الهاتف غير صحيح! يجب أن يبدأ بـ +20 يليه 10 أو 11 أو 12 أو 15 ثم 8 أرقام.");
+      showToast("رقم الهاتف غير صحيح! يجب أن يبدأ بـ +20 يليه 10 أو 11 أو 12 أو 15 ثم 8 أرقام.", "error");
       return;
     }
 
     if (settings.whatsapp_number && !phoneRegex.test(settings.whatsapp_number)) {
-      alert("رقم الواتساب غير صحيح! يجب أن يبدأ بـ +20 يليه 10 أو 11 أو 12 أو 15 ثم 8 أرقام.");
+      showToast("رقم الواتساب غير صحيح! يجب أن يبدأ بـ +20 يليه 10 أو 11 أو 12 أو 15 ثم 8 أرقام.", "error");
       return;
     }
 
@@ -73,11 +75,11 @@ export default function AdminSettingsPage() {
 
       if (!res.ok) throw new Error("Failed to save settings");
       
-      alert("تم حفظ الإعدادات بنجاح");
+      showToast("تم حفظ الإعدادات بنجاح", "success");
       fetchSettings();
     } catch (error) {
       console.error(error);
-      alert("حدث خطأ أثناء الحفظ");
+      showToast("حدث خطأ أثناء الحفظ", "error");
     } finally {
       setIsSubmitting(false);
     }
@@ -178,14 +180,7 @@ export default function AdminSettingsPage() {
                   className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-primary/20 text-sm resize-y"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">رابط الخريطة (Google Maps Embed URL)</label>
-                <input 
-                  type="url" name="map_embed_url" value={settings.map_embed_url} onChange={handleChange} dir="ltr"
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/20 text-sm"
-                />
-              </div>
-            </div>
+             </div>
           </div>
         </div>
 

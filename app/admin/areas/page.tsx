@@ -3,9 +3,11 @@
 import { useState, useEffect } from "react";
 import { FiPlus, FiEdit2, FiTrash2, FiSearch } from "react-icons/fi";
 import { useConfirm } from "@/components/ConfirmProvider";
+import { useToast } from "@/components/ToastProvider";
 
 export default function AdminAreasPage() {
   const { confirm } = useConfirm();
+  const { showToast } = useToast();
   const [areas, setAreas] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
@@ -54,9 +56,10 @@ export default function AdminAreasPage() {
       
       await fetchAreas();
       handleCancel();
+      showToast("تم الحفظ بنجاح", "success");
     } catch (error) {
       console.error(error);
-      alert("حدث خطأ أثناء الحفظ");
+      showToast("حدث خطأ أثناء الحفظ", "error");
     } finally {
       setIsSubmitting(false);
     }
@@ -75,9 +78,10 @@ export default function AdminAreasPage() {
       const res = await fetch(`/api/admin/areas/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Failed to delete");
       await fetchAreas();
+      showToast("تم الحذف بنجاح", "success");
     } catch (error) {
       console.error(error);
-      alert("حدث خطأ أثناء الحذف");
+      showToast("حدث خطأ أثناء الحذف", "error");
     }
   };
 

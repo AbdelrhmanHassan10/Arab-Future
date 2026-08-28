@@ -111,8 +111,11 @@ export default async function UnitDetailsPage({ params }: { params: { id: string
     sanitized.bedrooms = sanitized.bedrooms || sanitized.rooms || 0;
     sanitized.bathrooms = sanitized.bathrooms || 0;
     
-    let amenities = Array.isArray(sanitized.features) ? sanitized.features : (Array.isArray(sanitized.amenities) ? sanitized.amenities : []);
-    if (typeof sanitized.features === 'string' && sanitized.features.trim()) {
+    let amenities = Array.isArray(sanitized.amenities) && sanitized.amenities.length > 0 
+      ? sanitized.amenities 
+      : (Array.isArray(sanitized.features) ? sanitized.features : []);
+    
+    if (amenities.length === 0 && typeof sanitized.features === 'string' && sanitized.features.trim()) {
       try { amenities = JSON.parse(sanitized.features); } catch { amenities = sanitized.features.split(/[،,]/).map((s: string) => s.trim()); }
     }
     sanitized.amenities = amenities;
@@ -192,7 +195,7 @@ export default async function UnitDetailsPage({ params }: { params: { id: string
 
               {/* Overview */}
               <div id="overview" className="scroll-mt-32 mb-12">
-                <div className="flex justify-end w-full mb-6">
+                <div className="flex justify-start w-full mb-6">
                   <h3 className="text-3xl font-bold text-white">نظرة عامة</h3>
                 </div>
                 <div className="bg-[#111111] rounded-2xl p-4 md:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-white/5">
@@ -221,18 +224,23 @@ export default async function UnitDetailsPage({ params }: { params: { id: string
                         unit.video_url.includes('youtube.com') || unit.video_url.includes('youtu.be') ? (() => {
                           let embedUrl = unit.video_url;
                           try {
-                            const urlObj = new URL(unit.video_url);
-                            if (urlObj.hostname.includes('youtube.com') && urlObj.pathname === '/watch') {
-                              const videoId = urlObj.searchParams.get('v');
-                              if (videoId) embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0`;
-                            } else if (urlObj.hostname.includes('youtu.be')) {
-                              const videoId = urlObj.pathname.substring(1);
-                              if (videoId) embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0`;
+                            let urlStr = unit.video_url;
+                            if (!urlStr.startsWith('http')) urlStr = 'https://' + urlStr;
+                            const urlObj = new URL(urlStr);
+                            let videoId = urlObj.searchParams.get('v');
+                            if (!videoId) {
+                              const pathParts = urlObj.pathname.split('/').filter(Boolean);
+                              videoId = pathParts[pathParts.length - 1]; // Works for youtu.be/ID, youtube.com/shorts/ID, youtube.com/embed/ID
                             }
-                          } catch (e) {}
+                            if (videoId && videoId.length >= 10) {
+                              embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0`;
+                            }
+                          } catch (e) {
+                            console.error("Invalid video URL", e);
+                          }
                           return <iframe src={embedUrl} className="w-full h-full aspect-video absolute inset-0" allowFullScreen></iframe>;
                         })() : (
-                          <VideoPlayer src={unit.video_url} />
+                          <VideoPlayer src={getImageUrl(unit.video_url)} />
                         )
                       ) : (
                         <img src={getImageUrl(unit.main_image_url || unit.main_image || (unit as any).image, unit.id ? String(unit.id).charCodeAt(0) : 0)} alt={unit.title} className="w-full h-full object-cover absolute inset-0 opacity-80 hover:opacity-100 transition-opacity" />
@@ -332,23 +340,10 @@ export default async function UnitDetailsPage({ params }: { params: { id: string
               {/* Amenities */}
               {unit.amenities && unit.amenities.length > 0 && (
                 <div id="amenities" className="bg-[#111111] rounded-2xl p-6 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-white/5 scroll-mt-32 mb-12">
-                  <div className="flex justify-end w-full mb-8">
+                  <div className="flex justify-start w-full mb-8">
                     <div className="bg-primary/20 border border-primary/30 px-6 py-2 rounded-lg">
                       <h3 className="text-xl font-bold text-primary">المرافق والخدمات</h3>
                     </div>
-                  </div>
-
-                  {/* Cards */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    {unit.amenities.slice(0, 3).map((amenity: any, idx: number) => (
-                      <div key={idx} className="relative h-48 rounded-2xl overflow-hidden group">
-                        <img src={getImageUrl(amenity?.image || (unit.images && unit.images.length > idx ? unit.images[idx] : unit.main_image))} alt={typeof amenity === 'string' ? amenity : amenity?.name || ''} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-70" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-                        <div className="absolute bottom-4 right-4">
-                           <span className="bg-black/60 backdrop-blur-sm text-white px-4 py-1.5 rounded-full text-sm font-bold border border-white/10">{typeof amenity === 'string' ? amenity : amenity?.name || ''}</span>
-                        </div>
-                      </div>
-                    ))}
                   </div>
 
                   {/* Checklist */}
@@ -367,7 +362,7 @@ export default async function UnitDetailsPage({ params }: { params: { id: string
 
               {/* Location */}
               <div id="location" className="bg-[#111111] rounded-2xl p-6 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-white/5 scroll-mt-32 mb-12">
-                <div className="flex justify-end w-full mb-8">
+                <div className="flex justify-start w-full mb-8">
                   <h3 className="text-2xl font-bold text-white">الموقع</h3>
                 </div>
                 <div className="flex flex-col md:flex-row gap-8 items-center">
@@ -419,7 +414,7 @@ export default async function UnitDetailsPage({ params }: { params: { id: string
               {/* Floor Plans */}
               {unit.floor_plans && unit.floor_plans.length > 0 && (
                 <div id="floorplans" className="scroll-mt-32 mb-12">
-                  <div className="flex justify-end w-full mb-8">
+                  <div className="flex justify-start w-full mb-8">
                     <h3 className="text-2xl font-bold text-white">المخططات</h3>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
