@@ -181,6 +181,30 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
     }
   };
 
+  const [newAmenityName, setNewAmenityName] = useState("");
+  const handleAddNewAmenity = async () => {
+    if (!newAmenityName.trim()) return;
+    try {
+      const res = await fetch("/api/admin/amenities", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newAmenityName.trim() })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const created = data.data || data;
+        setAmenities([...amenities, created]);
+        setSelectedAmenities([...selectedAmenities, created.id]);
+        setNewAmenityName("");
+        showToast("تم إضافة المرفق الجديد بنجاح", "success");
+      } else {
+        throw new Error("فشل إضافة المرفق");
+      }
+    } catch (e: any) {
+      showToast(e.message, "error");
+    }
+  };
+
   // ----- Nested Relations Handlers -----
 
   const refreshUnitData = async () => {
@@ -513,7 +537,7 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
 
             <div className="md:col-span-2">
               <label className="block text-sm font-bold text-gray-700 mb-2">المرافق والخدمات الأساسية</label>
-              <div className="flex flex-wrap gap-2 mb-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
+              <div className="flex flex-wrap items-center gap-2 mb-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
                 {amenities.map((amenity) => {
                   const isSelected = selectedAmenities.includes(amenity.id);
                   return (
@@ -527,10 +551,29 @@ export default function EditUnitPage({ params }: { params: { id: string } }) {
                     </button>
                   )
                 })}
+                <div className="flex items-center gap-2 mr-4">
+                  <input
+                    type="text"
+                    value={newAmenityName}
+                    onChange={(e) => setNewAmenityName(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handleAddNewAmenity();
+                      }
+                    }}
+                    placeholder="مرفق جديد..."
+                    className="bg-white border border-gray-200 rounded-full px-3 py-1.5 text-xs outline-none focus:ring-1 focus:ring-primary w-28 text-navy-dark"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAddNewAmenity}
+                    className="w-7 h-7 bg-primary text-navy-deeper rounded-full flex items-center justify-center font-bold hover:bg-primary/90 transition-colors"
+                  >
+                    +
+                  </button>
+                </div>
               </div>
-
-              <label className="block text-sm font-bold text-gray-700 mb-2">مميزات إضافية مخصصة (اختياري)</label>
-              <textarea name="features" value={formData.features} onChange={handleChange} rows={2} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/50 outline-none text-navy-dark" placeholder="اكتب يدوياً (مفصولة بفاصلة مثل: جراج خاص، رووف...)"></textarea>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
