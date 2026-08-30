@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FiPlus, FiSearch, FiEdit2, FiTrash2, FiX, FiCheck } from "react-icons/fi";
+import { FiPlus, FiSearch, FiEdit2, FiTrash2, FiX, FiCheck, FiEye } from "react-icons/fi";
 import { useToast } from "@/components/ToastProvider";
 import { useConfirm } from "@/components/ConfirmProvider";
 
@@ -11,6 +11,7 @@ export default function AdminPlansPage() {
   const [plans, setPlans] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
+  const [selectedPlan, setSelectedPlan] = useState<any>(null);
 
   // Form state
   const [showForm, setShowForm] = useState(false);
@@ -285,6 +286,13 @@ export default function AdminPlansPage() {
                         <td className="px-6 py-4">
                           <div className="flex items-center justify-end gap-2">
                             <button 
+                              onClick={() => setSelectedPlan(plan)}
+                              className="p-2 text-gray-500 hover:bg-gray-200 hover:text-navy-dark rounded-lg transition-colors"
+                              title="عرض التفاصيل"
+                            >
+                              <FiEye size={18} />
+                            </button>
+                            <button 
                               onClick={() => handleEdit(plan)}
                               className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
                               title="تعديل"
@@ -308,6 +316,71 @@ export default function AdminPlansPage() {
             )}
           </div>
         </>
+      )}
+
+      {/* Details Modal */}
+      {selectedPlan && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 sm:p-6 backdrop-blur-md transition-opacity" data-lenis-prevent>
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="flex items-center justify-between p-6 pb-2 shrink-0 border-b border-gray-100">
+              <h3 className="text-xl font-bold text-navy-dark flex items-center gap-2">
+                تفاصيل الباقة 
+                <span className="text-primary font-bold">#{selectedPlan.id}</span>
+                {selectedPlan.is_recommended && (
+                  <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold mr-2">مميزة</span>
+                )}
+              </h3>
+              <button 
+                onClick={() => setSelectedPlan(null)}
+                className="p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 rounded-full transition-colors"
+              >
+                <FiX size={20} />
+              </button>
+            </div>
+            
+            <div className="p-6 pt-4 space-y-6 overflow-y-auto flex-1 custom-scrollbar">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-center text-right space-y-1">
+                  <span className="text-gray-400 text-xs">اسم الباقة</span>
+                  <div className="font-bold text-navy-dark text-base">{selectedPlan.title}</div>
+                </div>
+                <div className="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-center text-right space-y-1">
+                  <span className="text-gray-400 text-xs">السعر</span>
+                  <div className="font-bold text-primary text-base">{selectedPlan.price} ج.م <span className="text-xs text-gray-500">/ متر مربع</span></div>
+                </div>
+                <div className="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-center text-right space-y-1 col-span-2">
+                  <span className="text-gray-400 text-xs">وصف مختصر</span>
+                  <div className="font-bold text-navy-dark text-sm">{selectedPlan.description || "لا يوجد وصف لهذه الباقة"}</div>
+                </div>
+              </div>
+              
+              {selectedPlan.notes && Array.isArray(selectedPlan.notes) && selectedPlan.notes.length > 0 && (
+                <div className="bg-primary/5 border border-primary/20 rounded-2xl p-5 text-right mt-6">
+                  <h3 className="text-primary-dark font-bold mb-4 text-sm flex items-center gap-2">
+                    <FiCheck className="inline-block" /> مميزات الباقة:
+                  </h3>
+                  <ul className="space-y-3">
+                    {selectedPlan.notes.map((note: string, idx: number) => (
+                      <li key={idx} className="flex items-start gap-2 text-sm text-navy-light font-medium">
+                        <span className="text-primary mt-1 shrink-0"><FiCheck size={14} /></span>
+                        <span>{note}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+            
+            <div className="p-6 pt-0 flex justify-start shrink-0 border-t border-gray-100 pt-6">
+              <button 
+                onClick={() => setSelectedPlan(null)}
+                className="bg-navy-deeper text-white px-8 py-2.5 rounded-xl font-bold hover:bg-primary transition-colors"
+              >
+                إغلاق
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

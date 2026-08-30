@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FiPlus, FiEdit2, FiTrash2, FiSearch } from "react-icons/fi";
+import { FiPlus, FiEdit2, FiTrash2, FiSearch, FiEye, FiX, FiCheckCircle, FiMaximize } from "react-icons/fi";
 import { getImageUrl } from "@/lib/config";
 import Link from "next/link";
 import { useToast } from "@/components/ToastProvider";
@@ -14,6 +14,25 @@ export default function AdminFinishingPage() {
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [timestamp, setTimestamp] = useState(Date.now());
+  const [selectedProject, setSelectedProject] = useState<any>(null);
+  const [loadingModal, setLoadingModal] = useState(false);
+
+  const handleOpenProjectModal = async (project: any) => {
+    setSelectedProject(project);
+    setLoadingModal(true);
+    try {
+      const code = project.code || project.renovation_code || project.id;
+      const res = await fetch(`/api/admin/renovation-projects/${code}`);
+      if (res.ok) {
+        const data = await res.json();
+        setSelectedProject(data.data || data);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoadingModal(false);
+    }
+  };
 
   const fetchProjects = async () => {
     try {
@@ -121,6 +140,9 @@ export default function AdminFinishingPage() {
                   </td>
                   <td className="px-6 py-4 text-left">
                     <div className="flex items-center justify-end gap-2">
+                      <button onClick={() => handleOpenProjectModal(project)} className="p-2 text-gray-500 hover:bg-gray-200 hover:text-navy-dark rounded-lg transition-colors inline-block" title="عرض التفاصيل">
+                        <FiEye size={16} />
+                      </button>
                       <Link href={`/admin/finishing/edit/${project.code || project.renovation_code || project.id}`} className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors inline-block" title="تعديل">
                         <FiEdit2 size={16} />
                       </Link>
@@ -142,6 +164,146 @@ export default function AdminFinishingPage() {
           </table>
         </div>
       </div>
+
+      {/* Project Details Modal */}
+      {selectedProject && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 sm:p-6 backdrop-blur-md transition-opacity" data-lenis-prevent>
+          <div className="bg-white rounded-3xl w-full max-w-2xl flex flex-col shadow-2xl animate-fade-rise is-visible relative max-h-[90vh] overflow-hidden">
+            <div className="w-full flex-1 overflow-y-auto pb-6 custom-scrollbar" data-lenis-prevent>
+            
+            {/* Header Image */}
+            <div className="w-full h-48 bg-gray-100 relative shrink-0">
+              <img 
+                src={`${getImageUrl(selectedProject.main_image_url || selectedProject.main_image || selectedProject.image || (selectedProject.images && selectedProject.images.length > 0 ? selectedProject.images[0] : null))}?t=${timestamp}`} 
+                alt="Project" 
+                className="w-full h-full object-cover" 
+                onError={(e) => { e.currentTarget.src = 'https://placehold.co/800x400/f3f4f6/9ca3af.png?text=No+Image' }} 
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy-deeper/90 to-transparent"></div>
+              
+              <button 
+                onClick={() => setSelectedProject(null)}
+                className="absolute top-4 right-4 p-2 bg-white/20 hover:bg-white/40 text-white rounded-full backdrop-blur-md transition-colors"
+              >
+                <FiX size={20} />
+              </button>
+
+              <div className="absolute bottom-4 right-6 left-6 flex justify-between items-end">
+                <div>
+                  <h2 className="font-bold text-white text-2xl drop-shadow-md flex items-center gap-2">
+                    {selectedProject.title || "مشروع بدون عنوان"}
+                    {loadingModal && <span className="w-4 h-4 border-2 border-white/50 border-t-white rounded-full animate-spin"></span>}
+                  </h2>
+                  <p className="text-gray-300 text-sm mt-1">كود المشروع: <span className="text-primary font-bold">{selectedProject.code || selectedProject.renovation_code || selectedProject.id}</span></p>
+                </div>
+                <span className={`px-4 py-1.5 rounded-full text-xs font-bold shadow-lg backdrop-blur-md border ${
+                  selectedProject.status === "completed" ? "bg-green-500/20 text-green-300 border-green-500/30" : 
+                  "bg-orange-500/20 text-orange-300 border-orange-500/30"
+                }`}>
+                  {selectedProject.status === "completed" ? "مكتمل" : "تحت التنفيذ"}
+                </span>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-center text-right space-y-1">
+                  <span className="text-gray-400 text-xs">نوع العقار</span>
+                  <span className="font-bold text-navy-dark text-base">
+                    {selectedProject.property_type === "apartment" ? "شقة" : selectedProject.property_type === "villa" ? "فيلا" : selectedProject.property_type === "commercial_shop" ? "محل تجاري" : selectedProject.property_type}
+                  </span>
+                </div>
+                <div className="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-center text-right space-y-1">
+                  <span className="text-gray-400 text-xs">النمط (Style)</span>
+                  <span className="font-bold text-navy-dark text-base">
+                    {selectedProject.style_label || (selectedProject.style === 'modern' ? 'عصري' : selectedProject.style === 'neo_classic' ? 'نيو كلاسيك' : selectedProject.style)}
+                  </span>
+                </div>
+                <div className="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-center text-right space-y-1">
+                  <span className="text-gray-400 text-xs flex items-center justify-end gap-1">المساحة <FiMaximize/></span>
+                  <span className="font-bold text-navy-dark text-base">
+                    {selectedProject.area_sqm || selectedProject.area || "غير محدد"} {selectedProject.area_sqm ? "م²" : ""}
+                  </span>
+                </div>
+                
+                <div className="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-center text-right space-y-1">
+                  <span className="text-gray-400 text-xs flex items-center justify-end gap-1">مدة التنفيذ</span>
+                  <span className="font-bold text-navy-dark text-base">{selectedProject.execution_duration || "غير محدد"}</span>
+                </div>
+                <div className="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-center text-right space-y-1 col-span-2">
+                  <span className="text-gray-400 text-xs">العنوان / الموقع</span>
+                  <span className="font-bold text-navy-dark text-base truncate">{selectedProject.location || selectedProject.address || "غير محدد"}</span>
+                </div>
+              </div>
+
+              {/* Description */}
+              <div className="bg-primary/5 border border-primary/20 rounded-2xl p-5 text-right mt-6">
+                <h3 className="text-primary-dark font-bold mb-2 text-sm flex items-center gap-2">
+                  <FiSearch className="inline-block" /> الوصف ونطاق العمل:
+                </h3>
+                <p className="text-navy-light font-medium leading-relaxed whitespace-pre-wrap text-sm">
+                  {selectedProject.description || "لا يوجد وصف."}
+                </p>
+                {selectedProject.scope_of_work && (
+                   <div className="mt-3 text-sm text-navy-dark font-bold">
+                     نطاق العمل: <span className="font-normal text-navy-light">{Array.isArray(selectedProject.scope_of_work) ? selectedProject.scope_of_work.join('، ') : selectedProject.scope_of_work}</span>
+                   </div>
+                )}
+                {selectedProject.materials_used && (
+                   <div className="mt-2 text-sm text-navy-dark font-bold">
+                     الخامات: <span className="font-normal text-navy-light">{Array.isArray(selectedProject.materials_used) ? selectedProject.materials_used.join('، ') : selectedProject.materials_used}</span>
+                   </div>
+                )}
+              </div>
+
+              {/* Challenges */}
+              {selectedProject.challenges && Array.isArray(selectedProject.challenges) && selectedProject.challenges.length > 0 && (
+                <div className="mt-6 border-t border-gray-50 pt-4">
+                  <h3 className="text-navy-dark font-bold mb-3 text-sm flex items-center gap-2">التحديات والحلول:</h3>
+                  <div className="space-y-3">
+                    {selectedProject.challenges.map((ch: any, i: number) => (
+                      <div key={i} className="bg-gray-50 border border-gray-100 rounded-xl p-4">
+                        <span className="font-bold text-navy-dark text-sm block mb-1">{ch.title}</span>
+                        <p className="text-gray-500 text-xs leading-relaxed">{ch.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Images Gallery */}
+              {selectedProject.images && Array.isArray(selectedProject.images) && selectedProject.images.length > 0 && (
+                <div className="mt-6 border-t border-gray-50 pt-4">
+                  <h3 className="text-navy-dark font-bold mb-3 text-sm flex items-center gap-2">معرض الصور:</h3>
+                  <div className="grid grid-cols-4 gap-2">
+                    {selectedProject.images.map((img: string, i: number) => {
+                      if (getImageUrl(img) === getImageUrl(selectedProject.main_image_url || selectedProject.main_image)) return null;
+                      return (
+                        <a key={i} href={getImageUrl(img)} target="_blank" rel="noreferrer" className="aspect-square rounded-xl overflow-hidden bg-gray-100 border border-gray-200 block hover:opacity-80 transition-opacity">
+                          <img src={getImageUrl(img)} alt={`صورة إضافية ${i + 1}`} className="w-full h-full object-cover" />
+                        </a>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+            </div>
+            {/* Footer */}
+            <div className="p-6 pt-0 flex justify-start">
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="bg-navy-deeper text-white px-8 py-2.5 rounded-xl font-bold hover:bg-primary transition-colors"
+              >
+                إغلاق
+              </button>
+            </div>
+            
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );

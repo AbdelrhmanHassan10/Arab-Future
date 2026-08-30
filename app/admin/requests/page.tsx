@@ -192,46 +192,51 @@ export default function AdminRequestsPage() {
 
       {/* Details Modal */}
       {selectedRequest && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-navy-dark/60 backdrop-blur-sm transition-opacity">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden border border-gray-100">
-            <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50/50">
-              <h3 className="text-xl font-bold text-navy-dark">تفاصيل الطلب #{selectedRequest.code || selectedRequest.lead_code || selectedRequest.id}</h3>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4 sm:p-6 backdrop-blur-md transition-opacity" data-lenis-prevent>
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="flex items-center justify-between p-6 pb-2 shrink-0">
+              <h3 className="text-xl font-bold text-navy-dark flex items-center gap-2">
+                تفاصيل الطلب 
+                <span className="text-primary font-bold">#{selectedRequest.code || selectedRequest.lead_code || selectedRequest.id}</span>
+              </h3>
               <button 
                 onClick={() => setSelectedRequest(null)}
-                className="p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 rounded-lg transition-colors"
+                className="p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 rounded-full transition-colors"
               >
                 <FiX size={20} />
               </button>
             </div>
             
-            <div className="p-6 space-y-6">
+            <div className="p-6 pt-4 space-y-6 overflow-y-auto flex-1">
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-gray-50 p-4 rounded-xl">
-                  <span className="text-xs text-gray-500 block mb-1">اسم العميل</span>
-                  <div className="font-bold text-navy-dark">{selectedRequest.name}</div>
+                <div className="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-center text-right space-y-1">
+                  <span className="text-gray-400 text-xs">اسم العميل</span>
+                  <div className="font-bold text-navy-dark text-base">{selectedRequest.name}</div>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-xl">
-                  <span className="text-xs text-gray-500 block mb-1">رقم الهاتف</span>
-                  <div className="font-bold text-navy-dark" dir="ltr">{selectedRequest.phone}</div>
+                <div className="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-center text-right space-y-1">
+                  <span className="text-gray-400 text-xs">رقم الهاتف</span>
+                  <div className="font-bold text-navy-dark text-base" dir="ltr">{selectedRequest.phone}</div>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-xl col-span-2 md:col-span-1">
-                  <span className="text-xs text-gray-500 block mb-1">تاريخ الطلب</span>
-                  <div className="font-bold text-navy-dark">{selectedRequest.created_at ? new Date(selectedRequest.created_at).toLocaleDateString('ar-EG') : (selectedRequest.date || '-')}</div>
+                <div className="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-center text-right space-y-1 col-span-2">
+                  <span className="text-gray-400 text-xs">تاريخ الطلب</span>
+                  <div className="font-bold text-navy-dark text-base">{selectedRequest.created_at ? new Date(selectedRequest.created_at).toLocaleDateString('ar-EG') : (selectedRequest.date || '-')}</div>
                 </div>
               </div>
               
-              <div className="bg-blue-50/50 p-4 rounded-xl border border-blue-100">
-                <span className="text-xs text-blue-600 font-bold block mb-2">نص الرسالة / التفاصيل:</span>
-                <p className="text-navy-dark text-sm leading-relaxed whitespace-pre-wrap">
+              <div className="bg-primary/5 border border-primary/20 rounded-2xl p-5 text-right mt-6">
+                <h3 className="text-primary-dark font-bold mb-2 text-sm flex items-center gap-2">
+                  <FiSearch className="inline-block" /> نص الرسالة / التفاصيل:
+                </h3>
+                <p className="text-navy-light font-medium leading-relaxed whitespace-pre-wrap text-sm">
                   {selectedRequest.message || "لا توجد تفاصيل إضافية مرفقة مع هذا الطلب."}
                 </p>
               </div>
             </div>
             
-            <div className="p-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
+            <div className="p-6 pt-0 flex justify-start shrink-0">
               <button 
                 onClick={() => setSelectedRequest(null)}
-                className="px-6 py-2.5 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition-colors"
+                className="bg-navy-deeper text-white px-8 py-2.5 rounded-xl font-bold hover:bg-primary transition-colors"
               >
                 إغلاق
               </button>
