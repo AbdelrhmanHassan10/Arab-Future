@@ -89,12 +89,12 @@ export default function CeoMessage() {
                 {/* Signature Signature (Fictional cursive text) */}
                 <div className="mt-12 pt-8 border-t border-white/10 flex items-center justify-between">
                   <div>
-                    <h5 className="text-white font-bold text-lg">سمسار بني سويف</h5>
+                    <h5 className="text-white font-bold text-lg">الفضل العقاريه</h5>
                     <p className="text-white/40 text-sm mt-1">مستشارك العقاري الموثوق</p>
                   </div>
                   {/* Cursive style signature */}
                   <div className="text-primary/60 font-serif text-3xl italic opacity-50 select-none">
-                    Semsar Beni Suef
+                    Al-Fadl Real Estate
                   </div>
                 </div>
               </div>

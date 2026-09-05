@@ -173,7 +173,7 @@ export default function AboutPage() {
             </div>
 
             <h1 className="text-[clamp(3.5rem,8vw,7rem)] font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/70 leading-tight md:leading-snug mb-6 drop-shadow-2xl font-arabic pb-4">
-              سمسار بني سويف
+              الفضل العقاريه
             </h1>
 
             <p className="text-xl md:text-3xl text-white/90 font-light leading-relaxed mb-12">
@@ -236,7 +236,7 @@ export default function AboutPage() {
               <div>
                 <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">من نحن</h3>
                 <p className="text-white/60 leading-[1.9] text-sm md:text-base">
-                  سمسار بني سويف ليست مجرد شركة وساطة عقارية، بل هي كيان استشاري متكامل يضع بين يديك خلاصة خبرات ممتدة في السوق العقاري ببني سويف. نحن نؤمن بأن العقار هو الاستثمار الأهم في حياة الفرد، لذلك نلتزم بتقديم حلول متكاملة تضمن لعملائنا اختيار الأنسب.
+                  الفضل العقاريه ليست مجرد شركة وساطة عقارية، بل هي كيان استشاري متكامل يضع بين يديك خلاصة خبرات ممتدة في السوق العقاري ببني سويف. نحن نؤمن بأن العقار هو الاستثمار الأهم في حياة الفرد، لذلك نلتزم بتقديم حلول متكاملة تضمن لعملائنا اختيار الأنسب.
                 </p>
               </div>
             </motion.div>
@@ -247,7 +247,7 @@ export default function AboutPage() {
               className="col-span-1 lg:col-span-1 row-span-1 bg-[#1a1a1a] rounded-[2rem] p-8 border border-white/5 flex flex-col items-center justify-center text-center group relative overflow-hidden"
             >
               <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-500" />
-              <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/20 mb-2 group-hover:scale-110 transition-transform duration-500">10+</span>
+              <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/20 mb-2 group-hover:scale-110 transition-transform duration-500">8+</span>
               <span className="text-primary font-medium tracking-widest text-sm uppercase">سنوات خبرة</span>
             </motion.div>
 
@@ -256,8 +256,8 @@ export default function AboutPage() {
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.3, ease }}
               className="col-span-1 lg:col-span-1 row-span-1 bg-gradient-to-br from-[#DFBA7F] to-[#A07B40] rounded-[2rem] p-8 flex flex-col items-center justify-center text-center group shadow-glow"
             >
-              <span className="text-5xl font-black text-[#090909] mb-2 group-hover:scale-110 transition-transform duration-500">500+</span>
-              <span className="text-[#090909]/70 font-bold tracking-widest text-sm uppercase">عميل سعيد</span>
+              <span className="text-5xl font-black text-[#090909] mb-2 group-hover:scale-110 transition-transform duration-500">100+</span>
+              <span className="text-[#090909]/70 font-bold tracking-widest text-sm uppercase">عقار تم بيعه</span>
             </motion.div>
 
             {/* Quality & Standards Card */}
@@ -302,7 +302,7 @@ export default function AboutPage() {
 
                 <h3 className="text-3xl font-bold text-navy-dark mb-6" style={{paddingTop: "40px"}} >كلمة الإدارة</h3>
                 <p className="text-lg md:text-xl text-gray-600 leading-[2] font-light mb-8 italic">
-                  &ldquo;في سمسار بني سويف، نحن لا نبيع مجرد جدران وأسقف، بل نصنع مستقبلاً ونؤسس لحياة أفضل. كل عميل يضع ثقته فينا يمنحنا شرفاً ومسؤولية كبرى. هدفنا الدائم هو أن نظل المستشار المؤتمن الذي يرشدك نحو الخيار الأمثل، سواء كنت تبحث عن منزل لعائلتك أو استثمار يؤمن مستقبلك.&rdquo;
+                  &ldquo;في الفضل العقاريه، نحن لا نبيع مجرد جدران وأسقف، بل نصنع مستقبلاً ونؤسس لحياة أفضل. كل عميل يضع ثقته فينا يمنحنا شرفاً ومسؤولية كبرى. هدفنا الدائم هو أن نظل المستشار المؤتمن الذي يرشدك نحو الخيار الأمثل، سواء كنت تبحث عن منزل لعائلتك أو استثمار يؤمن مستقبلك.&rdquo;
                 </p>
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xl">

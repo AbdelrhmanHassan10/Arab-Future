@@ -218,7 +218,7 @@ export default function ArticlePage() {
                   <span className="text-white/40 text-sm font-medium">شارك المقال:</span>
                   <div className="flex gap-2">
                     <a
-                      href={`https://wa.me/?text=${encodeURIComponent(article.title + " - " + "https://semsar-masr.com/blog/" + article.id)}`}
+                      href={`https://wa.me/?text=${encodeURIComponent(article.title + " - " + "https://alfadl-realestate.com/blog/" + article.id)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-10 h-10 rounded-full bg-[#25D366]/10 flex items-center justify-center text-[#25D366] hover:bg-[#25D366] hover:text-white transition-all duration-300 border border-[#25D366]/20 hover:border-transparent"
@@ -228,7 +228,7 @@ export default function ArticlePage() {
                       </svg>
                     </a>
                     <a
-                      href={`https://x.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent("https://semsar-masr.com/blog/" + article.id)}`}
+                      href={`https://x.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent("https://alfadl-realestate.com/blog/" + article.id)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:bg-white hover:text-navy-deeper transition-all duration-300 border border-white/10"

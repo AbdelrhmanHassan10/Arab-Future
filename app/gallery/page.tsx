@@ -107,7 +107,7 @@ export default function GalleryPage() {
                 transition={{ duration: 0.8, ease }}
               >
                 <span className="inline-block py-1.5 px-4 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-bold tracking-widest uppercase mb-6 shadow-[0_0_15px_rgba(191,154,95,0.2)]">
-                  Semsar Masr Gallery
+                  Al-Fadl Gallery
                 </span>
                 <h1 className="text-[clamp(2.5rem,5vw,4.5rem)] font-black text-white leading-tight mb-4">
                   جولة <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#DFBA7F] via-primary to-[#A07B40]">بصرية</span>
@@ -286,7 +286,7 @@ export default function GalleryPage() {
                     </div>
 
                     <p className="text-white/60 leading-relaxed text-sm mb-4 md:mb-8 pb-4 md:pb-8 border-b border-white/5">
-                      استكشف تفاصيل هذا العقار الفاخر وتعرّف على أرقى التصميمات المعمارية التي نقدمها لعملائنا في سمسار مصر.
+                      استكشف تفاصيل هذا العقار الفاخر وتعرّف على أرقى التصميمات المعمارية التي نقدمها لعملائنا في الفضل العقاريه.
                     </p>
 
                     <div className="mt-6 md:mt-8">

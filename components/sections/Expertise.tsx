@@ -38,7 +38,7 @@ const expertiseData = [
   {
     id: "05",
     title: "استشارات عقارية",
-    description: "استشارات موثوقة مبنية على دراسة عميقة لسوق العقارات في بني سويف لتوجيه استثمارك بنجاح.",
+    description: "استشارات موثوقة مبنية على دراسة عميقة لسوق العقارات في بني سويف والتجمع لتوجيه استثمارك بنجاح.",
     link: "/contact",
     image: "/projects/project-5.png",
   },
@@ -91,7 +91,7 @@ export default function Expertise() {
             {/* Floating Title on Image */}
             <div className="absolute bottom-8 left-8 right-8 z-10 flex flex-col items-center text-center">
               <span className="bg-white/10 backdrop-blur-md border border-white/20 text-white/80 text-[10px] tracking-widest uppercase px-4 py-1.5 rounded-full mb-3 font-body">
-                Semsar Expertise
+                Al-Fadl Expertise
               </span>
               <h3 className="text-2xl md:text-3xl font-bold text-white drop-shadow-md">
                 {expertiseData[activeIndex].title}

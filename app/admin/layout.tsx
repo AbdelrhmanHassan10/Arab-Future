@@ -42,7 +42,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           {/* Sidebar */}
           <aside className={`fixed inset-y-0 right-0 z-50 w-64 bg-navy-deeper text-white transition-transform duration-300 ease-in-out lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen lg:flex-shrink-0 flex flex-col ${isSidebarOpen ? "translate-x-0" : "translate-x-full"}`}>
             <div className="flex items-center justify-between p-6 border-b border-white/10">
-              <Link href="/admin" className="text-xl font-bold font-arabic text-primary">سمسار بني سويف</Link>
+              <Link href="/admin" className="text-xl font-bold font-arabic text-primary">الفضل العقاريه</Link>
               <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden text-gray-400 hover:text-white">
                 <FiX size={24} />
               </button>
@@ -75,7 +75,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </div>
                 <div className="overflow-hidden">
                   <div className="text-[13px] font-bold text-white truncate">مدير النظام</div>
-                  <div className="text-[11px] text-gray-400 truncate">admin@semsarbenisuef.com</div>
+                  <div className="text-[11px] text-gray-400 truncate">admin@alfadl-realestate.com</div>
                 </div>
               </div>
               <button

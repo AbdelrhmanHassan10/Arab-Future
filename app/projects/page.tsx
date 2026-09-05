@@ -299,7 +299,7 @@ export default function ProjectsPage() {
               transition={{ duration: 0.8, ease }}
             >
               <span className="inline-block py-1.5 px-4 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-bold tracking-widest uppercase mb-6">
-                Semsar Masr Properties
+                Al-Fadl Properties
               </span>
               <h1 className="text-[clamp(2.5rem,6vw,5rem)] font-black text-white leading-tight mb-6">
                 اكتشف عقار <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#DFBA7F] via-primary to-[#A07B40]">أحلامك</span>
@@ -430,7 +430,7 @@ export default function ProjectsPage() {
            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/[0.02] rounded-full blur-[100px] pointer-events-none" />
            
            <div className="container-wide px-6 relative z-10">
-              <SectionHeader subtitle="Why Semsar Masr" title="لماذا تستثمر عن طريقنا؟" />
+              <SectionHeader subtitle="Why Al-Fadl" title="لماذا تستثمر عن طريقنا؟" />
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                  <div className="glass-card-dark p-8 rounded-3xl border border-white/5 text-center group hover:border-primary/30 transition-colors">

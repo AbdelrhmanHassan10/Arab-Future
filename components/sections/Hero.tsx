@@ -60,7 +60,7 @@ export default function Hero() {
             <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
           </span>
           <span className="text-xs font-medium text-white/90 tracking-widest uppercase font-body">
-            Semsar Beni Suef
+            Al-Fadl Real Estate
           </span>
         </motion.div>
 
@@ -88,7 +88,7 @@ export default function Hero() {
           transition={{ duration: 0.8, ease, delay: 0.6 }}
           className="text-base md:text-lg text-white/60 font-light leading-[1.9] max-w-2xl mx-auto mb-10"
         >
-          نساعدك في العثور على الوحدة المناسبة، ونقدم لك خدمات تشطيب متكاملة داخل بني سويف.
+          نساعدك في العثور على الوحدة المناسبة، ونقدم لك خدمات تشطيب متكاملة داخل بني سويف والتجمع.
         </motion.p>
 
         {/* CTA Buttons */}

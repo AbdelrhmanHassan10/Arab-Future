@@ -35,7 +35,7 @@ export default function Preloader() {
           >
             <motion.img
               src="/samsar_horizontal_transparent.png"
-              alt="سمسار بني سويف"
+              alt="الفضل العقاريه"
               className="w-56 h-auto object-contain"
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -46,9 +46,9 @@ export default function Preloader() {
               transition={{ delay: 0.6, duration: 0.5 }}
               className="text-center"
             >
-              <h2 className="text-white font-bold text-lg font-arabic">سمسار بني سويف</h2>
+              <h2 className="text-white font-bold text-lg font-arabic">الفضل العقاريه</h2>
               <p className="text-white/40 text-xs mt-1 tracking-[0.2em] uppercase font-body">
-                Semsar Beni Suef
+                Al-Fadl Real Estate
               </p>
             </motion.div>
             {/* Loading bar */}

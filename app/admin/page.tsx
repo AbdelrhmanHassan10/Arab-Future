@@ -50,7 +50,7 @@ export default async function AdminDashboard() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-bold text-navy-dark">نظرة عامة</h1>
-          <p className="text-gray-500 text-sm">مرحباً بك في لوحة تحكم سمسار بني سويف</p>
+          <p className="text-gray-500 text-sm">مرحباً بك في لوحة تحكم الفضل العقاريه</p>
         </div>
       </div>
 

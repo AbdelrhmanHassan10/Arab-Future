@@ -45,7 +45,7 @@ export default function Navbar() {
               {/* Logo */}
               <Link href="/" className="group flex items-center gap-5">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/samsar_logo_transparent.png" alt="سمسار بني سويف" className="w-16 h-16 md:w-24 md:h-22 object-contain transition-transform duration-500 group-hover:scale-105" />
+                <img src="/samsar_logo_transparent.png" alt="الفضل العقاريه" className="w-16 h-16 md:w-24 md:h-22 object-contain transition-transform duration-500 group-hover:scale-105" />
                 
                 {/* Separator */}
                 <div className="w-[2px] h-16 bg-white/50 rounded-full hidden md:block"></div>
@@ -53,10 +53,10 @@ export default function Navbar() {
 
                 <div className="flex flex-col justify-center">
                   <span className="font-bold text-lg md:text-xl block leading-none text-white font-arabic mb-1">
-                    سمسار بني سويف
+                    الفضل العقاريه
                   </span>
-                  <span className="text-[9px] md:text-[10px] tracking-[0.25em] uppercase block font-body text-primary font-bold">
-                    Semsar Beni Suef
+                  <span className="text-[10px] md:text-[11px] tracking-[0.1em] block font-body text-primary font-bold mt-1">
+                    وسيطك العقاري المباشر
                   </span>
                 </div>
               </Link>

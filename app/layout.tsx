@@ -38,9 +38,9 @@ const cairo = Cairo({
 });
 
 export const metadata: Metadata = {
-  title: "سمسار بني سويف | Semsar Beni Suef - التسويق العقاري والتشطيبات",
+  title: "الفضل العقاريه | Al-Fadl Real Estate - التسويق العقاري والتشطيبات",
   description:
-    "سمسار بني سويف - وجهتك الأولى لاكتشاف أفضل العقارات وتوفير خدمات التشطيب المتكاملة داخل بني سويف. بيع، شراء، وتشطيب.",
+    "الفضل العقاريه - وجهتك الأولى لاكتشاف أفضل العقارات وتوفير خدمات التشطيب المتكاملة داخل بني سويف والتجمع. بيع، شراء، وتشطيب.",
   icons: {
     icon: '/samsar-beni-suef-concept-3.png',
   },
@@ -50,7 +50,8 @@ export const metadata: Metadata = {
     "beni suef",
     "property",
     "finishing",
-    "سمسار",
+    "الفضل العقاريه",
+    "عقارات الفضل",
     "عقارات",
     "بني سويف",
     "تشطيبات",
@@ -59,9 +60,9 @@ export const metadata: Metadata = {
     "استثمار",
   ],
   openGraph: {
-    title: "سمسار مصر | Semsar Masr",
+    title: "الفضل العقاريه | Al-Fadl Real Estate",
     description:
-      "اكتشف منزل أحلامك في مصر مع سمسار مصر.",
+      "اكتشف منزل أحلامك في مصر مع الفضل العقاريه.",
     type: "website",
     locale: "ar_EG",
   },

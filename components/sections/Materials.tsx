@@ -5,6 +5,24 @@ import { motion } from "framer-motion";
 
 const materials = [
   {
+    id: 6,
+    title: "تخصيص مباشر",
+    subtitle: "Direct Allocation",
+    titleAr: "أراضي تخصيص مباشر",
+    description: "فرص حصرية للحصول على أراضي تخصيص مباشر بمساحات متنوعة تناسب كبرى المشاريع.",
+    features: ["مواقع مميزة", "تسهيلات سداد", "تخصيص فوري"],
+    image: "/projects/project-14.png"
+  },
+  {
+    id: 7,
+    title: "بيع أراضي",
+    subtitle: "Lands For Sale",
+    titleAr: "بيع أراضي تجارية وسكنية",
+    description: "مجموعة متميزة من الأراضي التجارية والسكنية الجاهزة للبناء في أرقى المناطق.",
+    features: ["أراضي تجارية", "أراضي سكنية", "مساحات متنوعة"],
+    image: "/projects/project-15.png"
+  },
+  {
     id: 1,
     title: "فيلات",
     subtitle: "Villas",
@@ -79,7 +97,7 @@ export default function Materials() {
             استثمارات <span className="text-primary">متنوعة</span> لتلبية احتياجاتك
           </h2>
           <p className="text-white/50 text-base mt-4 font-light">
-            نوفر في سمسار مصر خيارات عقارية شاملة تناسب السكن الفاخر، الاستثمار التجاري، أو قضاء أوقات ممتعة في المنتجعات الساحلية.
+            نوفر في الفضل العقاريه خيارات عقارية شاملة تناسب السكن الفاخر، الاستثمار التجاري، أو قضاء أوقات ممتعة في المنتجعات الساحلية.
           </p>
         </motion.div>
 

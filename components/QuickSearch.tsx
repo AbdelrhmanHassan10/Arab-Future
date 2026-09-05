@@ -122,7 +122,7 @@ export default function QuickSearch() {
       <div className="bg-[#111111] border border-white/10 rounded-[2rem] p-4 shadow-[0_20px_50px_rgba(0,0,0,0.5)] max-w-5xl mx-auto backdrop-blur-xl">
         <div className="text-center mb-8">
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">ابحث عن عقارك المثالي</h2>
-          <p className="text-gray-400 text-sm">اكتشف مجموعة من أرقى الوحدات العقارية في بني سويف</p>
+          <p className="text-gray-400 text-sm">اكتشف مجموعة من أرقى الوحدات العقارية في بني سويف والتجمع</p>
         </div>
         
         <motion.div

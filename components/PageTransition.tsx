@@ -64,7 +64,7 @@ export default function PageTransition({ children }: { children: React.ReactNode
               <div className="relative w-56 h-24 mb-4">
                 <Image
                   src="/samsar_horizontal_transparent.png"
-                  alt="سمسار بني سويف"
+                  alt="الفضل العقاريه"
                   fill
                   sizes="224px"
                   className="object-contain drop-shadow-[0_0_15px_rgba(191,154,95,0.4)]"
@@ -78,7 +78,7 @@ export default function PageTransition({ children }: { children: React.ReactNode
                   transition={{ delay: 0.5, duration: 0.5 }}
                   className="text-white font-bold text-2xl tracking-wide mb-1"
                 >
-                  سمسار بني سويف
+                  الفضل العقاريه
                 </motion.h2>
                 <motion.p 
                   initial={{ y: 20, opacity: 0 }}

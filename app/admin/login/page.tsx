@@ -39,7 +39,7 @@ export default function LoginPage() {
       <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl relative z-10">
         <div className="text-center mb-10">
           <h1 className="text-3xl font-bold text-navy-dark font-arabic mb-2">تسجيل الدخول</h1>
-          <p className="text-gray-500 text-sm">لوحة تحكم سمسار بني سويف</p>
+          <p className="text-gray-500 text-sm">لوحة تحكم الفضل العقاريه</p>
         </div>
 
         {error && (
@@ -61,7 +61,7 @@ export default function LoginPage() {
                 required
                 dir="ltr"
                 className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-4 pr-12 text-left focus:ring-2 focus:ring-primary/50 outline-none transition-all text-navy-dark"
-                placeholder="admin@semsarbenisuef.com"
+                placeholder="admin@alfadl-realestate.com"
               />
             </div>
           </div>

@@ -163,7 +163,7 @@ function UnitsContent() {
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-8">
               اكتشف منزل أحلامك<br />
-              <span className="text-white">مع <span className="text-primary">سمسار بني سويف</span></span>
+              <span className="text-white">مع <span className="text-primary">الفضل العقاريه</span></span>
             </h1>
 
             <div className="w-20 h-1 bg-primary mb-6" />

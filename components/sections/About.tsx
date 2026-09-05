@@ -79,7 +79,7 @@ export default function About() {
             <div className="absolute inset-0 bg-primary/5 opacity-50 mix-blend-overlay" />
             <div className="relative z-10">
               <span className="text-5xl md:text-6xl font-black text-navy-deeper font-body block mb-2 group-hover:scale-110 transition-transform duration-500">
-                12+
+                8+
               </span>
               <span className="text-navy-deeper/80 text-sm font-bold uppercase tracking-wider">
                 سنوات من الخبرة

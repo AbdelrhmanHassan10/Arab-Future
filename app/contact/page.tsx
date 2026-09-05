@@ -28,8 +28,8 @@ const contactInfo = [
     ),
     label: "البريد الإلكتروني",
     labelEn: "Email",
-    value: "info@semsarbenisuef.com",
-    link: "mailto:info@semsarbenisuef.com",
+    value: "info@alfadl-realestate.com",
+    link: "mailto:info@alfadl-realestate.com",
   },
   {
     icon: (
@@ -228,7 +228,7 @@ export default function ContactPage() {
                       أخبرنا عن طلبك
                     </h2>
                     <p className="text-white/50 text-sm font-medium mb-10">
-                      تواصل مع سمسار بني سويف عبر النموذج أدناه وسيقوم أحد خبرائنا العقاريين بالتواصل معك خلال ساعة واحدة.
+                      تواصل مع الفضل العقاريه عبر النموذج أدناه وسيقوم أحد خبرائنا العقاريين بالتواصل معك خلال ساعة واحدة.
                     </p>
 
                     <form onSubmit={handleSubmit} className="space-y-6">

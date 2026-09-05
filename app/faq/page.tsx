@@ -19,12 +19,12 @@ const faqCategories = [
     ),
     questions: [
       {
-        q: "ما هي الخطوات لشراء عقار عن طريق سمسار مصر؟",
+        q: "ما هي الخطوات لشراء عقار عن طريق الفضل العقاريه؟",
         a: "تبدأ العملية بحجز استشارة مجانية معنا لفهم احتياجاتك. بعدها نقوم بعرض أفضل الخيارات المتاحة، ثم نرتب زيارات ميدانية للمشاريع، وأخيراً نساعدك في إتمام إجراءات التعاقد والتسجيل بكل أمان وموثوقية.",
       },
       {
         q: "هل يتم تحصيل عمولة من المشتري؟",
-        a: "لا، نحن في سمسار مصر لا نحصل على أي عمولات من المشتري في المشاريع الجديدة (Primary Market). يتم تحصيل عمولتنا مباشرة من المطور العقاري، مما يضمن لك الحصول على السعر الرسمي بدون أي زيادات.",
+        a: "لا، نحن في الفضل العقاريه لا نحصل على أي عمولات من المشتري في المشاريع الجديدة (Primary Market). يتم تحصيل عمولتنا مباشرة من المطور العقاري، مما يضمن لك الحصول على السعر الرسمي بدون أي زيادات.",
       },
       {
         q: "كيف أضمن مصداقية المطور العقاري؟",
@@ -170,7 +170,7 @@ export default function FAQPage() {
                 transition={{ duration: 0.8, ease }}
               >
                 <span className="inline-block py-1.5 px-4 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-bold tracking-widest uppercase mb-6 shadow-[0_0_15px_rgba(191,154,95,0.2)]">
-                  Semsar Masr FAQ
+                  Al-Fadl FAQ
                 </span>
                 <h1 className="text-[clamp(2.5rem,5vw,4.5rem)] font-black text-white leading-tight mb-4">
                   إجابات <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#DFBA7F] via-primary to-[#A07B40]">واضحة</span> لاستثمارك الناجح

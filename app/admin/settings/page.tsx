@@ -112,7 +112,7 @@ export default function AdminSettingsPage() {
                 <label className="block text-sm font-bold text-gray-700 mb-2">رقم الهاتف (للاتصال)</label>
                 <input 
                   type="text" name="phone" value={settings.phone} onChange={handleChange} dir="ltr"
-                  placeholder="+201012345678" maxLength={13}
+                  placeholder="+201008450553" maxLength={13}
                   className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/20 text-sm"
                 />
               </div>
@@ -120,7 +120,7 @@ export default function AdminSettingsPage() {
                 <label className="block text-sm font-bold text-gray-700 mb-2">رقم الواتساب</label>
                 <input 
                   type="text" name="whatsapp_number" value={settings.whatsapp_number} onChange={handleChange} dir="ltr"
-                  placeholder="+201012345678" maxLength={13}
+                  placeholder="+201008450553" maxLength={13}
                   className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-primary/20 text-sm"
                 />
               </div>

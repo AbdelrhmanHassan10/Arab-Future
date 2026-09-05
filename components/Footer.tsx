@@ -36,7 +36,10 @@ export default function Footer() {
       .then(data => {
         // Handle if response is wrapped in 'data'
         const s = data.data || data;
-        setSettings(s);
+        // Replace legacy names from API
+        let stringified = JSON.stringify(s);
+        stringified = stringified.replace(/سمسار بني سويف/g, 'الفضل العقاريه').replace(/سمسار مصر/g, 'الفضل العقاريه');
+        setSettings(JSON.parse(stringified));
       })
       .catch(console.error);
   }, []);
@@ -83,9 +86,9 @@ export default function Footer() {
 
   const phoneDisplay = settings?.whatsapp_number || "+20 100 845 0553";
   const phoneLink = `tel:${phoneDisplay.replace(/\s+/g, '')}`;
-  const address = settings?.address || "الحي الأول، شرق النيل، بني سويف";
-  const aboutText = settings?.about_text || "الوجهة الأولى للتسويق العقاري وإعادة البيع وأعمال التشطيبات المتكاملة في بني سويف. نضع خبراتنا بين يديك لضمان أفضل استثمار لك ولعائلتك.";
-  const email = settings?.email || "info@semsarbenisuef.com";
+  const address = settings?.address || "بني سويف";
+  const aboutText = settings?.about_text || "الوجهة الأولى للتسويق العقاري وإعادة البيع وأعمال التشطيبات المتكاملة في بني سويف والتجمع. نضع خبراتنا بين يديك لضمان أفضل استثمار لك ولعائلتك.";
+  const email = settings?.email || "info@alfadl-realestate.com";
 
   return (
     <footer className="relative bg-[#111111] overflow-hidden pt-20 pb-8 border-t border-white/10">
@@ -93,7 +96,7 @@ export default function Footer() {
       {/* Massive Watermark */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl px-6 pointer-events-none opacity-[0.03] select-none flex justify-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/samsar_horizontal_transparent.png" alt="سمسار بني سويف" className="w-full h-auto object-contain" />
+        <img src="/samsar_horizontal_transparent.png" alt="الفضل العقاريه" className="w-full h-auto object-contain" />
       </div>
 
       <div className="pad-x container-wide pt-24 pb-12 relative z-10">
@@ -104,14 +107,14 @@ export default function Footer() {
             <Link href="/" className="flex items-center gap-4 mb-8 group inline-flex">
               <div className="relative w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center p-2 group-hover:border-primary/50 group-hover:shadow-[0_0_20px_rgba(191,154,95,0.2)] transition-all duration-500">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/samsar_logo_transparent.png" alt="سمسار بني سويف" className="w-full h-full object-contain" />
+                <img src="/samsar_logo_transparent.png" alt="الفضل العقاريه" className="w-full h-full object-contain" />
               </div>
               <div>
-                <span className="text-white font-bold text-xl block leading-none font-arabic mb-1">
-                  سمسار بني سويف
+                <span className="text-white font-bold text-xl block leading-none font-arabic mb-1 mt-1">
+                  الفضل العقاريه
                 </span>
-                <span className="text-primary tracking-[0.3em] text-[9px] uppercase font-body block">
-                  Semsar Beni Suef
+                <span className="text-primary tracking-[0.1em] text-[11px] font-bold font-arabic block mt-1">
+                  وسيطك العقاري المباشر
                 </span>
               </div>
             </Link>
@@ -211,7 +214,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-white/40 text-[13px]">
-            &copy; {new Date().getFullYear()} سمسار بني سويف — جميع الحقوق محفوظة
+            &copy; {new Date().getFullYear()} الفضل العقاريه — جميع الحقوق محفوظة
           </p>
           <div className="flex items-center gap-6">
             <Link href="/privacy" className="text-white/50 text-[13px] hover:text-primary transition-colors duration-300">
