@@ -45,7 +45,7 @@ export default function Navbar() {
               {/* Logo */}
               <Link href="/" className="group flex items-center gap-5">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/samsar_logo_transparent.png" alt="الفضل العقاريه" className="w-16 h-16 md:w-24 md:h-22 object-contain transition-transform duration-500 group-hover:scale-105" />
+                <img src="/magmoat-logo-d6ae45-transparent.png" alt="الفضل العقاريه" className="w-16 h-16 md:w-24 md:h-22 object-contain transition-transform duration-500 group-hover:scale-105" />
                 
                 {/* Separator */}
                 <div className="w-[2px] h-16 bg-white/50 rounded-full hidden md:block"></div>

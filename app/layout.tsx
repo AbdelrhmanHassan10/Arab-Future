@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   description:
     "الفضل العقاريه - وجهتك الأولى لاكتشاف أفضل العقارات وتوفير خدمات التشطيب المتكاملة داخل بني سويف والتجمع. بيع، شراء، وتشطيب.",
   icons: {
-    icon: '/samsar-beni-suef-concept-3.png',
+    icon: '/magmoat-logo-d6ae45-transparent.png',
   },
   keywords: [
     "real estate",

@@ -63,7 +63,7 @@ export default function PageTransition({ children }: { children: React.ReactNode
               
               <div className="relative w-56 h-24 mb-4">
                 <Image
-                  src="/samsar_horizontal_transparent.png"
+                  src="/magmoat-logo-d6ae45-transparent.png"
                   alt="الفضل العقاريه"
                   fill
                   sizes="224px"

@@ -96,7 +96,7 @@ export default function Footer() {
       {/* Massive Watermark */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl px-6 pointer-events-none opacity-[0.03] select-none flex justify-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/samsar_horizontal_transparent.png" alt="الفضل العقاريه" className="w-full h-auto object-contain" />
+        <img src="/magmoat-logo-d6ae45-transparent.png" alt="الفضل العقاريه" className="w-full h-auto object-contain" />
       </div>
 
       <div className="pad-x container-wide pt-24 pb-12 relative z-10">
@@ -107,7 +107,7 @@ export default function Footer() {
             <Link href="/" className="flex items-center gap-4 mb-8 group inline-flex">
               <div className="relative w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center p-2 group-hover:border-primary/50 group-hover:shadow-[0_0_20px_rgba(191,154,95,0.2)] transition-all duration-500">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/samsar_logo_transparent.png" alt="الفضل العقاريه" className="w-full h-full object-contain" />
+                <img src="/magmoat-logo-d6ae45-transparent.png" alt="الفضل العقاريه" className="w-full h-full object-contain" />
               </div>
               <div>
                 <span className="text-white font-bold text-xl block leading-none font-arabic mb-1 mt-1">

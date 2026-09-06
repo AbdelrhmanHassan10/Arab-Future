@@ -34,7 +34,7 @@ export default function Preloader() {
             className="flex flex-col items-center gap-6"
           >
             <motion.img
-              src="/samsar_horizontal_transparent.png"
+              src="/magmoat-logo-d6ae45-transparent.png"
               alt="الفضل العقاريه"
               className="w-56 h-auto object-contain"
               animate={{ scale: [1, 1.05, 1] }}
