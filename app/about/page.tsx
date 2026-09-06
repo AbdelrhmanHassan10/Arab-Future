@@ -152,7 +152,7 @@ export default function AboutPage() {
       <section ref={heroRef} className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-32 pb-24">
         <div className="absolute inset-0 bg-[#090909]">
           {/* Logo Watermark Background */}
-          <div className="absolute inset-0 bg-[url('/magmoat-logo-d6ae45-transparent.png')] bg-contain bg-no-repeat bg-center opacity-[0.07] scale-150 md:scale-110" />
+          <div className="absolute inset-0 bg-[url('/magmoat-logo-d6ae45-transparent.png')] bg-contain bg-no-repeat bg-center opacity-[0.05] scale-90 md:scale-75" />
           <div className="absolute inset-0 bg-gradient-to-b from-[#090909]/80 via-[#090909]/40 to-[#090909]" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent opacity-80 animate-pulse-slow" />
         </div>

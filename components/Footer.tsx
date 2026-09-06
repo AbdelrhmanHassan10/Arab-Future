@@ -94,9 +94,9 @@ export default function Footer() {
     <footer className="relative bg-[#111111] overflow-hidden pt-20 pb-8 border-t border-white/10">
       
       {/* Massive Watermark */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl px-6 pointer-events-none opacity-[0.03] select-none flex justify-center">
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03] select-none flex justify-center items-center py-10">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/magmoat-logo-d6ae45-transparent.png" alt="الفضل العقاريه" className="w-full h-auto object-contain" />
+        <img src="/magmoat-logo-d6ae45-transparent.png" alt="الفضل العقاريه" className="w-full h-full object-contain" />
       </div>
 
       <div className="pad-x container-wide pt-24 pb-12 relative z-10">

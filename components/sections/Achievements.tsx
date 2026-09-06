@@ -172,11 +172,8 @@ export default function Achievements() {
               </p>
 
               <div className="space-y-4 relative z-10">
-                <BarStat label="القاهرة الجديدة والتجمع" value={35} maxValue={100} delay={0.1} />
-                <BarStat label="العاصمة الإدارية الجديدة" value={30} maxValue={100} delay={0.2} />
-                <BarStat label="الشيخ زايد وأكتوبر" value={15} maxValue={100} delay={0.3} />
-                <BarStat label="الساحل الشمالي" value={10} maxValue={100} delay={0.4} />
-                <BarStat label="العين السخنة" value={10} maxValue={100} delay={0.5} />
+                <BarStat label="بني سويف والأحياء الراقية" value={75} maxValue={100} delay={0.1} />
+                <BarStat label="القاهرة الجديدة والتجمع" value={25} maxValue={100} delay={0.2} />
               </div>
             </motion.div>
           </div>
