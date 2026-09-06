@@ -11,7 +11,7 @@ const materials = [
     titleAr: "أراضي تخصيص مباشر",
     description: "فرص حصرية للحصول على أراضي تخصيص مباشر بمساحات متنوعة تناسب كبرى المشاريع.",
     features: ["مواقع مميزة", "تسهيلات سداد", "تخصيص فوري"],
-    image: "/projects/project-14.png"
+    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1200"
   },
   {
     id: 7,
@@ -20,7 +20,7 @@ const materials = [
     titleAr: "بيع أراضي تجارية وسكنية",
     description: "مجموعة متميزة من الأراضي التجارية والسكنية الجاهزة للبناء في أرقى المناطق.",
     features: ["أراضي تجارية", "أراضي سكنية", "مساحات متنوعة"],
-    image: "/projects/project-15.png"
+    image: "https://images.unsplash.com/photo-1524813686514-a57563d77965?auto=format&fit=crop&q=80&w=1200"
   },
   {
     id: 1,
@@ -29,7 +29,7 @@ const materials = [
     titleAr: "فيلات وتاون هاوس",
     description: "مساحات واسعة وتصميمات راقية تلبي تطلعاتك نحو الرفاهية والخصوصية التامة.",
     features: ["مساحات خضراء", "مسبح خاص", "جراج"],
-    image: "/projects/project-17.png"
+    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200"
   },
   {
     id: 2,
@@ -38,7 +38,7 @@ const materials = [
     titleAr: "شقق سكنية فاخرة",
     description: "شقق بتشطيبات عالمية ومساحات ذكية تناسب العائلات العصرية في أرقى التجمعات.",
     features: ["إطلالات مميزة", "أمن وحراسة", "مرافق"],
-    image: "/projects/project-20.png"
+    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=1200"
   },
   {
     id: 3,
@@ -47,7 +47,7 @@ const materials = [
     titleAr: "وحدات تجارية",
     description: "محلات تجارية في مواقع استراتيجية تضمن لك أعلى عائد على الاستثمار.",
     features: ["مواقع حيوية", "تصميم مرن", "عائد مضمون"],
-    image: "/projects/project-8.png"
+    image: "https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?auto=format&fit=crop&q=80&w=1200"
   },
   {
     id: 4,
@@ -56,7 +56,7 @@ const materials = [
     titleAr: "مكاتب ومقرات إدارية",
     description: "بيئة عمل متطورة تعكس احترافية شركتك مع كافة الخدمات والمرافق الأساسية.",
     features: ["قاعات اجتماعات", "إنترنت فائق", "إدارة متكاملة"],
-    image: "/projects/project-11.png"
+    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200"
   },
   {
     id: 5,
@@ -65,7 +65,7 @@ const materials = [
     titleAr: "شاليهات ومنتجعات",
     description: "عقارات ساحلية توفر لك ملاذاً مثالياً للاسترخاء مع إطلالات ساحرة على البحر.",
     features: ["إطلالة بحرية", "شواطئ رملية", "خدمات فندقية"],
-    image: "/projects/project-1.png"
+    image: "https://images.unsplash.com/photo-1560662105-57f8ad6ae2d1?auto=format&fit=crop&q=80&w=1200"
   }
 ];
 

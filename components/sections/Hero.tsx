@@ -65,17 +65,15 @@ export default function Hero() {
         </motion.div>
 
         {/* Massive Typography */}
-        <div className="relative mb-6 w-full max-w-5xl mx-auto">
-
-
+        <div className="relative mb-6 w-full max-w-7xl mx-auto">
           <motion.h1
             initial={{ y: 40, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, ease, delay: 0.4 }}
-            className="relative text-[clamp(2.5rem,6vw,5rem)] font-bold text-white leading-[1.1] mb-2"
+            className="relative text-[clamp(2.2rem,5vw,4.5rem)] font-bold text-white leading-[1.2] mb-2"
           >
-            بيتك الجديد أو تشطيب وحدتك... <br />
-            <span className="text-primary">
+            <span className="block md:inline whitespace-nowrap md:whitespace-normal">بيتك الجديد أو تشطيب وحدتك</span> <br className="hidden md:block" />
+            <span className="text-primary mt-2 md:mt-0 block md:inline">
               كله في مكان واحد
             </span>
           </motion.h1>
@@ -86,7 +84,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease, delay: 0.6 }}
-          className="text-base md:text-lg text-white/60 font-light leading-[1.9] max-w-2xl mx-auto mb-10"
+          className="text-base md:text-lg text-white/60 font-light leading-[1.9] max-w-4xl mx-auto mb-10"
         >
           نساعدك في العثور على الوحدة المناسبة، ونقدم لك خدمات تشطيب متكاملة داخل بني سويف والتجمع.
         </motion.p>

@@ -157,7 +157,7 @@ export default function FinishingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.2 }}
-                className={`rounded-3xl p-8 relative flex flex-col h-full bg-white border border-gray-100 ${pkg.is_recommended ? 'shadow-2xl md:scale-110 z-10 border-primary/20' : 'shadow-soft opacity-90'}`}
+                className={`rounded-3xl p-8 relative flex flex-col h-full border ${pkg.is_recommended ? 'bg-[#111111] border-primary/30 shadow-[0_0_40px_rgba(191,154,95,0.15)] md:scale-110 z-10' : 'bg-white border-gray-100 shadow-soft opacity-90'}`}
               >
                 {pkg.is_recommended && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-black font-bold px-4 py-1 rounded-full text-sm shadow-md whitespace-nowrap border border-white/20">
@@ -165,20 +165,20 @@ export default function FinishingPage() {
                   </div>
                 )}
                 
-                <h3 className="text-2xl font-bold text-navy-deeper mb-2 text-center">{pkg.title}</h3>
-                <p className="text-gray-500 text-sm mb-6 text-center">{pkg.description}</p>
+                <h3 className={`text-2xl font-bold mb-2 text-center ${pkg.is_recommended ? 'text-white' : 'text-navy-deeper'}`}>{pkg.title}</h3>
+                <p className={`text-sm mb-6 text-center ${pkg.is_recommended ? 'text-white/60' : 'text-gray-500'}`}>{pkg.description}</p>
                 
                 <div className="text-center mb-8">
-                  <span className="text-sm text-gray-500 font-medium">يبدأ من</span>
-                  <div className="text-4xl font-black text-navy-deeper my-1 font-body">{pkg.price?.toLocaleString("ar-EG") || '0'}</div>
-                  <span className="text-sm text-gray-500 font-medium">ج.م / للمتر المربع</span>
+                  <span className={`text-sm font-medium ${pkg.is_recommended ? 'text-white/60' : 'text-gray-500'}`}>يبدأ من</span>
+                  <div className={`text-4xl font-black my-1 font-body ${pkg.is_recommended ? 'text-white' : 'text-navy-deeper'}`}>{pkg.price?.toLocaleString("ar-EG") || '0'}</div>
+                  <span className={`text-sm font-medium ${pkg.is_recommended ? 'text-white/60' : 'text-gray-500'}`}>ج.م / للمتر المربع</span>
                 </div>
 
                 <div className="space-y-4 mb-8 flex-1">
                   {(Array.isArray(pkg.notes) ? pkg.notes : (typeof pkg.notes === 'string' ? JSON.parse(pkg.notes || '[]') : [])).map((feature: string, fIdx: number) => (
                     <div className="flex items-start gap-3" key={fIdx}>
                       <FiCheckCircle className="text-primary mt-1 shrink-0" size={18} />
-                      <span className="text-gray-600 text-sm font-medium leading-relaxed">{feature}</span>
+                      <span className={`text-sm font-medium leading-relaxed ${pkg.is_recommended ? 'text-white/80' : 'text-gray-600'}`}>{feature}</span>
                     </div>
                   ))}
                 </div>
@@ -187,7 +187,7 @@ export default function FinishingPage() {
                   href={`https://wa.me/201008450553?text=مرحباً، أريد الاستفسار عن باقة التشطيب: ${pkg.title}.`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`w-full py-4 rounded-xl font-bold text-center transition-all duration-300 flex items-center justify-center gap-2 ${pkg.is_recommended ? 'bg-primary text-black hover:bg-navy-deeper hover:text-white shadow-md' : 'bg-off-white text-navy-dark hover:bg-gray-200 border border-gray-100'}`}
+                  className={`w-full py-4 rounded-xl font-bold text-center transition-all duration-300 flex items-center justify-center gap-2 ${pkg.is_recommended ? 'bg-primary text-black hover:bg-white hover:shadow-[0_0_20px_rgba(191,154,95,0.4)]' : 'bg-off-white text-navy-dark hover:bg-gray-200 border border-gray-100'}`}
                 >
                   <FaWhatsapp size={20} />
                   <span>طلب معاينة</span>
