@@ -132,7 +132,7 @@ function UnitsContent() {
 
   const filteredUnits = units; // We now rely on the backend for filtering
 
-
+  const hasActiveFilters = searchTerm !== "" || Object.values(filters).some(val => val !== "");
   return (
     <>
       <Navbar />
@@ -183,19 +183,27 @@ function UnitsContent() {
           <p className="text-gray-400 max-w-2xl text-lg">تصفح أحدث العقارات المتاحة للبيع والاستثمار في أرقى مناطق بني سويف. شقق، فيلات، ومقرات إدارية وتجارية تلبي جميع احتياجاتك.</p>
         </div>
 
-        {loading ? (
-          <div className="flex justify-center items-center py-32">
-            <div className="text-primary font-bold text-xl animate-pulse">جاري تحميل الوحدات...</div>
-          </div>
-        ) : (
           <div className="flex flex-col lg:flex-row gap-8">
 
             {/* Sidebar Filters */}
             <div className="w-full lg:w-1/4">
               <div className="bg-[#111111] rounded-2xl p-6 border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-                <div className="flex items-center gap-2 mb-6 text-white font-bold text-lg border-b border-white/5 pb-4">
-                  <FiFilter className="text-primary" />
-                  <span>تصفية النتائج</span>
+                <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
+                  <div className="flex items-center gap-2 text-white font-bold text-lg">
+                    <FiFilter className="text-primary" />
+                    <span>تصفية النتائج</span>
+                  </div>
+                  {hasActiveFilters && (
+                    <button 
+                      onClick={() => {
+                        setSearchTerm("");
+                        setFilters({ type: "", location: "", status: "", priceMin: "", priceMax: "", rooms: "" });
+                      }}
+                      className="text-xs text-red-400 hover:text-red-300 font-bold transition-colors bg-red-400/10 px-3 py-1.5 rounded-lg"
+                    >
+                      إلغاء الفلاتر
+                    </button>
+                  )}
                 </div>
 
                 <div className="space-y-6">
@@ -268,47 +276,54 @@ function UnitsContent() {
 
             {/* Main Content */}
             <div className="w-full lg:w-3/4">
-              {/* Controls */}
-              <div className="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4 bg-[#111111] p-4 rounded-2xl border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
-                <p className="text-white/60 font-bold text-sm">
-                  تم العثور على <span className="text-primary">{filteredUnits.length}</span> وحدة
-                </p>
-                <div className="flex items-center gap-2 bg-white/5 p-1 rounded-xl">
-                  <button
-                    onClick={() => setViewMode("grid")}
-                    className={`p-2 rounded-lg transition-colors ${viewMode === "grid" ? "bg-white/10 text-primary" : "text-white/40 hover:text-white"}`}
-                  >
-                    <FiGrid size={18} />
-                  </button>
-                  <button
-                    onClick={() => setViewMode("list")}
-                    className={`p-2 rounded-lg transition-colors ${viewMode === "list" ? "bg-white/10 text-primary" : "text-white/40 hover:text-white"}`}
-                  >
-                    <FiList size={18} />
-                  </button>
-                </div>
-              </div>
-
-              {/* Grid / List */}
-              {filteredUnits.length > 0 ? (
-                <div className={viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" : "flex flex-col gap-6"}>
-                  {filteredUnits.map((unit, index) => (
-                    <div key={unit.id} className={viewMode === "list" ? "md:max-w-4xl" : ""}>
-                      <UnitCard unit={unit} index={index} />
-                    </div>
-                  ))}
+              {loading ? (
+                <div className="flex justify-center items-center py-32 bg-[#111111] rounded-2xl border border-white/5 h-full min-h-[400px]">
+                  <div className="text-primary font-bold text-xl animate-pulse">جاري تحميل الوحدات...</div>
                 </div>
               ) : (
-                <div className="bg-[#111111] rounded-2xl p-12 text-center border border-white/5">
-                  <FiSearch className="mx-auto text-white/20 mb-4" size={48} />
-                  <h3 className="text-xl font-bold text-white mb-2">لا توجد وحدات تطابق بحثك</h3>
-                  <p className="text-white/50">يرجى تعديل فلاتر البحث والمحاولة مرة أخرى.</p>
-                </div>
+                <>
+                  {/* Controls */}
+                  <div className="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4 bg-[#111111] p-4 rounded-2xl border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+                    <p className="text-white/60 font-bold text-sm">
+                      تم العثور على <span className="text-primary">{filteredUnits.length}</span> وحدة
+                    </p>
+                    <div className="flex items-center gap-2 bg-white/5 p-1 rounded-xl">
+                      <button
+                        onClick={() => setViewMode("grid")}
+                        className={`p-2 rounded-lg transition-colors ${viewMode === "grid" ? "bg-white/10 text-primary" : "text-white/40 hover:text-white"}`}
+                      >
+                        <FiGrid size={18} />
+                      </button>
+                      <button
+                        onClick={() => setViewMode("list")}
+                        className={`p-2 rounded-lg transition-colors ${viewMode === "list" ? "bg-white/10 text-primary" : "text-white/40 hover:text-white"}`}
+                      >
+                        <FiList size={18} />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Grid / List */}
+                  {filteredUnits.length > 0 ? (
+                    <div className={viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" : "flex flex-col gap-6"}>
+                      {filteredUnits.map((unit, index) => (
+                        <div key={unit.id} className={viewMode === "list" ? "md:max-w-4xl" : ""}>
+                          <UnitCard unit={unit} index={index} />
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="bg-[#111111] rounded-2xl p-12 text-center border border-white/5">
+                      <FiSearch className="mx-auto text-white/20 mb-4" size={48} />
+                      <h3 className="text-xl font-bold text-white mb-2">لا توجد وحدات تطابق بحثك</h3>
+                      <p className="text-white/50">يرجى تعديل فلاتر البحث والمحاولة مرة أخرى.</p>
+                    </div>
+                  )}
+                </>
               )}
             </div>
 
           </div>
-        )}
         </div>
       </div>
 

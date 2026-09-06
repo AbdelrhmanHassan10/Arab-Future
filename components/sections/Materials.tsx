@@ -158,7 +158,7 @@ export default function Materials() {
                     <h3 className="text-3xl md:text-4xl font-bold text-white mb-3">
                       {item.titleAr}
                     </h3>
-                    
+
                     <p className="text-white/70 text-sm md:text-base leading-relaxed mb-6 max-w-lg">
                       {item.description}
                     </p>
