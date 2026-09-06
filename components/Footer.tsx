@@ -86,7 +86,7 @@ export default function Footer() {
 
   const phoneDisplay = settings?.whatsapp_number || "+20 100 845 0553";
   const phoneLink = `tel:${phoneDisplay.replace(/\s+/g, '')}`;
-  const address = settings?.address || "بني سويف";
+  const address = "فيلا ٣١٠ الحى الاول شارع الاندلس امام مسجد اسامه بن زيد اعلى بن اروما";
   const aboutText = settings?.about_text || "الوجهة الأولى للتسويق العقاري وإعادة البيع وأعمال التشطيبات المتكاملة في بني سويف والتجمع. نضع خبراتنا بين يديك لضمان أفضل استثمار لك ولعائلتك.";
   const email = settings?.email || "info@alfadl-realestate.com";
 
@@ -186,24 +186,24 @@ export default function Footer() {
               </a>
 
               {/* Email */}
-              <a href={`mailto:${email}`} className="flex items-center gap-4 group w-fit justify-end ml-auto md:ml-0 md:justify-start">
-                <div className="text-white/60 group-hover:text-white transition-colors duration-300 text-right md:text-left">
-                  <span className="block text-[10px] uppercase tracking-widest text-primary/70 mb-1 font-body">Email</span>
-                  <span className="text-[14px] font-medium">{email}</span>
-                </div>
+              <a href={`mailto:${email}`} className="flex items-center gap-4 group w-fit">
                 <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-navy-deeper group-hover:border-primary transition-all duration-300 flex-shrink-0">
                   <FiMail className="text-xl" />
+                </div>
+                <div className="text-white/60 group-hover:text-white transition-colors duration-300 text-right">
+                  <span className="block text-[10px] uppercase tracking-widest text-primary/70 mb-1 font-body">Email</span>
+                  <span className="text-[14px] font-medium">{email}</span>
                 </div>
               </a>
 
               {/* Location */}
-              <div className="flex items-center gap-4 group w-fit">
-                <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-navy-deeper group-hover:border-primary transition-all duration-300 flex-shrink-0">
+              <div className="flex items-start gap-4 group w-full max-w-sm">
+                <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-navy-deeper group-hover:border-primary transition-all duration-300 flex-shrink-0 mt-1">
                   <FiMapPin className="text-xl" />
                 </div>
-                <div className="text-white/60 text-right">
+                <div className="text-white/60 text-right flex-1">
                   <span className="block text-[10px] uppercase tracking-widest text-primary/70 mb-1 font-body">Location</span>
-                  <span className="text-[15px] font-medium whitespace-nowrap">{address}</span>
+                  <span className="text-[14px] font-medium leading-relaxed block">{address}</span>
                 </div>
               </div>
 
