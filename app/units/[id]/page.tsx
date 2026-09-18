@@ -162,10 +162,10 @@ export default async function UnitDetailsPage({ params }: { params: { id: string
             </div>
             
             {(unit.images || []).length > 1 && (
-              <div className="hidden md:flex flex-col gap-4 w-full md:w-1/4">
+              <div className="flex flex-row md:flex-col overflow-x-auto hide-scrollbar gap-2 md:gap-4 w-full md:w-1/4 pb-2 md:pb-0 snap-x">
                 {(unit.images || []).slice(1, 3).map((img: string, i: number) => (
-                  <div key={i} className="flex-1 rounded-2xl overflow-hidden group relative">
-                    <img src={getImageUrl(img)} alt={`${unit.title} ${i + 2}`} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <div key={i} className="flex-none w-[60%] sm:w-[45%] md:w-auto md:flex-1 rounded-2xl overflow-hidden group relative snap-center">
+                    <img src={getImageUrl(img)} alt={`${unit.title} ${i + 2}`} className="w-full h-32 md:h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
                 ))}
               </div>

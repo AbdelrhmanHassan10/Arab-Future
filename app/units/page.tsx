@@ -152,8 +152,7 @@ function UnitsContent() {
 
         {/* Dark Angled Overlay (Right side) */}
         <div
-          className="absolute top-0 right-0 h-full w-[90%] md:w-[70%] lg:w-[60%] bg-black/70 z-10 flex flex-col justify-center px-8 md:px-16 lg:px-24"
-          style={{ clipPath: "polygon(15% 0, 100% 0, 100% 100%, 0% 100%)" }}
+          className="absolute top-0 right-0 h-full w-full md:w-[70%] lg:w-[60%] bg-black/60 md:bg-black/70 z-10 flex flex-col justify-center px-6 md:px-16 lg:px-24 md:[clip-path:polygon(15%_0,100%_0,100%_100%,0%_100%)]"
         >
           {/* Content inside slant */}
           <div className="max-w-xl mr-auto lg:mr-24 pt-20">
