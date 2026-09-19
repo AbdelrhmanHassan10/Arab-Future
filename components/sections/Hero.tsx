@@ -70,10 +70,10 @@ export default function Hero() {
             initial={{ y: 40, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, ease, delay: 0.4 }}
-            className="relative text-[clamp(2.2rem,5vw,4.5rem)] font-bold text-white leading-[1.2] mb-2"
+            className="relative text-[clamp(2rem,6vw,4.5rem)] font-bold text-white leading-[1.3] mb-4 md:mb-2 px-4"
           >
-            <span className="block md:inline whitespace-nowrap md:whitespace-normal">بيتك الجديد أو تشطيب وحدتك</span> <br className="hidden md:block" />
-            <span className="text-primary mt-2 md:mt-0 block md:inline">
+            <span className="block">بيتك الجديد أو تشطيب وحدتك</span>
+            <span className="text-primary block mt-1 md:mt-2">
               كله في مكان واحد
             </span>
           </motion.h1>

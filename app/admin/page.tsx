@@ -5,6 +5,8 @@ import Link from "next/link";
 import SessionExpired from "@/components/SessionExpired";
 import RecentActivityClient from "./RecentActivityClient";
 
+export const dynamic = 'force-dynamic';
+
 async function getDashboardData() {
   try {
     const [dashboard, units, renovations, requests] = await Promise.all([

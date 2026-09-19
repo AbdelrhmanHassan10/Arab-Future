@@ -21,7 +21,7 @@ function RenderSection({ section, index }: { section: ArticleSection; index: num
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.5, ease }}
-          className="text-2xl md:text-3xl font-bold text-white mt-12 mb-6 flex items-center gap-4"
+          className="text-2xl md:text-3xl font-bold text-[#082b26] mt-12 mb-6 flex items-center gap-4"
         >
           <div className="w-1.5 h-8 bg-primary rounded-full flex-shrink-0" />
           {section.text}
@@ -35,8 +35,8 @@ function RenderSection({ section, index }: { section: ArticleSection; index: num
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.5, delay: index * 0.05, ease }}
-          className={`text-white/70 text-base md:text-lg leading-[2.2] mb-6 ${
-            index === 0 ? "text-lg md:text-xl text-white/90 font-medium leading-[2.1]" : ""
+          className={`text-gray-600 text-base md:text-lg leading-[2.2] mb-6 ${
+            index === 0 ? "text-lg md:text-xl text-gray-800 font-medium leading-[2.1]" : ""
           }`}
         >
           {section.text}
@@ -50,17 +50,17 @@ function RenderSection({ section, index }: { section: ArticleSection; index: num
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease }}
-          className="bg-white/5 border border-white/10 rounded-[2rem] p-6 md:p-10 mb-8 shadow-[0_0_30px_rgba(0,0,0,0.3)]"
+          className="bg-gray-50 border border-gray-100 rounded-[2rem] p-6 md:p-10 mb-8 shadow-sm"
         >
           <ul className="space-y-5">
             {section.items?.map((item, i) => (
               <li key={i} className="flex items-start gap-4 group">
                 <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-0.5 border border-primary/30 group-hover:bg-primary transition-colors duration-300">
-                  <svg className="w-4 h-4 text-primary group-hover:text-navy-deeper transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <svg className="w-4 h-4 text-primary group-hover:text-white transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                   </svg>
                 </div>
-                <span className="text-white/80 text-base md:text-lg leading-[1.8] pt-1">{item}</span>
+                <span className="text-gray-700 text-base md:text-lg leading-[1.8] pt-1">{item}</span>
               </li>
             ))}
           </ul>
@@ -109,11 +109,11 @@ export default function ArticlePage() {
     return (
       <>
         <Navbar />
-        <div className="min-h-screen flex items-center justify-center bg-navy-deeper">
-          <div className="text-center glass-card-dark p-12 rounded-3xl">
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="text-center bg-white border border-gray-200 shadow-xl p-12 rounded-3xl">
             <h1 className="text-6xl font-black text-primary mb-4">404</h1>
-            <p className="text-white/70 mb-8 text-lg">عذراً، المقال الذي تبحث عنه غير موجود.</p>
-            <Link href="/blog" className="inline-flex px-8 py-3 bg-white/5 hover:bg-primary text-white hover:text-navy-deeper border border-white/10 hover:border-primary rounded-full transition-colors font-bold">
+            <p className="text-gray-600 mb-8 text-lg">عذراً، المقال الذي تبحث عنه غير موجود.</p>
+            <Link href="/blog" className="inline-flex px-8 py-3 bg-white hover:bg-primary text-[#082b26] hover:text-white border border-gray-200 hover:border-primary rounded-full transition-colors font-bold shadow-sm">
               العودة للمقالات
             </Link>
           </div>
@@ -128,7 +128,7 @@ export default function ArticlePage() {
 
   return (
     <>
-      <main className="min-h-screen bg-navy-deeper selection:bg-primary/30 selection:text-white">
+      <main className="min-h-screen bg-gray-50 selection:bg-primary/30 selection:text-[#082b26]">
         <Navbar />
 
         {/* --- IMMERSIVE HERO --- */}
@@ -142,9 +142,8 @@ export default function ArticlePage() {
               priority
             />
             {/* Cinematic Gradients */}
-            <div className="absolute inset-0 bg-gradient-to-t from-navy-deeper via-navy-deeper/80 to-navy-deeper/30" />
-            <div className="absolute inset-0 bg-gradient-to-b from-navy-deeper/50 via-transparent to-transparent" />
-            <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-gray-50 via-gray-50/80 to-transparent" />
+            <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] mix-blend-multiply pointer-events-none" />
           </div>
 
           <div className="container-wide px-6 relative z-10">
@@ -155,7 +154,7 @@ export default function ArticlePage() {
                 transition={{ duration: 0.6, ease }}
                 className="mb-8"
               >
-                <Link href="/blog" className="inline-flex items-center gap-2 px-5 py-2 bg-white/5 backdrop-blur-md rounded-full text-white/70 text-sm hover:text-primary hover:bg-white/10 transition-all duration-300 border border-white/10">
+                <Link href="/blog" className="inline-flex items-center gap-2 px-5 py-2 bg-white backdrop-blur-md rounded-full text-gray-600 text-sm hover:text-primary hover:bg-gray-100 transition-all duration-300 border border-gray-200 shadow-sm">
                   <svg className="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
                   </svg>
@@ -172,13 +171,13 @@ export default function ArticlePage() {
                   <span className={`px-4 py-1.5 rounded-full text-xs font-bold tracking-widest ${colorClass}`}>
                     {article.category}
                   </span>
-                  <div className="flex items-center gap-2 text-white/50 text-sm font-medium">
+                  <div className="flex items-center gap-2 text-gray-500 text-sm font-medium">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     {article.readTime}
                   </div>
-                  <div className="flex items-center gap-2 text-white/50 text-sm font-medium">
+                  <div className="flex items-center gap-2 text-gray-500 text-sm font-medium">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
                     </svg>
@@ -186,7 +185,7 @@ export default function ArticlePage() {
                   </div>
                 </div>
                 
-                <h1 className="text-[clamp(2rem,4vw,3.5rem)] font-black text-white leading-[1.2] mb-6 shadow-black drop-shadow-2xl">
+                <h1 className="text-[clamp(2rem,4vw,3.5rem)] font-black text-[#082b26] leading-[1.2] mb-6 drop-shadow-sm">
                   {article.title}
                 </h1>
               </motion.div>
@@ -199,23 +198,23 @@ export default function ArticlePage() {
           <div className="container-wide px-6">
             <div className="max-w-3xl mx-auto">
               
-              <div className="bg-navy-dark/40 backdrop-blur-3xl rounded-[3rem] p-8 md:p-12 lg:p-16 border border-white/5 shadow-2xl relative -mt-10">
+              <div className="bg-white rounded-[3rem] p-8 md:p-12 lg:p-16 border border-gray-100 shadow-xl relative -mt-10">
                 {article.sections.map((section, i) => (
                   <RenderSection key={i} section={section} index={i} />
                 ))}
               </div>
 
               {/* Share & Tags */}
-              <div className="mt-12 p-8 glass-card-dark rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 border border-white/5">
+              <div className="mt-12 p-8 bg-white rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 border border-gray-100 shadow-sm">
                 <div className="flex items-center gap-3">
-                  <span className="text-white/40 text-sm font-medium">القسم:</span>
+                  <span className="text-gray-500 text-sm font-medium">القسم:</span>
                   <span className={`px-4 py-1.5 rounded-full text-xs font-bold ${colorClass}`}>
                     {article.category}
                   </span>
                 </div>
                 
                 <div className="flex items-center gap-4">
-                  <span className="text-white/40 text-sm font-medium">شارك المقال:</span>
+                  <span className="text-gray-500 text-sm font-medium">شارك المقال:</span>
                   <div className="flex gap-2">
                     <a
                       href={`https://wa.me/?text=${encodeURIComponent(article.title + " - " + "https://alfadl-realestate.com/blog/" + article.id)}`}
@@ -231,7 +230,7 @@ export default function ArticlePage() {
                       href={`https://x.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent("https://alfadl-realestate.com/blog/" + article.id)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:bg-white hover:text-navy-deeper transition-all duration-300 border border-white/10"
+                      className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-[#082b26] transition-all duration-300 border border-gray-200"
                     >
                       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -282,16 +281,16 @@ export default function ArticlePage() {
 
         {/* --- RELATED ARTICLES --- */}
         {otherArticles.length > 0 && (
-          <section className="py-20 relative z-20 border-t border-white/5">
+          <section className="py-20 relative z-20 border-t border-gray-200">
             <div className="container-wide px-6">
               <div className="flex items-center justify-between mb-12">
-                <h2 className="text-3xl font-bold text-white flex items-center gap-4">
+                <h2 className="text-3xl font-bold text-[#082b26] flex items-center gap-4">
                   <div className="w-2 h-8 bg-primary rounded-full" />
                   مقالات ذات صلة
                 </h2>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {otherArticles.map((a, i) => (
                   <motion.div
                     key={a.id}
@@ -301,15 +300,16 @@ export default function ArticlePage() {
                     transition={{ delay: i * 0.1, duration: 0.5, ease }}
                   >
                     <Link href={`/blog/${a.id}`} className="block group h-full">
-                      <div className="glass-card-dark rounded-3xl overflow-hidden border border-white/5 group-hover:border-primary/30 transition-all duration-500 hover:shadow-[0_10px_30px_rgba(191,154,95,0.1)] hover:-translate-y-2 h-full flex flex-col">
+                      <div className="bg-white rounded-3xl overflow-hidden border border-gray-100 group-hover:border-[#148968]/30 transition-all duration-500 hover:shadow-xl hover:-translate-y-2 h-full flex flex-col">
                         
-                        <div className="relative aspect-[16/10] overflow-hidden">
+                        <div className="relative aspect-[16/10] overflow-hidden m-2 rounded-2xl">
                           <Image
                             src={a.image}
                             alt={a.title}
                             fill
                             className="object-cover transition-transform duration-700 group-hover:scale-105"
                           />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60" />
                           <div className="absolute top-3 right-3">
                             <span className={`px-3 py-1 rounded-full text-[10px] font-bold tracking-widest ${categoryColors[a.category] || "bg-gray-500/20 text-gray-400 border-gray-500/30"}`}>
                               {a.category}
@@ -318,12 +318,12 @@ export default function ArticlePage() {
                         </div>
                         
                         <div className="p-6 flex flex-col flex-1">
-                          <div className="flex items-center gap-3 text-xs font-medium text-white/40 mb-3">
+                          <div className="flex items-center gap-3 text-xs font-medium text-gray-400 mb-3">
                             <span>{a.date}</span>
                             <span className="w-1 h-1 rounded-full bg-primary" />
                             <span>{a.readTime}</span>
                           </div>
-                          <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors duration-300 line-clamp-2 leading-snug">
+                          <h3 className="text-lg font-bold text-[#082b26] group-hover:text-primary transition-colors duration-300 line-clamp-2 leading-snug">
                             {a.title}
                           </h3>
                         </div>

@@ -1,12 +1,11 @@
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { FiMapPin, FiMaximize, FiHome, FiCheckCircle, FiLayers, FiStar, FiCheck } from "react-icons/fi";
+import { FiMapPin, FiMaximize, FiLayers, FiCheck } from "react-icons/fi";
 import { BiBed, BiBath } from "react-icons/bi";
 import { FaWhatsapp } from "react-icons/fa";
 import VideoPlayer from "@/components/VideoPlayer";
 import GalleryLightbox from "@/components/GalleryLightbox";
-import ImageLightbox from "@/components/ImageLightbox";
 import { fetchApi } from "@/lib/api";
 import { getImageUrl } from "@/lib/config";
 
@@ -55,7 +54,7 @@ export default async function UnitDetailsPage({ params }: { params: { id: string
       video_url: unit.video_url
     }, null, 2));
   } catch (error) {
-    console.error(`Failed to fetch unit details for ID ${params.id}:`, error);
+    // Silently handle fallback fetch failures as they are expected
   }
 
   // Fallback: If direct fetch fails (e.g. because params.id is a unit_code like BS-1024 but API expects ID)
@@ -83,12 +82,11 @@ export default async function UnitDetailsPage({ params }: { params: { id: string
           }
           unit = detailData.data || detailData;
         } catch (detailError) {
-          console.error(`Failed to fetch full details for ID ${found.id}`, detailError);
           unit = found; // Fallback to the partial list item
         }
       }
     } catch (e) {
-      console.error("Fallback fetch failed", e);
+      // Fallback fetch failed silently
     }
   }
 
@@ -140,7 +138,7 @@ export default async function UnitDetailsPage({ params }: { params: { id: string
               <VideoPlayer src={getImageUrl(unit.video_url)} />
             ) : (
               <img 
-                src={getImageUrl(unit.main_image_url || unit.main_image || (unit as any).image || (unit.images?.[0]), unit.id ? String(unit.id).charCodeAt(0) : 0)} 
+                src={getImageUrl(unit.main_image_url || unit.main_image || (unit as any).image || (unit.images && unit.images.length > 0 ? unit.images[0] : null), unit.id ? String(unit.id).charCodeAt(0) : 0)} 
                 alt={unit.title} 
                 className="w-full h-full object-cover"
               />
