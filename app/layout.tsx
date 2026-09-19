@@ -38,11 +38,11 @@ const cairo = Cairo({
 });
 
 export const metadata: Metadata = {
-  title: "الفضل العقاريه | Al-Fadl Real Estate - التسويق العقاري والتشطيبات",
+  title: "أكواد العقاريه العقارية | Al-Haragawy Real Estate - التسويق العقاري والتشطيبات",
   description:
-    "الفضل العقاريه - وجهتك الأولى لاكتشاف أفضل العقارات وتوفير خدمات التشطيب المتكاملة داخل بني سويف والتجمع. بيع، شراء، وتشطيب.",
+    "أكواد العقاريه العقارية - وجهتك الأولى لاكتشاف أفضل العقارات وتوفير خدمات التشطيب المتكاملة داخل بني سويف والتجمع. بيع، شراء، وتشطيب.",
   icons: {
-    icon: '/magmoat-logo-d6ae45-transparent.png',
+    icon: '/9ad8ad5c-11aa-49e7-aab4-bb775b6bb248.png',
   },
   keywords: [
     "real estate",
@@ -50,8 +50,8 @@ export const metadata: Metadata = {
     "beni suef",
     "property",
     "finishing",
-    "الفضل العقاريه",
-    "عقارات الفضل",
+    "أكواد العقاريه العقارية",
+    "عقارات أكواد العقاريه",
     "عقارات",
     "بني سويف",
     "تشطيبات",
@@ -60,9 +60,9 @@ export const metadata: Metadata = {
     "استثمار",
   ],
   openGraph: {
-    title: "الفضل العقاريه | Al-Fadl Real Estate",
+    title: "أكواد العقاريه العقارية | Al-Haragawy Real Estate",
     description:
-      "اكتشف منزل أحلامك في مصر مع الفضل العقاريه.",
+      "اكتشف منزل أحلامك في مصر مع أكواد العقاريه العقارية.",
     type: "website",
     locale: "ar_EG",
   },
@@ -76,7 +76,7 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl" className={`scroll-smooth ${cairo.variable}`}>
       <body
-        className="font-arabic antialiased bg-[#090909] text-white"
+        className="font-arabic antialiased bg-white text-text-dark"
       >
         <ToastProvider>
           <SmoothScroll>

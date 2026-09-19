@@ -8,9 +8,9 @@ const ease = [0.16, 1, 0.3, 1] as const;
 
 const sections = [
   {
-    title: "معلومات الشركة الأساسية",
+    title: "معلومات الشركة أكواد العقاريهة",
     content: [
-      "مؤسسة الفضل العقاريه للوساطة والتسويق العقاري",
+      "مؤسسة أكواد العقاريه العقاريه للوساطة والتسويق العقاري",
       "العنوان: بني سويف، جمهورية مصر العربية",
       "البريد الإلكتروني: info@alfadl-realestate.com",
       "الهاتف: \u202A+201008450553\u202C",
@@ -19,7 +19,7 @@ const sections = [
   {
     title: "التعريفات",
     content: [
-      "\"الموقع\": يشير إلى المنصة الإلكترونية الخاصة بالفضل العقاريه.",
+      "\"الموقع\": يشير إلى المنصة الإلكترونية الخاصة بأكواد العقاريه العقاريه.",
       "\"الخدمات\": تشمل جميع الخدمات العقارية مثل الوساطة في البيع والشراء والإيجار، الاستشارات العقارية، التشطيبات والديكور، وإدارة الأملاك.",
     ],
   },
@@ -34,7 +34,7 @@ const sections = [
     content: [
       "جميع العروض العقارية المعروضة تخضع لتوفرها وقت تأكيد الطلب.",
       "الأسعار المعلنة قابلة للتغيير بناءً على ظروف السوق وتوجيهات المالك.",
-      "الفضل العقاريه يقوم بدور الوسيط العقاري ولا يتحمل مسؤولية أي عيوب خفية في العقار، ويُنصح العميل دائماً بالمعاينة النافية للجهالة قبل إتمام التعاقد.",
+      "أكواد العقاريه العقاريه يقوم بدور الوسيط العقاري ولا يتحمل مسؤولية أي عيوب خفية في العقار، ويُنصح العميل دائماً بالمعاينة النافية للجهالة قبل إتمام التعاقد.",
       "يتم استحقاق عمولة الوساطة العقارية المتفق عليها فور توقيع عقود البيع أو الإيجار بين الأطراف.",
     ],
   },
@@ -82,7 +82,7 @@ const sections = [
   {
     title: "التعديلات على الشروط",
     content: [
-      "تحتفظ الفضل العقاريه بحق تعديل هذه الشروط والأحكام في أي وقت. يُعتبر استمرارك في التعامل معنا أو استخدام الموقع بعد التعديل موافقة صريحة منك على النسخة المعدلة.",
+      "تحتفظ أكواد العقاريه العقاريه بحق تعديل هذه الشروط والأحكام في أي وقت. يُعتبر استمرارك في التعامل معنا أو استخدام الموقع بعد التعديل موافقة صريحة منك على النسخة المعدلة.",
     ],
   },
 ];
@@ -93,26 +93,26 @@ export default function TermsPage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative min-h-[40vh] md:min-h-[50vh] flex items-center justify-center overflow-hidden bg-[#090909] pt-20">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/[0.04] rounded-full blur-[120px] pointer-events-none" />
+      <section className="relative min-h-[40vh] md:min-h-[50vh] flex items-center justify-center overflow-hidden bg-white pt-20 border-b border-gray-200">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#148968]/5 rounded-full blur-[100px] pointer-events-none" />
         
         <div className="container-wide px-6 relative z-10 text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#111111] border border-white/10 mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50 border border-gray-200 mb-6"
             dir="ltr"
           >
-            <span className="w-2 h-2 rounded-full bg-primary" />
-            <span className="text-xs text-white/80 uppercase font-body tracking-widest">Legal Document</span>
+            <span className="w-2 h-2 rounded-full bg-[#148968]" />
+            <span className="text-xs text-gray-500 uppercase font-body tracking-widest">Legal Document</span>
           </motion.div>
           
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 mb-6 drop-shadow-2xl leading-relaxed pb-4"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#082b26] mb-6 drop-shadow-sm leading-relaxed pb-4 font-arabic"
           >
             الشروط والأحكام
           </motion.h1>
@@ -121,15 +121,15 @@ export default function TermsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease }}
-            className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed"
+            className="text-gray-500 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed"
           >
-            تنظم هذه الشروط والأحكام العلاقة بينك وبين مؤسسة الفضل العقاريه لضمان حقوق جميع الأطراف.
+            تنظم هذه الشروط والأحكام العلاقة بينك وبين مؤسسة أكواد العقاريه العقاريه لضمان حقوق جميع الأطراف.
           </motion.p>
         </div>
       </section>
 
       {/* Content Section */}
-      <section className="py-24 relative bg-[#090909]">
+      <section className="py-24 relative bg-gray-50">
         <div className="container-wide px-6 relative z-10 pt-10">
           <div className="max-w-[900px] mx-auto">
             {/* Intro */}
@@ -138,11 +138,11 @@ export default function TermsPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease }}
-              className="bg-[#1a1a1a] rounded-[2rem] p-8 md:p-12 mb-16 border border-white/5 relative overflow-hidden"
+              className="bg-white rounded-[2rem] p-8 md:p-12 mb-16 border border-gray-200 relative overflow-hidden shadow-sm"
             >
-              <div className="absolute inset-0 bg-[url('/projects/project-12.png')] bg-cover bg-center opacity-5 grayscale mix-blend-overlay" />
-              <p className="text-white/80 leading-[2] text-lg relative z-10">
-                باستخدامك لموقع <strong className="text-white">الفضل العقاريه</strong> أو تعاملك معنا، فإنك توافق على الالتزام التام بالشروط والأحكام التالية، والتي تهدف إلى تنظيم وتسهيل المعاملات العقارية لضمان أفضل مستوى من الخدمة وحفظ حقوقك القانونية وحقوق المؤسسة.
+              <div className="absolute inset-0 bg-[url('/projects/project-12.png')] bg-cover bg-center opacity-5 mix-blend-multiply" />
+              <p className="text-gray-600 leading-[2] text-lg relative z-10">
+                باستخدامك لموقع <strong className="text-[#082b26]">أكواد العقاريه العقاريه</strong> أو تعاملك معنا، فإنك توافق على الالتزام التام بالشروط والأحكام التالية، والتي تهدف إلى تنظيم وتسهيل المعاملات العقارية لضمان أفضل مستوى من الخدمة وحفظ حقوقك القانونية وحقوق المؤسسة.
               </p>
             </motion.div>
 
@@ -160,27 +160,27 @@ export default function TermsPage() {
                   <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-start">
                     {/* Number Indicator */}
                     <div className="flex-shrink-0 relative">
-                      <div className="w-16 h-16 rounded-2xl bg-[#1a1a1a] border border-white/10 flex items-center justify-center shadow-lg group-hover:border-primary/30 group-hover:bg-primary/5 transition-all duration-300">
-                        <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-primary to-[#A07B40]">
+                      <div className="w-16 h-16 rounded-2xl bg-white border border-gray-200 flex items-center justify-center shadow-sm group-hover:border-[#148968]/30 group-hover:bg-[#148968]/5 transition-all duration-300 z-10 relative">
+                        <span className="text-2xl font-bold text-[#148968]">
                           {String(idx + 1).padStart(2, '0')}
                         </span>
                       </div>
                       {/* Vertical line connector (hidden on last item) */}
                       {idx !== sections.length - 1 && (
-                        <div className="hidden md:block absolute top-20 bottom-[-64px] left-1/2 -translate-x-1/2 w-px bg-gradient-to-b from-white/10 to-transparent" />
+                        <div className="hidden md:block absolute top-16 bottom-[-64px] left-1/2 -translate-x-1/2 w-px bg-gradient-to-b from-gray-200 to-transparent" />
                       )}
                     </div>
 
                     {/* Section Content */}
                     <div className="flex-grow pt-2">
-                      <h2 className="text-2xl font-bold text-white mb-6 group-hover:text-primary transition-colors">{section.title}</h2>
+                      <h2 className="text-2xl font-bold text-[#082b26] mb-6 group-hover:text-[#148968] transition-colors">{section.title}</h2>
                       
-                      <div className="space-y-4 bg-[#1a1a1a]/50 rounded-2xl p-6 md:p-8 border border-white/5">
+                      <div className="space-y-4 bg-white rounded-2xl p-6 md:p-8 border border-gray-200 shadow-sm">
                         <ul className="space-y-4">
                           {section.content.map((item, i) => (
                             <li key={i} className="flex items-start gap-4">
-                              <div className="w-2 h-2 rounded-full bg-primary mt-2.5 flex-shrink-0 shadow-[0_0_10px_rgba(191,154,95,0.5)]" />
-                              <span className="text-white/80 text-lg leading-[1.9]">{item}</span>
+                              <div className="w-2 h-2 rounded-full bg-[#148968] mt-2.5 flex-shrink-0" />
+                              <span className="text-gray-600 text-lg leading-[1.9]">{item}</span>
                             </li>
                           ))}
                         </ul>
@@ -197,10 +197,10 @@ export default function TermsPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease }}
-              className="mt-16 bg-[#1a1a1a] rounded-[2rem] p-8 md:p-10 border border-white/5 text-center relative overflow-hidden"
+              className="mt-16 bg-white rounded-[2rem] p-8 md:p-10 border border-gray-200 text-center relative overflow-hidden shadow-sm"
             >
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-primary/5 pointer-events-none" />
-              <p className="text-white/80 leading-[1.9] text-lg relative z-10">
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#148968]/5 pointer-events-none" />
+              <p className="text-gray-600 leading-[1.9] text-lg relative z-10">
                 باستخدامك لهذا الموقع، فإنك تقر وتوافق بالكامل على هذه الشروط والأحكام، وتقر بأنك قرأتها وفهمتها تمامًا وتوافق على الخضوع للقوانين المصرية في هذا الشأن.
               </p>
             </motion.div>

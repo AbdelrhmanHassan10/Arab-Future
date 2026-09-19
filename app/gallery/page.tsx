@@ -83,18 +83,18 @@ export default function GalleryPage() {
 
   return (
     <>
-      <main className="min-h-screen bg-navy-deeper selection:bg-primary/30 selection:text-white pb-20">
+      <main className="min-h-screen bg-gray-50 selection:bg-[#148968]/30 selection:text-[#082b26] pb-20">
         <Navbar />
 
         {/* --- HERO SECTION --- */}
-        <section ref={heroRef} className="relative h-[50vh] md:h-[60vh] flex items-center justify-center overflow-hidden pt-20">
+        <section ref={heroRef} className="relative h-[50vh] md:h-[60vh] flex items-center justify-center overflow-hidden pt-20 border-b border-gray-200">
           {!isMounted ? null : (
             <>
-              <motion.div style={{ y, opacity }} className="absolute inset-0 w-full h-full">
-                <div className="absolute inset-0 bg-[url('/projects/project-2.png')] bg-cover bg-center scale-110 opacity-30 mix-blend-luminosity" />
-                <div className="absolute inset-0 bg-gradient-to-b from-navy-deeper via-navy-deeper/90 to-navy-deeper" />
-                <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[150px] mix-blend-screen pointer-events-none" />
-                <div className="absolute bottom-0 left-1/3 w-[300px] h-[300px] bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
+              <motion.div style={{ y, opacity }} className="absolute inset-0 w-full h-full bg-white">
+                <div className="absolute inset-0 bg-[url('/projects/project-2.png')] bg-cover bg-center scale-110 opacity-10" />
+                <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/80 to-gray-50" />
+                <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-[#148968]/5 rounded-full blur-[100px] pointer-events-none" />
+                <div className="absolute bottom-0 left-1/3 w-[300px] h-[300px] bg-[#148968]/5 rounded-full blur-[100px] pointer-events-none" />
               </motion.div>
             </>
           )}
@@ -106,16 +106,16 @@ export default function GalleryPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease }}
               >
-                <span className="inline-block py-1.5 px-4 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-bold tracking-widest uppercase mb-6 shadow-[0_0_15px_rgba(191,154,95,0.2)]">
-                  Al-Fadl Gallery
+                <span className="inline-block py-1.5 px-4 rounded-full border border-[#148968]/20 bg-[#148968]/10 text-[#148968] text-xs font-bold tracking-widest uppercase mb-6 shadow-sm">
+                  Al-Haragawy Gallery
                 </span>
-                <h1 className="text-[clamp(2.5rem,5vw,4.5rem)] font-black text-white leading-tight mb-4">
-                  جولة <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#DFBA7F] via-primary to-[#A07B40]">بصرية</span>
+                <h1 className="text-[clamp(2.5rem,5vw,4.5rem)] font-black text-[#082b26] leading-tight mb-4 font-arabic">
+                  جولة <span className="text-[#148968]">بصرية</span>
                 </h1>
-                <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed">
+                <p className="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed">
                   استكشف تفاصيل الرقي والفخامة في مجموعة منتقاة من أرقى عقارات مصر، حيث تلتقي دقة التنفيذ بجمال التصميم.
                 </p>
-                <div className="mt-8 text-primary/80 text-sm font-bold tracking-widest bg-white/5 inline-block px-6 py-2 rounded-full border border-white/5">
+                <div className="mt-8 text-[#148968] text-sm font-bold tracking-widest bg-white inline-block px-6 py-2 rounded-full border border-gray-200 shadow-sm">
                   {galleryImages.length} لقطة حصرية
                 </div>
               </motion.div>
@@ -126,15 +126,15 @@ export default function GalleryPage() {
         {!isMounted ? null : (
           <>
             {/* --- FILTER TABS --- */}
-            <div className="sticky top-20 z-40 w-full mb-12 flex justify-center px-4">
-              <div className="inline-flex overflow-x-auto custom-scrollbar bg-navy-dark/90 backdrop-blur-xl p-2 rounded-full border border-white/10 shadow-2xl">
+            <div className="sticky top-24 z-40 w-full mb-12 flex justify-center px-4">
+              <div className="inline-flex overflow-x-auto custom-scrollbar bg-white/90 backdrop-blur-xl p-2 rounded-full border border-gray-200 shadow-lg shadow-black/5">
                 {categories.map((cat) => (
                   <button
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
                     className={`whitespace-nowrap px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${activeCategory === cat
-                      ? "bg-primary text-navy-deeper shadow-[0_0_15px_rgba(191,154,95,0.4)]"
-                      : "text-white/60 hover:text-white hover:bg-white/5"
+                      ? "bg-[#148968] text-white shadow-md"
+                      : "text-gray-500 hover:text-[#082b26] hover:bg-gray-100"
                       }`}
                   >
                     {cat}
@@ -162,7 +162,7 @@ export default function GalleryPage() {
                         className="group cursor-pointer break-inside-avoid relative"
                         onClick={() => setLightbox(i)}
                       >
-                        <div className="relative overflow-hidden rounded-3xl bg-navy-dark border border-white/5 hover:border-primary/30 transition-all duration-500 shadow-xl">
+                        <div className="relative overflow-hidden rounded-3xl bg-white border border-gray-200 hover:border-[#148968]/30 transition-all duration-500 shadow-sm hover:shadow-lg">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={image.src}
@@ -172,19 +172,19 @@ export default function GalleryPage() {
                           />
 
                           {/* Premium Hover Overlay */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-navy-deeper via-navy-deeper/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
                             <motion.div
                               initial={{ y: 20, opacity: 0 }}
                               whileInView={{ y: 0, opacity: 1 }}
                               className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500"
                             >
-                              <span className="inline-block px-3 py-1 bg-primary/20 backdrop-blur-md rounded-full text-[11px] text-white border border-primary/30 mb-3 shadow-glow">
+                              <span className="inline-block px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-[11px] text-[#148968] border border-gray-100 mb-3 shadow-sm font-bold">
                                 {image.category}
                               </span>
-                              <h3 className="text-white font-bold text-lg leading-tight mb-2 group-hover:text-primary transition-colors">
+                              <h3 className="text-white font-bold text-lg leading-tight mb-2 group-hover:text-[#148968] transition-colors">
                                 {image.title}
                               </h3>
-                              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white mt-4 border border-white/10 hover:bg-primary hover:text-navy-deeper transition-colors">
+                              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white mt-4 border border-white/30 hover:bg-[#148968] hover:border-[#148968] transition-colors backdrop-blur-sm">
                                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
                                 </svg>
@@ -217,13 +217,13 @@ export default function GalleryPage() {
               onClick={() => setLightbox(null)}
             >
               <div
-                className="relative z-10 w-full max-w-6xl h-full md:h-[85vh] flex flex-col md:flex-row glass-card-dark rounded-[2rem] overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/10"
+                className="relative z-10 w-full max-w-6xl h-full md:h-[85vh] flex flex-col md:flex-row bg-white rounded-[2rem] overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-gray-200"
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Close Button */}
                 <button
                   onClick={() => setLightbox(null)}
-                  className="absolute top-4 left-4 w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-primary transition-colors z-50"
+                  className="absolute top-4 left-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-[#082b26] hover:bg-[#148968] hover:text-white transition-colors z-50 shadow-sm border border-gray-200"
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -248,7 +248,7 @@ export default function GalleryPage() {
                     <>
                       <button
                         onClick={(e) => { e.stopPropagation(); setLightbox(lightbox - 1); }}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-primary transition-colors z-20"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-[#082b26] hover:bg-[#148968] hover:text-white transition-colors z-20 shadow-sm"
                       >
                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -256,7 +256,7 @@ export default function GalleryPage() {
                       </button>
                       <button
                         onClick={(e) => { e.stopPropagation(); setLightbox(lightbox + 1); }}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-primary transition-colors z-20"
+                        className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-[#082b26] hover:bg-[#148968] hover:text-white transition-colors z-20 shadow-sm"
                       >
                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -272,30 +272,30 @@ export default function GalleryPage() {
                 </div>
 
                 {/* Left Side: Info */}
-                <div className="w-full md:w-1/3 p-4 md:p-8 flex flex-col flex-1 min-h-0 overflow-y-auto custom-scrollbar bg-navy-dark relative">
-                  <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
+                <div className="w-full md:w-1/3 p-4 md:p-8 flex flex-col flex-1 min-h-0 overflow-y-auto custom-scrollbar bg-gray-50 relative border-l border-gray-200">
+                  <div className="absolute inset-0 bg-gradient-to-b from-[#148968]/5 to-transparent pointer-events-none" />
 
                   <div className="relative z-10 flex-1 flex flex-col">
                     <div className="mb-4 md:mb-6">
-                      <span className="inline-block px-3 py-1 bg-primary/20 text-primary text-xs font-bold rounded-full mb-3 md:mb-4 border border-primary/20">
+                      <span className="inline-block px-3 py-1 bg-[#148968]/10 text-[#148968] text-xs font-bold rounded-full mb-3 md:mb-4 border border-[#148968]/20">
                         {filtered[lightbox].category}
                       </span>
-                      <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight">
+                      <h3 className="text-2xl md:text-3xl font-bold text-[#082b26] leading-tight font-arabic">
                         {filtered[lightbox].title}
                       </h3>
                     </div>
 
-                    <p className="text-white/60 leading-relaxed text-sm mb-4 md:mb-8 pb-4 md:pb-8 border-b border-white/5">
-                      استكشف تفاصيل هذا العقار الفاخر وتعرّف على أرقى التصميمات المعمارية التي نقدمها لعملائنا في الفضل العقاريه.
+                    <p className="text-gray-500 leading-relaxed text-sm mb-4 md:mb-8 pb-4 md:pb-8 border-b border-gray-200">
+                      استكشف تفاصيل هذا العقار الفاخر وتعرّف على أرقى التصميمات المعمارية التي نقدمها لعملائنا في الحرجاوى العقاريه.
                     </p>
 
                     <div className="mt-6 md:mt-8">
-                      <div className="p-4 md:p-5 rounded-2xl bg-white/5 border border-white/5 mb-4 md:mb-6 text-center">
-                        <p className="text-white/80 text-sm mb-1 md:mb-2">هل أعجبك هذا التصميم؟</p>
-                        <p className="text-primary text-base font-bold">يمكننا توفيره لك.</p>
+                      <div className="p-4 md:p-5 rounded-2xl bg-white border border-gray-200 mb-4 md:mb-6 text-center shadow-sm">
+                        <p className="text-gray-600 text-sm mb-1 md:mb-2">هل أعجبك هذا التصميم؟</p>
+                        <p className="text-[#148968] text-base font-bold">يمكننا توفيره لك.</p>
                       </div>
 
-                      <Link href="/contact" className="w-full py-3.5 md:py-4 bg-primary text-navy-deeper text-sm md:text-base font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-white hover:shadow-[0_0_30px_rgba(191,154,95,0.4)] transition-all duration-300 group">
+                      <Link href="/contact" className="w-full py-3.5 md:py-4 bg-[#148968] text-white text-sm md:text-base font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-[#0f6c52] shadow-md hover:shadow-lg transition-all duration-300 group">
                         <span>تواصل للاستفسار</span>
                         <svg className="w-5 h-5 rotate-180 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />

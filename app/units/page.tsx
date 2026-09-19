@@ -1,6 +1,7 @@
 "use client"; // Force recompile
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import UnitCard from "@/components/UnitCard";
@@ -14,6 +15,12 @@ function UnitsContent() {
   const searchParams = useSearchParams();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [searchTerm, setSearchTerm] = useState("");
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [0, 300]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+  const ease = [0.16, 1, 0.3, 1] as const;
+
   const [filters, setFilters] = useState({
     type: "",
     location: "",
@@ -76,7 +83,7 @@ function UnitsContent() {
   const typeOptions = [
     { value: "apartment", label: "شقة" },
     { value: "villa", label: "فيلا" },
-    { value: "commercial_shop", label: "محل تجاري" },
+    { value: "commercial_shop", label: "محأكواد العقاريه" },
     { value: "office", label: "مكتب" },
     { value: "land", label: "أرض" },
   ];
@@ -137,60 +144,58 @@ function UnitsContent() {
     <>
       <Navbar />
 
-      {/* Header */}
-      {/* Slanted Hero Section */}
-      <div className="relative h-[500px] md:h-[600px] lg:h-[80vh] w-full overflow-hidden bg-navy-deeper">
-        {/* Background Image (Left side visible) */}
-        <img
-          src="/pexels-perqued-13203179.jpg"
-          alt="Units Background"
-          className="absolute inset-0 w-full h-full object-cover object-center"
-        />
+      {/* --- SECTION 1: HERO PARALLAX --- */}
+      <section ref={heroRef} className="relative h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden pt-20">
+        <motion.div style={{ y, opacity }} className="absolute inset-0 w-full h-full">
+          <div className="absolute inset-0 bg-[url('/pexels-perqued-13203179.jpg')] bg-cover bg-center scale-110" />
+          <div className="absolute inset-0 bg-gradient-to-l from-[#082b26]/90 to-[#082b26]/40" />
+        </motion.div>
 
-        {/* Top Dark Gradient for Navbar Visibility */}
-        <div className="absolute top-0 left-0 w-full h-48 bg-gradient-to-b from-black/50 via-black/10 to-transparent z-10 pointer-events-none" />
+        {/* SVG Wave at the bottom to transition to light content smoothly */}
+        <div className="absolute bottom-0 left-0 w-full z-0 leading-none translate-y-[1px]">
+          <svg viewBox="0 0 1440 120" className="w-full h-[80px] md:h-[120px] block" preserveAspectRatio="none">
+            <path d="M0,64L80,74.7C160,85,320,107,480,106.7C640,107,800,85,960,69.3C1120,53,1280,43,1360,37.3L1440,32L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#f9fafb" />
+          </svg>
+        </div>
 
-        {/* Dark Angled Overlay (Right side) */}
-        <div
-          className="absolute top-0 right-0 h-full w-[90%] md:w-[70%] lg:w-[60%] bg-black/70 z-10 flex flex-col justify-center px-8 md:px-16 lg:px-24"
-          style={{ clipPath: "polygon(15% 0, 100% 0, 100% 100%, 0% 100%)" }}
-        >
-          {/* Content inside slant */}
-          <div className="max-w-xl mr-auto lg:mr-24 pt-20">
-            <h4 className="text-primary font-bold text-lg lg:text-xl mb-4 font-body tracking-wider">
-              الوحدات العقارية
-            </h4>
+        <div className="container-wide px-6 relative z-10 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease }}
+          >
+            <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/10 text-white font-bold text-sm mb-6 border border-white/20 backdrop-blur-md shadow-lg">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#84e1bc] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#84e1bc]"></span>
+              </span>
+              <span className="tracking-widest">الوحدات المتاحة</span>
+            </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-8">
-              اكتشف منزل أحلامك<br />
-              <span className="text-white">مع <span className="text-primary">الفضل العقاريه</span></span>
+            <h1 className="text-[clamp(2.5rem,5vw,5rem)] font-black text-white leading-[1.1] tracking-tight mb-6 drop-shadow-lg">
+              اكتشف منزل أحلامك
+              <br />
+              مع <span className="text-[#84e1bc]">أكواد العقاريه العقارية</span>
             </h1>
 
-            <div className="w-20 h-1 bg-primary mb-6" />
-
-            <p className="text-white/70 text-base lg:text-lg leading-relaxed max-w-lg">
-              تصفح أحدث العقارات المتاحة للبيع والشراء في بني سويف، واستمتع بتجربة بحث متقدمة للوصول إلى بيتك الجديد الذي يلبي كافة تطلعاتك.
+            <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10 drop-shadow-md">
+              تصفح أحدث العقارات المتاحة للبيع والاستثمار في أرقى مناطق بني سويف. شقق، فيلات، ومقرات إدارية وتجارية تلبي جميع احتياجاتك.
             </p>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </section>
 
-      <div className="bg-[#090909] py-12 min-h-screen">
+      <div className="bg-gray-50 py-12 min-h-screen">
         <div className="container-wide px-6">
-        {/* Page Header */}
-        <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">الوحدات العقارية</h1>
-          <p className="text-gray-400 max-w-2xl text-lg">تصفح أحدث العقارات المتاحة للبيع والاستثمار في أرقى مناطق بني سويف. شقق، فيلات، ومقرات إدارية وتجارية تلبي جميع احتياجاتك.</p>
-        </div>
 
           <div className="flex flex-col lg:flex-row gap-8">
 
             {/* Sidebar Filters */}
             <div className="w-full lg:w-1/4">
-              <div className="bg-[#111111] rounded-2xl p-6 border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-                <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
-                  <div className="flex items-center gap-2 text-white font-bold text-lg">
-                    <FiFilter className="text-primary" />
+              <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+                <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
+                  <div className="flex items-center gap-2 text-[#082b26] font-bold text-lg">
+                    <FiFilter className="text-[#148968]" />
                     <span>تصفية النتائج</span>
                   </div>
                   {hasActiveFilters && (
@@ -199,7 +204,7 @@ function UnitsContent() {
                         setSearchTerm("");
                         setFilters({ type: "", location: "", status: "", priceMin: "", priceMax: "", rooms: "" });
                       }}
-                      className="text-xs text-red-400 hover:text-red-300 font-bold transition-colors bg-red-400/10 px-3 py-1.5 rounded-lg"
+                      className="text-xs text-red-500 hover:text-red-700 font-bold transition-colors bg-red-50 px-3 py-1.5 rounded-lg"
                     >
                       إلغاء الفلاتر
                     </button>
@@ -209,22 +214,22 @@ function UnitsContent() {
                 <div className="space-y-6">
                   {/* Search */}
                   <div>
-                    <label className="block text-xs font-bold text-white/50 mb-2">بحث (الاسم أو الكود)</label>
+                    <label className="block text-xs font-bold text-gray-500 mb-2">بحث (الاسم أو الكود)</label>
                     <div className="relative">
-                      <FiSearch className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30" />
+                      <FiSearch className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
                       <input
                         type="text"
                         placeholder="ابحث هنا..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full bg-white/5 border border-white/10 rounded-xl pr-10 pl-4 py-2.5 text-sm text-white placeholder-white/30 focus:ring-2 focus:ring-primary/40 outline-none transition-all"
+                        className="w-full bg-gray-50 border border-gray-200 rounded-xl pr-10 pl-4 py-2.5 text-sm text-[#082b26] placeholder-gray-400 focus:ring-2 focus:ring-[#148968]/40 outline-none transition-all"
                       />
                     </div>
                   </div>
 
                   {/* Type */}
                   <div className="relative z-50">
-                    <label className="block text-xs font-bold text-white/50 mb-2">نوع الوحدة</label>
+                    <label className="block text-xs font-bold text-gray-500 mb-2">نوع الوحدة</label>
                     <CustomSelect 
                       options={typeOptions}
                       value={filters.type}
@@ -234,7 +239,7 @@ function UnitsContent() {
 
                   {/* Location */}
                   <div className="relative z-40">
-                    <label className="block text-xs font-bold text-white/50 mb-2">المنطقة</label>
+                    <label className="block text-xs font-bold text-gray-500 mb-2">المنطقة</label>
                     <CustomSelect 
                       options={locationOptions}
                       value={filters.location}
@@ -244,7 +249,7 @@ function UnitsContent() {
 
                   {/* Status */}
                   <div className="relative z-30">
-                    <label className="block text-xs font-bold text-white/50 mb-2">الحالة</label>
+                    <label className="block text-xs font-bold text-gray-500 mb-2">الحالة</label>
                     <CustomSelect 
                       options={statusOptions}
                       value={filters.status}
@@ -254,7 +259,7 @@ function UnitsContent() {
 
                   {/* Rooms */}
                   <div className="relative z-20">
-                    <label className="block text-xs font-bold text-white/50 mb-2">الغرف (أو أكثر)</label>
+                    <label className="block text-xs font-bold text-gray-500 mb-2">الغرف (أو أكثر)</label>
                     <CustomSelect 
                       options={roomsOptions}
                       value={filters.rooms}
@@ -264,10 +269,10 @@ function UnitsContent() {
 
                   {/* Price */}
                   <div>
-                    <label className="block text-xs font-bold text-white/50 mb-2">نطاق السعر (جنيه)</label>
+                    <label className="block text-xs font-bold text-gray-500 mb-2">نطاق السعر (جنيه)</label>
                     <div className="flex items-center gap-2">
-                      <input type="number" name="priceMin" value={filters.priceMin} placeholder="من" onChange={handleFilterChange} className="w-1/2 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white placeholder-white/30 focus:ring-2 focus:ring-primary/40 outline-none transition-all" />
-                      <input type="number" name="priceMax" value={filters.priceMax} placeholder="إلى" onChange={handleFilterChange} className="w-1/2 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white placeholder-white/30 focus:ring-2 focus:ring-primary/40 outline-none transition-all" />
+                      <input type="number" name="priceMin" value={filters.priceMin} placeholder="من" onChange={handleFilterChange} className="w-1/2 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm text-[#082b26] placeholder-gray-400 focus:ring-2 focus:ring-[#148968]/40 outline-none transition-all" />
+                      <input type="number" name="priceMax" value={filters.priceMax} placeholder="إلى" onChange={handleFilterChange} className="w-1/2 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm text-[#082b26] placeholder-gray-400 focus:ring-2 focus:ring-[#148968]/40 outline-none transition-all" />
                     </div>
                   </div>
                 </div>
@@ -277,26 +282,26 @@ function UnitsContent() {
             {/* Main Content */}
             <div className="w-full lg:w-3/4">
               {loading ? (
-                <div className="flex justify-center items-center py-32 bg-[#111111] rounded-2xl border border-white/5 h-full min-h-[400px]">
-                  <div className="text-primary font-bold text-xl animate-pulse">جاري تحميل الوحدات...</div>
+                <div className="flex justify-center items-center py-32 bg-white rounded-2xl border border-gray-100 shadow-sm h-full min-h-[400px]">
+                  <div className="text-[#148968] font-bold text-xl animate-pulse">جاري تحميل الوحدات...</div>
                 </div>
               ) : (
                 <>
                   {/* Controls */}
-                  <div className="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4 bg-[#111111] p-4 rounded-2xl border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
-                    <p className="text-white/60 font-bold text-sm">
-                      تم العثور على <span className="text-primary">{filteredUnits.length}</span> وحدة
+                  <div className="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4 bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                    <p className="text-gray-500 font-bold text-sm">
+                      تم العثور على <span className="text-[#148968]">{filteredUnits.length}</span> وحدة
                     </p>
-                    <div className="flex items-center gap-2 bg-white/5 p-1 rounded-xl">
+                    <div className="flex items-center gap-2 bg-gray-50 p-1 rounded-xl">
                       <button
                         onClick={() => setViewMode("grid")}
-                        className={`p-2 rounded-lg transition-colors ${viewMode === "grid" ? "bg-white/10 text-primary" : "text-white/40 hover:text-white"}`}
+                        className={`p-2 rounded-lg transition-colors ${viewMode === "grid" ? "bg-white text-[#148968] shadow-sm" : "text-gray-400 hover:text-[#082b26]"}`}
                       >
                         <FiGrid size={18} />
                       </button>
                       <button
                         onClick={() => setViewMode("list")}
-                        className={`p-2 rounded-lg transition-colors ${viewMode === "list" ? "bg-white/10 text-primary" : "text-white/40 hover:text-white"}`}
+                        className={`p-2 rounded-lg transition-colors ${viewMode === "list" ? "bg-white text-[#148968] shadow-sm" : "text-gray-400 hover:text-[#082b26]"}`}
                       >
                         <FiList size={18} />
                       </button>
@@ -313,10 +318,10 @@ function UnitsContent() {
                       ))}
                     </div>
                   ) : (
-                    <div className="bg-[#111111] rounded-2xl p-12 text-center border border-white/5">
-                      <FiSearch className="mx-auto text-white/20 mb-4" size={48} />
-                      <h3 className="text-xl font-bold text-white mb-2">لا توجد وحدات تطابق بحثك</h3>
-                      <p className="text-white/50">يرجى تعديل فلاتر البحث والمحاولة مرة أخرى.</p>
+                    <div className="bg-white rounded-2xl p-12 text-center border border-gray-100 shadow-sm">
+                      <FiSearch className="mx-auto text-gray-300 mb-4" size={48} />
+                      <h3 className="text-xl font-bold text-[#082b26] mb-2">لا توجد وحدات تطابق بحثك</h3>
+                      <p className="text-gray-500">يرجى تعديل فلاتر البحث والمحاولة مرة أخرى.</p>
                     </div>
                   )}
                 </>
@@ -334,7 +339,7 @@ function UnitsContent() {
 
 export default function UnitsPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-navy-deeper flex items-center justify-center text-white">جاري التحميل...</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-gray-50 flex items-center justify-center text-[#148968] font-bold">جاري التحميل...</div>}>
       <UnitsContent />
     </Suspense>
   );

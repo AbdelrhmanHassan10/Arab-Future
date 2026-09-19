@@ -1,233 +1,152 @@
-"use client";
-
-import { FiPhone, FiMail, FiMapPin, FiArrowLeft, FiInstagram, FiLinkedin } from "react-icons/fi";
-import { FaTiktok } from "react-icons/fa";
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { API_URL } from "@/lib/config";
-
-const footerLinks = [
-  {
-    title: "روابط سريعة",
-    links: [
-      { label: "الرئيسية", href: "/" },
-      { label: "الوحدات المتاحة", href: "/units" },
-      { label: "أعمالنا", href: "/our-work" },
-      { label: "من نحن", href: "/about" },
-    ],
-  },
-  {
-    title: "خدماتنا",
-    links: [
-      { label: "شراء وبيع الوحدات", href: "/units" },
-      { label: "التشطيب والتصميم", href: "/finishing" },
-      { label: "الاستشارات العقارية", href: "/contact" },
-      { label: "تسويق المشاريع", href: "/contact" },
-    ],
-  },
-];
+import { FiFacebook, FiTwitter, FiInstagram, FiLinkedin, FiArrowLeft } from "react-icons/fi";
+import { HiHome } from "react-icons/hi2";
 
 export default function Footer() {
-  const [settings, setSettings] = useState<any>(null);
+  const quickLinks = [
+    { name: "الرئيسية", href: "/" },
+    { name: "عقارات", href: "/units" },
+    { name: "من نحن", href: "/about" },
+    { name: "الخدمات", href: "/services" },
+    { name: "المدونة", href: "/blog" },
+    { name: "اتصل بنا", href: "/contact" },
+  ];
 
-  useEffect(() => {
-    fetch(`${API_URL}/settings`)
-      .then(res => res.json())
-      .then(data => {
-        // Handle if response is wrapped in 'data'
-        const s = data.data || data;
-        // Replace legacy names from API
-        let stringified = JSON.stringify(s);
-        stringified = stringified.replace(/سمسار بني سويف/g, 'الفضل العقاريه').replace(/سمسار مصر/g, 'الفضل العقاريه');
-        setSettings(JSON.parse(stringified));
-      })
-      .catch(console.error);
-  }, []);
+  const propertyTypes = [
+    { name: "منازل", href: "/units?type=house" },
+    { name: "شقق", href: "/units?type=apartment" },
+    { name: "فيلات", href: "/units?type=villa" },
+    { name: "تجاري", href: "/units?type=commercial" },
+    { name: "أراضي", href: "/units?type=land" },
+  ];
 
-  const socialLinks = [];
-  if (settings?.facebook_url) {
-    socialLinks.push({
-      name: "Facebook",
-      href: settings.facebook_url,
-      icon: (
-        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-        </svg>
-      ),
-    });
-  }
-
-  if (settings?.instagram_url) {
-    socialLinks.push({
-      name: "Instagram",
-      href: settings.instagram_url,
-      label: "تابعنا على إنستجرام",
-      icon: <FiInstagram className="w-5 h-5" />,
-    });
-  }
-  
-  if (settings?.tiktok_url) {
-    socialLinks.push({
-      name: "TikTok",
-      href: settings.tiktok_url,
-      label: "تابعنا على تيك توك",
-      icon: <FaTiktok className="w-5 h-5" />,
-    });
-  }
-  
-  if (settings?.linkedin_url) {
-    socialLinks.push({
-      name: "LinkedIn",
-      href: settings.linkedin_url,
-      label: "تابعنا على لينكد إن",
-      icon: <FiLinkedin className="w-5 h-5" />,
-    });
-  }
-
-  const phoneDisplay = settings?.whatsapp_number || "+20 100 845 0553";
-  const phoneLink = `tel:${phoneDisplay.replace(/\s+/g, '')}`;
-  const address = "فيلا ٣١٠ الحى الاول شارع الاندلس امام مسجد اسامه بن زيد اعلى بن اروما";
-  const aboutText = settings?.about_text || "الوجهة الأولى للتسويق العقاري وإعادة البيع وأعمال التشطيبات المتكاملة في بني سويف والتجمع. نضع خبراتنا بين يديك لضمان أفضل استثمار لك ولعائلتك.";
-  const email = settings?.email || "info@alfadl-realestate.com";
+  const supportLinks = [
+    { name: "مركز المساعدة", href: "/contact" },
+    { name: "سياسة الخصوصية", href: "/privacy" },
+    { name: "الشروط والأحكام", href: "/terms" },
+    { name: "الأسئلة الشائعة", href: "/faq" },
+  ];
 
   return (
-    <footer className="relative bg-[#111111] overflow-hidden pt-20 pb-8 border-t border-white/10">
-      
-      {/* Massive Watermark */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03] select-none flex justify-center items-center py-10">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/magmoat-logo-d6ae45-transparent.png" alt="الفضل العقاريه" className="w-full h-full object-contain" />
-      </div>
-
-      <div className="pad-x container-wide pt-24 pb-12 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 lg:gap-8 border-b border-white/10 pb-16">
+    <footer className="relative bg-gradient-to-b from-[#082b26] to-[#041613] pt-32 pb-8 overflow-hidden" dir="rtl">
+      <div className="container-custom relative z-10">
+        <div className="grid grid-cols-2 lg:grid-cols-12 gap-x-4 gap-y-12 lg:gap-8 mb-16 lg:mb-20">
           
-          {/* Brand & Social Column */}
-          <div className="lg:col-span-4">
-            <Link href="/" className="flex items-center gap-4 mb-8 group inline-flex">
-              <div className="relative w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center p-2 group-hover:border-primary/50 group-hover:shadow-[0_0_20px_rgba(191,154,95,0.2)] transition-all duration-500">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/magmoat-logo-d6ae45-transparent.png" alt="الفضل العقاريه" className="w-full h-full object-contain" />
+          {/* Brand & Info */}
+          <div className="col-span-2 lg:col-span-3 flex flex-col items-center lg:items-start text-center lg:text-right pr-0 md:pr-4">
+            <Link href="/" className="flex items-center justify-center lg:justify-start gap-3 text-white font-bold text-3xl mb-6 group">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#20d09f] to-[#148968] flex items-center justify-center text-[#082b26] group-hover:scale-105 transition-transform duration-300 shadow-[0_10px_20px_rgba(32,208,159,0.3)]">
+                <HiHome className="text-2xl" />
               </div>
-              <div>
-                <span className="text-white font-bold text-xl block leading-none font-arabic mb-1 mt-1">
-                  الفضل العقاريه
-                </span>
-                <span className="text-primary tracking-[0.1em] text-[11px] font-bold font-arabic block mt-1">
-                  وسيطك العقاري المباشر
-                </span>
-              </div>
+              <span className="tracking-tight">أكواد العقاريه</span>
             </Link>
-            
-            <p className="text-white/50 font-light text-[14px] leading-[2] max-w-sm mb-8">
-              {aboutText}
+            <p className="text-white/60 text-[14px] leading-loose mb-8 max-w-[300px] mx-auto lg:mx-0">
+              نجعل العثور على عقارك المثالي أمراً سهلاً وموثوقاً. التزامنا هو مساعدتك في كل خطوة نحو منزلك الجديد.
             </p>
-
-            {/* Social Links */}
-            <div className="flex items-center gap-4 flex-wrap">
-              {socialLinks.map((social, idx) => (
-                <a
-                  key={idx}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/80 hover:bg-primary hover:text-navy-deeper hover:scale-110 transition-all duration-500 hover:border-primary hover:shadow-[0_0_15px_rgba(214,174,69,0.4)]"
-                  aria-label={social.name}
-                >
-                  {social.icon}
-                </a>
-              ))}
+            <div className="flex items-center justify-center lg:justify-start gap-4">
+              <a href="#" className="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-[#20d09f] hover:text-[#082b26] hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(32,208,159,0.2)] transition-all duration-300 border border-white/10">
+                <FiFacebook className="text-[17px]" />
+              </a>
+              <a href="#" className="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-[#20d09f] hover:text-[#082b26] hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(32,208,159,0.2)] transition-all duration-300 border border-white/10">
+                <FiTwitter className="text-[17px]" />
+              </a>
+              <a href="#" className="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-[#20d09f] hover:text-[#082b26] hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(32,208,159,0.2)] transition-all duration-300 border border-white/10">
+                <FiInstagram className="text-[17px]" />
+              </a>
+              <a href="#" className="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-[#20d09f] hover:text-[#082b26] hover:-translate-y-1 hover:shadow-[0_10px_20px_rgba(32,208,159,0.2)] transition-all duration-300 border border-white/10">
+                <FiLinkedin className="text-[17px]" />
+              </a>
             </div>
           </div>
 
-          {/* Spacer for large screens */}
-          <div className="hidden lg:block lg:col-span-1" />
-
-          {/* Links Columns */}
-          {footerLinks.map((group, i) => (
-            <div key={i} className="lg:col-span-2">
-              <h4 className="text-white font-bold text-lg mb-8 relative inline-block">
-                {group.title}
-                <span className="absolute -bottom-3 right-0 w-1/2 h-0.5 bg-primary rounded-full" />
-              </h4>
-              <ul className="space-y-4">
-                {group.links.map((link, j) => (
-                  <li key={j}>
-                    <Link
-                      href={link.href}
-                      className="text-white/60 text-[14px] hover:text-white flex items-center gap-2 group/link transition-colors duration-300 w-fit"
-                    >
-                      <FiArrowLeft className="text-primary opacity-0 -translate-x-2 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all duration-300" />
-                      <span className="group-hover/link:translate-x-1 transition-transform duration-300">{link.label}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-
-          {/* Contact Info Column */}
-          <div className="lg:col-span-3">
-            <h4 className="text-white font-bold text-lg mb-8 relative inline-block">
-              معلومات التواصل
-              <span className="absolute -bottom-3 right-0 w-1/2 h-0.5 bg-primary rounded-full" />
+          {/* Quick Links */}
+          <div className="col-span-1 lg:col-span-2">
+            <h4 className="text-white font-bold mb-6 lg:mb-8 text-[15px] lg:text-[16px] tracking-wide relative inline-block">
+              روابط سريعة
+              <span className="absolute -bottom-2 right-0 w-8 h-1 bg-[#20d09f] rounded-full"></span>
             </h4>
-            <div className="space-y-6">
-              
-              {/* Phone */}
-              <a href={phoneLink} className="flex items-center gap-4 group w-fit">
-                <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-navy-deeper group-hover:border-primary transition-all duration-300 flex-shrink-0">
-                  <FiPhone className="text-xl" />
-                </div>
-                <div className="text-white/60 group-hover:text-white transition-colors duration-300 text-right">
-                  <span className="block text-[10px] uppercase tracking-widest text-primary/70 mb-1 font-body">Phone</span>
-                  <span className="text-[15px] font-medium" dir="ltr">{phoneDisplay}</span>
-                </div>
-              </a>
+            <ul className="flex flex-col gap-4 lg:gap-5 text-[14px] text-white/60">
+              {quickLinks.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="group flex items-center gap-3 hover:text-[#20d09f] transition-colors duration-300">
+                    <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-[#20d09f] transition-colors"></span>
+                    <span className="group-hover:-translate-x-2 transition-transform duration-300">{link.name}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-              {/* Email */}
-              <a href={`mailto:${email}`} className="flex items-center gap-4 group w-fit">
-                <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-navy-deeper group-hover:border-primary transition-all duration-300 flex-shrink-0">
-                  <FiMail className="text-xl" />
-                </div>
-                <div className="text-white/60 group-hover:text-white transition-colors duration-300 text-right">
-                  <span className="block text-[10px] uppercase tracking-widest text-primary/70 mb-1 font-body">Email</span>
-                  <span className="text-[14px] font-medium">{email}</span>
-                </div>
-              </a>
+          {/* Property Types */}
+          <div className="col-span-1 lg:col-span-2">
+            <h4 className="text-white font-bold mb-6 lg:mb-8 text-[15px] lg:text-[16px] tracking-wide relative inline-block">
+              أنواع العقارات
+              <span className="absolute -bottom-2 right-0 w-8 h-1 bg-[#20d09f] rounded-full"></span>
+            </h4>
+            <ul className="flex flex-col gap-4 lg:gap-5 text-[14px] text-white/60">
+              {propertyTypes.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="group flex items-center gap-3 hover:text-[#20d09f] transition-colors duration-300">
+                    <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-[#20d09f] transition-colors"></span>
+                    <span className="group-hover:-translate-x-2 transition-transform duration-300">{link.name}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-              {/* Location */}
-              <div className="flex items-start gap-4 group w-full max-w-sm">
-                <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-navy-deeper group-hover:border-primary transition-all duration-300 flex-shrink-0 mt-1">
-                  <FiMapPin className="text-xl" />
-                </div>
-                <div className="text-white/60 text-right flex-1">
-                  <span className="block text-[10px] uppercase tracking-widest text-primary/70 mb-1 font-body">Location</span>
-                  <span className="text-[14px] font-medium leading-relaxed block">{address}</span>
-                </div>
-              </div>
-
+          {/* Support */}
+          <div className="col-span-2 lg:col-span-2">
+            <h4 className="text-white font-bold mb-6 lg:mb-8 text-[16px] tracking-wide relative inline-block">
+              الدعم
+              <span className="absolute -bottom-2 right-0 w-8 h-1 bg-[#20d09f] rounded-full"></span>
+            </h4>
+            <ul className="grid grid-cols-2 sm:grid-cols-2 lg:flex lg:flex-col gap-4 lg:gap-5 text-[14px] text-white/60">
+              {supportLinks.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="group flex items-center gap-3 hover:text-[#20d09f] transition-colors duration-300">
+                    <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-[#20d09f] transition-colors"></span>
+                    <span className="group-hover:-translate-x-2 transition-transform duration-300">{link.name}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          
+          {/* Newsletter */}
+          <div className="col-span-2 lg:col-span-3 flex flex-col items-center lg:items-start text-center lg:text-right mt-4 lg:mt-0">
+            <h4 className="text-white font-bold mb-6 lg:mb-8 text-[16px] tracking-wide relative inline-block">
+              النشرة البريدية
+              <span className="absolute -bottom-2 right-1/2 translate-x-1/2 lg:translate-x-0 lg:right-0 w-8 h-1 bg-[#20d09f] rounded-full"></span>
+            </h4>
+            <p className="text-white/70 text-[14px] leading-relaxed mb-6 max-w-[300px] lg:max-w-full">
+              اشترك في نشرتنا البريدية ليصلك أحدث العروض العقارية وأخبار السوق مباشرة إلى بريدك.
+            </p>
+            <div className="relative mt-2 w-full max-w-[350px] lg:max-w-full">
+              <input 
+                type="email" 
+                placeholder="بريدك الإلكتروني" 
+                className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-[14px] text-white focus:outline-none focus:border-[#20d09f] focus:bg-white/10 transition-all placeholder:text-white/30"
+              />
+              <button className="absolute left-2 top-2 bottom-2 px-6 bg-[#20d09f] hover:bg-[#148968] rounded-xl flex items-center justify-center text-[#082b26] hover:text-white font-bold transition-colors duration-300 shadow-[0_5px_15px_rgba(32,208,159,0.2)]">
+                اشتراك
+              </button>
             </div>
           </div>
+
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-white/40 text-[13px]">
-            &copy; {new Date().getFullYear()} الفضل العقاريه — جميع الحقوق محفوظة
+        {/* Bottom */}
+        <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-4 md:gap-6 pt-8 border-t border-white/10 relative z-10 text-center md:text-right">
+          <p className="text-white/40 text-[13px] font-medium mt-2 md:mt-0">
+            © {new Date().getFullYear()} <span className="text-white/70">أكواد العقاريه</span> للخدمات العقارية. جميع الحقوق محفوظة.
           </p>
-          <div className="flex items-center gap-6">
-            <Link href="/privacy" className="text-white/50 text-[13px] hover:text-primary transition-colors duration-300">
-              سياسة الخصوصية
-            </Link>
-            <span className="w-1 h-1 rounded-full bg-white/20" />
-            <Link href="/terms" className="text-white/50 text-[13px] hover:text-primary transition-colors duration-300">
-              الشروط والأحكام
-            </Link>
+          <div className="flex items-center justify-center gap-6 md:gap-8 text-[13px] font-medium text-white/40">
+            <Link href="/privacy" className="hover:text-[#20d09f] transition-colors">سياسة الخصوصية</Link>
+            <Link href="/terms" className="hover:text-[#20d09f] transition-colors">الشروط والأحكام</Link>
           </div>
         </div>
       </div>
     </footer>
   );
 }
-

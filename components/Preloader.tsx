@@ -34,9 +34,9 @@ export default function Preloader() {
             className="flex flex-col items-center gap-6"
           >
             <motion.img
-              src="/magmoat-logo-d6ae45-transparent.png"
-              alt="الفضل العقاريه"
-              className="w-72 md:w-80 h-auto object-contain"
+              src="/9ad8ad5c-11aa-49e7-aab4-bb775b6bb248.png"
+              alt="أكواد العقاريه العقاريه"
+              className="w-48 md:w-56 h-auto object-contain mb-4"
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             />
@@ -46,7 +46,7 @@ export default function Preloader() {
               transition={{ delay: 0.6, duration: 0.5 }}
               className="text-center flex flex-col items-center"
             >
-              <h2 className="text-white font-bold text-lg font-arabic">الفضل العقاريه</h2>
+              <h2 className="text-white font-bold text-lg font-arabic">أكواد العقاريه العقاريه</h2>
               <p className="text-primary text-xs mt-1 font-bold font-arabic">
                 وسيطك العقاري المباشر
               </p>

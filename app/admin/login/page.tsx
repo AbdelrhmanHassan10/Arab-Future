@@ -39,7 +39,7 @@ export default function LoginPage() {
       <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl relative z-10">
         <div className="text-center mb-10">
           <h1 className="text-3xl font-bold text-navy-dark font-arabic mb-2">تسجيل الدخول</h1>
-          <p className="text-gray-500 text-sm">لوحة تحكم الفضل العقاريه</p>
+          <p className="text-gray-500 text-sm">لوحة تحكم أكواد العقاريه أكواد العقاريهه</p>
         </div>
 
         {error && (

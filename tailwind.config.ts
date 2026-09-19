@@ -9,9 +9,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "#D6AE45",
-        "primary-light": "#F1D27A",
-        "primary-dark": "#A8853D",
+        primary: "#148968",
+        "primary-light": "#20d09f",
+        "primary-dark": "#082b26",
         navy: "#161616",
         "navy-light": "#1A1A1A",
         "navy-dark": "#111111",
@@ -58,7 +58,7 @@ const config: Config = {
         "soft": "0 2px 12px rgba(0,0,0,0.1)",
         "glass": "0 8px 32px rgba(0,0,0,0.2)",
         "glass-dark": "0 8px 32px rgba(0,0,0,0.4)",
-        "glow": "0 0 40px rgba(197,160,89,0.25)",
+        "glow": "0 0 40px rgba(20,137,104,0.25)",
       },
       transitionTimingFunction: {
         "expo-out": "cubic-bezier(0.16, 1, 0.3, 1)",

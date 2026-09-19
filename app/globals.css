@@ -7,7 +7,7 @@
    ============================== */
 
 :root {
-  --primary: #C5A059;
+  --primary: #148968;
   --navy: #161616;
   --navy-dark: #111111;
   --navy-deeper: #090909;
@@ -18,7 +18,7 @@
 
 html {
   overflow-x: clip;
-  background: #090909;
+  background: #ffffff;
 }
 
 html.lenis, html.lenis body {
@@ -38,16 +38,16 @@ html.lenis, html.lenis body {
 }
 
 body {
-  color: #ffffff;
-  background: #090909;
+  color: #1a1a1a;
+  background: #ffffff;
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
-  background: var(--primary);
-  color: #12131F;
+  background: #148968;
+  color: #ffffff;
 }
 
 /* ==============================
@@ -91,6 +91,10 @@ body {
 
   .container-text {
     @apply max-w-[640px] mx-auto;
+  }
+
+  .container-custom {
+    @apply w-full max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12;
   }
 
   /* Glassmorphism cards */
@@ -303,7 +307,7 @@ body {
 
 .divider {
   @apply w-full h-px;
-  background: linear-gradient(90deg, transparent, rgba(197,160,89,0.15), transparent);
+  background: linear-gradient(90deg, transparent, rgba(20,137,104,0.15), transparent);
 }
 
 .accent-line {
@@ -339,19 +343,19 @@ body {
    ============================== */
 
 @media (max-width: 768px) {
-  /* Disable heavy blur on mobile and replace with white/gold gradients */
+  /* Disable heavy blur on mobile and replace with white/green gradients */
   .glass-card {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: linear-gradient(145deg, rgba(255,255,255,0.12) 0%, rgba(197,160,89,0.05) 100%) !important;
-    border: 1px solid rgba(197,160,89, 0.2) !important;
+    background: linear-gradient(145deg, rgba(255,255,255,0.12) 0%, rgba(20,137,104,0.05) 100%) !important;
+    border: 1px solid rgba(20,137,104, 0.2) !important;
   }
 
   .glass-card-dark {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(197,160,89,0.08) 100%) !important;
-    border: 1px solid rgba(197,160,89, 0.25) !important;
+    background: linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(20,137,104,0.08) 100%) !important;
+    border: 1px solid rgba(20,137,104, 0.25) !important;
   }
 
   .glass-subtle,
@@ -401,15 +405,15 @@ a, button {
   cursor: pointer;
 }
 
-/* Gold Text Shimmer */
+/* Green Text Shimmer */
 .text-shimmer {
   background: linear-gradient(
     135deg,
-    #C5A059 0%,
+    #148968 0%,
     #FFF 25%,
-    #C5A059 50%,
-    #A8853D 75%,
-    #C5A059 100%
+    #148968 50%,
+    #082b26 75%,
+    #148968 100%
   );
   background-size: 200% auto;
   color: transparent;
@@ -423,7 +427,7 @@ a, button {
   background: linear-gradient(
     135deg,
     #FFFFFF 0%,
-    #C5A059 25%,
+    #148968 25%,
     #FFFFFF 50%,
     #F5F3EF 75%,
     #FFFFFF 100%
@@ -435,7 +439,7 @@ a, button {
   animation: shimmer 5s linear infinite;
 }
 
-/* Interactive Gold Border Glow */
+/* Interactive Green Border Glow */
 .gold-border-glow {
   position: relative;
 }
@@ -444,7 +448,7 @@ a, button {
   content: "";
   position: absolute;
   inset: -1px;
-  background: linear-gradient(90deg, rgba(197,160,89,0.1), rgba(197,160,89,0.5), rgba(197,160,89,0.1));
+  background: linear-gradient(90deg, rgba(20,137,104,0.1), rgba(20,137,104,0.5), rgba(20,137,104,0.1));
   border-radius: inherit;
   z-index: -1;
   opacity: 0;

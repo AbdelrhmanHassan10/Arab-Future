@@ -45,18 +45,18 @@ export default function CustomSelect({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-between border border-white/10 px-4 py-2.5 text-sm text-white focus:ring-2 focus:ring-primary/40 outline-none transition-all ${
-          isOpen ? "bg-[#1c1c1c] rounded-t-xl rounded-b-none border-b-0" : "bg-white/5 rounded-xl"
+        className={`w-full flex items-center justify-between border border-gray-200 px-4 py-2.5 text-sm text-[#082b26] focus:ring-2 focus:ring-[#148968]/40 outline-none transition-all ${
+          isOpen ? "bg-white rounded-t-xl rounded-b-none border-b-0" : "bg-gray-50 rounded-xl"
         }`}
       >
-        <span className={!selectedOption ? "text-white" : "text-white"}>
+        <span className="text-[#082b26]">
           {selectedOption ? selectedOption.label : placeholder}
         </span>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2 }}
         >
-          <FiChevronDown className="text-white/50" />
+          <FiChevronDown className="text-gray-400" />
         </motion.div>
       </button>
 
@@ -67,7 +67,7 @@ export default function CustomSelect({
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="w-full bg-[#1c1c1c] border border-white/10 border-t-0 rounded-b-xl overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.7)] z-50"
+            className="absolute top-full left-0 w-full bg-white border border-gray-200 border-t-0 rounded-b-xl overflow-hidden shadow-lg z-50"
           >
             <ul className="max-h-60 overflow-y-auto custom-scrollbar">
               <li
@@ -77,8 +77,8 @@ export default function CustomSelect({
                 }}
                 className={`px-4 py-2.5 text-sm cursor-pointer transition-colors ${
                   value === ""
-                    ? "bg-primary/20 text-primary font-bold"
-                    : "text-white/80 hover:bg-white/5 hover:text-white"
+                    ? "bg-[#148968]/10 text-[#148968] font-bold"
+                    : "text-gray-700 hover:bg-gray-50 hover:text-[#082b26]"
                 }`}
               >
                 {placeholder}
@@ -92,8 +92,8 @@ export default function CustomSelect({
                   }}
                   className={`px-4 py-2.5 text-sm cursor-pointer transition-colors ${
                     value === opt.value
-                      ? "bg-primary/20 text-primary font-bold"
-                      : "text-white/80 hover:bg-white/5 hover:text-white"
+                      ? "bg-[#148968]/10 text-[#148968] font-bold"
+                      : "text-gray-700 hover:bg-gray-50 hover:text-[#082b26]"
                   }`}
                 >
                   {opt.label}

@@ -80,6 +80,18 @@ const mainServices = [
       </svg>
     ),
   },
+  {
+    id: "property-management",
+    title: "إدارة الأملاك والاستثمار",
+    titleEn: "Property Management",
+    description: "ندير عقارك باحترافية لضمان تحقيق أعلى العوائد الاستثمارية، مع توفير الصيانة الدورية وتأجير الوحدات.",
+    features: ["التأجير والتحصيل", "تقييم العقارات", "الاستشارات الاستثمارية", "دراسة السوق"],
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
+      </svg>
+    ),
+  },
 ];
 
 const processSteps = [
@@ -92,277 +104,216 @@ const processSteps = [
 
 export default function ServicesPage() {
   return (
-    <main className="min-h-screen bg-navy-dark">
+    <main className="min-h-screen bg-white font-body">
       <Navbar />
 
-      {/* Hero */}
-      <section className="relative bg-navy-deeper overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 right-1/3 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[150px] pointer-events-none" />
-          <div className="absolute bottom-0 left-1/4 w-[300px] h-[300px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+      {/* --- HERO SECTION --- */}
+      <section className="relative bg-[#082b26] min-h-[70vh] md:min-h-[80vh] overflow-hidden flex items-center pt-32 pb-20">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1600607686527-6fb886090705?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center opacity-20 mix-blend-overlay" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#082b26] via-[#082b26]/80 to-transparent" />
+        
+        <div className="container-wide px-6 relative z-10 flex flex-col items-center text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease }}
+            className="max-w-4xl"
+          >
+            <span className="inline-block px-6 py-2 border border-[#20d09f]/30 text-[#20d09f] rounded-full text-sm font-bold tracking-widest uppercase mb-8 backdrop-blur-md bg-[#20d09f]/10 shadow-[0_0_30px_rgba(32,208,159,0.2)]">
+              خدماتنا المتكاملة
+            </span>
+            <h1 className="text-[clamp(3rem,8vw,6.5rem)] font-black text-white mt-4 font-arabic leading-tight drop-shadow-2xl">
+              إبداع هندسي <br />
+              <span className="text-[#20d09f]">وتنفيذ استثنائي</span>
+            </h1>
+            <p className="text-gray-300 text-lg md:text-2xl font-light mt-8 max-w-3xl mx-auto leading-relaxed">
+              من التخطيط الاستراتيجي وحتى تسليم المفتاح، نقدم باقة متكاملة من الخدمات العقارية والهندسية التي تضع معايير جديدة للفخامة والجودة.
+            </p>
+          </motion.div>
         </div>
 
-        <div className="relative pt-40 pb-20 pad-x">
-          <div className="container-wide text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease }}
-            >
-              <span className="text-2xl uppercase text-primary font-semibold tracking-widest">
-                خدماتنا
-              </span>
-              <h1 className="text-[clamp(2rem,4.5vw,3.8rem)] font-bold text-white mt-4">
-                شبكة خدمات متكاملة
-              </h1>
-              <p className="text-white/40 text-subhead font-light mt-5 max-w-2xl mx-auto leading-[1.95]">
-                خبرة احترافية لدعم مشاريعك من الفكرة إلى التنفيذ — نقدم حلولاً
-                شاملة تغطي جميع مراحل المشروع المعماري
-              </p>
-            </motion.div>
-          </div>
-        </div>
+        {/* Scroll Indicator */}
+        <motion.div 
+          animate={{ y: [0, 10, 0] }} 
+          transition={{ duration: 2, repeat: Infinity }}
+          className="absolute bottom-16 md:bottom-20 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10"
+        >
+        </motion.div>
       </section>
 
-      {/* Services Grid */}
-      <section className="relative bg-navy-dark overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/[0.02] rounded-full blur-[100px] pointer-events-none" />
+      {/* --- SERVICES BENTO GRID --- */}
+      <section className="relative bg-gray-50 py-32">
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#148968]/5 rounded-full blur-[100px] pointer-events-none" />
+        <div className="container-wide px-6 relative z-10">
+          <div className="text-center mb-24 max-w-3xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-black text-[#082b26] mb-6">حلولنا الهندسية</h2>
+            <p className="text-xl text-gray-500 leading-relaxed">نقدم لك مجموعة متكاملة من الخدمات التي تغطي كل احتياجات مشروعك لضمان تجربة خالية من المتاعب وبأعلى المواصفات.</p>
+          </div>
 
-        <div className="pad-y-lg relative">
-          <div className="pad-x container-wide">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-              {mainServices.map((service, i) => (
-                <motion.div
-                  key={i}
-                  id={service.id}
-                  initial={{ opacity: 0, y: 35 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ delay: i * 0.08, duration: 0.6, ease }}
-                  className="group"
-                >
-                  <div className="glass-card-dark p-8 lg:p-9 h-full flex flex-col hover:-translate-y-2 hover:shadow-card-hover hover:border-primary/30 transition-all duration-500">
-                    {/* Icon */}
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary mb-6 group-hover:from-primary group-hover:to-primary-dark group-hover:text-white transition-all duration-500 group-hover:shadow-glow">
-                      {service.icon}
-                    </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {mainServices.map((service, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.8, ease }}
+                className={`group relative overflow-hidden rounded-[3rem] p-10 md:p-14 border shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col ${
+                  i === 0 ? "lg:col-span-2 bg-white border-gray-100" : 
+                  i === 3 ? "lg:col-span-2 bg-[#082b26] text-white border-none shadow-[0_30px_60px_rgba(8,43,38,0.3)]" : 
+                  "bg-white border-gray-100"
+                }`}
+              >
+                {/* Background Element */}
+                {i === 3 && (
+                   <div className="absolute right-0 top-0 w-64 h-64 bg-[url('https://images.unsplash.com/photo-1541888081622-38b45610051e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')] bg-cover opacity-20 mix-blend-overlay rounded-bl-[100px]" />
+                )}
 
-                    {/* Title */}
-                    <h3 className="font-bold text-white text-lg mb-1 group-hover:text-primary transition-colors duration-400">
-                      {service.title}
-                    </h3>
-                    <span className="text-[10px] text-white/50 tracking-widest uppercase block mb-4 font-body">
-                      {service.titleEn}
-                    </span>
+                {/* Big Number */}
+                <div className={`absolute top-6 left-8 text-[140px] leading-none font-black opacity-[0.03] pointer-events-none select-none font-sans ${i === 3 ? "text-white" : "text-[#082b26]"}`}>
+                  0{i + 1}
+                </div>
 
-                    {/* Description */}
-                    <p className="text-white/70 text-sm font-normal leading-[1.9] mb-6 flex-1">
-                      {service.description}
-                    </p>
-
-                    {/* Features */}
-                    <div className="space-y-2.5 border-t border-white/[0.05] pt-5">
-                      {service.features.map((feature, j) => (
-                        <div key={j} className="flex items-center gap-3">
-                          <div className="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover:bg-primary transition-colors duration-400 flex-shrink-0" />
-                          <span className="text-white/70 text-[13px] font-normal">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Link */}
-                    <a
-                      href={`/services/${service.id}`}
-                      className="inline-flex items-center gap-2 text-primary text-sm font-medium hover:gap-3 transition-all duration-300 mt-5"
-                    >
-                      <span>اعرف أكتر</span>
-                      <svg className="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                      </svg>
-                    </a>
+                <div className="flex flex-col h-full relative z-10">
+                  <div className={`w-20 h-20 rounded-[1.5rem] flex items-center justify-center mb-8 transition-all duration-500 shadow-sm ${
+                    i === 3 ? "bg-[#20d09f]/20 text-[#20d09f] group-hover:bg-[#20d09f] group-hover:text-[#082b26]" : 
+                    "bg-[#148968]/5 text-[#148968] group-hover:bg-[#148968] group-hover:text-white group-hover:shadow-[#148968]/20"
+                  }`}>
+                    {service.icon}
                   </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Process */}
-      <section className="relative bg-navy-dark overflow-hidden">
-        <div className="pad-y-lg relative">
-          <div className="pad-x container-wide">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="text-center mb-16"
-            >
-              <span className="text-2xl uppercase text-primary font-semibold tracking-widest">
-                منهجية العمل
-              </span>
-              <h2 className="text-display font-bold text-white mt-4">
-                كيف نعمل
-              </h2>
-              <p className="text-white/70 text-subhead font-light mt-4 max-w-xl mx-auto">
-                نتبع منهجية واضحة ومنظمة في تنفيذ مشاريعنا لضمان أعلى جودة
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
-              {processSteps.map((step, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 25 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.6, ease }}
-                  className="group text-center relative"
-                >
-                  {/* Connector line */}
-                  {i < processSteps.length - 1 && (
-                    <div className="hidden md:block absolute top-8 -left-3 w-6 h-px bg-white/10" />
-                  )}
-
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mx-auto mb-5 group-hover:from-primary group-hover:to-primary-dark transition-all duration-500 group-hover:shadow-glow">
-                    <svg className="w-7 h-7 text-primary group-hover:text-white transition-colors duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d={step.icon} />
-                    </svg>
-                  </div>
-                  <h4 className="text-white font-semibold text-[15px] mb-2 group-hover:text-primary transition-colors duration-400">
-                    {step.title}
-                  </h4>
-                  <p className="text-white/60 text-sm font-light leading-[1.8]">
-                    {step.desc}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Materials Overview */}
-      <section className="relative bg-navy-deeper overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-        </div>
-
-        <div className="pad-y-lg relative">
-          <div className="pad-x container-wide">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="text-center mb-14"
-            >
-              <span className="text-2xl uppercase text-primary font-semibold tracking-widest">
-                المواد والتقنيات
-              </span>
-              <h2 className="text-display font-bold text-white mt-4">
-                خامات عالية الجودة
-              </h2>
-              <p className="text-white/35 text-subhead font-light mt-4 max-w-xl mx-auto">
-                نستخدم أحدث المواد والتقنيات لضمان الجودة والمتانة والاستدامة
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                {
-                  title: "GRC",
-                  subtitle: "خرسانة مسلحة بالألياف الزجاجية",
-                  desc: "خفة الوزن والمتانة العالية مع مرونة التشكيل. يتيح نظام القوالب تكرار القطع بنفس الدقة.",
-                  features: ["أسمنت بورتلاندي", "ألياف زجاجية", "إضافات تحسينية"],
-                },
-                {
-                  title: "GRP",
-                  subtitle: "بوليمر مسلح بالألياف الزجاجية",
-                  desc: "مقاومة استثنائية للتآكل والظروف البيئية القاسية مع تنوع الألوان والأشكال.",
-                  features: ["راتنجات بوليمرية", "مواد مصلّبة", "مقاومة التآكل"],
-                },
-                {
-                  title: "GRG",
-                  subtitle: "جبس مسلح بالألياف الزجاجية",
-                  desc: "مادة متخصصة في التشطيبات الداخلية والديكورات، تجمع بين خفة الوزن ودقة التفاصيل الزخرفية.",
-                  features: ["ديكورات داخلية", "دقة زخرفية", "سهل التركيب"],
-                },
-                {
-                  title: "حجر صناعي",
-                  subtitle: "تكسيات حجرية صناعية",
-                  desc: "أناقة الحجر الطبيعي مع خفة الوزن وثبات لوني ممتاز وسهولة الصيانة.",
-                  features: ["مقاومة الطقس", "ثبات لوني", "سهولة التركيب"],
-                },
-                {
-                  title: "فوم",
-                  subtitle: "فوم معماري مشكّل",
-                  desc: "مادة خفيفة تُستخدم في تشكيل العناصر الزخرفية والكرانيش بتكلفة اقتصادية وسرعة تنفيذ.",
-                  features: ["خفة وزن", "تكلفة اقتصادية", "سرعة تركيب"],
-                },
-              ].map((material, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.12, duration: 0.7, ease }}
-                  className="group glass-card-dark p-8 lg:p-10 hover:-translate-y-2 hover:border-primary/20 transition-all duration-500"
-                >
-                  <h3 className="text-3xl font-bold text-white mb-1 group-hover:text-primary transition-colors duration-500">
-                    {material.title}
+                  <h3 className={`text-3xl font-black mb-2 ${i === 3 ? "text-white" : "text-[#082b26]"}`}>
+                    {service.title}
                   </h3>
-                  <p className="text-white text-xs mb-5">{material.subtitle}</p>
-                  <p className="text-white/45 text-sm font-light leading-[1.85] mb-6">
-                    {material.desc}
+                  <span className={`text-xs tracking-[0.2em] uppercase font-bold block mb-8 ${i === 3 ? "text-[#20d09f]" : "text-[#148968]"}`}>
+                    {service.titleEn}
+                  </span>
+                  
+                  <p className={`text-lg leading-[1.8] mb-10 flex-1 ${i === 3 ? "text-gray-300" : "text-gray-500"}`}>
+                    {service.description}
                   </p>
-                  <div className="space-y-2.5 border-t border-white/[0.06] pt-5">
-                    {material.features.map((f, j) => (
+                  
+                  <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 pt-8 border-t ${i === 3 ? 'border-white/10' : 'border-gray-100'}`}>
+                    {service.features.map((feature, j) => (
                       <div key={j} className="flex items-center gap-3">
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary/50" />
-                        <span className="text-white/40 text-[13px]">{f}</span>
+                        <div className={`w-2 h-2 rounded-full ${i === 3 ? "bg-[#20d09f]" : "bg-[#148968]"}`} />
+                        <span className={`text-[15px] font-medium ${i === 3 ? "text-gray-300" : "text-gray-600"}`}>{feature}</span>
                       </div>
                     ))}
                   </div>
-                </motion.div>
-              ))}
-            </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="relative bg-navy-dark overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/[0.02] rounded-full blur-[100px] pointer-events-none" />
-
-        <div className="pad-y-lg relative">
-          <div className="pad-x container-wide text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease }}
-            >
-              <h2 className="text-display font-bold text-white mb-4">
-                محتاج خدمة معينة؟
-              </h2>
-              <p className="text-white/60 text-subhead font-light mb-8 max-w-lg mx-auto">
-                تواصل معنا وسنوفر لك الحل الأمثل لمشروعك
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Link href="/#contact" className="btn-primary">
-                  <span>تواصل معنا</span>
-                  <svg className="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                  </svg>
-                </Link>
-                <Link href="/gallery" className="inline-flex items-center gap-2 text-[13px] font-medium px-5 py-3.5 rounded-full border border-white/15 text-white/60 hover:text-primary hover:border-primary/30 transition-all duration-500">
-                  <span>معرض الأعمال</span>
-                </Link>
-              </div>
-            </motion.div>
+      {/* --- PROCESS TIMELINE --- */}
+      <section className="relative py-32 bg-[#082b26] overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/projects/project-1.png')] bg-cover bg-center opacity-5 mix-blend-overlay" />
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-[#20d09f]/10 rounded-full blur-[150px] pointer-events-none" />
+        
+        <div className="container-wide px-6 relative z-10">
+          <div className="text-center mb-24 max-w-3xl mx-auto">
+             <h2 className="text-4xl md:text-6xl font-black text-white mb-6">منهجية العمل</h2>
+             <p className="text-xl text-gray-300">نحول رؤيتك إلى واقع ملموس عبر خطوات مدروسة ودقيقة تضمن تفوق النتائج وتسليم المشروع في وقته المحدد.</p>
           </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-4 relative">
+            {/* Background line connecting all steps for desktop */}
+            <div className="hidden md:block absolute top-16 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#20d09f]/30 to-transparent" />
+
+            {processSteps.map((step, i) => (
+               <motion.div 
+                 key={i} 
+                 initial={{ opacity: 0, y: 30 }}
+                 whileInView={{ opacity: 1, y: 0 }}
+                 viewport={{ once: true }}
+                 transition={{ delay: i * 0.1, duration: 0.6 }}
+                 className="relative group pt-8 md:pt-0"
+               >
+                 <div className="bg-[#0a332d] border border-white/10 rounded-[2.5rem] p-8 h-full hover:-translate-y-4 hover:bg-[#0c4038] hover:border-[#20d09f]/30 transition-all duration-500 relative z-10 shadow-xl">
+                   <div className="text-[80px] leading-none font-black text-white/5 absolute -top-6 -right-2 transition-all duration-500 group-hover:text-[#20d09f]/10 group-hover:-top-8">
+                     0{i+1}
+                   </div>
+                   
+                   <div className="w-16 h-16 rounded-full bg-[#082b26] border-2 border-[#20d09f]/30 flex items-center justify-center text-[#20d09f] mb-8 relative z-10 group-hover:scale-110 group-hover:bg-[#20d09f] group-hover:text-[#082b26] transition-all duration-500 shadow-[0_0_15px_rgba(32,208,159,0.1)]">
+                     <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                       <path strokeLinecap="round" strokeLinejoin="round" d={step.icon} />
+                     </svg>
+                   </div>
+                   
+                   <h4 className="text-2xl font-bold text-white mb-4 relative z-10">{step.title}</h4>
+                   <p className="text-gray-400 text-[15px] leading-relaxed relative z-10">{step.desc}</p>
+                 </div>
+               </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- MATERIALS (DARK/LIGHT CARDS) --- */}
+      <section className="relative bg-white py-32 overflow-hidden">
+        <div className="container-wide px-6">
+          <div className="text-center mb-20 max-w-3xl mx-auto">
+             <h2 className="text-4xl md:text-5xl font-black text-[#082b26] mb-6">خامات وتقنيات استثنائية</h2>
+             <p className="text-xl text-gray-500">نعتمد في أكواد العقاريه على أحدث الخامات التكنولوجية في عالم البناء والديكور لضمان المتانة العالية والتشطيب المثالي.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {[
+              { title: "GRC", subtitle: "خرسانة مسلحة بالألياف الزجاجية", desc: "خفة الوزن والمتانة العالية مع مرونة التشكيل لتنفيذ أدق التفاصيل المعمارية الخارجية." },
+              { title: "GRP", subtitle: "بوليمر مسلح بالألياف الزجاجية", desc: "مقاومة استثنائية للتآكل والظروف البيئية القاسية، مثالي للقباب والأعمدة." },
+              { title: "GRG", subtitle: "جبس مسلح بالألياف الزجاجية", desc: "الحل الأمثل للتشطيبات الداخلية والأسقف المعلقة، يجمع بين دقة الزخرفة والوزن الخفيف." },
+              { title: "حجر صناعي", subtitle: "تكسيات حجرية صناعية", desc: "أناقة الحجر الطبيعي مع ميزة خفة الوزن وثبات لوني ممتاز لمقاومة العوامل الجوية." },
+              { title: "فوم معماري", subtitle: "فوم معماري مشكّل", desc: "الحل الاقتصادي والسريع لتشكيل الكرانيش والديكورات الخارجية بكفاءة وسرعة." },
+              { title: "ألواح تكسية حديثة", subtitle: "بديل الرخام والخشب (PVC/WPC)", desc: "خامات مبتكرة توفر مظهر الرخام والخشب الطبيعي بوزن أخف ومقاومة تامة للرطوبة والعوامل الجوية." },
+            ].map((material, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+                className="bg-gray-50 rounded-[2.5rem] p-10 border border-gray-100 hover:bg-white hover:shadow-2xl hover:border-[#148968]/20 transition-all duration-500"
+              >
+                <div className="text-[#148968] font-black text-4xl mb-2">{material.title}</div>
+                <div className="text-[#082b26] font-bold text-sm tracking-wide mb-6 pb-6 border-b border-gray-200">{material.subtitle}</div>
+                <p className="text-gray-500 leading-relaxed">{material.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- CTA SECTION --- */}
+      <section className="py-32 relative bg-white">
+        <div className="container-wide px-6 relative z-10 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}
+            className="max-w-5xl mx-auto bg-gradient-to-br from-[#082b26] to-[#041512] rounded-[3rem] p-16 md:p-24 relative overflow-hidden shadow-2xl"
+          >
+            <div className="absolute inset-0 bg-[url('/projects/project-3.png')] bg-cover bg-center opacity-10 mix-blend-overlay" />
+            
+            <h2 className="text-4xl md:text-6xl font-black text-white mb-6 relative z-10 leading-tight">
+              جاهز لتنفيذ <span className="text-[#20d09f]">مشروعك؟</span>
+            </h2>
+            <p className="text-gray-300 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed relative z-10">
+              تواصل مع فريق <strong className="text-white">أكواد العقاريه</strong> الهندسي الآن واحصل على دراسة وتصور مبدئي لمشروعك بأعلى المعايير.
+            </p>
+
+            <div className="flex flex-col md:flex-row items-center justify-center gap-6 relative z-10">
+              <Link href="/contact" className="w-full md:w-auto inline-flex items-center justify-center gap-4 px-12 py-6 bg-[#20d09f] text-[#082b26] hover:bg-white font-black text-lg rounded-full overflow-hidden transition-all duration-300 shadow-lg hover:shadow-[#20d09f]/50 hover:scale-105">
+                <span>ابدأ الآن</span>
+                <svg className="w-6 h-6 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+              <Link href="/projects" className="w-full md:w-auto inline-flex items-center justify-center gap-4 px-12 py-6 bg-white/5 text-white hover:bg-white/10 font-bold text-lg rounded-full border border-white/10 transition-all duration-300 backdrop-blur-md">
+                <span>تصفح أعمالنا</span>
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </section>
 

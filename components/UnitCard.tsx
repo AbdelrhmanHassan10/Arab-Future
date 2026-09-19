@@ -73,7 +73,7 @@ export default function UnitCard({ unit, index }: { unit: Unit; index: number })
       whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ type: "spring", stiffness: 60, damping: 20, delay: index * 0.1 }}
-      className="bg-[#111111] rounded-[2rem] overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_50px_rgba(191,154,95,0.15)] transition-all duration-300 border border-white/5 flex flex-col group relative"
+      className="bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 flex flex-col group relative"
     >
       {/* Image Container */}
       <div className="relative h-60 w-full overflow-hidden p-2 pb-0">
@@ -91,7 +91,7 @@ export default function UnitCard({ unit, index }: { unit: Unit; index: number })
         
         {/* Floating Badges */}
         <div className="absolute top-4 right-4 z-10 flex gap-2">
-          <span className="bg-[#DFBA7F] text-navy-deeper px-3 py-1.5 rounded-full text-xs font-bold font-body shadow-md border border-[#DFBA7F]/20">
+          <span className="bg-[#148968] text-white px-3 py-1.5 rounded-full text-xs font-bold font-body shadow-md border border-[#148968]/20">
             {getTypeLabel(safeType as any) || safeType}
           </span>
           <span className="bg-black/50 text-white px-3 py-1.5 rounded-full text-xs font-bold font-body shadow-md border border-white/10 backdrop-blur-md">
@@ -113,29 +113,29 @@ export default function UnitCard({ unit, index }: { unit: Unit; index: number })
       <div className="p-6 flex flex-col flex-grow text-right">
         <div className="mb-4 flex-grow">
           <Link href={`/units/${safeId}`}>
-            <h3 className="text-xl font-bold text-white mb-3 line-clamp-2 hover:text-primary transition-colors leading-tight">
+            <h3 className="text-xl font-bold text-[#082b26] mb-3 line-clamp-2 hover:text-[#148968] transition-colors leading-tight">
               {safeTitle}
             </h3>
           </Link>
-          <div className="flex items-center text-white/50 text-sm gap-1.5 mb-4">
-            <FiMapPin className="text-primary text-base shrink-0" />
+          <div className="flex items-center text-gray-500 text-sm gap-1.5 mb-4">
+            <FiMapPin className="text-[#148968] text-base shrink-0" />
             <span className="line-clamp-1">{safeLocation}</span>
           </div>
         </div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-3 gap-2 border-y border-white/5 py-4 mb-6 bg-white/5 rounded-xl px-2">
+        <div className="grid grid-cols-3 gap-2 border-y border-gray-100 py-4 mb-6 bg-gray-50 rounded-xl px-2">
           <div className="flex flex-col items-center justify-center gap-1.5">
-            <FiMaximize className="text-primary/70" size={18} />
-            <span className="text-xs font-bold text-white/90">{extractString(unit.space_sqm || (unit as any).area)} م²</span>
+            <FiMaximize className="text-[#148968]/70" size={18} />
+            <span className="text-xs font-bold text-gray-700">{extractString(unit.space_sqm || (unit as any).area)} م²</span>
           </div>
-          <div className="flex flex-col items-center justify-center gap-1.5 border-x border-white/10">
-            <BiBed className="text-primary/70" size={18} />
-            <span className="text-xs font-bold text-white/90">{extractString(unit.bedrooms || (unit as any).rooms)} غرف</span>
+          <div className="flex flex-col items-center justify-center gap-1.5 border-x border-gray-200">
+            <BiBed className="text-[#148968]/70" size={18} />
+            <span className="text-xs font-bold text-gray-700">{extractString(unit.bedrooms || (unit as any).rooms)} غرف</span>
           </div>
           <div className="flex flex-col items-center justify-center gap-1.5">
-            <BiBath className="text-primary/70" size={18} />
-            <span className="text-xs font-bold text-white/90">{extractString(unit.bathrooms)} حمام</span>
+            <BiBath className="text-[#148968]/70" size={18} />
+            <span className="text-xs font-bold text-gray-700">{extractString(unit.bathrooms)} حمام</span>
           </div>
         </div>
 
@@ -143,7 +143,7 @@ export default function UnitCard({ unit, index }: { unit: Unit; index: number })
         <div className="mt-auto flex items-center gap-3">
           <Link
             href={`/units/${safeId}`}
-            className="flex-1 text-center bg-white/5 text-white px-4 py-3 rounded-xl text-sm font-bold hover:bg-white/10 transition-colors flex items-center justify-center gap-2 border border-white/5"
+            className="flex-1 text-center bg-gray-50 text-[#082b26] px-4 py-3 rounded-xl text-sm font-bold hover:bg-gray-100 transition-colors flex items-center justify-center gap-2 border border-gray-200"
           >
             التفاصيل <FiArrowLeft />
           </Link>
@@ -158,8 +158,8 @@ export default function UnitCard({ unit, index }: { unit: Unit; index: number })
             }}
             className={`flex-1 text-center px-4 py-3 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${
               isSold 
-                ? 'bg-white/5 text-white/30 cursor-not-allowed border border-white/5' 
-                : 'bg-primary text-navy-deeper hover:bg-[#c9a66d] shadow-[0_4px_14px_rgba(191,154,95,0.3)] hover:shadow-[0_6px_20px_rgba(191,154,95,0.4)] cursor-pointer'
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200' 
+                : 'bg-[#148968] text-white hover:bg-[#0f6c52] shadow-sm hover:shadow-md cursor-pointer'
             }`}
           >
             <FaWhatsapp className="text-lg" /> {isSold ? 'غير متاحة' : 'معاينة'}

@@ -41,7 +41,7 @@ export default async function AdminDashboard() {
     { label: "إجمالي الوحدات", value: totalUnits, icon: FiBox, color: "text-blue-500", bg: "bg-blue-100" },
     { label: "مشاريع التشطيب", value: totalRenovation, icon: FiTool, color: "text-purple-500", bg: "bg-purple-100" },
     { label: "الوحدات المباعة", value: soldUnits, icon: FiDollarSign, color: "text-green-500", bg: "bg-green-100" },
-    { label: "الطلبات الجديدة", value: newRequests, icon: FiUsers, color: "text-orange-500", bg: "bg-orange-100" },
+    { label: "الطلبات أكواد العقاريهدة", value: newRequests, icon: FiUsers, color: "text-orange-500", bg: "bg-orange-100" },
   ];
 
   return (
@@ -50,7 +50,7 @@ export default async function AdminDashboard() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-bold text-navy-dark">نظرة عامة</h1>
-          <p className="text-gray-500 text-sm">مرحباً بك في لوحة تحكم الفضل العقاريه</p>
+          <p className="text-gray-500 text-sm">مرحباً بك في لوحة تحكم أكواد العقاريه العقاريه</p>
         </div>
       </div>
 

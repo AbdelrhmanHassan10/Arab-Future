@@ -10,7 +10,7 @@ const sections = [
   {
     title: "المعلومات التي نقوم بجمعها",
     content: [
-      "نحرص في الفضل العقاريه على جمع المعلومات الضرورية فقط لتقديم أفضل خدمة عقارية ممكنة. قد نقوم بجمع ومعالجة البيانات التالية:",
+      "نحرص في أكواد العقاريه العقاريه على جمع المعلومات الضرورية فقط لتقديم أفضل خدمة عقارية ممكنة. قد نقوم بجمع ومعالجة البيانات التالية:",
     ],
     list: [
       "الاسم الكامل ورقم الهوية (عند الحاجة لإتمام العقود أو المعاينات الرسمية)",
@@ -54,7 +54,7 @@ const sections = [
   {
     title: "مشاركة البيانات مع أطراف ثالثة",
     content: [
-      "الثقة هي أساس عملنا في الفضل العقاريه. نحن لا نقوم مطلقاً ببيع أو تأجير بياناتك لأي جهة خارجية.",
+      "الثقة هي أساس عملنا في أكواد العقاريه العقاريه. نحن لا نقوم مطلقاً ببيع أو تأجير بياناتك لأي جهة خارجية.",
       "وقد يتم مشاركة البيانات في أضيق الحدود وفي الحالات التالية فقط:",
     ],
     list: [
@@ -116,26 +116,26 @@ export default function PrivacyPage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative min-h-[40vh] md:min-h-[50vh] flex items-center justify-center overflow-hidden bg-[#090909] pt-20">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/[0.04] rounded-full blur-[120px] pointer-events-none" />
+      <section className="relative min-h-[40vh] md:min-h-[50vh] flex items-center justify-center overflow-hidden bg-white pt-20 border-b border-gray-200">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#148968]/5 rounded-full blur-[100px] pointer-events-none" />
         
         <div className="container-wide px-6 relative z-10 text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#111111] border border-white/10 mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50 border border-gray-200 mb-6"
             dir="ltr"
           >
-            <span className="w-2 h-2 rounded-full bg-primary" />
-            <span className="text-xs text-white/80 uppercase font-body tracking-widest">Legal Document</span>
+            <span className="w-2 h-2 rounded-full bg-[#148968]" />
+            <span className="text-xs text-gray-500 uppercase font-body tracking-widest">Legal Document</span>
           </motion.div>
           
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 mb-6 drop-shadow-2xl leading-relaxed pb-4"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#082b26] mb-6 drop-shadow-sm leading-relaxed pb-4 font-arabic"
           >
             سياسة الخصوصية
           </motion.h1>
@@ -144,7 +144,7 @@ export default function PrivacyPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease }}
-            className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed"
+            className="text-gray-500 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed"
           >
             نحن نقدر ثقتك بنا ونلتزم بحماية بياناتك الشخصية بأعلى معايير الأمان.
           </motion.p>
@@ -152,7 +152,7 @@ export default function PrivacyPage() {
       </section>
 
       {/* Content Section */}
-      <section className="py-24 relative bg-[#090909]">
+      <section className="py-24 relative bg-gray-50">
         <div className="container-wide px-6 relative z-10 pt-10">
           <div className="max-w-[900px] mx-auto">
             {/* Intro */}
@@ -161,11 +161,11 @@ export default function PrivacyPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease }}
-              className="bg-[#1a1a1a] rounded-[2rem] p-8 md:p-12 mb-16 border border-white/5 relative overflow-hidden"
+              className="bg-white rounded-[2rem] p-8 md:p-12 mb-16 border border-gray-200 relative overflow-hidden shadow-sm"
             >
-              <div className="absolute inset-0 bg-[url('/projects/project-3.png')] bg-cover bg-center opacity-5 grayscale mix-blend-overlay" />
-              <p className="text-white/80 leading-[2] text-lg relative z-10">
-                تلتزم <strong className="text-white">الفضل العقاريه</strong> للوساطة والاستشارات العقارية بحماية خصوصية عملائها الكرام. توضح هذه الوثيقة بوضوح وشفافية تامة كيفية جمع واستخدام وحماية المعلومات الشخصية الخاصة بك عند تواصلك معنا أو استخدامك لموقعنا الإلكتروني لضمان استثمار آمن وتجربة موثوقة.
+              <div className="absolute inset-0 bg-[url('/projects/project-3.png')] bg-cover bg-center opacity-5 mix-blend-multiply" />
+              <p className="text-gray-600 leading-[2] text-lg relative z-10">
+                تلتزم <strong className="text-[#082b26]">أكواد العقاريه العقاريه</strong> للوساطة والاستشارات العقارية بحماية خصوصية عملائها الكرام. توضح هذه الوثيقة بوضوح وشفافية تامة كيفية جمع واستخدام وحماية المعلومات الشخصية الخاصة بك عند تواصلك معنا أو استخدامك لموقعنا الإلكتروني لضمان استثمار آمن وتجربة موثوقة.
               </p>
             </motion.div>
 
@@ -183,39 +183,39 @@ export default function PrivacyPage() {
                   <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-start">
                     {/* Number Indicator */}
                     <div className="flex-shrink-0 relative">
-                      <div className="w-16 h-16 rounded-2xl bg-[#1a1a1a] border border-white/10 flex items-center justify-center shadow-lg group-hover:border-primary/30 group-hover:bg-primary/5 transition-all duration-300">
-                        <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-primary to-[#A07B40]">0{idx + 1}</span>
+                      <div className="w-16 h-16 rounded-2xl bg-white border border-gray-200 flex items-center justify-center shadow-sm group-hover:border-[#148968]/30 group-hover:bg-[#148968]/5 transition-all duration-300 z-10 relative">
+                        <span className="text-2xl font-bold text-[#148968]">0{idx + 1}</span>
                       </div>
                       {/* Vertical line connector (hidden on last item) */}
                       {idx !== sections.length - 1 && (
-                        <div className="hidden md:block absolute top-20 bottom-[-64px] left-1/2 -translate-x-1/2 w-px bg-gradient-to-b from-white/10 to-transparent" />
+                        <div className="hidden md:block absolute top-16 bottom-[-64px] left-1/2 -translate-x-1/2 w-px bg-gradient-to-b from-gray-200 to-transparent" />
                       )}
                     </div>
 
                     {/* Section Content */}
                     <div className="flex-grow pt-2">
-                      <h2 className="text-2xl font-bold text-white mb-6 group-hover:text-primary transition-colors">{section.title}</h2>
+                      <h2 className="text-2xl font-bold text-[#082b26] mb-6 group-hover:text-[#148968] transition-colors">{section.title}</h2>
                       
                       <div className="space-y-4">
                         {section.content.map((text, i) => (
-                          <p key={i} className="text-white/70 text-lg leading-[1.9]">
+                          <p key={i} className="text-gray-600 text-lg leading-[1.9]">
                             {text}
                           </p>
                         ))}
 
                         {section.list && (
-                          <ul className="space-y-4 mt-6 bg-[#1a1a1a]/50 rounded-2xl p-6 border border-white/5">
+                          <ul className="space-y-4 mt-6 bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
                             {section.list.map((item, i) => (
                               <li key={i} className="flex items-start gap-4">
-                                <div className="w-2 h-2 rounded-full bg-primary mt-2.5 flex-shrink-0 shadow-[0_0_10px_rgba(191,154,95,0.5)]" />
-                                <span className="text-white/80 text-lg leading-[1.8]">{item}</span>
+                                <div className="w-2 h-2 rounded-full bg-[#148968] mt-2.5 flex-shrink-0" />
+                                <span className="text-gray-600 text-lg leading-[1.8]">{item}</span>
                               </li>
                             ))}
                           </ul>
                         )}
 
                         {section.extra && (
-                          <p className="text-white/70 text-lg leading-[1.9] mt-6 italic border-r-2 border-primary/30 pr-4">
+                          <p className="text-gray-600 text-lg leading-[1.9] mt-6 italic border-r-2 border-[#148968]/30 pr-4">
                             {section.extra}
                           </p>
                         )}
@@ -224,8 +224,8 @@ export default function PrivacyPage() {
                           <ul className="space-y-3 mt-4 pr-6">
                             {section.extraList.map((item, i) => (
                               <li key={i} className="flex items-center gap-3">
-                                <div className="w-1.5 h-1.5 rounded-full bg-white/30 flex-shrink-0" />
-                                <span className="text-white/60 text-[16px]">{item}</span>
+                                <div className="w-1.5 h-1.5 rounded-full bg-gray-400 flex-shrink-0" />
+                                <span className="text-gray-500 text-[16px]">{item}</span>
                               </li>
                             ))}
                           </ul>

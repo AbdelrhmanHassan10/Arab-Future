@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 
+import avatarImage from '../../avatar1.jpeg';
+
 export default function CeoMessage() {
   const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -25,7 +27,7 @@ export default function CeoMessage() {
               {/* Image */}
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
-                style={{ backgroundImage: `url('/images/avatar.jpeg')` }}
+                style={{ backgroundImage: `url('${avatarImage.src}')` }}
               />
 
               {/* Overlays */}
@@ -38,7 +40,7 @@ export default function CeoMessage() {
               {/* Title Card Overlay */}
               <div className="absolute bottom-8 left-8 right-8">
                 <div className="glass-card-dark p-6 rounded-2xl border border-white/10 backdrop-blur-xl">
-                  <h4 className="text-white font-bold text-xl mb-1">محمد ابو الفضل</h4>
+                  <h4 className="text-white font-bold text-xl mb-1">الرئيس التنفيذي</h4>
                   <p className="text-primary text-sm font-medium tracking-wide">المدير التنفيذي للشركة</p>
                   <div className="w-12 h-px bg-white/20 mt-4" />
                 </div>
@@ -76,7 +78,7 @@ export default function CeoMessage() {
 
                 <div className="space-y-6 text-white/70 font-light leading-[1.9] text-base md:text-lg">
                   <p>
-                    على مدار سنوات من العمل في السوق العقاري المصري، وبفضل الله، راكمنا خبرة متكاملة في تقديم الاستشارات العقارية. تمتد خبراتنا عبر طيف واسع من المشاريع السكنية والتجارية، من الشقق الفاخرة والفيلات المستقلة، وصولاً إلى المقرات الإدارية بأفضل المواقع.
+                    على مدار سنوات من العمل في السوق العقاري المصري، وبفضل الله، راكمنا خبرة متكاملة في تقديم الاستشارات العقارية. تمتد خبراتنا عبر طيف واسع من المشاريع السكنية وأكواد العقاريهة، من الشقق الفاخرة والفيلات المستقلة، وصولاً إلى المقرات الإدارية بأفضل المواقع.
                   </p>
                   <p>
                     نحرص على تقديم الدعم الاستشاري لكافة العملاء لمساعدتهم في اختيار أفضل العقارات وتحديد الأنسب لاستثماراتهم ومستقبل عائلاتهم وفق ميزانياتهم ومتطلباتهم.
@@ -89,7 +91,7 @@ export default function CeoMessage() {
                 {/* Signature Signature (Fictional cursive text) */}
                 <div className="mt-12 pt-8 border-t border-white/10 flex items-center justify-between">
                   <div>
-                    <h5 className="text-white font-bold text-lg">الفضل العقاريه</h5>
+                    <h5 className="text-white font-bold text-lg">أكواد العقاريه العقاريه</h5>
                     <p className="text-white/40 text-sm mt-1">مستشارك العقاري الموثوق</p>
                   </div>
                   {/* Cursive style signature */}

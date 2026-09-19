@@ -26,7 +26,7 @@ export default function Stats() {
         >
           <div className="flex items-center justify-center gap-3 mb-4">
             <span className="w-8 h-[2px] bg-primary" />
-            <span className="text-sm uppercase text-primary font-bold tracking-widest font-body">لماذا الفضل العقاريه</span>
+            <span className="text-sm uppercase text-primary font-bold tracking-widest font-body">لماذا أكواد العقاريه أكواد العقاريهه</span>
             <span className="w-8 h-[2px] bg-primary" />
           </div>
           <h2 className="text-[clamp(2rem,4vw,3rem)] font-bold text-navy-deeper leading-tight">
